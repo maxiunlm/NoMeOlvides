@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>obj/Release/Jasmine.Net.Framework</name>
+    </assembly>
+    <members>
+        <member name="T:Jasmine.Net.IMatcher`1">
+            <summary>
+            Expression matcher interface for assertions.
+            </summary>
+            <typeparam name="T">
+            </typeparam>
+        </member>
+        <member name="T:Jasmine.Net.JasmineNetException">
+            <summary>
+            Jasmine framework exception.
+            </summary>
+        </member>
+        <member name="T:Jasmine.Net.SpecFixtureImmediate">
+            <summary>
+            Base class for specification fixture. The specification is executed as one test and renders to trace output the execution summary.
+            </summary>
+        </member>
+        <member name="T:Jasmine.Net.ICommands">
+            <summary>
+            Here're all the methods we implement internally.
+            </summary>
+        </member>
+        <member name="T:Jasmine.Net.Runners.Recorder">
+            <summary>
+            Generic specification recorder implementation.
+            </summary>
+        </member>
+        <member name="P:Jasmine.Net.Runners.Recorder.InRecordingMode">
+            <summary>
+            Get or sets whether recorder is recording spec now.
+            </summary>
+        </member>
+        <member name="M:Jasmine.Net.Runners.Recorder.RecordFailure(Jasmine.Net.Impl.SpecContext,System.Exception)">
+            <summary>
+            The method is called if exception occurs within describe block during recording phase.
+            </summary>
+            <param name="context">
+            </param>
+            <param name="error">
+            </param>
+        </member>
+        <member name="M:Jasmine.Net.Runners.Recorder.RecordTestCase(Jasmine.Net.Impl.SpecContext,System.Action)">
+            <summary>
+            The method is called when record case (specified with `it`) should be recorded.
+            </summary>
+            <param name="context">
+            </param>
+            <param name="body">
+            </param>
+        </member>
+        <member name="T:Jasmine.Net.SpecFixture">
+            <summary>
+            NUnit fixture implementation with delayed execution.
+            </summary>
+        </member>
+        <member name="M:Jasmine.Net.SpecFixture.RunSpec(Jasmine.Net.Runners.SpecCase)">
+            <summary>
+            Executes the specification case. It's considered failed if exception is thrown.
+            </summary>
+            <param name="specCase">
+            </param>
+        </member>
+        <member name="M:Jasmine.Net.SpecFixture.RunSpec(Jasmine.Net.Specification)">
+            <summary>
+            Executes the entire specification. It's considered failed if exception is thrown.
+            </summary>
+            <param name="spec">
+            </param>
+        </member>
+        <member name="T:Jasmine.Net.Runners.RunResult">
+            <summary>
+            Spec verification result.
+            </summary>
+        </member>
+        <member name="P:Jasmine.Net.Runners.RunResult.IsSucceeded">
+            <summary>
+            Gets true if result is 'success'.
+            </summary>
+        </member>
+        <member name="T:Jasmine.Net.Runners.SpecCase">
+            <summary>
+            Defines one spec (or `spec case`).
+            </summary>
+        </member>
+        <member name="T:Jasmine.Net.Runners.CaseRecorder">
+            <summary>
+            Default spec case recorder implementation. Collects all SpecCases to list, exposed as Results property.
+            </summary>
+        </member>
+        <member name="T:Jasmine.Net.Impl.SpecContext">
+            <summary>
+            Describes the specification definition context.
+            </summary>
+        </member>
+        <member name="P:Jasmine.Net.Impl.SpecContext.IsIgnored">
+            <summary>
+            Gets true if this spec block is marked as ignored (skip the specs).
+            </summary>
+        </member>
+        <member name="T:Jasmine.Net.IRecorder">
+            <summary>
+            Specification scenario recorder.
+            </summary>
+        </member>
+        <member name="T:Jasmine.Net.ContextAction">
+            <summary>
+            Contextual action such as describe, it, when, given.
+            </summary>
+            <param name="context">
+            </param>
+            <param name="action">
+            </param>
+        </member>
+        <member name="T:Jasmine.Net.BeforeAction">
+            <summary>
+            Contextless action such as beforeEach, afterEach.
+            </summary>
+            <param name="action">
+            </param>
+        </member>
+        <member name="T:Jasmine.Net.Specification">
+            <summary>
+            Specification type.
+            </summary>
+            <param name="context">
+            </param>
+        </member>
+        <member name="T:Jasmine.Net.BasicThenBaaSpec">
+            <summary>
+            The delegate for extending available verbs with beforeAll, afterAll.
+            It allows both notations:
+            		(describe, it, beforeEach, afterEach) =&gt; (beforeAll, afterAll) =&gt; ...
+            		(beforeAll, afterAll) =&gt; (describe, it, beforeEach, afterEach) =&gt; ...
+            </summary>
+            <param name="describe">
+            </param>
+            <param name="it">
+            </param>
+            <param name="beforeEach">
+            </param>
+            <param name="afterEach">
+            </param>
+            <returns>
+            </returns>
+        </member>
+        <member name="T:Jasmine.Net.ContextThenBasicThenBaaSpec">
+            TODO see if more actions should be added to Baa (BeforeAfterAll).
+            ... x =&gt; (describe, it, beforeEach, afterEach) =&gt; (beforeAll, afterAll) =&gt;
+            ... x =&gt; (beforeAll, afterAll) =&gt; (describe, it, beforeEach, afterEach) =&gt;
+            ... x =&gt; (describe, it, beforeEach, afterEach) =&gt;</member>
+        <member name="T:Jasmine.Net.SpecRunner">
+            <summary>
+            Implements specification runner. Executes the specs and traces running context for beforeAll/afterAll.
+            </summary>
+        </member>
+    </members>
+</doc>

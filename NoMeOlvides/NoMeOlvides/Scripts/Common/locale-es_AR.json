@@ -1,0 +1,10 @@
+﻿{
+    "pageTitle": "No me olvides",
+    "CreateContactTitle":  "Nuevo Contacto",
+    "DetailsContactTitle":  "Ver Contacto",
+    "EditContactTitle":  "Actualizar Contacto",
+    "DeleteContactTitle":  "Borrar Contacto",
+    "DeleteQuestion":  "¿Desea eliminarlo?",
+    "withoutResult": "Sin resultados",
+    "email": "E-mail"
+}

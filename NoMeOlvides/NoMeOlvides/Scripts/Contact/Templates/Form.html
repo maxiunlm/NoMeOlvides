@@ -1,0 +1,11 @@
+﻿<div ng-hide="isCrate">
+    <label>Id</label>
+    <input type="text" placeholder="Id" ng-model="Registro.Id" value="{{Registro.Id}}" readonly>
+</div>
+<div>
+    <label>Descripción</label>
+    <input type="text" placeholder="Descripción" ng-model="Registro.Descripcion" ng-show="canEdit" required>
+    <input type="text" placeholder="Descripción" ng-model="Registro.Descripcion" ng-hide="canEdit" readonly>
+</div>
+<button type="submit" ng-show="isForm">{{ textButton }}</button>
+<a href="#/">Volver</a>
