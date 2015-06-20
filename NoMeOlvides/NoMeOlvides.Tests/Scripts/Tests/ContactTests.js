@@ -37,6 +37,17 @@ var secondContact = {
     "Address": "Trulala 6662",
     "Password": "Secret2... SHHHH!!!!"
 };
+var newContact = {
+    "Id": null,
+    "Alias": "KB",
+    "Name": "Kill",
+    "Surname": "Bill",
+    "Email": "b@b.com",
+    "Phone": 6662,
+    "CellPhone": 6662,
+    "Address": "Trulala 6662",
+    "Password": "Secret2... SHHHH!!!!"
+};
 
 var contacts = [];
 
@@ -65,12 +76,17 @@ describe('ContactController', function () {
         var $controller;
 
         beforeEach(inject(function ($httpBackend) {
-            $scope = {};
+            $scope = rootScope.$new(); //{ };
+            contacts = [];
             $controller = controller('ContactController', { $scope: $scope });
 
             $httpBackend.expectGET('/').respond(200);
         }));
 
+
+        it('Create - Contacts list must be declared', function () {
+            expect($scope.Contacts).toBeDefined();
+        });
 
         it('Definition of Navigation - ROOT (~/)', function () {
             expect(route.routes['/'].templateUrl).toEqual('Scripts/Contact/Templates/List.html');
@@ -167,6 +183,32 @@ describe('ContactController', function () {
         });
     });
 
+    describe('CreateAction', function () {
+        var $scope;
+        var $location;
+        var $http;
+
+        beforeEach(inject(function ($httpBackend) {
+            $scope = rootScope.$new();
+            $scope.Contacts = [];
+
+            $controller = controller('CreateAction', { $scope: $scope });
+            //$httpBackend.expectPOST('/Create').respond(200);
+            $http = $httpBackend;
+        }));
+
+        it('Create - Must do the Http Post Method call', function ($controller) {
+            // TODO: REVISAR DDJJ_VEA y AngularJS
+        });
+
+        it('Create - With all fields create a new contact', function () {
+            $scope.Contact = newContact;
+
+            $scope.Create();
+
+            expect($scope.transactionResultStetus).toEqual(true);
+        });
+    });
     //describe('', function () { });
     //beforeEach(inject(function () { }));
     //it('', function () { });
