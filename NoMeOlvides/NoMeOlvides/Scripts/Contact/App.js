@@ -10,10 +10,10 @@ app.TranslateLocaleDictionaries = function (key) {
 
 app.config(function ($routeProvider) {
     $routeProvider.when('/', { templateUrl: 'Scripts/Contact/Templates/List.html' })
-        //.when('/Create', { templateUrl: 'Scripts/Contact/Templates/Create.html', title: app.TranslateLocaleDictionaries('CreateContactTitle'), controller: 'CreateAction' })
-        .when('/Create', { templateUrl: 'Scripts/Contact/Templates/Create.html', controller: 'CreateAction' }) // , title: 'CreateContactTitle'
-        .when('/Details/:id', { templateUrl: 'Scripts/Contact/Templates/Details.html', controller: 'DetailsAction' }) // , title: 'DetailsContactTitle'
-        .when('/Edit/:id', { templateUrl: 'Scripts/Contact/Templates/Edit.html', controller: 'EditAction' }) // , title: 'EditContactTitle'
-        .when('/Delete/:id', { templateUrl: 'Scripts/Contact/Templates/Delete.html', controller: 'DeleteAction' }) // , title: 'DeleteContactTitle'
+        //.when('/Create', { templateUrl: 'Scripts/Contact/Templates/Create.html', title: app.TranslateLocaleDictionaries('createContactTitle'), controller: 'CreateAction' })
+        .when('/Create', { templateUrl: 'Scripts/Contact/Templates/Create.html', controller: 'CreateAction' }) // , title: 'createContactTitle'
+        .when('/Details/:id', { templateUrl: 'Scripts/Contact/Templates/Details.html', controller: 'DetailsAction' }) // , title: 'detailsContactTitle'
+        .when('/Edit/:id', { templateUrl: 'Scripts/Contact/Templates/Edit.html', controller: 'EditAction' }) // , title: 'editContactTitle'
+        .when('/Delete/:id', { templateUrl: 'Scripts/Contact/Templates/Delete.html', controller: 'DeleteAction' }) // , title: 'deleteContactTitle'
         .otherwise({ redirectTo: '/' });
 });

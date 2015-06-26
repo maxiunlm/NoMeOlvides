@@ -196,6 +196,7 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Common\ErrorManager.js" />
     <Content Include="Scripts\Common\TranslateProvider.js" />
     <Content Include="Scripts\Contact\App.js" />
     <Content Include="Scripts\Contact\CRUD.js" />
