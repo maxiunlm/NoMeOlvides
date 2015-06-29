@@ -5,12 +5,11 @@
 var errorMessage = "Error message";
 
 describe('ErrorManagerSingleton', function () {
-    it('OnGenealErrorEvent - Call the alert method of window object with a message that starts with "ERROR: "', function () {
+    it('onGenealErrorEvent - Call the alert method of window object with a message that starts with "ERROR: "', function () {
         spyOn(window, 'alert');
 
-        ErrorManager.getInstance().OnGenealErrorEvent(errorMessage);
+        ErrorManager.getInstance().onGenealErrorEvent(errorMessage);
 
         expect(window.alert).toHaveBeenCalledWith('ERROR: ' + errorMessage);
     });
 });
-

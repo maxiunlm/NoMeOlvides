@@ -1,95 +1,16 @@
-﻿/// <chutzpah_reference path='../../../NoMeOlvides/Scripts/jquery-2.1.4.js' />
-/// <chutzpah_reference path='../../../NoMeOlvides/Scripts/angular.js' />
-/// <chutzpah_reference path='../../../NoMeOlvides/Scripts/angular-mocks.js' />
-/// <chutzpah_reference path='../../../NoMeOlvides/Scripts/angular-route.js' />
-/// <chutzpah_reference path='../../../NoMeOlvides/Scripts/angular-translate.js' />
-/// <chutzpah_reference path='../../../NoMeOlvides/Scripts/angular-translate-loader-url.js' />
-/// <chutzpah_reference path='../../../NoMeOlvides/Scripts/i18n/angular-locale_es-ar.js />
-/// <chutzpah_reference path='../../../NoMeOlvides/Scripts/Contact/App.js' />
-/// <chutzpah_reference path='../../../NoMeOlvides/Scripts/Common/TranslateProvider.js' />
-/// <chutzpah_reference path='../../../NoMeOlvides/Scripts/Contact/CRUD.js' />
-/// <chutzpah_reference path='../../../NoMeOlvides/Scripts/Common/ErrorManager.js" />
+﻿/// <reference path='../../../NoMeOlvides/Scripts/jquery-2.1.4.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/angular.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/angular-mocks.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/angular-route.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/angular-translate.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/angular-translate-loader-url.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/i18n/angular-locale_es-ar.js />
+/// <reference path='../../../NoMeOlvides/Scripts/Contact/App.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/Common/TranslateProvider.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/Contact/CRUD.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/Common/ErrorManager.js" />
+/// <reference path="Fixture/ContactCommonFixture.js" />
 
-var firstItemIndex = 0;
-var secondItemIndex = 1;
-var emptyItemsCount = 0;
-var oneItemCount = 1;
-var twoItemsCount = 2;
-var applicationNamePath = '';
-var contactId = "5582a9d8dbe53f1b8059d787";
-var errorMessage1 = "Error message 1";
-var errorMessage2 = "Error message 2";
-
-var createDataResultOk = {
-    "Contact": {
-        "Id": contactId
-    },
-    "Errors": {
-        "HasError": false,
-        "Messages": []
-    }
-};
-
-var createDataResultErrorX1 = {
-    "Contact": {
-        "Id": null
-    },
-    "Errors": {
-        "HasError": true,
-        "Messages": [
-            errorMessage1
-        ]
-    }
-};
-
-var createDataResultErrorX2 = {
-    "Contact": {
-        "Id": null
-    },
-    "Errors": {
-        "HasError": true,
-        "Messages": [
-            errorMessage1,
-            errorMessage2
-        ]
-    }
-};
-
-var firstContact = {
-    "Id": "5580024fdbe5410c9ca00b4d",
-    "Alias": "El Mazzi (6)",
-    "Name": "Maximiliano",
-    "Surname": "Gauna",
-    "Email": "maxiunlm@gmail.com",
-    "Phone": 666,
-    "CellPhone": 666,
-    "Address": "Trulala 666",
-    "Password": "Secret... SHHHH!!!!"
-};
-var secondContact = {
-    "Id": "5580083cdbe5412c347db261",
-    "Alias": "KB",
-    "Name": "Kill",
-    "Surname": "Bill",
-    "Email": "a@a.com",
-    "Phone": 6662,
-    "CellPhone": 6662,
-    "Address": "Trulala 6662",
-    "Password": "Secret2... SHHHH!!!!"
-};
-var newContact = {
-    "Id": null,
-    "Alias": "KB",
-    "Name": "Kill",
-    "Surname": "Bill",
-    "Email": "b@b.com",
-    "Phone": 6662,
-    "CellPhone": 6662,
-    "Address": "Trulala 6662",
-    "Password": "Secret2... SHHHH!!!!"
-};
-
-var contacts = [];
 
 describe('ContactController', function () {
     var location;
@@ -109,28 +30,6 @@ describe('ContactController', function () {
         //translateProvider = _$translateProvider_;
         contacts = [];
     }));
-    
-    describe('ContactController - BDD', function () {
-        var $scope;
-        var $createActionController;
-
-        beforeEach(inject(function () {
-            $scope = rootScope.$new();
-            contacts = [];
-            $scope.Contacts = [];
-
-            $createActionController = controller('CreateAction', { $scope: $scope });
-        }));
-
-        it('Create - With all fields create a new contact', function () {
-            $scope.Contact = newContact;
-
-            $scope.Create();
-
-            expect($scope.Contact.Id).not.toBeUndefined();
-            expect($scope.Contact.Id).not.toBeNull();
-        });
-    });
 
     describe('ContactController - App.js - App config Route Provider', function () {
         var $scope;
@@ -241,88 +140,6 @@ describe('ContactController', function () {
             expect($scope.Contacts[secondItemIndex].CellPhone).toEqual(secondContact.CellPhone);
             expect($scope.Contacts[secondItemIndex].Address).toEqual(secondContact.Address);
             expect($scope.Contacts[secondItemIndex].Password).toEqual(secondContact.Password);
-        });
-    });
-
-    //////describe('ContactController - CRUD.js - Common methods', function () {
-    //////    var $scope;
-    //////    var $controller;
-
-    //////    beforeEach(inject(function () {
-    //////        $scope = rootScope.$new();
-    //////        contacts = [];
-
-    //////        $controller = controller('ContactController', { $scope: $scope });
-    //////    }));
-
-    //////    it('OnGenealError - Call the alert method of window object with a message that starts with "ERROR: "', function () {
-    //////        spyOn(window, 'alert');
-
-    //////        $scope.OnGenealError(errorMessage1);
-
-    //////        expect(window.alert).toHaveBeenCalledWith('ERROR: ' + errorMessage1);
-    //////    });
-    //////});
-
-    describe('CreateAction', function () {
-        var $scope;
-        var $location;
-        var $http;
-        var $controller;
-
-        beforeEach(inject(function ($httpBackend) {
-            $scope = rootScope.$new();
-            $scope.Contacts = [];
-            newContact.Id = null;
-
-            $controller = controller('CreateAction', { $scope: $scope });
-
-            $http = $httpBackend;
-        }));
-
-        // PENDIENTE !!!!
-        ////////it('Create - Must do the Http Post Method call', function ($controller) {
-        ////////    //spyOn($http, "post");
-        ////////    //$http.post = jasmine.createSpy("post()");
-        ////////    //$http.when('POST', applicationNamePath + 'ContactApi').respond({ things: 'and stuff' });    $http.flush();
-        ////////    $http.expectPOST(applicationNamePath + 'ContactApi').respond(200);
-        ////////    expect($http.post).toHaveBeenCalled();
-        ////////});
-
-        it('Create - OnCreateSuccesss- With data result of a new contact OK', function () {
-            $scope.Contact = newContact;
-
-            $scope.OnCreateSuccesss(createDataResultOk);
-
-            expect($scope.Contact.Id).not.toBeUndefined();
-            expect($scope.Contact.Id).not.toBeNull();
-            expect($scope.Errors.HasError).toEqual(false);
-            expect($scope.Errors.Messages.length).toEqual(emptyItemsCount);
-        });
-
-        it('Create - OnCreateSuccesss- With data result of a new contact with ONE Error Message', function () {
-            $scope.Contact = newContact;
-
-            $scope.OnCreateSuccesss(createDataResultErrorX1);
-
-            //expect($scope.Contact.Id).toBeUndefined();
-            expect($scope.Contact.Id).toBeNull();
-            expect($scope.Errors.HasError).toEqual(true);
-            expect($scope.Errors.Messages.length).toEqual(oneItemCount);
-            expect($scope.Errors.Messages[firstItemIndex]).toEqual(errorMessage1);
-        });
-
-        it('Create - OnCreateSuccesss- With data result of a new contact with TWO Error Messages', function () {
-            $scope.Contact = newContact;
-
-            $scope.OnCreateSuccesss(createDataResultErrorX2);
-
-            //expect($scope.Contact.Id).toBeUndefined();
-            expect($scope.Contact.Id).toBeNull();
-            expect($scope.Errors.HasError).toEqual(true);
-            expect($scope.Errors.Messages.length).toEqual(twoItemsCount);
-            expect($scope.Errors.Messages[firstItemIndex]).toEqual(errorMessage1);
-            expect($scope.Errors.Messages[secondItemIndex]).toEqual(errorMessage2);
         });
     });
     //describe('', function () { });

@@ -1,5 +1,4 @@
-﻿
-app.controller('ContactController', function ($scope, $http) {
+﻿app.controller('ContactController', function ($scope, $http) {
     $scope.initializeGlobalVariables = function () {
         $scope.Errors = {};
         $scope.Contacts = contacts;
@@ -13,11 +12,11 @@ app.controller('CreateAction', function ($scope, $location, $http) {
 
     $scope.Create = function () {
         $scope.http.post(applicationNamePath + 'ContactApi', $scope.Contact)
-            .success($scope.OnCreateSuccesss)
-            .error(ErrorManager.getInstance().OnGenealErrorEvent);
+            .success($scope.onCreateSuccesss)
+            .error(ErrorManager.getInstance().onGenealErrorEvent);
     };
 
-    $scope.OnCreateSuccesss = function (data) {
+    $scope.onCreateSuccesss = function (data) {
         //throw (JSON.stringify(data.Errors));
         $scope.Errors = data.Errors;
         if (data.Errors.HasError)

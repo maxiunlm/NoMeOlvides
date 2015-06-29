@@ -175,9 +175,12 @@
     <Content Include="css\jasmine.css" />
     <Content Include="Scripts\jasmine-html.js" />
     <Content Include="Scripts\jasmine.js" />
-    <Content Include="Scripts\Tests\ContactHttpCallMethodsTests.js" />
+    <Content Include="Scripts\Tests\ContactDeleteActionTests.js" />
+    <Content Include="Scripts\Tests\ContactCreateActionTests.js" />
     <Content Include="Scripts\Tests\ContactTests.js" />
     <Content Include="Scripts\Tests\ErrorManagerTests.js" />
+    <Content Include="Scripts\Tests\Fixture\ContactCommonFixture.js" />
+    <Content Include="Scripts\Tests\Fixture\ContactCreateFixture.js" />
     <Content Include="Scripts\Tests\Prueba.js" />
   </ItemGroup>
   <ItemGroup>

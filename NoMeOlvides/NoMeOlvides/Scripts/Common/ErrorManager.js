@@ -5,7 +5,7 @@
             if (!singleton) {
                 singleton = {
 
-                    OnGenealErrorEvent: function (data) {
+                    onGenealErrorEvent: function (data) {
                         alert('ERROR: ' + data);
                     }
 
@@ -15,4 +15,4 @@
         };
     }()) // END iife
 };
-// Invoke: ErrorManager.getInstance().OnGenealErrorEvent(data);
+// Invoke: ErrorManager.getInstance().onGenealErrorEvent(data);
