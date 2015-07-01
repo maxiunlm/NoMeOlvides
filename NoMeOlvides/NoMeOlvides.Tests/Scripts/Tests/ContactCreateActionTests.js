@@ -25,28 +25,6 @@ describe('ContactController', function () {
         controller = _$controller_;
     }));
 
-    describe('ContactController - BDD', function () {
-        var $scope;
-        var $createActionController;
-
-        beforeEach(inject(function () {
-            $scope = rootScope.$new();
-            contacts = [];
-            $scope.Contacts = [];
-
-            $createActionController = controller('CreateAction', { $scope: $scope });
-        }));
-
-        it('Create - With all fields create a new contact', function () {
-            $scope.Contact = newContact;
-
-            $scope.Create();
-
-            expect($scope.Contact.Id).not.toBeUndefined();
-            expect($scope.Contact.Id).not.toBeNull();
-        });
-    });
-
     describe('CreadteAction - Call Http Methods', function () {
         var $scope;
         var $controller;
@@ -78,20 +56,20 @@ describe('ContactController', function () {
     });
 
 
-    describe('CreateAction', function () {
+    describe('CreateAction - On success event', function () {
         var $scope;
-        var $location;
-        var $http;
         var $controller;
+        //var $location;
+        //var $http;
 
-        beforeEach(inject(function ($httpBackend) {
+        beforeEach(inject(function () { //$httpBackend
             $scope = rootScope.$new();
             $scope.Contacts = [];
             newContact.Id = null;
 
             $controller = controller('CreateAction', { $scope: $scope });
 
-            $http = $httpBackend;
+            //$http = $httpBackend;
         }));
 
 
@@ -102,6 +80,7 @@ describe('ContactController', function () {
 
             expect($scope.Contact.Id).not.toBeUndefined();
             expect($scope.Contact.Id).not.toBeNull();
+            expect($scope.transactionSuccessMessage).toEqual('transactionSuccessMessage'); // TODO: VER !!! 'Your operation was successful');
             expect($scope.Errors.HasError).toEqual(false);
             expect($scope.Errors.Messages.length).toEqual(emptyItemsCount);
         });
@@ -114,6 +93,7 @@ describe('ContactController', function () {
             //expect($scope.Contact.Id).toBeUndefined();
             expect($scope.Contact.Id).toBeNull();
             expect($scope.Errors.HasError).toEqual(true);
+            expect($scope.transactionSuccessMessage).toEqual('emptyText');
             expect($scope.Errors.Messages.length).toEqual(oneItemCount);
             expect($scope.Errors.Messages[firstItemIndex]).toEqual(errorMessage1);
         });
@@ -126,6 +106,7 @@ describe('ContactController', function () {
             //expect($scope.Contact.Id).toBeUndefined();
             expect($scope.Contact.Id).toBeNull();
             expect($scope.Errors.HasError).toEqual(true);
+            expect($scope.transactionSuccessMessage).toEqual('emptyText');
             expect($scope.Errors.Messages.length).toEqual(twoItemsCount);
             expect($scope.Errors.Messages[firstItemIndex]).toEqual(errorMessage1);
             expect($scope.Errors.Messages[secondItemIndex]).toEqual(errorMessage2);

@@ -36,7 +36,7 @@
 <div ng-controller="ContactController">
 
     <h2>@*@GeneralResourceSet.GetString("PageTitle")*@{{ 'pageTitle' | translate }}</h2>
-
+    <h4>{{ transactionSuccessMessage | translate }}</h4>
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()

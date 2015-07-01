@@ -31,6 +31,41 @@ describe('ContactController', function () {
         contacts = [];
     }));
 
+    describe('ContactController - BDD', function () {
+        var $scope;
+        var $createActionController;
+
+        beforeEach(inject(function () {
+            $scope = rootScope.$new();
+            contacts = [];
+            $scope.Contacts = [];
+
+            $createActionController = controller('CreateAction', { $scope: $scope });
+        }));
+
+
+        it('Delete - With all fields create a new contact', function () {
+            $scope.Contact = newContact;
+            $scope.Create();
+            //var contactId = $scope.Contact.Id;
+
+            $scope.Delete();
+
+            expect($scope.Contact.Id).not.toBeUndefined();
+            expect($scope.Contact.Id).not.toBeNull();
+        });
+
+
+        it('Create - With all fields create a new contact', function () {
+            $scope.Contact = newContact;
+
+            $scope.Create();
+
+            expect($scope.Contact.Id).not.toBeUndefined();
+            expect($scope.Contact.Id).not.toBeNull();
+        });
+    });
+
     describe('ContactController - App.js - App config Route Provider', function () {
         var $scope;
         var $controller;

@@ -10,29 +10,6 @@
 /// <reference path="Fixture/ContactCommonFixture.js" />
 
 describe('ContactController', function () {
-    var Contact = {};
-    var callBackErrorData = null;
-    var callBackSuccessData = null;
-    var callBackSuccessDataWithoutError = { "Errors": { "HasError": false } };
-    var callBackSuccessDataWithError = { "Errors": { "HasError": true, "Messages": ["Has an Error"] } };
-
-    var httpMock = {};
-    httpMock.post = function (uri, form) {
-        return this;
-    };
-    httpMock.success = function (callBack) {
-        if (callBack && callBackSuccessData != null) {
-            callBack(callBackSuccessData);
-        }
-        return this;
-    };
-    httpMock.error = function (callBack) {
-        if (callBack && callBackErrorData != null) {
-            callBack(callBackErrorData);
-        }
-        return this;
-    };
-
     var location;
     var rootScope;
     var route;
@@ -47,30 +24,83 @@ describe('ContactController', function () {
         controller = _$controller_;
     }));
 
-    describe('CreadteAction - Call Http Methods', function () {
+    describe('DeleteAction - Call Http Methods', function () {
         var $scope;
         var $controller;
         var httpBackend;
+        //var filter
 
-        beforeEach(inject(function ($injector, $httpBackend) {
+        beforeEach(inject(function ($injector, $httpBackend) { //, $filter
             //$httpBackend = $injector.get('$httpBackend');
             $scope = rootScope.$new();
             httpBackend = $httpBackend;
+            //filter = $filter
             $scope.Contact = Contact;
             callBackErrorData = null;
             callBackSuccessData = null;
 
-            $controller = controller('DeleteAction', { $scope: $scope, $location: location, $httpBackend: httpBackend });
+            $controller = controller('DeleteAction', { $scope: $scope, $location: location, $httpBackend: httpBackend });//, $filter: filter });
             originalHttp = $scope.http;
         }));
 
         it('Delete - Must call the Http Post Method for delete a Contact', function () {
             $scope.http = httpMock;
-            spyOn($scope.http, 'post').and.callThrough();
+            spyOn($scope.http, 'delete').and.callThrough();
 
             $scope.Delete();
 
-            expect($scope.http.post).toHaveBeenCalled();
+            expect($scope.http.delete).toHaveBeenCalled();
+        });
+
+        it('Delete - Must call the "escape" Method for special characters on an URI', function () {
+            $scope.http = httpMock;
+            spyOn(window, 'escape').and.callThrough();
+
+            $scope.Delete();
+
+            expect(window.escape).toHaveBeenCalled();
+        });
+    });
+
+    describe('DeleteAction - On success event', function () {
+        var $scope;
+        var $controller
+
+        beforeEach(inject(function () {
+            $scope = rootScope.$new();
+            $controller = controller('DeleteAction', { $scope: $scope });
+        }));
+
+        it('Delete - onDeleteSuccesss- With data result of a delete contact OK', function () {
+            $scope.Contact = { "Id": contactId };
+
+            $scope.onDeleteSuccesss(httpDataResultOk);
+
+            expect($scope.Errors.HasError).toEqual(false);
+            expect($scope.Errors.Messages.length).toEqual(emptyItemsCount);
+        });
+
+        it('Delete - onDeleteSuccesss- With data result of a delete contact with ONE Error Message', function () {
+            $scope.Contact = { "Id": contactId };
+
+            $scope.onDeleteSuccesss(httpDataResultErrorX1);
+
+            expect($scope.Errors.HasError).toEqual(true);
+            expect($scope.transactionSuccessMessage).toEqual('emptyText');
+            expect($scope.Errors.Messages.length).toEqual(oneItemCount);
+            expect($scope.Errors.Messages[firstItemIndex]).toEqual(errorMessage1)
+        });
+
+        it('Delete - onDeleteSuccesss- With data result of a delete contact with Two Error Messages', function () {
+            $scope.Contact = { "Id": contactId };
+
+            $scope.onDeleteSuccesss(httpDataResultErrorX2);
+
+            expect($scope.Errors.HasError).toEqual(true);
+            expect($scope.transactionSuccessMessage).toEqual('emptyText');
+            expect($scope.Errors.Messages.length).toEqual(twoItemsCount);
+            expect($scope.Errors.Messages[firstItemIndex]).toEqual(errorMessage1);
+            expect($scope.Errors.Messages[secondItemIndex]).toEqual(errorMessage2);
         });
     });
 });

@@ -1,14 +1,18 @@
-﻿var applicationNamePath = "/";
-var contacts = [];
+﻿var contacts = [];
+var Contact = {};
+var applicationNamePath = "/";
 var firstItemIndex = 0;
 var secondItemIndex = 1;
 var emptyItemsCount = 0;
 var oneItemCount = 1;
 var twoItemsCount = 2;
-var applicationNamePath = '';
+var callBackErrorData = null;
+var callBackSuccessData = null;
 var contactId = "5582a9d8dbe53f1b8059d787";
 var errorMessage1 = "Error message 1";
 var errorMessage2 = "Error message 2";
+var callBackSuccessDataWithoutError = { "Errors": { "HasError": false } };
+var callBackSuccessDataWithError = { "Errors": { "HasError": true, "Messages": ["Has an Error"] } };
 var firstContact = {
     "Id": "5580024fdbe5410c9ca00b4d",
     "Alias": "El Mazzi (6)",
@@ -63,14 +67,18 @@ var httpDataResultErrorX2 = {
         ]
     }
 };
-var Contact = {};
-var callBackErrorData = null;
-var callBackSuccessData = null;
-var callBackSuccessDataWithoutError = { "Errors": { "HasError": false } };
-var callBackSuccessDataWithError = { "Errors": { "HasError": true, "Messages": ["Has an Error"] } };
 
 var httpMock = {};
+httpMock.delete = function (uri, form) {
+    return this;
+};
+httpMock.get = function (uri, form) {
+    return this;
+};
 httpMock.post = function (uri, form) {
+    return this;
+};
+httpMock.put = function (uri, form) {
     return this;
 };
 httpMock.success = function (callBack) {

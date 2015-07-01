@@ -24,5 +24,7 @@
     "detailLinkLabel": "Ver",
     "updateLinkLabel": "Modificar",
     "createLinkLabel": "Nuevo",
-    "error": "Error"
+    "error": "Error",
+    "transactionSuccessMessage":  "Tu operación fue exitosa",
+    "emptyText":  ""
 }
