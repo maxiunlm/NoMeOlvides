@@ -25,21 +25,18 @@ describe('ContactController', function () {
         controller = _$controller_;
     }));
 
-    describe('CreadteAction - Call Http Methods', function () {
+    describe('CreadteAction - Call Http POST Method', function () {
         var $scope;
         var $controller;
-        var httpBackend;
+        //var httpBackend;
 
-        beforeEach(inject(function ($injector, $httpBackend) {
+        beforeEach(inject(function () { //$injector, $httpBackend
             //$httpBackend = $injector.get('$httpBackend');
+            //httpBackend = $httpBackend;
             $scope = rootScope.$new();
-            httpBackend = $httpBackend;
             $scope.Contact = Contact;
-            callBackErrorData = null;
-            callBackSuccessData = null;
 
-            $controller = controller('CreateAction', { $scope: $scope, $location: location, $httpBackend: httpBackend });
-            originalHttp = $scope.http;
+            $controller = controller('CreateAction', { $scope: $scope }); // , $location: location, $httpBackend: httpBackend
         }));
 
         it('Create - Must call the Http Post Method for a new Contact', function () { //$controller// <-- Error: Timeout - Async callback was not invoked within timeout specified by jasmine.DEFAULT_TIMEOUT_INTERVAL.
@@ -73,7 +70,7 @@ describe('ContactController', function () {
         }));
 
 
-        it('Create - onCreateSuccesss- With data result of a new contact OK', function () {
+        it('Create - onCreateSuccesss - With data result of a new contact OK', function () {
             $scope.Contact = newContact;
 
             $scope.onCreateSuccesss(httpDataResultOk);
@@ -85,7 +82,7 @@ describe('ContactController', function () {
             expect($scope.Errors.Messages.length).toEqual(emptyItemsCount);
         });
 
-        it('Create - onCreateSuccesss- With data result of a new contact with ONE Error Message', function () {
+        it('Create - onCreateSuccesss - With data result of a new contact with ONE Error Message', function () {
             $scope.Contact = newContact;
 
             $scope.onCreateSuccesss(httpDataResultErrorX1);
@@ -98,7 +95,7 @@ describe('ContactController', function () {
             expect($scope.Errors.Messages[firstItemIndex]).toEqual(errorMessage1);
         });
 
-        it('Create - onCreateSuccesss- With data result of a new contact with TWO Error Messages', function () {
+        it('Create - onCreateSuccesss - With data result of a new contact with TWO Error Messages', function () {
             $scope.Contact = newContact;
 
             $scope.onCreateSuccesss(httpDataResultErrorX2);

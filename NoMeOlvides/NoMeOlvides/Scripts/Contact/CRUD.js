@@ -31,7 +31,7 @@ app.controller('CreateAction', function ($scope, $location, $http) {//, $filter)
     };
 });
 
-app.controller('DeleteAction', function ($scope, $location, $http, $filter) {
+app.controller('DeleteAction', function ($scope, $location, $http) { //, $filter
     $scope.http = $http;
 
     $scope.Delete = function () {
@@ -49,5 +49,13 @@ app.controller('DeleteAction', function ($scope, $location, $http, $filter) {
         }
 
         $scope.transactionSuccessMessage = 'transactionSuccessMessage';
+    };
+});
+
+app.controller('EditAction', function ($scope, $http) {
+    $scope.http = $http;
+
+    $scope.Edit = function () {
+        $scope.http.put(applicationNamePath + 'ContactApi/', $scope.Contact);
     };
 });

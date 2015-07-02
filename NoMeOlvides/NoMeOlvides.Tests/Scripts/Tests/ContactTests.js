@@ -44,7 +44,7 @@ describe('ContactController', function () {
         }));
 
 
-        it('Delete - With all fields create a new contact', function () {
+        it('Delete - Delete contact with contact ID', function () {
             $scope.Contact = newContact;
             $scope.Create();
             //var contactId = $scope.Contact.Id;
@@ -54,8 +54,7 @@ describe('ContactController', function () {
             expect($scope.Contact.Id).not.toBeUndefined();
             expect($scope.Contact.Id).not.toBeNull();
         });
-
-
+        
         it('Create - With all fields create a new contact', function () {
             $scope.Contact = newContact;
 
@@ -63,6 +62,31 @@ describe('ContactController', function () {
 
             expect($scope.Contact.Id).not.toBeUndefined();
             expect($scope.Contact.Id).not.toBeNull();
+        });
+
+        it('Edit - With all fields save the updated values', function () {
+            $scope.Contact = newContact;
+            $scope.Create();
+            $scope.Contact.Alias = "El Mazzi (6)";
+            $scope.Contact.Name = "Maximiliano";
+            $scope.Contact.Surname = "Gauna";
+            $scope.Contact.Email = "c@c.com";
+            $scope.Contact.Phone = 666;
+            $scope.Contact.CellPhone = 666;
+            $scope.Contact.Address = "Trulala 666";
+            $scope.Contact.Password = "Secret... SHHHH!!!!";
+
+            $scope.Edit();
+
+            expect($scope.Contact.Alias).toEqual("El Mazzi (6)");
+            expect($scope.Contact.Name).toEqual("Maximiliano");
+            expect($scope.Contact.Surname).toEqual("Gauna");
+            expect($scope.Contact.Email).toEqual("c@c.com");
+            expect($scope.Contact.Phone).toEqual(666);
+            expect($scope.Contact.CellPhone).toEqual(666);
+            expect($scope.Contact.Address).toEqual("Trulala 666");
+            expect($scope.Contact.Password).toEqual("Secret... SHHHH!!!!");
+            $scope.Delete();
         });
     });
 
