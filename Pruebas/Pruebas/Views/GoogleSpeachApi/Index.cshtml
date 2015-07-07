@@ -118,6 +118,12 @@
         Web Speech API
     </a> Demonstration
 </h1>
+
+<p>
+    <h2>News</h2>
+    <div id="googleNews">Hola mundo</div>
+</p>
+
 <div id="info">
     <p id="info_start">Click on the microphone icon and begin speaking.</p>
     <p id="info_speak_now">Speak now.</p>
@@ -179,8 +185,53 @@
             &nbsp;&nbsp;
             <select id="select_dialect"></select>
         </div>
+    </p>
+    <p><input type="button" onclick="launch()" value="Compute Diff"></p>
+    <div id="outputdiv"></div>
+    <h3>Diff timeout:</h3>
+    <p>
+        <input type="text" size=3 maxlength=5 value="1" id="timeout"> seconds<br>
+        <h3>Post-diff cleanup:</h3>
+        <dl>
+            <dt>
+                <input type="radio" name="cleanup" id="semantic" checked>
+                <label for="semantic">Semantic Cleanup</label>
+            </dt>
+            <dt>
+                <input type="radio" name="cleanup" id="efficiency">
+                <label for="efficiency">Efficiency Cleanup</label>,
+                edit cost: <input type="text" size=3 maxlength=5 value="4" id="editcost">
+            </dt>
+        </dl>
+    </p>
 </div>
-<script>
+<script src="~/Scripts/diff_match_patch.js"></script>
+<script type="text/javascript">
+    //////////////// DIFF
+
+    var dmp = new diff_match_patch();
+
+    function launch() {
+        var googleNews = document.getElementById('googleNews').value;
+        var speachResult = document.getElementById('final_span').innerHTML; /// VER CUAL ES EL TAG DE OUTPUT DEL SPEACH ????!!!!
+        dmp.Diff_Timeout = parseFloat(document.getElementById('timeout').value);
+        dmp.Diff_EditCost = parseFloat(document.getElementById('editcost').value);
+
+        var ms_start = (new Date()).getTime();
+        var d = dmp.diff_main(googleNews, speachResult);
+        var ms_end = (new Date()).getTime();
+
+        if (document.getElementById('semantic').checked) {
+            dmp.diff_cleanupSemantic(d);
+        }
+        if (document.getElementById('efficiency').checked) {
+            dmp.diff_cleanupEfficiency(d);
+        }
+        var ds = dmp.diff_prettyHtml(d);
+        document.getElementById('outputdiv').innerHTML = ds + '<br>Time: ' + (ms_end - ms_start) / 1000 + 's';
+    }
+
+    //////////////// TRANSLATE
     var langs =
     [['Afrikaans', ['af-ZA']],
      ['Bahasa Indonesia', ['id-ID']],
