@@ -1,4 +1,6 @@
-﻿@{
+﻿@model string
+    
+@{
     ViewBag.Title = "Index";
 }
 
@@ -121,7 +123,8 @@
 
 <p>
     <h2>News</h2>
-    <div id="googleNews">Hola mundo</div>
+    <div id="googleNewsHtml"></div>
+    <div id="googleNews" style="display: normal"></div>
 </p>
 
 <div id="info">
@@ -205,15 +208,44 @@
         </dl>
     </p>
 </div>
-<script src="~/Scripts/diff_match_patch.js"></script>
-<script type="text/javascript">
+@section scripts
+{
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script src="~/Scripts/diff_match_patch.js"></script>
+    <script type="text/javascript">
+    //////////////// GOOGLE NEWS
+        var googleNewsJson = @Html.Raw(ViewBag.GoogleNews);
+        var newsContent = googleNewsJson.responseData.feed.entries[0].content.replace(/>/g, '> ');
+        $('#googleNewsHtml').html(newsContent);
+        $('#googleNews').html($(newsContent).text());
+    //////$('#rssdata').ready(function () {
+    //////    // : -> %3A
+    //////    // / -> %2F
+    //////    // ? -> %3F
+    //////    // = -> %3D
+    //////    // & -> %26
+    //////    //// ned = [es_ar | en_us | es | en | etc]
+    //////    //// hl = [es | en]
+    //////    //// sort = [newest | rated | users]
+    //////    var pipe_url = 'http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=8&q=http%3A%2F%2Fnews.google.com%2Fnews%3Foutput%3Drss%26pz%3D1%26ned%3Den_us%26hl%3Den%26sort%3Dnewest';
+    //////    $.getJSON(pipe_url, function (data) {
+    //////        $(data.feed.entries).each(function (index, entry) {
+
+    //////            var item_html = '<li><a target="_blank" href="' + entry.link + '">' + entry.title + '</a></li>';
+    //////            $('#googleNews ul.rss-items').append(item_html);
+    //////        });
+    //////        $('#googleNews div.loading').fadeOut();
+    //////        $('#googleNews ul.rss-items').slideDown();
+    //////    });
+    //////});
+
     //////////////// DIFF
 
     var dmp = new diff_match_patch();
 
     function launch() {
-        var googleNews = document.getElementById('googleNews').value;
-        var speachResult = document.getElementById('final_span').innerHTML; /// VER CUAL ES EL TAG DE OUTPUT DEL SPEACH ????!!!!
+        var googleNews = document.getElementById('googleNews').innerHTML;
+        var speachResult = document.getElementById('final_span').innerHTML;
         dmp.Diff_Timeout = parseFloat(document.getElementById('timeout').value);
         dmp.Diff_EditCost = parseFloat(document.getElementById('editcost').value);
 
@@ -327,16 +359,16 @@
         recognition.onstart = function () {
             recognizing = true;
             showInfo('info_speak_now');
-            start_img.src = 'mic-animate.gif';
+            //start_img.src = 'mic-animate.gif';
         };
         recognition.onerror = function (event) {
             if (event.error == 'no-speech') {
-                start_img.src = 'mic.gif';
+                //start_img.src = 'mic.gif';
                 showInfo('info_no_speech');
                 ignore_onend = true;
             }
             if (event.error == 'audio-capture') {
-                start_img.src = 'mic.gif';
+                //start_img.src = 'mic.gif';
                 showInfo('info_no_microphone');
                 ignore_onend = true;
             }
@@ -354,7 +386,7 @@
             if (ignore_onend) {
                 return;
             }
-            start_img.src = 'mic.gif';
+            //start_img.src = 'mic.gif';
             if (!final_transcript) {
                 showInfo('info_start');
                 return;
@@ -442,7 +474,7 @@
         ignore_onend = false;
         final_span.innerHTML = '';
         interim_span.innerHTML = '';
-        start_img.src = 'mic-slash.gif';
+        //start_img.src = 'mic-slash.gif';
         showInfo('info_allow');
         showButtons('none');
         start_timestamp = event.timeStamp;
@@ -470,4 +502,5 @@
         copy_info.style.display = 'none';
         email_info.style.display = 'none';
     }
-</script>
+    </script>
+}
