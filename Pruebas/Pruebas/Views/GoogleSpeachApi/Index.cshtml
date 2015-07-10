@@ -217,7 +217,8 @@
         var googleNewsJson = @Html.Raw(ViewBag.GoogleNews);
         var newsContent = googleNewsJson.responseData.feed.entries[0].content.replace(/>/g, '> ');
         $('#googleNewsHtml').html(newsContent);
-        $('#googleNews').html($(newsContent).text());
+        $('#googleNews').html($(newsContent.toLowerCase()).text() //.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g, ' ')
+            .replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g, ' '));
     //////$('#rssdata').ready(function () {
     //////    // : -> %3A
     //////    // / -> %2F
@@ -245,7 +246,7 @@
 
     function launch() {
         var googleNews = document.getElementById('googleNews').innerHTML;
-        var speachResult = document.getElementById('final_span').innerHTML;
+        var speachResult = document.getElementById('final_span').innerHTML.toLowerCase().replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g, ' ');
         dmp.Diff_Timeout = parseFloat(document.getElementById('timeout').value);
         dmp.Diff_EditCost = parseFloat(document.getElementById('editcost').value);
 
