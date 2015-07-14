@@ -12,11 +12,11 @@ app.controller('CreateAction', function ($scope, $location, $http) {//, $filter)
 
     $scope.Create = function () {
         $scope.http.post(applicationNamePath + 'ContactApi', $scope.Contact)
-            .success($scope.onCreateSuccesss)
+            .success($scope.onCreateSuccess)
             .error(ErrorManager.getInstance().onGenealErrorEvent);
     };
 
-    $scope.onCreateSuccesss = function (data) {
+    $scope.onCreateSuccess = function (data) {
         //throw (JSON.stringify(data.Errors));
         $scope.Errors = data.Errors;
         $scope.transactionSuccessMessage = 'emptyText';
@@ -36,11 +36,11 @@ app.controller('DeleteAction', function ($scope, $location, $http) { //, $filter
 
     $scope.Delete = function () {
         $scope.http.delete(applicationNamePath + 'ContactApi/' + escape($scope.Contact.Id), {})
-            .success($scope.onDeleteSuccesss)
+            .success($scope.onDeleteSuccess)
             .error(ErrorManager.getInstance().onGenealErrorEvent);
     }
 
-    $scope.onDeleteSuccesss = function (data) {
+    $scope.onDeleteSuccess = function (data) {
         $scope.Errors = data.Errors;
         $scope.transactionSuccessMessage = 'emptyText';
 
@@ -57,5 +57,8 @@ app.controller('EditAction', function ($scope, $http) {
 
     $scope.Edit = function () {
         $scope.http.put(applicationNamePath + 'ContactApi/', $scope.Contact);
+    };
+
+    $scope.onEditSuccess = function (data) {
     };
 });

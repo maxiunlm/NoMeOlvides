@@ -59,6 +59,21 @@ describe('ContactController', function () {
         });
     });
 
+
+    describe('DeleteAction - Call Response Events', function () {
+
+        beforeEach(inject(function () {
+        }));
+
+        it('Delete - After call http post Method must call success event $scope.onDeleteSuccess', inject(function ($http, $httpBackend) {
+
+        }));
+
+        it('Delete - After call http post Method must call error event ErrorManager.getInstance().onGenealErrorEvent', inject(function ($http, $httpBackend) {
+
+        }));
+    });
+
     describe('DeleteAction - On success event', function () {
         var $scope;
         var $controller
@@ -68,19 +83,19 @@ describe('ContactController', function () {
             $controller = controller('DeleteAction', { $scope: $scope });
         }));
 
-        it('Delete - onDeleteSuccesss - With data result of a delete contact OK', function () {
+        it('Delete - onDeleteSuccess - With data result of a delete contact OK', function () {
             $scope.Contact = { "Id": contactId };
 
-            $scope.onDeleteSuccesss(httpDataResultOk);
+            $scope.onDeleteSuccess(httpDataResultOk);
 
             expect($scope.Errors.HasError).toEqual(false);
             expect($scope.Errors.Messages.length).toEqual(emptyItemsCount);
         });
 
-        it('Delete - onDeleteSuccesss - With data result of a delete contact with ONE Error Message', function () {
+        it('Delete - onDeleteSuccess - With data result of a delete contact with ONE Error Message', function () {
             $scope.Contact = { "Id": contactId };
 
-            $scope.onDeleteSuccesss(httpDataResultErrorX1);
+            $scope.onDeleteSuccess(httpDataResultErrorX1);
 
             expect($scope.Errors.HasError).toEqual(true);
             expect($scope.transactionSuccessMessage).toEqual('emptyText');
@@ -88,10 +103,10 @@ describe('ContactController', function () {
             expect($scope.Errors.Messages[firstItemIndex]).toEqual(errorMessage1)
         });
 
-        it('Delete - onDeleteSuccesss - With data result of a delete contact with Two Error Messages', function () {
+        it('Delete - onDeleteSuccess - With data result of a delete contact with Two Error Messages', function () {
             $scope.Contact = { "Id": contactId };
 
-            $scope.onDeleteSuccesss(httpDataResultErrorX2);
+            $scope.onDeleteSuccess(httpDataResultErrorX2);
 
             expect($scope.Errors.HasError).toEqual(true);
             expect($scope.transactionSuccessMessage).toEqual('emptyText');

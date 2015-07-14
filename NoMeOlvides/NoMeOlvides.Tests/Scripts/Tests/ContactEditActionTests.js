@@ -39,20 +39,43 @@ describe('ContactController', function () {
         });
     });
 
-    describe('EditAction - On success event', function () {
+    describe('EditAction - Call Response Events', function () {
 
         beforeEach(inject(function () {
         }));
 
-        it('Edit - onEditSuccesss - With data result of a new contact OK', function () {
+        it('Edit - After call http post Method must call success event $scope.onEditSuccess', inject(function ($http, $httpBackend) {
+
+        }));
+
+        it('Edit - After call http post Method must call error event ErrorManager.getInstance().onGenealErrorEvent', inject(function ($http, $httpBackend) {
+
+        }));
+    });
+
+    describe('EditAction - On success event', function () {
+        var $scope;
+
+        beforeEach(inject(function () {
+            $scope = rootScope.$new();
+            $scope.Contact = [];
+        }));
+
+        it('Edit - onEditSuccess - With data result of a new contact OK', function () {
+            $scope.Contact = firstContact;
+
+            $scope.onEditSuccess(httpDataResultOk);
+
+            expect($scope.transactionSuccessMessage).toEqual('transactionSuccessMessage'); // TODO: VER !!! 'Your operation was successful');
+            expect($scope.Errors.HasError).toEqual(false);
+            expect($scope.Errors.Messages.length).toEqual(emptyItemsCount);
+        });
+
+        it('Edit - onEditSuccess - With data result of a new contact with ONE Error Message', function () {
 
         });
 
-        it('Edit - onEditSuccesss - With data result of a new contact with ONE Error Message', function () {
-
-        });
-
-        it('Edit - onEditSuccesss - With data result of a new contact with TWO Error Messages', function () {
+        it('Edit - onEditSuccess - With data result of a new contact with TWO Error Messages', function () {
 
         });
     });

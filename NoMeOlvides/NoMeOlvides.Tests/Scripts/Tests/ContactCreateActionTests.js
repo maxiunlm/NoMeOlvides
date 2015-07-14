@@ -70,10 +70,10 @@ describe('ContactController', function () {
         }));
 
 
-        it('Create - onCreateSuccesss - With data result of a new contact OK', function () {
+        it('Create - onCreateSuccess - With data result of a new contact OK', function () {
             $scope.Contact = newContact;
 
-            $scope.onCreateSuccesss(httpDataResultOk);
+            $scope.onCreateSuccess(httpDataResultOk);
 
             expect($scope.Contact.Id).not.toBeUndefined();
             expect($scope.Contact.Id).not.toBeNull();
@@ -82,10 +82,10 @@ describe('ContactController', function () {
             expect($scope.Errors.Messages.length).toEqual(emptyItemsCount);
         });
 
-        it('Create - onCreateSuccesss - With data result of a new contact with ONE Error Message', function () {
+        it('Create - onCreateSuccess - With data result of a new contact with ONE Error Message', function () {
             $scope.Contact = newContact;
 
-            $scope.onCreateSuccesss(httpDataResultErrorX1);
+            $scope.onCreateSuccess(httpDataResultErrorX1);
 
             //expect($scope.Contact.Id).toBeUndefined();
             expect($scope.Contact.Id).toBeNull();
@@ -95,10 +95,10 @@ describe('ContactController', function () {
             expect($scope.Errors.Messages[firstItemIndex]).toEqual(errorMessage1);
         });
 
-        it('Create - onCreateSuccesss - With data result of a new contact with TWO Error Messages', function () {
+        it('Create - onCreateSuccess - With data result of a new contact with TWO Error Messages', function () {
             $scope.Contact = newContact;
 
-            $scope.onCreateSuccesss(httpDataResultErrorX2);
+            $scope.onCreateSuccess(httpDataResultErrorX2);
 
             //expect($scope.Contact.Id).toBeUndefined();
             expect($scope.Contact.Id).toBeNull();
@@ -110,36 +110,45 @@ describe('ContactController', function () {
         });
     });
 
-    //describe('CreateAction - Call Success Events', function () {
-    //    var $scope;
-    //    var $controller;
+    describe('CreateAction - Call Response Events', function () {
+        var $scope;
+        var $controller;
 
-    //    beforeEach(inject(function ($httpBackend) {
-    //        //$httpBackend = $injector.get('$httpBackend');
-    //        $scope = rootScope.$new();
-    //        $scope.Contact = Contact;
+        beforeEach(inject(function ($httpBackend) {
+            //$httpBackend = $injector.get('$httpBackend');
+            $scope = rootScope.$new();
+            $scope.Contact = Contact;
 
-    //        $controller = controller('CreateAction', { $scope: $scope, $location: location, $httpBackend: $httpBackend });
-    //    }));
+            $controller = controller('CreateAction', { $scope: $scope, $location: location, $httpBackend: $httpBackend });
+        }));
 
-    //    //it('Create - After call http post Method must call success event $scope.onCreateSuccesss', inject(function ($http, $httpBackend) {
-    //    //    var url = '/path/to/resource',
-    //    //    header = { 'LWSSO': 'token value' };
+        it('Create - After call http post Method must call success event $scope.onCreateSuccess', inject(function ($http, $httpBackend) {
+            $scope.http = httpMock;
+            callBackSuccessData = callBackSuccessDataWithoutError;
+            spyOn($scope, 'onCreateSuccess').and.callFake(function (data) {
+                return;
+            });
+ 
+            $scope.Create();
 
-    //    //    spyOn($scope, 'onCreateSuccesss').and.callFake(function (data) {
-    //    //        return;
-    //    //    });
-    //    //    errorCallback = jasmine.createSpy('error');
+            expect($scope.onCreateSuccess).toHaveBeenCalled();
+        }));
 
-    //    //    $httpBackend.expectPOST(applicationNamePath + 'ContactApi', Contact, function (headers) {
-    //    //        // check if the header was send, if it wasn't the expectation won't match the request and the test will fail
-    //    //        return headers['LWSSO'] === 'token value';
-    //    //    }).respond(200, JSON.stringify(callBackSuccessDataWithoutError));
+        it('Create - After call http post Method must call error event ErrorManager.getInstance().onGenealErrorEvent', inject(function ($http, $httpBackend) {
+            $scope.http = httpMock;
+            callBackErrorData = callBackSuccessDataWithError;
+            spyOn($scope, 'onCreateSuccess').and.callFake(function (data) {
+                return;
+            });
+            //////errorCallback = jasmine.createSpy('error'); ???? COMO es de esta manera ????
+            spyOn(ErrorManager.getInstance(), 'onGenealErrorEvent').and.callFake(function (data) {
+                return;
+            });
 
-    //    //    $scope.Create();
+            $scope.Create();
 
-    //    //    expect($scope.onCreateSuccesss).toHaveBeenCalled();
-    //    //}));
+            expect(ErrorManager.getInstance().onGenealErrorEvent).toHaveBeenCalled();
+        }));
 
     //    ////it("expects POST http calls and returns mock data", inject(function ($http, $httpBackend) {
     //    ////    $scope.http = $http;
@@ -174,5 +183,5 @@ describe('ContactController', function () {
     //    ////    expect(successCallback.mostRecentCall.args).toContain(JSON.stringify(callBackSuccessDataWithoutError));
     //    ////    expect(successCallback.mostRecentCall.args).toContain(200);
     //    ////}));
-    //});
+    });
 });

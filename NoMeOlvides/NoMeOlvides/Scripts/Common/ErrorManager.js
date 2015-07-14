@@ -1,5 +1,5 @@
 ﻿var ErrorManager = {
-    getInstance: (function () { // BEGIN iife
+    getInstance: (function () {
         var singleton;
         return function () {
             if (!singleton) {
@@ -13,6 +13,6 @@
             }
             return singleton;
         };
-    }()) // END iife
+    }())
 };
 // Invoke: ErrorManager.getInstance().onGenealErrorEvent(data);
