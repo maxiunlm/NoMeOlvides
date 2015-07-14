@@ -197,11 +197,11 @@
         <h3>Post-diff cleanup:</h3>
         <dl>
             <dt>
-                <input type="radio" name="cleanup" id="semantic" checked>
+                <input type="radio" name="cleanup" id="semantic">
                 <label for="semantic">Semantic Cleanup</label>
             </dt>
             <dt>
-                <input type="radio" name="cleanup" id="efficiency">
+                <input type="radio" name="cleanup" id="efficiency" checked>
                 <label for="efficiency">Efficiency Cleanup</label>,
                 edit cost: <input type="text" size=3 maxlength=5 value="4" id="editcost">
             </dt>
@@ -218,7 +218,7 @@
         var newsContent = googleNewsJson.responseData.feed.entries[0].content.replace(/>/g, '> ');
         $('#googleNewsHtml').html(newsContent);
         $('#googleNews').html($(newsContent.toLowerCase()).text() //.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g, ' ')
-            .replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g, ' '));
+            .replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&\:\+])/g, ' '));
     //////$('#rssdata').ready(function () {
     //////    // : -> %3A
     //////    // / -> %2F
@@ -246,7 +246,7 @@
 
     function launch() {
         var googleNews = document.getElementById('googleNews').innerHTML;
-        var speachResult = document.getElementById('final_span').innerHTML.toLowerCase().replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g, ' ');
+        var speachResult = document.getElementById('final_span').innerHTML.toLowerCase().replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&\:\+])/g, ' ');
         dmp.Diff_Timeout = parseFloat(document.getElementById('timeout').value);
         dmp.Diff_EditCost = parseFloat(document.getElementById('editcost').value);
 
