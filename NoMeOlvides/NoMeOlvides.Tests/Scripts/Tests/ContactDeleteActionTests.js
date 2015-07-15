@@ -10,17 +10,17 @@
 /// <reference path="Fixture/ContactCommonFixture.js" />
 
 describe('ContactController', function () {
-    var location;
+    //var location;
+    //var route;
     var rootScope;
-    var route;
     var controller;
 
     beforeEach(module('app'));
 
-    beforeEach(inject(function (_$controller_, _$location_, _$route_, _$rootScope_) { // , _$translateProvider_ ???
-        location = _$location_;
+    beforeEach(inject(function (_$controller_, _$rootScope_) { // , _$location_, _$route_, _$translateProvider_
+        //location = _$location_;
+        //route = _$route_;
         rootScope = _$rootScope_;
-        route = _$route_;
         controller = _$controller_;
     }));
 
@@ -58,19 +58,40 @@ describe('ContactController', function () {
             expect(window.escape).toHaveBeenCalled();
         });
     });
-
-
+    
     describe('DeleteAction - Call Response Events', function () {
+        var $scope;
 
         beforeEach(inject(function () {
+            $scope = rootScope.$new();
+            callBackSuccessData = null;
+            callBackErrorData = null;
+
+            $controller = controller('DeleteAction', { $scope: $scope, $location: location });
         }));
 
         it('Delete - After call http post Method must call success event $scope.onDeleteSuccess', inject(function ($http, $httpBackend) {
+            $scope.http = httpMock;
+            $scope.Contact = { "Id": contactId };
+            callBackSuccessData = callBackSuccessDataWithoutError;
+            spyOn($scope, "onDeleteSuccess").and.callFake(function (data) {
+            });
 
+            $scope.Delete();
+
+            expect($scope.onDeleteSuccess).toHaveBeenCalled();
         }));
 
         it('Delete - After call http post Method must call error event ErrorManager.getInstance().onGenealErrorEvent', inject(function ($http, $httpBackend) {
+            $scope.http = httpMock;
+            $scope.Contact = { "Id": contactId };
+            callBackErrorData = callBackSuccessDataWithError;
+            spyOn(ErrorManager.getInstance(), "onGenealErrorEvent").and.callFake(function (data) {
+            });
 
+            $scope.Delete();
+
+            expect(ErrorManager.getInstance().onGenealErrorEvent).toHaveBeenCalled();
         }));
     });
 
@@ -93,7 +114,6 @@ describe('ContactController', function () {
         });
 
         it('Delete - onDeleteSuccess - With data result of a delete contact with ONE Error Message', function () {
-            $scope.Contact = { "Id": contactId };
 
             $scope.onDeleteSuccess(httpDataResultErrorX1);
 
@@ -104,7 +124,6 @@ describe('ContactController', function () {
         });
 
         it('Delete - onDeleteSuccess - With data result of a delete contact with Two Error Messages', function () {
-            $scope.Contact = { "Id": contactId };
 
             $scope.onDeleteSuccess(httpDataResultErrorX2);
 

@@ -26,8 +26,13 @@ app.controller('CreateAction', function ($scope, $location, $http) {//, $filter)
             return;
         }
 
+        //////// TODO TDD!!!
+        //////$scope.Contacts.push($scope.Registro);
+        //////$scope.refreshResult();
+
+        //////$scope.Contact.Id = data.Contact.Id;
+        //////$location.url("/");
         $scope.transactionSuccessMessage = 'transactionSuccessMessage';//$filter('translate')('transactionSuccessMessage');
-        $scope.Contact.Id = data.Contact.Id;
     };
 });
 
@@ -48,6 +53,10 @@ app.controller('DeleteAction', function ($scope, $location, $http) { //, $filter
             return;
         }
 
+        //////// TODO TDD!!!
+        //////$scope.Contacts.splice($scope.getIndexContactById($routeParams.id), 1);
+        //////$scope.refreshResult();
+        //////$location.url("/");
         $scope.transactionSuccessMessage = 'transactionSuccessMessage';
     };
 });
@@ -56,9 +65,24 @@ app.controller('EditAction', function ($scope, $http) {
     $scope.http = $http;
 
     $scope.Edit = function () {
-        $scope.http.put(applicationNamePath + 'ContactApi/', $scope.Contact);
+        $scope.http.put(applicationNamePath + 'ContactApi/', $scope.Contact)
+            .success($scope.onEditSuccess)
+            .error(ErrorManager.getInstance().onGenealErrorEvent);
     };
 
     $scope.onEditSuccess = function (data) {
+        $scope.Errors = data.Errors;
+        $scope.transactionSuccessMessage = 'emptyText';
+
+        if (data.Errors.HasError) {
+            return;
+        }
+
+        //////// TODO TDD!!!
+        //////$location.url("/");
+        $scope.transactionSuccessMessage = 'transactionSuccessMessage';
     };
 });
+
+///////////// TODO
+///////////app.controller('DetailsAction', function ($scope, $location, $http) { ...

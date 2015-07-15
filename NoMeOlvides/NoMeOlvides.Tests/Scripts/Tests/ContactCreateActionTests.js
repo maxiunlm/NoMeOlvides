@@ -52,6 +52,76 @@ describe('ContactController', function () {
         });
     });
 
+    describe('CreateAction - Call Response Events', function () {
+        var $scope;
+        var $controller;
+
+        beforeEach(inject(function ($httpBackend) {
+            //$httpBackend = $injector.get('$httpBackend');
+            $scope = rootScope.$new();
+            callBackSuccessData = null;
+            callBackErrorData = null;
+
+            $controller = controller('CreateAction', { $scope: $scope, $location: location, $httpBackend: $httpBackend });
+        }));
+
+        it('Create - After call http post Method must call success event $scope.onCreateSuccess', inject(function ($http, $httpBackend) {
+            $scope.http = httpMock;
+            callBackSuccessData = callBackSuccessDataWithoutError;
+            spyOn($scope, 'onCreateSuccess').and.callFake(function (data) {
+            });
+
+            $scope.Create();
+
+            expect($scope.onCreateSuccess).toHaveBeenCalled();
+        }));
+
+        it('Create - After call http post Method must call error event ErrorManager.getInstance().onGenealErrorEvent', inject(function ($http, $httpBackend) {
+            $scope.http = httpMock;
+            callBackErrorData = callBackSuccessDataWithError;
+            //////errorCallback = jasmine.createSpy('error'); ???? COMO es de esta manera ????
+            spyOn(ErrorManager.getInstance(), 'onGenealErrorEvent').and.callFake(function (data) {
+            });
+
+            $scope.Create();
+
+            expect(ErrorManager.getInstance().onGenealErrorEvent).toHaveBeenCalled();
+        }));
+
+        //    ////it("expects POST http calls and returns mock data", inject(function ($http, $httpBackend) {
+        //    ////    $scope.http = $http;
+        //    ////    var url = applicationNamePath + 'ContactApi',
+        //    ////        data = Contact,
+        //    ////        header = {'LWSSO': 'token value'},
+        //    ////        successCallback = jasmine.createSpy('success'),
+        //    ////        errorCallback = jasmine.createSpy('error');
+
+        //    ////    // Create expectation
+        //    ////    // headers is a unction that receives http header object and returns true
+        //    ////    // if the headers match the current expectation.
+        //    ////    $httpBackend.expectPOST(url, data, function(headers) {
+        //    ////        // check if the header was send, if it wasn't the expectation won't
+        //    ////        // match the request and the test will fail
+        //    ////        return headers['LWSSO'] === 'token value';
+        //    ////    }).respond(200, JSON.stringify(callBackSuccessDataWithoutError));
+
+        //    ////    // Call http service
+        //    ////    $scope.http({
+        //    ////        method: 'POST',
+        //    ////        url: url,
+        //    ////        data: data,
+        //    ////        headers: header
+        //    ////    }).success(successCallback).error(errorCallback);
+
+        //    ////    // flush response
+        //    ////    $httpBackend.flush();
+
+        //    ////    // Verify expectations
+        //    ////    expect(successCallback).toHaveBeenCalled();
+        //    ////    expect(successCallback.mostRecentCall.args).toContain(JSON.stringify(callBackSuccessDataWithoutError));
+        //    ////    expect(successCallback.mostRecentCall.args).toContain(200);
+        //    ////}));
+    });
 
     describe('CreateAction - On success event', function () {
         var $scope;
@@ -108,80 +178,5 @@ describe('ContactController', function () {
             expect($scope.Errors.Messages[firstItemIndex]).toEqual(errorMessage1);
             expect($scope.Errors.Messages[secondItemIndex]).toEqual(errorMessage2);
         });
-    });
-
-    describe('CreateAction - Call Response Events', function () {
-        var $scope;
-        var $controller;
-
-        beforeEach(inject(function ($httpBackend) {
-            //$httpBackend = $injector.get('$httpBackend');
-            $scope = rootScope.$new();
-            $scope.Contact = Contact;
-
-            $controller = controller('CreateAction', { $scope: $scope, $location: location, $httpBackend: $httpBackend });
-        }));
-
-        it('Create - After call http post Method must call success event $scope.onCreateSuccess', inject(function ($http, $httpBackend) {
-            $scope.http = httpMock;
-            callBackSuccessData = callBackSuccessDataWithoutError;
-            spyOn($scope, 'onCreateSuccess').and.callFake(function (data) {
-                return;
-            });
- 
-            $scope.Create();
-
-            expect($scope.onCreateSuccess).toHaveBeenCalled();
-        }));
-
-        it('Create - After call http post Method must call error event ErrorManager.getInstance().onGenealErrorEvent', inject(function ($http, $httpBackend) {
-            $scope.http = httpMock;
-            callBackErrorData = callBackSuccessDataWithError;
-            spyOn($scope, 'onCreateSuccess').and.callFake(function (data) {
-                return;
-            });
-            //////errorCallback = jasmine.createSpy('error'); ???? COMO es de esta manera ????
-            spyOn(ErrorManager.getInstance(), 'onGenealErrorEvent').and.callFake(function (data) {
-                return;
-            });
-
-            $scope.Create();
-
-            expect(ErrorManager.getInstance().onGenealErrorEvent).toHaveBeenCalled();
-        }));
-
-    //    ////it("expects POST http calls and returns mock data", inject(function ($http, $httpBackend) {
-    //    ////    $scope.http = $http;
-    //    ////    var url = applicationNamePath + 'ContactApi',
-    //    ////        data = Contact,
-    //    ////        header = {'LWSSO': 'token value'},
-    //    ////        successCallback = jasmine.createSpy('success'),
-    //    ////        errorCallback = jasmine.createSpy('error');
-
-    //    ////    // Create expectation
-    //    ////    // headers is a unction that receives http header object and returns true
-    //    ////    // if the headers match the current expectation.
-    //    ////    $httpBackend.expectPOST(url, data, function(headers) {
-    //    ////        // check if the header was send, if it wasn't the expectation won't
-    //    ////        // match the request and the test will fail
-    //    ////        return headers['LWSSO'] === 'token value';
-    //    ////    }).respond(200, JSON.stringify(callBackSuccessDataWithoutError));
-
-    //    ////    // Call http service
-    //    ////    $scope.http({
-    //    ////        method: 'POST',
-    //    ////        url: url,
-    //    ////        data: data,
-    //    ////        headers: header
-    //    ////    }).success(successCallback).error(errorCallback);
-
-    //    ////    // flush response
-    //    ////    $httpBackend.flush();
-
-    //    ////    // Verify expectations
-    //    ////    expect(successCallback).toHaveBeenCalled();
-    //    ////    expect(successCallback.mostRecentCall.args).toContain(JSON.stringify(callBackSuccessDataWithoutError));
-    //    ////    expect(successCallback.mostRecentCall.args).toContain(200);
-    //    ////}));
     });
 });
