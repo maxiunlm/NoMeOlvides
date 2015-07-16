@@ -26,12 +26,11 @@ app.controller('CreateAction', function ($scope, $location, $http) {//, $filter)
             return;
         }
 
+        $scope.Contact.Id = data.Contact.Id;
+        $scope.Contacts.push($scope.Contact);
         //////// TODO TDD!!!
-        //////$scope.Contacts.push($scope.Registro);
         //////$scope.refreshResult();
-
-        //////$scope.Contact.Id = data.Contact.Id;
-        //////$location.url("/");
+        $location.url("/");
         $scope.transactionSuccessMessage = 'transactionSuccessMessage';//$filter('translate')('transactionSuccessMessage');
     };
 });

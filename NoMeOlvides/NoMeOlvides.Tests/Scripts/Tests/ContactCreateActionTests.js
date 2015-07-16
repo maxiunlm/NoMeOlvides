@@ -1,4 +1,5 @@
 ﻿/// <reference path='../../../NoMeOlvides/Scripts/jquery-2.1.4.js' />
+/// <reference path="../../../nomeolvides/scripts/underscore.js" />
 /// <reference path='../../../NoMeOlvides/Scripts/angular.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular-mocks.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular-route.js' />
@@ -134,7 +135,7 @@ describe('ContactController', function () {
             $scope.Contacts = [];
             newContact.Id = null;
 
-            $controller = controller('CreateAction', { $scope: $scope });
+            $controller = controller('CreateAction', { $scope: $scope, $location: location });
 
             //$http = $httpBackend;
         }));
@@ -177,6 +178,24 @@ describe('ContactController', function () {
             expect($scope.Errors.Messages.length).toEqual(twoItemsCount);
             expect($scope.Errors.Messages[firstItemIndex]).toEqual(errorMessage1);
             expect($scope.Errors.Messages[secondItemIndex]).toEqual(errorMessage2);
+        });
+
+        it('Create - onCreateSuccess - With data result of a new contact put it on the contact list', function () {
+            $scope.Contact = newContact;
+
+            $scope.onCreateSuccess(httpDataResultOk);
+
+            expect($scope.Contact.Id).not.toBeNull();
+            expect(_.findWhere($scope.Contacts, function (contact) { contact.Id === $scope.Contact.Id })).not.toBeNull();
+            expect(_.findWhere($scope.Contacts, function (contact) { contact.Id === $scope.Contact.Id })).not.toBeUndefined();
+        });
+
+        it('Create - onCreateSuccess - With data result of a new contact retrurn to root Uri', function () {
+            $scope.Contact = newContact;
+
+            $scope.onCreateSuccess(httpDataResultOk);
+
+            expect(location.path()).toBe('/');
         });
     });
 });

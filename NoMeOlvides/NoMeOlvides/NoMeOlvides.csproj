@@ -984,6 +984,13 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\underscore-awesomer.js" />
+    <Content Include="Scripts\underscore-awesomer.min.js" />
+    <Content Include="Scripts\underscore-queryable.js" />
+    <Content Include="Scripts\underscore.js" />
+    <Content Include="Scripts\underscore.min.js" />
+    <Content Include="Scripts\underscore.string.js" />
+    <Content Include="Scripts\underscore.string.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -1003,6 +1010,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Contact\Index.cshtml" />
     <Content Include="Scripts\version.json" />
+    <Content Include="Scripts\underscore.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
