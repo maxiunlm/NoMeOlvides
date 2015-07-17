@@ -1,0 +1,112 @@
+<html>
+<head>
+    <script type="text/javascript" src="Scripts/jquery-2.1.4.js"></script>
+    <script type="text/javascript" src="Scripts/aop.js"></script>
+    <script type="text/javascript">
+var counterAttempIndex = 0;
+var maxAttemps = 5;
+
+var hasAnotherAttempt =  function() {
+	return confirm('Reinentar?') && counterAttempIndex++ < maxAttemps;
+}
+
+var aopExceptionFunction = function (message1, message2) {
+	document.getElementById('aopOutput').innerHTML = message1 + ' (intento: ' + counterAttempIndex + ')' + message2;
+	throw  (document.getElementById('aopOutput').innerHTML);
+}
+
+var afterThrowCatchEvent = function (exception, aopObject, callback, method) {
+	if(method !== 'aopExceptionFunction')
+	{
+		var message = 'Error AOP afterThrow Security [afterThrowCatchEvent attemp number "' 
+		+ (counterAttempIndex) + ': starts in 0 (zero)"]: callback method "' + method 
+		+ '" is not the same that "aopExceptionFunction". Exception throwed: ' + exception;
+		
+		console.log(message);
+		
+		throw (message);
+	}
+	
+	//alert('Unhandled exception: ' + exception);
+	if(hasAnotherAttempt()) {	
+		var message = 'Error AOP afterThrowCatchEvent [attemp number "' 
+		+ (counterAttempIndex) + '"]: callback method "' + method 
+		+ '". Exception throwed: ' + exception;
+		
+		console.log(message);
+	
+		callback.apply(aopObject, callback.arguments);
+	}
+	else {
+		var message = 'Error AOP afterThrowCatchEvent [attemp number "' 
+		+ (counterAttempIndex - 1) + '"]: callback method "' + method 
+		+ '", do not have another attempt. Exception throwed: ' + exception;
+		
+		console.log(message);		
+		counterAttempIndex = 0;
+
+		throw (message);
+	}
+	
+	return -1;
+}
+
+jQuery.aop.afterThrow( {target: window, method: 'aopExceptionFunction'}, function (exception, method) {
+	// 2nd parameter aopObject: myObject, this, window !!!
+	afterThrowCatchEvent(exception, window, window.aopExceptionFunction, method);
+ });
+
+
+////////////////////////////////////////////////////////////////////////////////////
+
+var exceptionFunction = function (message) {
+	document.getElementById('aopOutput').innerHTML = message + ' (intento: ' + counterAttempIndex + ')';
+	throw  (document.getElementById('aopOutput').innerHTML);
+}
+
+var syncCaller = function (callback) {
+	try {
+		callback();
+	}
+	catch (e) {
+		if(hasAnotherAttempt()) {
+			syncCaller(callback);
+		}
+		else {
+			counterAttempIndex = 0;
+		}
+	}
+}
+
+var asyncCaller = function (callback) {
+	//* setTimeout(function(){...}, 0); 
+	// means execute after all current functions in the present queue get executed. 
+	// No guruantees can be made about how long it could take.
+	//--> http://stackoverflow.com/questions/24117267/nodejs-settimeoutfn-0-vs-setimmediatefun
+	//* setImmediate(function(){...});
+	// is similar in this regard except that it doesn't use queue of functions. It checks queue of I/O eventhandlers.
+	//--> https://developer.mozilla.org/es/docs/Web/API/Window/setImmediate
+	setTimeout(function(){
+		try {
+			callback();
+		}
+		catch (e) {
+			if(hasAnotherAttempt()) {
+				asyncCaller(callback);
+			}
+			else {
+				counterAttempIndex = 0;
+			}
+		} 
+	}, 0);
+}
+
+</script>
+</head>
+<body>
+<div id="aopOutput">Hola</div>
+<button onclick="syncCaller(function() {exceptionFunction('Prueba de reintentos Sync... ');} )">Intentar Sync</button>
+<button onclick="asyncCaller(function() {exceptionFunction('Prueba de reintentos Async... ');} )">Intentar Async</button>
+<button onclick="aopExceptionFunction('Prueba de reintentos ', ' AOP...');">Intentar AOP</button>
+</body>
+</html>
