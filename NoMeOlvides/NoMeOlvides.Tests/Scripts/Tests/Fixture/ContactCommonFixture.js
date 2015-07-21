@@ -1,6 +1,7 @@
 ﻿var contacts = [];
 var Contact = {};
 var applicationNamePath = "/";
+var notFoundIndex = -1;
 var firstItemIndex = 0;
 var secondItemIndex = 1;
 var emptyItemsCount = 0;
@@ -35,6 +36,9 @@ var secondContact = {
     "Address": "Trulala 6662",
     "Password": "Secret2... SHHHH!!!!"
 };
+var contactListX0 = [];
+var contactListX1 = [firstContact];
+var contactListX2 = [firstContact, secondContact];
 var httpDataResultOk = {
     "Contact": {
         "Id": contactId

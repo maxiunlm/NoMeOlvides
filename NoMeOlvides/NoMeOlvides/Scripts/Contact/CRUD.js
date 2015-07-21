@@ -28,7 +28,7 @@ app.controller('CreateAction', function ($scope, $location, $http) {//, $filter)
 
         $scope.Contact.Id = data.Contact.Id;
         $scope.Contacts.push($scope.Contact);
-        //////// TODO TDD!!!
+        //////// TODO TDD ???!!!
         //////$scope.refreshResult();
         $location.url("/");
         $scope.transactionSuccessMessage = 'transactionSuccessMessage';//$filter('translate')('transactionSuccessMessage');
@@ -51,11 +51,12 @@ app.controller('DeleteAction', function ($scope, $location, $http) { //, $filter
         if (data.Errors.HasError) {
             return;
         }
-
-        //////// TODO TDD!!!
-        //////$scope.Contacts.splice($scope.getIndexContactById($routeParams.id), 1);
+        
+        var contactIndex = _.findIndex($scope.Contacts, { "Id": $scope.Contact.Id });
+        $scope.Contacts.splice(contactIndex, 1);
+        $location.url("/");
+        //////// TODO TDD ???!!!
         //////$scope.refreshResult();
-        //////$location.url("/");
         $scope.transactionSuccessMessage = 'transactionSuccessMessage';
     };
 });
