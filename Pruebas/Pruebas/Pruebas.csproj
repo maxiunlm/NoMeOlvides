@@ -132,6 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="aop-casero.html" />
+    <Content Include="clases.html" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />

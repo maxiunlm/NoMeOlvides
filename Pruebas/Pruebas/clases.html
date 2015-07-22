@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <script type="text/javascript">
+
+        // namespace global
+        var MIAPLICACION = MIAPLICACION || {};
+
+        // Codigo encapsulado para que no este disperso por el TAG SCRIPT
+        (function () { // Simil funcion MAIN de C/C++
+            /*
+            MIAPLICACION.ClaseBaseTipoJsonSinConstructorNoHeredablePorPrototype = {
+                //Atributos
+                atributoBase: 'Padre Json',
+                //Metodos
+                // Metodo copiado 'en codigo' para cada instancia del Objeto (poco performante)
+                metodoCopiadoBase: function (parametroBase) {
+                    this.atributoBase = parametroBase;
+
+                    console.log('Soy una copia de un metodo BASE Json !!! --> parametroBase ' + parametroBase);
+                }
+            };
+            */
+            MIAPLICACION.ClaseBaseTipoFunctionConConstructor = function (parametroConstructorBase) { // Constructor de JavaScript !!!
+                // Constructor copiado 'en codigo' para cada instancia del Objeto (poco performante)
+                //Atributos
+                this.atributoBase = parametroConstructorBase || 'Padre Function';
+
+                //Codigo Constructor
+                console.log('Codigo ejecutable del Constructor Base --> atributoBase ' + this.atributoBase);
+            };
+            //Metodos
+            // Forma de declarar un metodo para que sea heredable // Agrega metodos por Unica vez en todo el codigo (mas performante)
+            MIAPLICACION.ClaseBaseTipoFunctionConConstructor.prototype.metodoCopiadoBase = function (parametroBase) {
+                this.atributoBase = parametroBase;
+
+                console.log('Soy una copia de un metodo BASE Function !!! --> parametroBase ' + this.atributoBase);
+            }
+            //// NO ES HEREDABLE !!!!! MIAPLICACION.ClaseBaseTipoJsonSinConstructor
+            //MIAPLICACION.ClaseBaseTipoJsonConConstructor.prototype = Object.create(MIAPLICACION.ClaseBaseTipoJsonSinConstructor.prototype);
+            //// Establecer la propiedad "constructor" para referencias a esta clase
+            //MIAPLICACION.ClaseBaseTipoJsonConConstructor.constructor = MIAPLICACION.ClaseBaseTipoJsonConConstructor;
+
+
+            MIAPLICACION.ClaseHijaA_TipoFunctionConConstructor = function (parametroConstructorA) { // Constructor de JavaScript !!!
+                // Atributos
+                this.atributoHijaA = 'Hija A';
+
+                // Llamada al constructor BASE
+                MIAPLICACION.ClaseBaseTipoFunctionConConstructor.call(this, parametroConstructorA)
+
+                // Metodo copiado 'en codigo' para cada instancia del Objeto (poco performante !!!)
+                this.metodoCopiadoA = function () {
+                    console.log('Soy una copia de un metodo A !!! --> atributoHijaA ' + this.atributoHijaA + ' --> atributoBase' + this.atributoBase);
+                }
+            };
+            // Herencia
+            MIAPLICACION.ClaseHijaA_TipoFunctionConConstructor.prototype = Object.create(MIAPLICACION.ClaseBaseTipoFunctionConConstructor.prototype);
+            // EJECUTA EL CONSTRUCTOR BASE !!! MIAPLICACION.ClaseHijaA_TipoFunctionConConstructor.prototype = new MIAPLICACION.ClaseBaseTipoFunctionConConstructor();
+            // Establecer la propiedad "constructor" para referencias a esta clase
+            MIAPLICACION.ClaseHijaA_TipoFunctionConConstructor.constructor = MIAPLICACION.ClaseHijaA_TipoFunctionConConstructor;
+
+            MIAPLICACION.ClaseHijaB_TipoFunctionConConstructor = function () { // Constructor de JavaScript !!!
+                // Atributos
+                this.atributoHijaB = 'Hija B';
+            };
+            // Herencia
+            MIAPLICACION.ClaseHijaB_TipoFunctionConConstructor.prototype = Object.create(MIAPLICACION.ClaseBaseTipoFunctionConConstructor.prototype);
+            // EJECUTA EL CONSTRUCTOR BASE !!! MIAPLICACION.ClaseHijaB_TipoFunctionConConstructor.prototype = new MIAPLICACION.ClaseBaseTipoFunctionConConstructor();
+            // Establecer la propiedad "constructor" para referencias a esta clase
+            MIAPLICACION.ClaseHijaB_TipoFunctionConConstructor.constructor = MIAPLICACION.ClaseHijaB_TipoFunctionConConstructor;
+            // Agregar metodos por Unica vez en todo el codigo (mas performante !!!)
+            MIAPLICACION.ClaseHijaB_TipoFunctionConConstructor.prototype.metodoUnicoB = function () {
+                console.log('Soy un metodo UNICO B !!! --> atributoHijaB: ' + this.atributoHijaB + ' --> atributoBase' + this.atributoBase);
+            }
+
+            var objetoBase = new MIAPLICACION.ClaseBaseTipoFunctionConConstructor('hola mundo !!!');
+            var objetoA = new MIAPLICACION.ClaseHijaA_TipoFunctionConConstructor('yahoo !!!');
+            var objetoB = new MIAPLICACION.ClaseHijaB_TipoFunctionConConstructor();
+
+            if ((objetoA.prototype || objetoA.__proto__) instanceof MIAPLICACION.ClaseBaseTipoFunctionConConstructor)
+                console.log('A es hija de Base');
+            if ((objetoB.prototype || objetoB.__proto__) instanceof MIAPLICACION.ClaseBaseTipoFunctionConConstructor)
+                console.log('B es hija de Base');
+
+            objetoBase.metodoCopiadoBase('BASE');
+            objetoA.metodoCopiadoBase('A');
+            objetoB.metodoCopiadoBase('B');
+            objetoA.metodoCopiadoA();
+            objetoB.metodoUnicoB();
+
+            /* Ejemplo compacto de Internet
+            var Animal = function (edad) {
+                this.edad = edad || 0;
+            }
+            Animal.prototype.crecer = function () {
+                this.edad = this.edad + 1;
+                return this.edad;
+            };
+
+
+            var Felino = function () {
+                this.maullar = function () {
+                    console.log('meowwwww');
+                };
+            }
+            Felino.prototype = new Animal();
+            Felino.prototype.constructor = Felino;
+
+
+            var silvestre = new Animal(3);
+            console.log(silvestre.crecer()); // 4
+
+            var tom = new Felino();
+            console.log(tom.crecer()); // 1
+            tom.maullar();
+            // */
+        })();
+
+    </script>
+</body>
+</html>
