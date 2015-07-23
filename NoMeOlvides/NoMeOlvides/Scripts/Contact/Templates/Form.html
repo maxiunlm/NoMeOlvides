@@ -61,5 +61,6 @@
         <span class="field-validation-valid text-danger" data-valmsg-for="Password" data-valmsg-replace="true"></span>
     </div>
 </div>
-<button type="submit" ng-show="isForm">{{ 'submitButtonLabel' | translate }} }}</button>
-<a href="#/">Volver</a>
+<button type="submit" ng-show="isForm">{{ 'submitButtonLabel' | translate }}</button>
+<span ng-show="isForm"> | </span>
+<a href="#/">{{ 'backLinkLabel' | translate }}</a>

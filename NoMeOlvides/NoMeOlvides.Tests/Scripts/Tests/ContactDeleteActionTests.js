@@ -10,7 +10,7 @@
 /// <reference path='../../../NoMeOlvides/Scripts/Common/ErrorManager.js" />
 /// <reference path='Fixture/ContactCommonFixture.js' />
 
-describe('ContactController', function () {
+describe('ContactController - ', function () {
     var location;
     var rootScope;
     var controller;
@@ -24,7 +24,27 @@ describe('ContactController', function () {
         controller = _$controller_;
     }));
 
-    describe('DeleteAction - Call Http DELETE Method', function () {
+    describe('DeleteAction - Load Delete Form - ', function () {
+        var $scope;
+        var $controller;
+        var $routeParams;
+
+        beforeEach(inject(function () { //_$routeParams_
+            $scope = rootScope.$new();
+            $scope.Contacts = contactListX1;
+            //$routeParams = _$routeParams_;
+        }));
+
+        it('DeleteAction - Stablish isForm == TRUE status for the GUI', function () {
+            $routeParams = { id: firstContact.Id };
+
+            $controller = controller('DeleteAction', { $scope: $scope, $routeParams: $routeParams });
+
+            expect($scope.isForm).toEqual(true);
+        });
+    });
+
+    describe('DeleteAction - Call Http DELETE Method - ', function () {
         var $scope;
         var $controller;
         var httpBackend;
@@ -57,9 +77,16 @@ describe('ContactController', function () {
 
             expect(window.escape).toHaveBeenCalled();
         });
+
+        it('Delete - Stablish isForm == FALSE status for the GUI', function () {
+
+            $scope.Delete();
+
+            expect($scope.isForm).toEqual(false);
+        });
     });
     
-    describe('DeleteAction - Call Response Events', function () {
+    describe('DeleteAction - Call Response Events - ', function () {
         var $scope;
 
         beforeEach(inject(function () {
@@ -95,7 +122,7 @@ describe('ContactController', function () {
         }));
     });
 
-    describe('DeleteAction - On success event', function () {
+    describe('DeleteAction - On success event - ', function () {
         var $scope;
         var $controller
 
@@ -141,7 +168,7 @@ describe('ContactController', function () {
         it('Delete - onDeleteSuccess - With data result of a delete contact invokes method findIndex of Underscore object', function () {
             $scope.Contact = firstContact;
             $scope.Contacts = contactListX2;
-            spyOn(_, "findIndex").and.callThrough();
+            spyOn(_, 'findIndex').and.callThrough();
 
             $scope.onDeleteSuccess(httpDataResultOk);
 

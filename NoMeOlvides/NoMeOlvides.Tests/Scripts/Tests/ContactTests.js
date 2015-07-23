@@ -156,6 +156,8 @@ describe('ContactController', function () {
             $scope.initializeGlobalVariables();
 
             expect($scope.Contacts.length).toEqual(emptyItemsCount);
+            expect($scope.hasResults).toEqual(false);
+            expect($scope.isForm).toEqual(false);
         });
 
         it('List Contacts - Verify that a Contact list with ONE ITEM is loaded to the Scope', function () {
@@ -164,6 +166,8 @@ describe('ContactController', function () {
             $scope.initializeGlobalVariables();
 
             expect($scope.Contacts.length).toEqual(oneItemCount);
+            expect($scope.hasResults).toEqual(true);
+            expect($scope.isForm).toEqual(false);
             expect($scope.Contacts[firstItemIndex].ContactsId).toEqual(firstContact.ContactsId);
             expect($scope.Contacts[firstItemIndex].Alias).toEqual(firstContact.Alias);
             expect($scope.Contacts[firstItemIndex].Name).toEqual(firstContact.Name);
@@ -181,6 +185,8 @@ describe('ContactController', function () {
             $scope.initializeGlobalVariables();
 
             expect($scope.Contacts.length).toEqual(twoItemsCount);
+            expect($scope.hasResults).toEqual(true);
+            expect($scope.isForm).toEqual(false);
             expect($scope.Contacts[firstItemIndex].Id).toEqual(firstContact.Id);
             expect($scope.Contacts[firstItemIndex].Alias).toEqual(firstContact.Alias);
             expect($scope.Contacts[firstItemIndex].Name).toEqual(firstContact.Name);

@@ -1,21 +1,23 @@
-﻿<input type="text" id="buscador" ng-model="buscador">
-<input type="button" ng-click="Search()" value="Buscar todos">
-<div ng-hide="hasResultados">{{ 'withoutResult' | translate }}</div>
-<table ng-show="hasResultados">
-    <tr>
-        <th>#</th>
-        <th>{{ 'email' | translate }}</th>
-        <th>Descripción</th>
-        <th></th>
-    </tr>
-    <tr ng-repeat="(id,Registro) in Registros | filter: buscador">
-        <td>{{id}}</td>
-        <td>{{Registro.Id}}</td>
-        <td>{{Registro.Descripcion}}</td>
-        <td>
-            <a href="#/Edit/{{Registro.Id}}">Modificar</a>
-            <a href="#/Delete/{{Registro.Id}}">Eliminar</a>
-            <a href="#/Details/{{Registro.Id}}">Ver</a>
-        </td>
-    </tr>
-</table>
+﻿<div ng-hide="isForm">
+    <label for="searcher">{{ 'fastSearch' | translate }}</label>
+    <input type="text" id="searcher" ng-model="searcher">
+    <table ng-show="hasResults">
+        <tr>
+            <th>#</th>
+            <th>{{ 'alias' | translate }}</th>
+            <th>{{ 'email' | translate }}</th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="(id,row) in Contacts | filter: searcher">
+            <td>{{id}}</td>
+            <td>{{row.Alias}}</td>
+            <td>{{row.Email}}</td>
+            <td>
+                <a href="#/Edit/{{row.Id}}">{{ 'editLinkLabel' | translate }}</a>
+                <a href="#/Delete/{{row.Id}}">{{ 'deleteLinkLabel' | translate }}</a>
+                <a href="#/Details/{{row.Id}}">{{ 'detailLinkLabel' | translate }}</a>
+            </td>
+        </tr>
+    </table>
+    <div ng-hide="hasResults">{{ 'withoutResult' | translate }}</div>
+</div>

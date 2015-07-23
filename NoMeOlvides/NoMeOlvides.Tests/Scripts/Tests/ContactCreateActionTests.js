@@ -11,7 +11,7 @@
 /// <reference path="Fixture/ContactCommonFixture.js" />
 /// <reference path="Fixture/ContactCreateFixture.js" />
 
-describe('ContactController', function () {
+describe('ContactController - ', function () {
     var location;
     var rootScope;
     var route;
@@ -26,7 +26,24 @@ describe('ContactController', function () {
         controller = _$controller_;
     }));
 
-    describe('CreadteAction - Call Http POST Method', function () {
+    describe('CreateAction - Load Creadte Form - ', function () {
+        var $scope;
+        var $controller;
+
+        beforeEach(inject(function () { 
+            $scope = rootScope.$new();
+            $scope.Contacts = contactListX1;
+        }));
+
+        it('CreateAction - Stablish isForm == TRUE status for the GUI', function () {
+
+            $controller = controller('CreateAction', { $scope: $scope });
+
+            expect($scope.isForm).toEqual(true);
+        });
+    });
+
+    describe('CreateAction - Call Http POST Method - ', function () {
         var $scope;
         var $controller;
         //var httpBackend;
@@ -53,7 +70,7 @@ describe('ContactController', function () {
         });
     });
 
-    describe('CreateAction - Call Response Events', function () {
+    describe('CreateAction - Call Response Events - ', function () {
         var $scope;
         var $controller;
 
@@ -88,6 +105,13 @@ describe('ContactController', function () {
 
             expect(ErrorManager.getInstance().onGenealErrorEvent).toHaveBeenCalled();
         }));
+
+        it('Create - Stablish isForm == FALSE status for the GUI', function () {
+
+            $scope.Create();
+
+            expect($scope.isForm).toEqual(false);
+        });
 
         //    ////it("expects POST http calls and returns mock data", inject(function ($http, $httpBackend) {
         //    ////    $scope.http = $http;
@@ -124,7 +148,7 @@ describe('ContactController', function () {
         //    ////}));
     });
 
-    describe('CreateAction - On success event', function () {
+    describe('CreateAction - On success event - ', function () {
         var $scope;
         var $controller;
         //var $location;

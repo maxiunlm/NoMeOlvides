@@ -2,48 +2,51 @@
     $scope.initializeGlobalVariables = function () {
         $scope.Errors = {};
         $scope.Contacts = contacts;
-        throw 'asdf';
-        return $scope;
+        $scope.hasResults = (contacts.length > 0);
+        $scope.isForm = false;
     }
 
     /////////////////////////////// CONFIG
-    $scope.aopManager = new AopManager();
-
-    jQuery.aop.around({ target: $scope, method: 'initializeGlobalVariables' }, function (invocation) {
-        $scope.aopManager.aroundLogThrowCatchEvent(invocation);
-    });
-
-    //jQuery.aop.before({ target: $scope, method: 'initializeGlobalVariables' }, function (arguments, method) {
-    //    $scope.aopManager.beforeLogEvent(arguments, method);
-    //});
-    //jQuery.aop.afterFinally({ target: $scope, method: 'initializeGlobalVariables' }, function (result, exception, method) {
-    //    $scope.aopManager.afterFinallyEvent(result, exception, $scope, method);
-    //});
+    //$scope.aopManager = new AopManager();
 
     //jQuery.aop.around({ target: $scope, method: 'initializeGlobalVariables' }, function (invocation) {
-    //    $scope.aopManager.aroundLogEvent(invocation);
-    //});
-    //jQuery.aop.afterThrow({ target: $scope, method: 'initializeGlobalVariables' }, function (exception, method) {
-    //    $scope.aopManager.afterThrowRetryEvent(exception, $scope, $scope.initializeGlobalVariables, method);
+    //    $scope.aopManager.aroundLogThrowCatchEvent(invocation);
     //});
 
-    //////jQuery.aop.afterThrow({ target: $scope, method: 'initializeGlobalVariables' }, function (exception, method) {
-    //////    $scope.aopManager.afterThrowCatchEvent(exception, method);
-    //////});
-    //////jQuery.aop.after({ target: $scope, method: 'initializeGlobalVariables' }, function (result, method) {
-    //////    $scope.aopManager.afterLogEvent(result, method);
-    //////});
+    ////jQuery.aop.before({ target: $scope, method: 'initializeGlobalVariables' }, function (arguments, method) {
+    ////    $scope.aopManager.beforeLogEvent(arguments, method);
+    ////});
+    ////jQuery.aop.afterFinally({ target: $scope, method: 'initializeGlobalVariables' }, function (result, exception, method) {
+    ////    $scope.aopManager.afterFinallyEvent(result, exception, $scope, method);
+    ////});
 
-    $scope.initializeGlobalVariables('hola', 'mundo');
+    ////jQuery.aop.around({ target: $scope, method: 'initializeGlobalVariables' }, function (invocation) {
+    ////    $scope.aopManager.aroundLogEvent(invocation);
+    ////});
+    ////jQuery.aop.afterThrow({ target: $scope, method: 'initializeGlobalVariables' }, function (exception, method) {
+    ////    $scope.aopManager.afterThrowRetryEvent(exception, $scope, $scope.initializeGlobalVariables, method);
+    ////});
+
+    ////////jQuery.aop.afterThrow({ target: $scope, method: 'initializeGlobalVariables' }, function (exception, method) {
+    ////////    $scope.aopManager.afterThrowCatchEvent(exception, method);
+    ////////});
+    ////////jQuery.aop.after({ target: $scope, method: 'initializeGlobalVariables' }, function (result, method) {
+    ////////    $scope.aopManager.afterLogEvent(result, method);
+    ////////});
+
+    $scope.initializeGlobalVariables();
 });
 
 app.controller('CreateAction', function ($scope, $location, $http) {//, $filter) {
     $scope.http = $http;
+    $scope.isForm = true;
 
     $scope.Create = function () {
         $scope.http.post(applicationNamePath + 'ContactApi', $scope.Contact)
             .success($scope.onCreateSuccess)
             .error(ErrorManager.getInstance().onGenealErrorEvent);
+
+        $scope.isForm = false;
     };
 
     $scope.onCreateSuccess = function (data) {
@@ -66,11 +69,14 @@ app.controller('CreateAction', function ($scope, $location, $http) {//, $filter)
 
 app.controller('DeleteAction', function ($scope, $location, $http) { //, $filter
     $scope.http = $http;
+    $scope.isForm = true;
 
     $scope.Delete = function () {
         $scope.http.delete(applicationNamePath + 'ContactApi/' + escape($scope.Contact.Id), {})
             .success($scope.onDeleteSuccess)
             .error(ErrorManager.getInstance().onGenealErrorEvent);
+
+        $scope.isForm = false;
     }
 
     $scope.onDeleteSuccess = function (data) {
@@ -90,13 +96,18 @@ app.controller('DeleteAction', function ($scope, $location, $http) { //, $filter
     };
 });
 
-app.controller('EditAction', function ($scope, $http) {
+app.controller('EditAction', function ($scope, $routeParams, $location, $http) {
     $scope.http = $http;
+    var contactIndex = _.findIndex($scope.Contacts, { "Id": $routeParams.id });
+    $scope.Contact = $scope.Contacts[contactIndex];
+    $scope.isForm = true;
 
     $scope.Edit = function () {
         $scope.http.put(applicationNamePath + 'ContactApi/', $scope.Contact)
             .success($scope.onEditSuccess)
             .error(ErrorManager.getInstance().onGenealErrorEvent);
+
+        $scope.isForm = false;
     };
 
     $scope.onEditSuccess = function (data) {

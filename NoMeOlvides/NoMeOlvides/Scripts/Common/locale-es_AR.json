@@ -17,7 +17,6 @@
     "cancelButtonLabel": "Cancelar",
     "submitButtonLabel": "Aceptar",
     "searchButtonLabel": "Buscar",
-    "backButtonLabel": "Volver", 
     "backLinkLabel": "Volver",
     "editLinkLabel": "Editar",
     "deleteLinkLabel": "Borrar",
@@ -26,5 +25,6 @@
     "createLinkLabel": "Nuevo",
     "error": "Error",
     "transactionSuccessMessage":  "Tu operación fue exitosa",
+    "fastSearch":  "Búsqueda rápida",
     "emptyText":  ""
 }

@@ -10,7 +10,7 @@
 /// <reference path='../../../NoMeOlvides/Scripts/Common/ErrorManager.js" />
 /// <reference path="Fixture/ContactCommonFixture.js" />
 
-describe('ContactController', function () {
+describe('ContactController - ', function () {
     var rootScope;
     var controller;
     var location;
@@ -23,12 +23,50 @@ describe('ContactController', function () {
         location = _$location_;
     }));
 
-    describe('EditAction - Call Http PUT Method', function () {
+    describe('EditAction - Load Edit Form - ', function () {
+        var $scope;
+        var $controller;
+        var $routeParams;
+
+        beforeEach(inject(function () {
+            $scope = rootScope.$new();
+            $scope.Contacts = contactListX1;
+        }));
+
+        it('EditAction - Invokes the _.findIndex method to find the Contact item by its Id', function () {
+            spyOn(_, 'findIndex').and.callThrough();
+            $routeParams = { id: firstContact.Id };
+
+            $controller = controller('EditAction', { $scope: $scope, $routeParams: $routeParams });
+
+            expect(_.findIndex).toHaveBeenCalled();
+        });
+
+        it('EditAction - Load data Contact to the Edit Form Page', function () {
+            $routeParams = { id: firstContact.Id };
+
+            $controller = controller('EditAction', { $scope: $scope, $routeParams: $routeParams });
+
+            expect($scope.Contact).toBe(firstContact);
+        });
+
+        it('EditAction - Stablish isForm == TRUE status for the GUI', function () {
+            $routeParams = { id: firstContact.Id };
+
+            $controller = controller('EditAction', { $scope: $scope, $routeParams: $routeParams });
+
+            expect($scope.isForm).toEqual(true);
+        });
+    });
+
+    describe('EditAction - Call Http PUT Method - ', function () {
         var $scope;
         var $controller;
 
         beforeEach(inject(function () {
             $scope = rootScope.$new();
+            $scope.Contacts = contactListX1;
+
             $controller = controller('EditAction', { $scope: $scope });
         }));
 
@@ -42,11 +80,12 @@ describe('ContactController', function () {
         });
     });
 
-    describe('EditAction - Call Response Events', function () {
+    describe('EditAction - Call Response Events - ', function () {
         var $scope;
 
         beforeEach(inject(function () {
             $scope = rootScope.$new();
+            $scope.Contacts = contactListX1;
             callBackSuccessData = null;
             callBackErrorData = null;
 
@@ -74,14 +113,22 @@ describe('ContactController', function () {
 
             expect(ErrorManager.getInstance().onGenealErrorEvent).toHaveBeenCalled();
         }));
+
+        it('Edit - Stablish isForm == FALSE status for the GUI', function () {
+
+            $scope.Edit();
+
+            expect($scope.isForm).toEqual(false);
+        });
     });
 
-    describe('EditAction - On success event', function () {
+    describe('EditAction - On success event - ', function () {
         var $scope;
 
         beforeEach(inject(function () {
             $scope = rootScope.$new();
-            $scope.Contact = [];
+            $scope.Contacts = contactListX1;
+            $scope.Contact = {};
 
             $controller = controller('EditAction', { $scope: $scope, $location: location });
         }));
