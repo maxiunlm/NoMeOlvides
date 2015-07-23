@@ -2,9 +2,39 @@
     $scope.initializeGlobalVariables = function () {
         $scope.Errors = {};
         $scope.Contacts = contacts;
+        throw 'asdf';
+        return $scope;
     }
 
-    $scope.initializeGlobalVariables();
+    /////////////////////////////// CONFIG
+    $scope.aopManager = new AopManager();
+
+    jQuery.aop.around({ target: $scope, method: 'initializeGlobalVariables' }, function (invocation) {
+        $scope.aopManager.aroundLogThrowCatchEvent(invocation);
+    });
+
+    //jQuery.aop.before({ target: $scope, method: 'initializeGlobalVariables' }, function (arguments, method) {
+    //    $scope.aopManager.beforeLogEvent(arguments, method);
+    //});
+    //jQuery.aop.afterFinally({ target: $scope, method: 'initializeGlobalVariables' }, function (result, exception, method) {
+    //    $scope.aopManager.afterFinallyEvent(result, exception, $scope, method);
+    //});
+
+    //jQuery.aop.around({ target: $scope, method: 'initializeGlobalVariables' }, function (invocation) {
+    //    $scope.aopManager.aroundLogEvent(invocation);
+    //});
+    //jQuery.aop.afterThrow({ target: $scope, method: 'initializeGlobalVariables' }, function (exception, method) {
+    //    $scope.aopManager.afterThrowRetryEvent(exception, $scope, $scope.initializeGlobalVariables, method);
+    //});
+
+    //////jQuery.aop.afterThrow({ target: $scope, method: 'initializeGlobalVariables' }, function (exception, method) {
+    //////    $scope.aopManager.afterThrowCatchEvent(exception, method);
+    //////});
+    //////jQuery.aop.after({ target: $scope, method: 'initializeGlobalVariables' }, function (result, method) {
+    //////    $scope.aopManager.afterLogEvent(result, method);
+    //////});
+
+    $scope.initializeGlobalVariables('hola', 'mundo');
 });
 
 app.controller('CreateAction', function ($scope, $location, $http) {//, $filter) {
@@ -21,17 +51,16 @@ app.controller('CreateAction', function ($scope, $location, $http) {//, $filter)
         $scope.Errors = data.Errors;
         $scope.transactionSuccessMessage = 'emptyText';
 
-        if (data.Errors.HasError)
-        {
+        if (data.Errors.HasError) {
             return;
         }
 
         $scope.Contact.Id = data.Contact.Id;
         $scope.Contacts.push($scope.Contact);
+        $scope.transactionSuccessMessage = 'transactionSuccessMessage';//$filter('translate')('transactionSuccessMessage');
         //////// TODO TDD ???!!!
         //////$scope.refreshResult();
         $location.url("/");
-        $scope.transactionSuccessMessage = 'transactionSuccessMessage';//$filter('translate')('transactionSuccessMessage');
     };
 });
 
@@ -51,13 +80,13 @@ app.controller('DeleteAction', function ($scope, $location, $http) { //, $filter
         if (data.Errors.HasError) {
             return;
         }
-        
+
         var contactIndex = _.findIndex($scope.Contacts, { "Id": $scope.Contact.Id });
         $scope.Contacts.splice(contactIndex, 1);
-        $location.url("/");
+        $scope.transactionSuccessMessage = 'transactionSuccessMessage';
         //////// TODO TDD ???!!!
         //////$scope.refreshResult();
-        $scope.transactionSuccessMessage = 'transactionSuccessMessage';
+        $location.url("/");
     };
 });
 
@@ -78,11 +107,21 @@ app.controller('EditAction', function ($scope, $http) {
             return;
         }
 
-        //////// TODO TDD!!!
-        //////$location.url("/");
         $scope.transactionSuccessMessage = 'transactionSuccessMessage';
+        $location.url("/");
     };
 });
 
-///////////// TODO
-///////////app.controller('DetailsAction', function ($scope, $location, $http) { ...
+app.controller('DetailsAction', function ($scope, $location) {
+    $scope.onDetailsBack = function () {
+        $location.url("/");
+    };
+
+
+    /////////////////////////////// CONFIG
+    var aopManager = new AopManager();
+
+    jQuery.aop.around({ target: $scope, method: 'onDetailsBack' }, function (invocation, method) {
+        aopManager.aroundLogEvent(invocation, method);
+    });
+});

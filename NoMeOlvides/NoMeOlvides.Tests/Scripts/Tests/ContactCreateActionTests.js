@@ -190,7 +190,7 @@ describe('ContactController', function () {
             expect(_.findWhere($scope.Contacts, function (contact) { contact.Id === $scope.Contact.Id })).not.toBeUndefined();
         });
 
-        it('Create - onCreateSuccess - With data result of a new contact retrurn to root Uri', function () {
+        it('Create - onCreateSuccess - With data result of a new contact returns to root Uri', function () {
             $scope.Contact = newContact;
 
             $scope.onCreateSuccess(httpDataResultOk);

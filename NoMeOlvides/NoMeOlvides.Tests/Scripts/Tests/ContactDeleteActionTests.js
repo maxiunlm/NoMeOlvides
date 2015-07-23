@@ -1,5 +1,5 @@
 ﻿/// <reference path='../../../NoMeOlvides/Scripts/jquery-2.1.4.js' />
-/// <reference path="../../../nomeolvides/scripts/underscore.js" />
+/// <reference path='../../../nomeolvides/scripts/underscore.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular-mocks.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular-route.js' />
@@ -8,10 +8,9 @@
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/App.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/CRUD.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Common/ErrorManager.js" />
-/// <reference path="Fixture/ContactCommonFixture.js" />
+/// <reference path='Fixture/ContactCommonFixture.js' />
 
 describe('ContactController', function () {
-    //var route;
     var location;
     var rootScope;
     var controller;
@@ -159,7 +158,7 @@ describe('ContactController', function () {
             expect(Array.prototype.splice).toHaveBeenCalled();
         });
 
-        it('Delete - onDeleteSuccess - With data result of a delete contact retrurn to root Uri', function () {
+        it('Delete - onDeleteSuccess - With data result of a delete contact returns to root Uri', function () {
             $scope.Contact = firstContact;
             $scope.Contacts = contactListX2;
 

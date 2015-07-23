@@ -13,12 +13,14 @@
 describe('ContactController', function () {
     var rootScope;
     var controller;
+    var location;
 
     beforeEach(module('app'));
 
-    beforeEach(inject(function (_$controller_, _$rootScope_) {
+    beforeEach(inject(function (_$controller_, _$rootScope_, _$location_) {
         rootScope = _$rootScope_;
         controller = _$controller_;
+        location = _$location_;
     }));
 
     describe('EditAction - Call Http PUT Method', function () {
@@ -84,7 +86,7 @@ describe('ContactController', function () {
             $controller = controller('EditAction', { $scope: $scope, $location: location });
         }));
 
-        it('Edit - onEditSuccess - With data result of a new contact OK', function () {
+        it('Edit - onEditSuccess - With data result of a modificated contact OK', function () {
             $scope.Contact = firstContact;
 
             $scope.onEditSuccess(httpDataResultOk);
@@ -94,7 +96,7 @@ describe('ContactController', function () {
             expect($scope.Errors.Messages.length).toEqual(emptyItemsCount);
         });
 
-        it('Edit - onEditSuccess - With data result of a new contact with ONE Error Message', function () {
+        it('Edit - onEditSuccess - With data result of a modificated contact with ONE Error Message', function () {
 
             $scope.onEditSuccess(httpDataResultErrorX1);
 
@@ -102,10 +104,9 @@ describe('ContactController', function () {
             expect($scope.transactionSuccessMessage).toEqual('emptyText');
             expect($scope.Errors.Messages.length).toEqual(oneItemCount);
             expect($scope.Errors.Messages[firstItemIndex]).toEqual(errorMessage1)
-
         });
 
-        it('Edit - onEditSuccess - With data result of a new contact with TWO Error Messages', function () {
+        it('Edit - onEditSuccess - With data result of a modificated contact with TWO Error Messages', function () {
 
             $scope.onEditSuccess(httpDataResultErrorX2);
 
@@ -114,6 +115,14 @@ describe('ContactController', function () {
             expect($scope.Errors.Messages.length).toEqual(twoItemsCount);
             expect($scope.Errors.Messages[firstItemIndex]).toEqual(errorMessage1);
             expect($scope.Errors.Messages[secondItemIndex]).toEqual(errorMessage2);
+        });
+
+        it('Edit - onEditSuccess - With data result of a modificated contact returns to root Uri', function () {
+            $scope.Contact = firstContact;
+
+            $scope.onEditSuccess(httpDataResultOk);
+
+            expect(location.path()).toBe('/');
         });
     });
 });

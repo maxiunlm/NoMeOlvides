@@ -182,6 +182,7 @@
     <Content Include="Scripts\Tests\ErrorManagerTests.js" />
     <Content Include="Scripts\Tests\Fixture\ContactCommonFixture.js" />
     <Content Include="Scripts\Tests\Fixture\ContactCreateFixture.js" />
+    <Content Include="Scripts\Tests\ContactDetailsActionTests.js" />
     <Content Include="Scripts\Tests\Prueba.js" />
   </ItemGroup>
   <ItemGroup>
