@@ -67,8 +67,10 @@ app.controller('CreateAction', function ($scope, $location, $http) {//, $filter)
     };
 });
 
-app.controller('DeleteAction', function ($scope, $location, $http) { //, $filter
+app.controller('DeleteAction', function ($scope, $routeParams, $location, $http) { //, $filter
     $scope.http = $http;
+    var contactIndex = _.findIndex($scope.Contacts, { "Id": $routeParams.id });
+    $scope.Contact = $scope.Contacts[contactIndex];
     $scope.isForm = true;
 
     $scope.Delete = function () {
@@ -123,16 +125,15 @@ app.controller('EditAction', function ($scope, $routeParams, $location, $http) {
     };
 });
 
-app.controller('DetailsAction', function ($scope, $location) {
-    $scope.onDetailsBack = function () {
-        $location.url("/");
-    };
+app.controller('DetailsAction', function ($scope, $routeParams) {
+    var contactIndex = _.findIndex($scope.Contacts, { "Id": $routeParams.id });
+    $scope.Contact = $scope.Contacts[contactIndex];
+    $scope.isForm = false;
+    
+    ///////////////////////////////////// CONFIG
+    //////var aopManager = new AopManager();
 
-
-    /////////////////////////////// CONFIG
-    var aopManager = new AopManager();
-
-    jQuery.aop.around({ target: $scope, method: 'onDetailsBack' }, function (invocation, method) {
-        aopManager.aroundLogEvent(invocation, method);
-    });
+    //////jQuery.aop.around({ target: $scope, method: 'onDetailsBack' }, function (invocation, method) {
+    //////    aopManager.aroundLogEvent(invocation, method);
+    //////});
 });

@@ -108,10 +108,11 @@ describe('ContactController', function () {
         });
 
         it('Definition of Navigation - ROOT (~/)', function () {
-            expect(route.routes['/'].templateUrl).toEqual('Scripts/Contact/Templates/List.html');
+            expect(route.routes['/'].templateUrl).toEqual('Scripts/Contact/Templates/Search.html');
+            expect(route.routes['/'].controller).toEqual('SearchAction');
         });
 
-        it('Definition of Navigation - CREATE', function () {
+        it('Definition of Navigation - Create', function () {
             expect(route.routes['/Create'].templateUrl).toEqual('Scripts/Contact/Templates/Create.html');
             //expect(route.routes['/Create'].title).toEqual('createContactTitle');
             expect(route.routes['/Create'].controller).toEqual('CreateAction');

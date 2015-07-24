@@ -29,11 +29,28 @@ describe('ContactController - ', function () {
         var $controller;
         var $routeParams;
 
-        beforeEach(inject(function () { //_$routeParams_
+        beforeEach(inject(function (_$routeParams_) { //
             $scope = rootScope.$new();
             $scope.Contacts = contactListX1;
             //$routeParams = _$routeParams_;
         }));
+
+        it('DeleteAction - Invokes the _.findIndex method to find the Contact item by its Id', function () {
+            spyOn(_, 'findIndex').and.callThrough();
+            $routeParams = { id: firstContact.Id };
+
+            $controller = controller('DeleteAction', { $scope: $scope, $routeParams: $routeParams });
+
+            expect(_.findIndex).toHaveBeenCalled();
+        });
+
+        it('DeleteAction - Load data Contact to the Delete Form Page', function () {
+            $routeParams = { id: firstContact.Id };
+
+            $controller = controller('DeleteAction', { $scope: $scope, $routeParams: $routeParams });
+
+            expect($scope.Contact).toBe(firstContact);
+        });
 
         it('DeleteAction - Stablish isForm == TRUE status for the GUI', function () {
             $routeParams = { id: firstContact.Id };
@@ -48,16 +65,14 @@ describe('ContactController - ', function () {
         var $scope;
         var $controller;
         var httpBackend;
-        //var filter
 
-        beforeEach(inject(function () { //$injector, $httpBackend, $filter
-            //$httpBackend = $injector.get('$httpBackend');
-            //httpBackend = $httpBackend;
-            //filter = $filter
+        beforeEach(inject(function () {
             $scope = rootScope.$new();
-            $scope.Contact = Contact;
+            $scope.Contacts = contactListX1;
+            $scope.Contact = firstContact;
+            $routeParams = { id: firstContact.Id };
 
-            $controller = controller('DeleteAction', { $scope: $scope });//, $location: location, $httpBackend: httpBackend, $filter: filter });
+            $controller = controller('DeleteAction', { $scope: $scope, $routeParams: $routeParams });
         }));
 
         it('Delete - Must call the Http Post Method for delete a Contact', function () {
@@ -77,13 +92,6 @@ describe('ContactController - ', function () {
 
             expect(window.escape).toHaveBeenCalled();
         });
-
-        it('Delete - Stablish isForm == FALSE status for the GUI', function () {
-
-            $scope.Delete();
-
-            expect($scope.isForm).toEqual(false);
-        });
     });
     
     describe('DeleteAction - Call Response Events - ', function () {
@@ -91,6 +99,7 @@ describe('ContactController - ', function () {
 
         beforeEach(inject(function () {
             $scope = rootScope.$new();
+            $scope.Contacts = contactListX1;
             callBackSuccessData = null;
             callBackErrorData = null;
 
@@ -120,6 +129,15 @@ describe('ContactController - ', function () {
 
             expect(ErrorManager.getInstance().onGenealErrorEvent).toHaveBeenCalled();
         }));
+
+        it('Delete - Stablish isForm == FALSE status for the GUI', function () {
+            $scope.Contact = firstContact;
+            $routeParams = { id: firstContact.Id };
+
+            $scope.Delete();
+
+            expect($scope.isForm).toEqual(false);
+        });
     });
 
     describe('DeleteAction - On success event - ', function () {
@@ -128,13 +146,14 @@ describe('ContactController - ', function () {
 
         beforeEach(inject(function () {
             $scope = rootScope.$new();
+            $scope.Contacts = contactListX1;
+            $scope.Contact = {};
             $controller = controller('DeleteAction', { $scope: $scope, $location: location });
         }));
 
         it('Delete - onDeleteSuccess - With data result of a delete contact OK', function () {
             $scope.Contact = firstContact;
             $scope.Contacts = contactListX2;
-            $scope.Contact = { "Id": firstContact.Id };
 
             $scope.onDeleteSuccess(httpDataResultOk);
 

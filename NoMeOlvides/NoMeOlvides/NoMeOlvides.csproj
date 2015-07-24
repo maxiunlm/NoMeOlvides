@@ -209,6 +209,7 @@
     <Content Include="Scripts\Contact\Templates\Edit.html" />
     <Content Include="Scripts\Contact\Templates\Form.html" />
     <Content Include="Scripts\Contact\Templates\List.html" />
+    <Content Include="Scripts\Contact\Templates\Search.html" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular-touch.min.js.map" />
     <Content Include="Scripts\angular-sanitize.min.js.map" />

@@ -1,23 +1,24 @@
-﻿<div ng-hide="isForm">
-    <label for="searcher">{{ 'fastSearch' | translate }}</label>
-    <input type="text" id="searcher" ng-model="searcher">
-    <table ng-show="hasResults">
-        <tr>
-            <th>#</th>
-            <th>{{ 'alias' | translate }}</th>
-            <th>{{ 'email' | translate }}</th>
-            <th></th>
-        </tr>
-        <tr ng-repeat="(id,row) in Contacts | filter: searcher">
-            <td>{{id}}</td>
-            <td>{{row.Alias}}</td>
-            <td>{{row.Email}}</td>
-            <td>
-                <a href="#/Edit/{{row.Id}}">{{ 'editLinkLabel' | translate }}</a>
-                <a href="#/Delete/{{row.Id}}">{{ 'deleteLinkLabel' | translate }}</a>
-                <a href="#/Details/{{row.Id}}">{{ 'detailLinkLabel' | translate }}</a>
-            </td>
-        </tr>
-    </table>
-    <div ng-hide="hasResults">{{ 'withoutResult' | translate }}</div>
-</div>
+﻿<br />
+<label for="searcher">{{ 'fastSearch' | translate }}</label>
+<input type="text" id="searcher" ng-model="searcher"> |
+<a class="ng-binding" href="#/Create">Nuevo</a> |
+<a class="ng-binding" href="#/">Volver</a>
+<table ng-show="hasResults">
+    <tr>
+        <th>#</th>
+        <th>{{ 'alias' | translate }}</th>
+        <th>{{ 'email' | translate }}</th>
+        <th></th>
+    </tr>
+    <tr ng-repeat="(id,row) in Contacts | filter: searcher">
+        <td>{{id}}</td>
+        <td>{{row.Alias}}</td>
+        <td>{{row.Email}}</td>
+        <td>
+            <a href="#/Edit/{{row.Id}}">{{ 'editLinkLabel' | translate }}</a>
+            <a href="#/Delete/{{row.Id}}">{{ 'deleteLinkLabel' | translate }}</a>
+            <a href="#/Details/{{row.Id}}">{{ 'detailLinkLabel' | translate }}</a>
+        </td>
+    </tr>
+</table>
+<div ng-hide="hasResults">{{ 'withoutResult' | translate }}</div>

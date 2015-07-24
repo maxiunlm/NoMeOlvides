@@ -52,7 +52,7 @@ describe('ContactController - ', function () {
             //$httpBackend = $injector.get('$httpBackend');
             //httpBackend = $httpBackend;
             $scope = rootScope.$new();
-            $scope.Contact = Contact;
+            $scope.Contact = newContact;
 
             $controller = controller('CreateAction', { $scope: $scope }); // , $location: location, $httpBackend: httpBackend
         }));
