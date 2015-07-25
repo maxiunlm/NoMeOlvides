@@ -37,6 +37,14 @@
     $scope.initializeGlobalVariables();
 });
 
+app.controller('SearchAction', function ($scope, $http) {
+    $scope.http = $http;
+
+    $scope.Search = function () {
+        $scope.http.get();
+    };
+});
+
 app.controller('CreateAction', function ($scope, $location, $http) {//, $filter) {
     $scope.http = $http;
     $scope.isForm = true;

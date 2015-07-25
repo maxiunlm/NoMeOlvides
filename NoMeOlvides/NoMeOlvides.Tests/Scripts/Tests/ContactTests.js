@@ -10,6 +10,7 @@
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/CRUD.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Common/ErrorManager.js" />
 /// <reference path="Fixture/ContactCommonFixture.js" />
+/// <reference path="Fixture/ContactCreateFixture.js" />
 
 
 describe('ContactController', function () {
@@ -33,18 +34,26 @@ describe('ContactController', function () {
 
     describe('ContactController - BDD', function () {
         var $scope;
-        var $createActionController;
+        var $controller;
 
         beforeEach(inject(function () {
             $scope = rootScope.$new();
             contacts = [];
             $scope.Contacts = [];
-
-            $createActionController = controller('CreateAction', { $scope: $scope });
         }));
+        
+        it('Search - With all fields search contacts', function () {
+            $controller = controller('SearchAction', { $scope: $scope });
+            $scope.Contact = newContact;
 
+            $scope.Search();
+
+            expect($scope.Contacts).not.toBeUndefined();
+            expect($scope.Contacts).not.toBeNull();
+        });
 
         it('Delete - Delete contact with contact ID', function () {
+            $controller = controller('DeleteAction', { $scope: $scope });
             $scope.Contact = newContact;
             $scope.Create();
             //var contactId = $scope.Contact.Id;
@@ -56,6 +65,7 @@ describe('ContactController', function () {
         });
         
         it('Create - With all fields create a new contact', function () {
+            $controller = controller('CreateAction', { $scope: $scope });
             $scope.Contact = newContact;
 
             $scope.Create();
@@ -65,6 +75,7 @@ describe('ContactController', function () {
         });
 
         it('Edit - With all fields save the updated values', function () {
+            $controller = controller('EditAction', { $scope: $scope });
             $scope.Contact = newContact;
             $scope.Create();
             $scope.Contact.Alias = "El Mazzi (6)";

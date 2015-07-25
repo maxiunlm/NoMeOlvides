@@ -9,7 +9,7 @@ app.TranslateLocaleDictionaries = function (key) {
 //*/
 
 app.config(function ($routeProvider) {
-    $routeProvider.when('/', { templateUrl: 'Scripts/Contact/Templates/Search.html' }) /*, controller: 'SearchAction' !!!!!!!!!!!*/
+    $routeProvider.when('/', { templateUrl: 'Scripts/Contact/Templates/Search.html', controller: 'SearchAction' })
         //.when('/Create', { templateUrl: 'Scripts/Contact/Templates/Create.html', title: app.TranslateLocaleDictionaries('createContactTitle'), controller: 'CreateAction' })
         .when('/Create', { templateUrl: 'Scripts/Contact/Templates/Create.html', controller: 'CreateAction' }) // , title: 'createContactTitle'
         .when('/Details/:id', { templateUrl: 'Scripts/Contact/Templates/Details.html', controller: 'DetailsAction' }) // , title: 'detailsContactTitle'

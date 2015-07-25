@@ -57,7 +57,7 @@ describe('ContactController - ', function () {
             $controller = controller('CreateAction', { $scope: $scope }); // , $location: location, $httpBackend: httpBackend
         }));
 
-        it('Create - Must call the Http Post Method for a new Contact', function () { //$controller// <-- Error: Timeout - Async callback was not invoked within timeout specified by jasmine.DEFAULT_TIMEOUT_INTERVAL.
+        it('Create - Must call the Http Post Method to a new Contact', function () { //$controller// <-- Error: Timeout - Async callback was not invoked within timeout specified by jasmine.DEFAULT_TIMEOUT_INTERVAL.
             $scope.http = httpMock;
             spyOn($scope.http, 'post').and.callThrough();
             //// XOR

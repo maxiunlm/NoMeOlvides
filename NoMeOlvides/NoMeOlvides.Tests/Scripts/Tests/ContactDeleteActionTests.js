@@ -75,7 +75,7 @@ describe('ContactController - ', function () {
             $controller = controller('DeleteAction', { $scope: $scope, $routeParams: $routeParams });
         }));
 
-        it('Delete - Must call the Http Post Method for delete a Contact', function () {
+        it('Delete - Must call the Http Post Method to delete a Contact', function () {
             $scope.http = httpMock;
             spyOn($scope.http, 'delete').and.callThrough();
 

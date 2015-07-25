@@ -70,7 +70,7 @@ describe('ContactController - ', function () {
             $controller = controller('EditAction', { $scope: $scope });
         }));
 
-        it('Edit - Must call the Http Put Method for update a Contact', function () {
+        it('Edit - Must call the Http Put Method to update a Contact', function () {
             $scope.http = httpMock;
             spyOn($scope.http, 'put').and.callThrough();
 
