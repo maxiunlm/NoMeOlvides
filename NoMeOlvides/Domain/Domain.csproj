@@ -85,6 +85,7 @@
     </Compile>
     <Compile Include="Service\ContactService.cs" />
     <Compile Include="ViewModel\ContactViewModel.cs" />
+    <Compile Include="ViewModel\ErrorResponseViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

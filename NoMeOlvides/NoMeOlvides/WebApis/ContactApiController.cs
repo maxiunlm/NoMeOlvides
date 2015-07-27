@@ -40,7 +40,20 @@ namespace NoMeOlvides.WebApis
         // POST api/<controller>
         public void Post(ContactViewModel contact)
         {
-            Service.SaveContact(contact);
+            try
+            {                
+                Service.SaveContact(contact);
+            }
+            catch (Exception ex)
+            {
+                HttpResponseMessage respose = new HttpResponseMessage(HttpStatusCode.NotFound);
+                ErrorResponseViewModel error = new ErrorResponseViewModel();
+                error.HasError = true;
+                error.Messages.Add("ERROR: " + ex.Message);
+                respose.Content = new StringContent(System.Web.Helpers.Json.Encode(error));
+
+                throw new HttpResponseException(respose); ;
+            }
         }
 
         // PUT api/<controller>/5

@@ -6,6 +6,7 @@ using Domain.Service;
 using Domain.ViewModel;
 using Domain.DataModel;
 using MongoDB.Bson;
+using System.Web.Http;
 
 namespace NoMeOlvides.Tests.WebApis
 {
@@ -64,6 +65,16 @@ namespace NoMeOlvides.Tests.WebApis
             sut.Post(contactViewModel);
 
             mocker.Verify(o => o.SaveContact(contactViewModel));
+        }
+
+        [Test]
+        public void Post_ConDatosDeContacto_InvocaMetodoDeCapaInferiorQueGuardaAlContactoQueArrojanException()
+        {
+            mocker.Setup(o => o.SaveContact(contactViewModel)).Throws<Exception>();
+
+            Exception exception = Assert.Catch(() => sut.Post(contactViewModel));
+
+            Assert.That(exception, Is.InstanceOf<HttpResponseException>());
         }
 
         #endregion
