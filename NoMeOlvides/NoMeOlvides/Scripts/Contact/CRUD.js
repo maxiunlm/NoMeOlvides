@@ -50,7 +50,7 @@ app.controller('CreateAction', function ($scope, $location, $http) {//, $filter)
     $scope.isForm = true;
 
     $scope.Create = function () {
-        $scope.http.post(applicationNamePath + 'ContactApi', $scope.Contact)
+        $scope.http.post(applicationNamePath + 'WebApi/ContactApi', $scope.Contact)
             .success($scope.onCreateSuccess)
             .error(ErrorManager.getInstance().onGenealErrorEvent);
 
@@ -82,7 +82,7 @@ app.controller('DeleteAction', function ($scope, $routeParams, $location, $http)
     $scope.isForm = true;
 
     $scope.Delete = function () {
-        $scope.http.delete(applicationNamePath + 'ContactApi/' + escape($scope.Contact.Id), {})
+        $scope.http.delete(applicationNamePath + 'WebApi/ContactApi/' + escape($scope.Contact.Id), {})
             .success($scope.onDeleteSuccess)
             .error(ErrorManager.getInstance().onGenealErrorEvent);
 
@@ -113,7 +113,7 @@ app.controller('EditAction', function ($scope, $routeParams, $location, $http) {
     $scope.isForm = true;
 
     $scope.Edit = function () {
-        $scope.http.put(applicationNamePath + 'ContactApi/', $scope.Contact)
+        $scope.http.put(applicationNamePath + 'WebApi/ContactApi/', $scope.Contact)
             .success($scope.onEditSuccess)
             .error(ErrorManager.getInstance().onGenealErrorEvent);
 

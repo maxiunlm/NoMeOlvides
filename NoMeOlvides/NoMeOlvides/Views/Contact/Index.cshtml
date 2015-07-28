@@ -2,11 +2,7 @@
 @model IEnumerable<Domain.ViewModel.ContactViewModel>
 @using System.Resources
 @{
-    ViewBag.Title = "No me olvides";
-    //System.Threading.Thread.CurrentThread.CurrentCulture.
-    //ResourceManager GeneralResourceManager = new ResourceManager("Resources.General", System.Reflection.Assembly.Load("Domain"));
-    //ResourceSet GeneralResourceSet = GeneralResourceManager.GetResourceSet(System.Threading.Thread.CurrentThread.CurrentCulture, true, true);
-}
+    ViewBag.Title = "No me olvides";}
 <script type="text/javascript">
 
     var contacts = @Html.Raw(Json.Encode(Model));
@@ -33,7 +29,7 @@
     //}];
 
 </script>
-<h2>@*@GeneralResourceSet.GetString("PageTitle")*@{{ 'pageTitle' | translate }}</h2>
+<h2>{{ 'pageTitle' | translate }}</h2>
 <div ng-controller="ContactController">
     <div class="view-animate-container">
         <div ng-view class="view-animate">...</div>
@@ -56,8 +52,9 @@
     *@
     <script type="text/javascript" src="~/Scripts/i18n/angular-locale_es-ar.js"></script>
     @Scripts.Render("~/bundles/jqueryval")
-    <script src="~/Scripts/aop.js"></script>
+    <script type="text/javascript" src="~/Scripts/aop.js"></script>
     <script type="text/javascript" src="~/Scripts/Common/AopManager.js"></script>
+    <script type="text/javascript" src="~/Scripts/Common/ErrorManager.js"></script>
     <script type="text/javascript" src="~/Scripts/Contact/App.js"></script>
     <script type="text/javascript" src="~/Scripts/Common/TranslateProvider.js"></script>
     <script type="text/javascript" src="~/Scripts/Contact/CRUD.js"></script>

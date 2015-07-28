@@ -1,15 +1,20 @@
 ﻿using Domain.Service;
 using Domain.ViewModel;
 using NoMeOlvides.Controllers;
+using NoMeOlvides.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
+using System.Resources;
+using System.Web.Hosting;
 using System.Web.Http;
 
 namespace NoMeOlvides.WebApis
 {
+    [Route("WebApi/ContactApi")]
     public class ContactApiController : ApiController
     {
         public ContactService Service { internal get; set; }
@@ -44,12 +49,13 @@ namespace NoMeOlvides.WebApis
             {                
                 Service.SaveContact(contact);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 HttpResponseMessage respose = new HttpResponseMessage(HttpStatusCode.NotFound);
                 ErrorResponseViewModel error = new ErrorResponseViewModel();
                 error.HasError = true;
-                error.Messages.Add("ERROR: " + ex.Message);
+                //error.Messages.Add(ex.Message);
+                error.Messages.Add(Locale.generalErrorMessage);
                 respose.Content = new StringContent(System.Web.Helpers.Json.Encode(error));
 
                 throw new HttpResponseException(respose); ;

@@ -7,6 +7,11 @@ using Domain.ViewModel;
 using Domain.DataModel;
 using MongoDB.Bson;
 using System.Web.Http;
+using System.Net;
+using System.Text;
+using System.Net.Http;
+using System.Web.Helpers;
+using NoMeOlvides.Resources;
 
 namespace NoMeOlvides.Tests.WebApis
 {
@@ -27,9 +32,11 @@ namespace NoMeOlvides.Tests.WebApis
         private const string invalidEmail = "aacom";
         private const string emptyEmail = "";
         private const string nullEmail = null;
+        private const bool hasError = true;
         private readonly ContactViewModel contactEmptyViewModel = new ContactViewModel();
         private readonly ContactViewModel contactViewModel = new ContactViewModel { Email = "a@a.com", Password = "123456" };
         private static readonly ContactViewModel contactExistentViewModel = new ContactViewModel { Id = ObjectId.GenerateNewId().ToString(), Email = "a@a.com", Password = "123456" };
+        private readonly Exception generalException = new Exception("TERMINAR!!!");
 
         #endregion
 
@@ -70,11 +77,16 @@ namespace NoMeOlvides.Tests.WebApis
         [Test]
         public void Post_ConDatosDeContacto_InvocaMetodoDeCapaInferiorQueGuardaAlContactoQueArrojanException()
         {
-            mocker.Setup(o => o.SaveContact(contactViewModel)).Throws<Exception>();
+            mocker.Setup(o => o.SaveContact(contactViewModel)).Throws(generalException);
 
             Exception exception = Assert.Catch(() => sut.Post(contactViewModel));
+            var resultTask = ((((HttpResponseException)exception)).Response.Content).ReadAsStringAsync();
+            string resultJsonString = resultTask.Result;
+            ErrorResponseViewModel result = Json.Decode<ErrorResponseViewModel>(resultJsonString);
 
             Assert.That(exception, Is.InstanceOf<HttpResponseException>());
+            Assert.AreEqual(hasError, result.HasError);
+            Assert.AreEqual(Locale.generalErrorMessage, result.Messages[0]);
         }
 
         #endregion

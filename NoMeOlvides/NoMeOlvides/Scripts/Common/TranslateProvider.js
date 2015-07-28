@@ -20,10 +20,13 @@ app.config(['$translateProvider', function ($translateProvider) {
     //$translateProvider.translations('es_AR', { "pageTitle": "No me olvides" });
 
     $translateProvider.useStaticFilesLoader({
-        prefix: '/NoMeOlvides/Scripts/Common/locale-',
-        suffix: '.json'
+        //prefix: '/NoMeOlvides/Scripts/Common/locale-',
+        //suffix: '.json'
+        prefix: '/NoMeOlvides/WebApi/Translations?lang=',
+        suffix: ''
     });
 
-    $translateProvider.preferredLanguage('es_AR');
+    //$translateProvider.preferredLanguage('es_AR');
+    $translateProvider.preferredLanguage('es');
 }]);
 

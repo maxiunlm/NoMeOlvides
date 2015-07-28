@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Domain</RootNamespace>
     <AssemblyName>Domain</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -61,60 +62,12 @@
     <Compile Include="Hepler\MongoDbHelper.cs" />
     <Compile Include="Hepler\MongoDbQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\ContactResource.en.Designer.cs">
-      <DependentUpon>ContactResource.en.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Resources\ContactResource.es.Designer.cs">
-      <DependentUpon>ContactResource.es.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Resources\GeneralResource.en.Designer.cs">
-      <DependentUpon>GeneralResource.en.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Resources\GeneralResource.es.Designer.cs">
-      <DependentUpon>GeneralResource.es.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Service\ContactService.cs" />
     <Compile Include="ViewModel\ContactViewModel.cs" />
     <Compile Include="ViewModel\ErrorResponseViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\ContactResource.en.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ContactResource.en.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>Resources.Contact</CustomToolNamespace>
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\ContactResource.es.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ContactResource.es.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>Resources.Contact</CustomToolNamespace>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\GeneralResource.en.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>GeneralResource.en.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>Resources.General</CustomToolNamespace>
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\GeneralResource.es.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>GeneralResource.es.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>Resources.General</CustomToolNamespace>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
