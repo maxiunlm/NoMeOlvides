@@ -1,11 +1,12 @@
 ﻿{
     "pageTitle": "No me olvides",
-    "createContactTitle":  "Nuevo Contacto",
-    "detailsContactTitle":  "Ver Contacto",
-    "editContactTitle":  "Actualizar Contacto",
-    "deleteContactTitle":  "Borrar Contacto",
-    "deleteQuestion":  "¿Desea eliminarlo?",
+    "createContactTitle": "Nuevo Contacto",
+    "detailsContactTitle": "Ver Contacto",
+    "editContactTitle": "Actualizar Contacto",
+    "deleteContactTitle": "Borrar Contacto",
+    "deleteQuestion": "¿Desea eliminarlo?",
     "withoutResult": "Sin resultados",
+
     "email": "E-mail",
     "alias": "Alias",
     "name": "Nombre",
@@ -14,6 +15,7 @@
     "cellphone": "Celular",
     "address": "Dirección",
     "password": "Password",
+
     "cancelButtonLabel": "Cancelar",
     "submitButtonLabel": "Aceptar",
     "searchButtonLabel": "Buscar",
@@ -23,8 +25,9 @@
     "detailLinkLabel": "Ver",
     "updateLinkLabel": "Modificar",
     "createLinkLabel": "Nuevo",
+
     "error": "Error",
-    "transactionSuccessMessage":  "Tu operación fue exitosa",
-    "fastSearch":  "Búsqueda rápida",
-    "emptyText":  ""
+    "transactionSuccessMessage": "Tu operación fue exitosa",
+    "fastSearch": "Búsqueda rápida",
+    "emptyText": ""
 }

@@ -16,17 +16,17 @@
         }]);
 
 app.config(['$translateProvider', function ($translateProvider) {
-    //$translateProvider.translations('en', { "pageTitle": "Don't forget me" });
+    //$translateProvider.translations('', { "pageTitle": "Don't forget me" }); // by default --> 'en'
     //$translateProvider.translations('es_AR', { "pageTitle": "No me olvides" });
 
     $translateProvider.useStaticFilesLoader({
         //prefix: '/NoMeOlvides/Scripts/Common/locale-',
         //suffix: '.json'
-        prefix: '/NoMeOlvides/WebApi/Translations?lang=',
+        prefix: '/NoMeOlvides/WebApi/TranslationsApi?lang=',
         suffix: ''
     });
 
-    //$translateProvider.preferredLanguage('es_AR');
-    $translateProvider.preferredLanguage('es');
+    //$translateProvider.preferredLanguage('es_AR'); // 'es' for all Spanish
+    $translateProvider.preferredLanguage('es'); // by default --> 'en'
 }]);
 

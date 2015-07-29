@@ -11,7 +11,6 @@ namespace Domain.ViewModel
         public bool HasError { get; set; }
 
         private List<string> messages;
-
         public List<string> Messages
         {
             get

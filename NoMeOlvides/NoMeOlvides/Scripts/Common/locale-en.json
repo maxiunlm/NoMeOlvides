@@ -6,6 +6,7 @@
     "deleteContactTitle":  "Delete Contact",
     "deleteQuestion":  "Do you want to delete it?",
     "withoutResult": "Without result",
+
     "email": "E-mail",
     "alias": "Alias",
     "name": "Name",
@@ -14,6 +15,7 @@
     "cellphone": "Cell phone",
     "address": "Address",
     "password": "Password",
+
     "cancelButtonLabel": "Cancel",
     "submitButtonLabel": "Accept",
     "searchButtonLabel": "Search",
@@ -23,6 +25,7 @@
     "detailLinkLabel": "Detail",
     "updateLinkLabel": "Update",
     "createLinkLabel": "New",
+
     "error": "Error",
     "transactionSuccessMessage": "Your operation was successful",
     "fastSearch":  "Fast search",

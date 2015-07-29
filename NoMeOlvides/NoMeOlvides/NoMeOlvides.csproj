@@ -144,7 +144,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ContactController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -155,7 +154,7 @@
       <DependentUpon>Locale.resx</DependentUpon>
     </Compile>
     <Compile Include="WebApis\ContactApiController.cs" />
-    <Compile Include="WebApis\TranslationsController.cs" />
+    <Compile Include="WebApis\TranslationsApiController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -1015,9 +1014,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Contact\Index.cshtml" />
     <Content Include="Scripts\version.json" />
     <Content Include="Scripts\underscore.min.map" />

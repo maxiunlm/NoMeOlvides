@@ -117,7 +117,94 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="alias" xml:space="preserve">
+    <value>Alias</value>
+  </data>
+  <data name="backLinkLabel" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="cancelButtonLabel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="cellphone" xml:space="preserve">
+    <value>Cell phone</value>
+  </data>
+  <data name="createContactTitle" xml:space="preserve">
+    <value>New Contact</value>
+  </data>
+  <data name="createLinkLabel" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="deleteContactTitle" xml:space="preserve">
+    <value>Delete Contact</value>
+  </data>
+  <data name="deleteLinkLabel" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="deleteQuestion" xml:space="preserve">
+    <value>Do you want to delete it?</value>
+  </data>
+  <data name="detailLinkLabel" xml:space="preserve">
+    <value>Detail</value>
+  </data>
+  <data name="detailsContactTitle" xml:space="preserve">
+    <value>Detail of Contact</value>
+  </data>
+  <data name="editContactTitle" xml:space="preserve">
+    <value>Update Contact</value>
+  </data>
+  <data name="editLinkLabel" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="email" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="emptyText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="fastSearch" xml:space="preserve">
+    <value>Fast search</value>
+  </data>
   <data name="generalErrorMessage" xml:space="preserve">
     <value>General error</value>
+  </data>
+  <data name="name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="nonexistentLanguage" xml:space="preserve">
+    <value>Nonexistent language</value>
+  </data>
+  <data name="pageTitle" xml:space="preserve">
+    <value>Don't forget me</value>
+  </data>
+  <data name="password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="searchButtonLabel" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="submitButtonLabel" xml:space="preserve">
+    <value>Accept</value>
+  </data>
+  <data name="surname" xml:space="preserve">
+    <value>Surname</value>
+  </data>
+  <data name="transactionSuccessMessage" xml:space="preserve">
+    <value>Your operation was successful</value>
+  </data>
+  <data name="updateLinkLabel" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="withoutResult" xml:space="preserve">
+    <value>Without result</value>
   </data>
 </root>

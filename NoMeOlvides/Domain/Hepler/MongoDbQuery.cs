@@ -46,11 +46,6 @@ namespace Domain.Hepler
         {
             List<ContactDataModel> contacts = contactDataModelCollection.Where(o => o.Contacts.Contains(id)).ToList<ContactDataModel>();
 
-            if (contacts == null)
-            {
-                contacts = new List<ContactDataModel>();
-            }
-
             return contacts;
         }
     }
