@@ -148,11 +148,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\Locale.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Locale.resx</DependentUpon>
-    </Compile>
     <Compile Include="WebApis\ContactApiController.cs" />
     <Compile Include="WebApis\TranslationsApiController.cs" />
   </ItemGroup>
@@ -1031,13 +1026,6 @@
       <Project>{e76b13ca-8e32-4b5f-a121-2cd67922ea5e}</Project>
       <Name>Domain</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Locale.es.resx" />
-    <EmbeddedResource Include="Resources\Locale.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Locale.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

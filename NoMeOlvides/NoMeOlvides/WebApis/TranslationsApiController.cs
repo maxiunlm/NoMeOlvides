@@ -1,6 +1,6 @@
 ﻿using Domain.Hepler;
 using Newtonsoft.Json.Linq;
-using NoMeOlvides.Resources;
+using Domain.Resources;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Resources;
 using System.Web.Hosting;
 using System.Web.Http;
+using System.Configuration;
 
 namespace NoMeOlvides.WebApis
 {
@@ -69,7 +70,7 @@ namespace NoMeOlvides.WebApis
 
         private void ChooseCorrectLanguage(string lang)
         {
-            string fileBasePath = ServerFileSystemHelper.GetAppRootFullPath() + "Resources/Locale.";
+            string fileBasePath = ServerFileSystemHelper.GetAppRootFullPath() + ConfigurationManager.AppSettings["PartialResourcesPath"];
 
             if (lang == string.Empty)
             {

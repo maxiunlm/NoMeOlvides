@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace NoMeOlvides.Resources {
+namespace Domain.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace NoMeOlvides.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NoMeOlvides.Resources.Locale", typeof(Locale).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Domain.Resources.Locale", typeof(Locale).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -79,6 +79,15 @@ namespace NoMeOlvides.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Application full path.
+        /// </summary>
+        public static string appRootFullPath {
+            get {
+                return ResourceManager.GetString("appRootFullPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back.
         /// </summary>
         public static string backLinkLabel {
@@ -97,11 +106,29 @@ namespace NoMeOlvides.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; cannot be null.
+        /// </summary>
+        public static string cannotBeNull {
+            get {
+                return ResourceManager.GetString("cannotBeNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cell phone.
         /// </summary>
         public static string cellphone {
             get {
                 return ResourceManager.GetString("cellphone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contacts.
+        /// </summary>
+        public static string contacts {
+            get {
+                return ResourceManager.GetString("contacts", resourceCulture);
             }
         }
         
@@ -255,6 +282,15 @@ namespace NoMeOlvides.Resources {
         public static string pageTitle {
             get {
                 return ResourceManager.GetString("pageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The parameter &apos;{0}&apos; cannot be null.
+        /// </summary>
+        public static string parameterCannotBeNull {
+            get {
+                return ResourceManager.GetString("parameterCannotBeNull", resourceCulture);
             }
         }
         

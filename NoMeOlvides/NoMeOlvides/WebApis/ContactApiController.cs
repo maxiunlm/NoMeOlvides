@@ -1,7 +1,7 @@
 ﻿using Domain.Service;
 using Domain.ViewModel;
 using NoMeOlvides.Controllers;
-using NoMeOlvides.Resources;
+using Domain.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;

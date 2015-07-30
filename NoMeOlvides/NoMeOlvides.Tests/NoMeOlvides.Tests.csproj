@@ -164,6 +164,7 @@
     <Compile Include="Data\ContactDataTests.cs" />
     <Compile Include="Helper\MongoDbHelperTests.cs" />
     <Compile Include="Helper\MongoDbQueryTests.cs" />
+    <Compile Include="Helper\ServerFileSystemHelperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\ContactServiceTests.cs" />
     <Compile Include="ViewModel\ContactViewModelTests.cs" />

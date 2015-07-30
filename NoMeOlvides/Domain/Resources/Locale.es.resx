@@ -123,14 +123,23 @@
   <data name="alias" xml:space="preserve">
     <value>Alias</value>
   </data>
+  <data name="appRootFullPath" xml:space="preserve">
+    <value>La ruta de Aplicación</value>
+  </data>
   <data name="backLinkLabel" xml:space="preserve">
     <value>Volver</value>
   </data>
   <data name="cancelButtonLabel" xml:space="preserve">
     <value>Cancelar</value>
   </data>
+  <data name="cannotBeNull" xml:space="preserve">
+    <value>'{0}' no puede ser nulo</value>
+  </data>
   <data name="cellphone" xml:space="preserve">
     <value>Celular</value>
+  </data>
+  <data name="contacts" xml:space="preserve">
+    <value>Contactos</value>
   </data>
   <data name="createContactTitle" xml:space="preserve">
     <value>Nuevo Contacto</value>
@@ -182,6 +191,9 @@
   </data>
   <data name="pageTitle" xml:space="preserve">
     <value>No me olvides</value>
+  </data>
+  <data name="parameterCannotBeNull" xml:space="preserve">
+    <value>El parámetro '{0}' no puede ser nulo</value>
   </data>
   <data name="password" xml:space="preserve">
     <value>Password</value>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Resources;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,14 @@ namespace Domain.Hepler
     {
         public virtual string GetAppRootFullPath()
         {
-            return HostingEnvironment.MapPath("~/"); // TODO: FALTA TDD !!! COMO????
+            try
+            {
+                return HostingEnvironment.MapPath("~/").Trim();
+            }
+            catch (NullReferenceException)
+            {
+                throw new DevelopedControlledException(Locale.cannotBeNull.Replace("{0}", Locale.appRootFullPath));
+            }
         }
     }
 }

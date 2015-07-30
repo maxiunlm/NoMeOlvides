@@ -1,19 +1,20 @@
-﻿angular.module("pascalprecht.translate")
-    .factory("$translateStaticFilesLoader",
+﻿angular.module("pascalprecht.translate").factory("$translateStaticFilesLoader",
     ["$q", "$http",
-        function (a, b) {
-            return function (c) {
-                if (!c || !angular.isString(c.prefix) || !angular.isString(c.suffix))
+        function (type, obj) {
+            return function (options) {
+                if (!options || !angular.isString(options.prefix) || !angular.isString(options.suffix))
                     throw new Error("Couldn't load static files, no prefix or suffix specified!");
-                var d = a.defer();
-                return b({ url: [c.prefix, c.key, c.suffix].join(""), method: "GET", params: "" })
-                    .success(function (a) {
-                        d.resolve(a)
+                var deferred = type.defer();
+                return obj({ url: [options.prefix, options.key, options.suffix].join(""), method: "GET", params: "" })
+                    .success(function (type) {
+                        deferred.resolve(type)
                     }).error(function () {
-                        d.reject(c.key)
-                    }), d.promise
+                        deferred.reject(options.key)
+                    }), deferred.promise
             }
-        }]);
+        }
+    ]
+);
 
 app.config(['$translateProvider', function ($translateProvider) {
     //$translateProvider.translations('', { "pageTitle": "Don't forget me" }); // by default --> 'en'

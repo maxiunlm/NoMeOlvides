@@ -1,6 +1,6 @@
 ﻿using Domain.Hepler;
 using Moq;
-using NoMeOlvides.Resources;
+using Domain.Resources;
 using NoMeOlvides.WebApis;
 using NUnit.Framework;
 using System;
@@ -27,6 +27,7 @@ namespace NoMeOlvides.Tests.WebApis
         private const string wrongLanguage = "wrong";
         private const string existentLanguage = "es";
         private const string existentLanguageWithWhiteSpaces = " es ";
+        private readonly string partialResourcesPath = ConfigurationManager.AppSettings["PartialResourcesPath"];
 
         #endregion
 
@@ -70,6 +71,7 @@ namespace NoMeOlvides.Tests.WebApis
         [Test]
         public void Get_WithWrongLanguage_ThrowsDeveloperControlledException()
         {
+            serverFileSystemHelperMocker.Setup(o => o.GetAppRootFullPath()).Returns(ConfigurationManager.AppSettings["AppRootFullPath"]);
 
             Exception result = Assert.Catch(() => sut.Get(wrongLanguage));
 
@@ -86,7 +88,7 @@ namespace NoMeOlvides.Tests.WebApis
 
             Assert.IsNotEmpty(result);
             Assert.AreEqual(Locale.nonexistentLanguage, result["nonexistentLanguage"]);
-            Assert.IsTrue(sut.LanguageFileFullPath.IndexOf("Resources/Locale.resx") >= 0);
+            Assert.IsTrue(sut.LanguageFileFullPath.IndexOf(partialResourcesPath + "resx") >= 0);
         }
 
         [Test]
@@ -112,7 +114,7 @@ namespace NoMeOlvides.Tests.WebApis
 
             Assert.IsNotEmpty(result);
             Assert.AreEqual(Locale.nonexistentLanguage, result["nonexistentLanguage"]);
-            Assert.AreEqual(ConfigurationManager.AppSettings["AppRootFullPath"] + "Resources/Locale." + existentLanguage + ".resx", sut.LanguageFileFullPath);
+            Assert.AreEqual(ConfigurationManager.AppSettings["AppRootFullPath"] + partialResourcesPath + existentLanguage + ".resx", sut.LanguageFileFullPath);
         }
 
         [Test]
@@ -126,7 +128,7 @@ namespace NoMeOlvides.Tests.WebApis
 
             Assert.IsNotEmpty(result);
             Assert.AreEqual(Locale.nonexistentLanguage, result["nonexistentLanguage"]);
-            Assert.AreEqual(ConfigurationManager.AppSettings["AppRootFullPath"] + "Resources/Locale." + existentLanguageWithWhiteSpaces.Trim() + ".resx", sut.LanguageFileFullPath);
+            Assert.AreEqual(ConfigurationManager.AppSettings["AppRootFullPath"] + partialResourcesPath + existentLanguageWithWhiteSpaces.Trim() + ".resx", sut.LanguageFileFullPath);
         }
 
         #endregion

@@ -11,7 +11,7 @@ using System.Net;
 using System.Text;
 using System.Net.Http;
 using System.Web.Helpers;
-using NoMeOlvides.Resources;
+using Domain.Resources;
 
 namespace NoMeOlvides.Tests.WebApis
 {
