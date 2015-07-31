@@ -1,5 +1,5 @@
-﻿/// <chutzpah_reference path='../../../NoMeOlvides/Scripts/jquery-2.1.4.js' />
-/// <chutzpah_reference path='../../../NoMeOlvides/Scripts/Common/ErrorManager.js" />
+﻿/// <reference path='../../../NoMeOlvides/Scripts/jquery-2.1.4.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/Common/ErrorManager.js" />
 
 
 var errorMessage = "Error message";

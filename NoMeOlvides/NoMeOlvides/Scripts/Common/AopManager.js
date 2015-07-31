@@ -7,8 +7,8 @@ var AopManager = function (maxAttemps, retryMessage) {
 };
 
 AopManager.prototype.getHasAnotherAttempt = function () {
-    this.counterAttempIndex++;
     this.hasAnotherAttempt = confirm(this.retryMessage) && this.counterAttempIndex < this.maxAttemps;
+    this.counterAttempIndex++;
 
     return this.hasAnotherAttempt;
 }
