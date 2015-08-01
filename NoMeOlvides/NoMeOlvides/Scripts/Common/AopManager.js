@@ -14,15 +14,17 @@ AopManager.prototype.getHasAnotherAttempt = function () {
 }
 
 AopManager.prototype.log = function (aopMethod, method, typeParam, objectParam, typeMessage, attemptCounter) {
-    var today = new Date();
+    this.lastLogDatetime = new Date();
     attemptCounter = attemptCounter || -1;
-    typeMessage = typeMessage || 'INFO'
+    typeMessage = typeMessage || 'INFO';
+    method = method || '';
+    aopMethod = aopMethod || '';
 
-    var logMessage = today.toISOString() + ' -- ' + typeMessage + ' AOP ' + aopMethod + ' - '
+    this.lastLogMessage = this.lastLogDatetime.toISOString() + ' -- ' + typeMessage + ' AOP ' + aopMethod + ' - '
         + (attemptCounter >= 0 ? 'It does not have another attempt [attemp number "' + attemptCounter + '"]: Callback ' : '')
         + 'Method [' + method + ']: ' + (typeParam ? typeParam + ': ' : '');
 
-    console.log(logMessage, objectParam);
+    console.log(this.lastLogMessage, objectParam);
 }
 
 AopManager.prototype.beforeLogEvent = function (arguments, method, aopMethod) {

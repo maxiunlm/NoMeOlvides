@@ -9,6 +9,12 @@ describe('AopManager - ', function () {
     var confirmationCancel = false;
     var hasAnotherAttemptTrue = true;
     var hasAnotherAttemptFalse = false;
+    var aopMethod = 'aopMethod';
+    var method = 'method';
+    var typeParam = 'typeParam';
+    var objectParam = 'objectParam';
+    var typeMessage = 'typeMessage';
+    var attemptCounter = 1000;
 
     beforeEach(function () {
     });
@@ -98,6 +104,56 @@ describe('AopManager - ', function () {
         });
     });
 
+    describe('log', function () {
+        beforeEach(function () {
+            sut = new AopManager();
+        });
+
+        it('Instance a Date Object', function () {
+
+            sut.log();
+
+            expect(sut.lastLogDatetime).not.toBeNull();
+            expect(sut.lastLogDatetime).not.toBeUndefined();
+        });
+
+        it('Invoke the toISOString method of a Date Object', function () {
+
+            sut.log();
+
+            expect(sut.lastLogMessage.indexOf(sut.lastLogDatetime.toISOString())).toEqual(startIndexOf);
+        });
+
+        it('Without parameters generate a log message', function () {
+
+            sut.log();
+
+            expect(sut.lastLogMessage).not.toBeNull();
+            expect(sut.lastLogMessage).not.toBeUndefined();
+        });
+
+        it('Invoke the log method of console object', function () {
+            spyOn(console, 'log').and.callFake(function () {
+            });
+
+            sut.log();
+
+            expect(console.log).toHaveBeenCalled();
+        });
+
+        it('With parameters generate a log message', function () {
+            spyOn(console, 'log').and.callFake(function () {
+            });
+
+            sut.log(aopMethod, method, typeParam, objectParam, typeMessage, attemptCounter);
+
+            expect(sut.lastLogMessage).not.toBeNull();
+            expect(sut.lastLogMessage).not.toBeUndefined();
+            expect(sut.lastLogMessage.indexOf() > 0).toBeUndefined();
+        });
+    });
+    /*
+
     describe('', function () {
         beforeEach(function () {
             sut = new AopManager();
@@ -107,66 +163,5 @@ describe('AopManager - ', function () {
         });
     });
 
-    describe('', function () {
-        beforeEach(function () {
-            sut = new AopManager();
-        });
-
-        it('', function () {
-        });
-    });
-
-    describe('', function () {
-        beforeEach(function () {
-            sut = new AopManager();
-        });
-
-        it('', function () {
-        });
-    });
-
-    describe('', function () {
-        beforeEach(function () {
-            sut = new AopManager();
-        });
-
-        it('', function () {
-        });
-    });
-
-    describe('', function () {
-        beforeEach(function () {
-            sut = new AopManager();
-        });
-
-        it('', function () {
-        });
-    });
-
-    describe('', function () {
-        beforeEach(function () {
-            sut = new AopManager();
-        });
-
-        it('', function () {
-        });
-    });
-
-    describe('', function () {
-        beforeEach(function () {
-            sut = new AopManager();
-        });
-
-        it('', function () {
-        });
-    });
-
-    describe('', function () {
-        beforeEach(function () {
-            sut = new AopManager();
-        });
-
-        it('', function () {
-        });
-    });
+    // */
 });
