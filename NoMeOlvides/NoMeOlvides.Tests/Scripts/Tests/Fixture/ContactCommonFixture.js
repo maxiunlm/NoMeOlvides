@@ -1,4 +1,6 @@
-﻿var contacts = [];
+﻿/// <reference path="CommonFixture.js" />
+
+var contacts = [];
 var Contact = {};
 
 var contactId = "5582a9d8dbe53f1b8059d787";
@@ -31,17 +33,17 @@ var httpDataResultOk = {
     "Contact": {
         "Id": contactId
     },
-    callBackSuccessDataWithoutError
+    "Errors": callBackSuccessDataWithoutError.Errors
 };
 var httpDataResultErrorX1 = {
     "Contact": {
         "Id": null
     },
-    callBackSuccessDataWithError
+    "Errors": callBackSuccessDataWithError.Errors
 };
 var httpDataResultErrorX2 = {
     "Contact": {
         "Id": null
     },
-    callBackSuccessDataWithTwoErrors
+    "Errors": callBackSuccessDataWithTwoErrors.Errors
 };

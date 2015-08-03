@@ -9,6 +9,8 @@ var callBackErrorData = null;
 var callBackSuccessData = null;
 var startIndexOf = 0;
 var assertIsTrue = true;
+var confirmationOk = true;
+var confirmationCancel = false;
 var errorMessage1 = "Error message 1";
 var errorMessage2 = "Error message 2";
 var callBackSuccessDataWithoutError = {
@@ -26,7 +28,7 @@ var callBackSuccessDataWithError = {
 var callBackSuccessDataWithTwoErrors = {
     "Errors": {
         "HasError": true,
-        "Messages": [errorMessage1]
+        "Messages": [errorMessage1, errorMessage2]
     }
 };
 

@@ -1,12 +1,12 @@
-﻿/// <reference path='../../../NoMeOlvides/Scripts/Common/AopManager.js" />
+﻿/// <reference path='../../../NoMeOlvides/Scripts/angular.js' />
+/// <reference path="Fixture/CommonFixture.js" />
+/// <reference path='../../../NoMeOlvides/Scripts/Common/AopManager.js" />
 
 describe('AopManager - ', function () {
     var sut;
 
     var maxAttemps = 1;
     var retryMessage = '¿Reintentar?';
-    var confirmationOk = true;
-    var confirmationCancel = false;
     var hasAnotherAttemptTrue = true;
     var hasAnotherAttemptFalse = false;
     var aopMethod = 'aopMethod';
@@ -55,7 +55,7 @@ describe('AopManager - ', function () {
 
             var result = sut.getHasAnotherAttempt();
 
-            expect(result).toEqual(hasAnotherAttemptTrue)
+            expect(result).toEqual(hasAnotherAttemptTrue);
         });
 
         it('with user confirmation "OK" and counterAttempIndex equals to maxAttemps', function () {
@@ -64,7 +64,7 @@ describe('AopManager - ', function () {
 
             var result = sut.getHasAnotherAttempt();
 
-            expect(result).toEqual(hasAnotherAttemptFalse)
+            expect(result).toEqual(hasAnotherAttemptFalse);
         });
 
         it('with user confirmation "OK" and counterAttempIndex greater than maxAttemps', function () {
@@ -73,7 +73,7 @@ describe('AopManager - ', function () {
 
             var result = sut.getHasAnotherAttempt();
 
-            expect(result).toEqual(hasAnotherAttemptFalse)
+            expect(result).toEqual(hasAnotherAttemptFalse);
         });
 
         it('with user confirmation "Cancel" and counterAttempIndex less than maxAttemps', function () {
@@ -82,7 +82,7 @@ describe('AopManager - ', function () {
 
             var result = sut.getHasAnotherAttempt();
 
-            expect(result).toEqual(hasAnotherAttemptFalse)
+            expect(result).toEqual(hasAnotherAttemptFalse);
         });
 
         it('with user confirmation "Cancel" and counterAttempIndex equals to maxAttemps', function () {
@@ -91,7 +91,7 @@ describe('AopManager - ', function () {
 
             var result = sut.getHasAnotherAttempt();
 
-            expect(result).toEqual(hasAnotherAttemptFalse)
+            expect(result).toEqual(hasAnotherAttemptFalse);
         });
 
         it('with user confirmation "Cancel" and counterAttempIndex greater than maxAttemps', function () {
@@ -100,11 +100,11 @@ describe('AopManager - ', function () {
 
             var result = sut.getHasAnotherAttempt();
 
-            expect(result).toEqual(hasAnotherAttemptFalse)
+            expect(result).toEqual(hasAnotherAttemptFalse);
         });
     });
 
-    describe('log', function () {
+    describe('log - ', function () {
         beforeEach(function () {
             sut = new AopManager();
         });
@@ -141,15 +141,40 @@ describe('AopManager - ', function () {
             expect(console.log).toHaveBeenCalled();
         });
 
-        it('With parameters generate a log message', function () {
-            spyOn(console, 'log').and.callFake(function () {
+        it('With all the parameters generate a log message', function () {
+            var hasObjectParamUsed = false;
+            spyOn(console, 'log').and.callFake(function (param1, objectParam) {
+                if (angular.isDefined(objectParam)) {
+                    hasObjectParamUsed = true;
+                }
             });
 
             sut.log(aopMethod, method, typeParam, objectParam, typeMessage, attemptCounter);
 
             expect(sut.lastLogMessage).not.toBeNull();
             expect(sut.lastLogMessage).not.toBeUndefined();
-            expect(sut.lastLogMessage.indexOf() > 0).toBeUndefined();
+            expect(sut.lastLogMessage.indexOf(aopMethod) > 0).toEqual(assertIsTrue);
+            expect(sut.lastLogMessage.indexOf(method) > 0).toEqual(assertIsTrue);
+            expect(sut.lastLogMessage.indexOf(typeParam) > 0).toEqual(assertIsTrue);
+            expect(sut.lastLogMessage.indexOf(typeMessage) > 0).toEqual(assertIsTrue);
+            expect(sut.lastLogMessage.indexOf(attemptCounter) > 0).toEqual(assertIsTrue);
+            expect(hasObjectParamUsed).toEqual(assertIsTrue);
+        });
+    });
+
+    describe('beforeLogEvent - ', function () {
+        beforeEach(function () {
+            sut = new AopManager();
+        });
+
+        it('With parameter "aopMethod" undefined call "log" method with "beforeLogEvent" string value', function () {
+            spyOn();
+        });
+
+        it('With parameter "aopMethod" null call "log" method with "beforeLogEvent" string value', function () {
+        });
+
+        it('With all the parameters call "log" method with the same parameters and typeParam = "Invocation arguments"', function () {
         });
     });
     /*
