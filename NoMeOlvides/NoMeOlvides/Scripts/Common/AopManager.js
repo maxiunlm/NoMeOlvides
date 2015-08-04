@@ -52,7 +52,7 @@ AopManager.prototype.afterThrowCatchEvent = function (exception, method, aopMeth
 
     this.log(aopMethod, method, 'Exception throwed', exception, 'ERROR');
 
-    throw (exception);
+    throw exception;
 }
 
 AopManager.prototype.aroundLogThrowCatchEvent = function (invocation) {
@@ -71,12 +71,12 @@ AopManager.prototype.aroundLogThrowCatchEvent = function (invocation) {
     }
 };
 
-AopManager.prototype.afterFinallyEvent = function (result, exception, aopObject, method) {
+AopManager.prototype.afterFinallyEvent = function (result, exception, method) {
     if (result) {
         this.afterLogEvent(result, method, 'afterFinallyEvent');
     }
     if (exception) {
-        this.afterThrowCatchEvent(exception, aopObject, method, 'afterFinallyEvent');
+        this.afterThrowCatchEvent(exception, method, 'afterFinallyEvent');
     }
 }
 
@@ -95,8 +95,6 @@ AopManager.prototype.afterThrowRetryEvent = function (exception, aopObject, call
 
         this.counterAttempIndex = 0;
 
-        throw (exception);
+        throw exception;
     }
-
-    return -1;
 }

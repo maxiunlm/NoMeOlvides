@@ -17,7 +17,7 @@
     ////    $scope.aopManager.beforeLogEvent(arguments, method);
     ////});
     ////jQuery.aop.afterFinally({ target: $scope, method: 'initializeGlobalVariables' }, function (result, exception, method) {
-    ////    $scope.aopManager.afterFinallyEvent(result, exception, $scope, method);
+    ////    $scope.aopManager.afterFinallyEvent(result, exception, method);
     ////});
 
     ////jQuery.aop.around({ target: $scope, method: 'initializeGlobalVariables' }, function (invocation) {

@@ -1,4 +1,5 @@
-﻿var applicationNamePath = "/";
+﻿var exception = new Error('exception');
+var applicationNamePath = "/";
 var notFoundIndex = -1;
 var firstItemIndex = 0;
 var secondItemIndex = 1;
@@ -8,9 +9,9 @@ var twoItemsCount = 2;
 var callBackErrorData = null;
 var callBackSuccessData = null;
 var startIndexOf = 0;
-var assertIsTrue = true;
 var confirmationOk = true;
 var confirmationCancel = false;
+var stringResult = 'result';
 var errorMessage1 = "Error message 1";
 var errorMessage2 = "Error message 2";
 var callBackSuccessDataWithoutError = {
