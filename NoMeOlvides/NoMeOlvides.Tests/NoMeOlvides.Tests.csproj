@@ -191,6 +191,7 @@
     <Content Include="Scripts\Tests\Fixture\ContactCommonFixture.js" />
     <Content Include="Scripts\Tests\Fixture\ContactCreateFixture.js" />
     <Content Include="Scripts\Tests\ContactDetailsActionTests.js" />
+    <Content Include="Scripts\Tests\Fixture\TranslateCommonFixture.js" />
     <Content Include="Scripts\Tests\TranslateProviderTests.js" />
   </ItemGroup>
   <ItemGroup>
