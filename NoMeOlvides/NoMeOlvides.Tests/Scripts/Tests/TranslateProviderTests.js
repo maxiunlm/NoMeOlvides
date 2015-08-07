@@ -135,7 +135,7 @@ describe('loadTranslations - ', function () {
                 });
 
                 sut.load();
-                
+
                 expect(has$translateProviderParameterDeclared).toBeTruthy();
                 expect(hasConfigureAppDeclared).toBeTruthy();
             });
@@ -164,15 +164,15 @@ describe('loadTranslations - ', function () {
 
             it('With all the parameters assign internal attributes', function () {
 
-                sut.crateFactory(typeParameter, obtFake);
+                sut.crateFactory(typeParameter, objFake);
 
                 expect(sut.type).toEqual(typeParameter);
-                expect(sut.obj).toEqual(obtFake);
+                expect(sut.obj).toEqual(objFake);
             });
 
             it('Returns the "createFactoryResponse" callback method', function () {
 
-                var result = sut.crateFactory(typeParameter, obtFake);
+                var result = sut.crateFactory(typeParameter, objFake);
 
                 expect(result).toBe(sut.createFactoryResponse);
             });
@@ -196,7 +196,7 @@ describe('loadTranslations - ', function () {
 
                 expect(translateProvider.useStaticFilesLoader).toHaveBeenCalled();
             });
-            
+
             it('With "$translateProvider" calls "useStaticFilesLoader" method with the correct parameters', function () {
                 var hasOptionsDeclared = false;
                 spyOn(translateProvider, 'useStaticFilesLoader').and.callFake(function (options) {
@@ -238,7 +238,160 @@ describe('loadTranslations - ', function () {
                 sut = new TranslationsLoader(angular, app);
             });
 
-            it('', function () {
+            it('Without a "type" defined throws an exception', function () {
+                sut.obj = objFake;
+
+                expect(function () { sut.createFactoryResponse(factoryResponseOptions); }).toThrowError(TypeError);
+
+            });
+
+            it('Without a "obj" defined throws an exception', function () {
+                sut.type = typeParameter;
+
+                expect(function () { sut.createFactoryResponse(factoryResponseOptions); }).toThrowError(TypeError);
+
+            });
+
+            it('Without parameters throws an exception', function () {
+                sut.type = typeParameter;
+
+                expect(function () { sut.createFactoryResponse(); }).toThrowError(TypeError);
+
+            });
+
+            it('With the correct parameters invokes "type.defer" method', function () {
+                sut.type = typeParameter;
+                sut.obj = objFake;
+                spyOn(sut.type, 'defer').and.callThrough();
+
+                sut.createFactoryResponse(factoryResponseOptions);
+
+                expect(sut.type.defer).toHaveBeenCalled();
+            });
+
+            it('With the correct parameters invokes "obj" method', function () {
+                sut.type = typeParameter;
+                sut.obj = objFake;
+                spyOn(sut, 'obj').and.callThrough();
+
+                sut.createFactoryResponse(factoryResponseOptions);
+
+                expect(sut.obj).toHaveBeenCalled();
+            });
+
+            it('With all the parameters calls "obj" method with the correct parameters', function () {
+                sut.type = typeParameter;
+                sut.obj = objFake;
+                var hasUrlDeclared = false;
+                var hasMethodDeclared = false;
+                var hasParamsDeclared = false;
+                spyOn(sut, 'obj').and.callFake(function (config) {
+                    if (config.url === [factoryResponseOptions.prefix, factoryResponseOptions.key, factoryResponseOptions.suffix].join('')) {
+                        hasUrlDeclared = true;
+                    }
+                    if (config.method === methodGet) {
+                        hasMethodDeclared = true;
+                    }
+                    if (config.params === stringEmpty) {
+                        hasParamsDeclared = true;
+                    }
+
+                    this.success = function (callback) {
+                        return this;
+                    }
+                    this.error = function (callback) {
+                        return this;
+                    }
+                });
+
+                sut.createFactoryResponse(factoryResponseOptions);
+
+                expect(hasUrlDeclared).toBeTruthy();
+                expect(hasMethodDeclared).toBeTruthy();
+                expect(hasParamsDeclared).toBeTruthy();
+            });
+
+            it('With the correct parameters invokes "obj.success" method', function () {
+                sut.type = typeParameter;
+                sut.obj = objFake;
+                spyOn(sut.obj, 'success').and.callThrough();
+
+                sut.createFactoryResponse(factoryResponseOptions);
+
+                expect(sut.obj.success).toHaveBeenCalled();
+            });
+
+            it('On a "success" event invokes "deferred.resolve" method', function () {
+                sut.type = typeParameter;
+                sut.obj = objFake;
+                spyOn(deferredFake, 'resolve').and.callThrough();
+
+                sut.createFactoryResponse(factoryResponseOptions);
+
+                expect(deferredFake.resolve).toHaveBeenCalled();
+            });
+
+            it('On a "success" event calls "deferred.resolve" method with de correct parameters', function () {
+                sut.type = typeParameter;
+                sut.obj = objFake;
+                var hasTypeDeclared = false;
+                spyOn(sut.obj, 'success').and.callFake(function () {
+                    deferredFake.resolve(sut.type);
+                });
+                spyOn(deferredFake, 'resolve').and.callFake(function (type) {
+                    if (type === sut.type) {
+                        hasTypeDeclared = true;
+                    }
+                });
+
+                sut.createFactoryResponse(factoryResponseOptions);
+            
+                expect(hasTypeDeclared).toBeTruthy();
+            });
+
+            it('With the correct parameters invokes "obj.error" method', function () {
+                sut.type = typeParameter;
+                sut.obj = objFake;
+                spyOn(sut.obj, 'error').and.callThrough();
+
+                sut.createFactoryResponse(factoryResponseOptions);
+
+                expect(sut.obj.error).toHaveBeenCalled();
+            });
+
+            it('On an "error" event invokes "deferred.reject" method', function () {
+                sut.type = typeParameter;
+                sut.obj = objFake;
+                spyOn(deferredFake, 'reject').and.callThrough();
+
+                sut.createFactoryResponse(factoryResponseOptions);
+
+                expect(deferredFake.resolve).toHaveBeenCalled();
+            });
+
+            it('On an "error" event invokes "deferred.reject" method with de correct parameters', function () {
+                sut.type = typeParameter;
+                sut.obj = objFake;
+                var hasOptionsKeyDeclared = false;
+                spyOn(sut.obj, 'error').and.callFake(function () {
+                    deferredFake.reject(factoryResponseOptions.key);
+                });
+                spyOn(deferredFake, 'reject').and.callFake(function (optionsKey) {
+                    if (optionsKey === factoryResponseOptions.key) {
+                        hasOptionsKeyDeclared = true;
+                    }
+                });
+
+                sut.createFactoryResponse(factoryResponseOptions);
+        
+                expect(hasOptionsKeyDeclared).toBeTruthy();
+            });
+
+            it('Returns the "deferred.promise" object', function () { // ?????????????????????????
+
+                var result = sut.createFactoryResponse(factoryResponseOptions);
+
+                expect(result).toBe(deferredFake.promise);
             });
         });
     });

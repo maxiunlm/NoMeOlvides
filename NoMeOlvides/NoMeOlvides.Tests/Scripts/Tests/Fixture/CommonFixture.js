@@ -1,4 +1,5 @@
-﻿var exception = new Error('exception');
+﻿var stringEmpty = '';
+var exception = new Error('exception');
 var applicationNamePath = "/";
 var notFoundIndex = -1;
 var firstItemIndex = 0;

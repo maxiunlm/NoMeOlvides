@@ -2,12 +2,26 @@
 var factoryName = '$translateStaticFilesLoader';
 var $qParameter = '$q';
 var $httpParameter = '$http';
+var methodGet = 'GET';
 var spanishLanguage = 'es';
 var prefix = '/NoMeOlvides/WebApi/TranslationsApi?lang=';
-var suffix = '';
+var suffix = stringEmpty;
 var $translateProviderParameter = '$translateProvider';
+var translationkey = spanishLanguage;
+var deferredFake = {
+    promise: {},
+    resolve: function (type) { },
+    reject: function (optionsKey) { }
+};
 var typeParameter = {
-    defer: function () { }
+    defer: function () {
+        return deferredFake;
+    }
+};
+var factoryResponseOptions = {
+    key: translationkey,
+    prefix: prefix,
+    suffix: suffix
 };
 var staticFilesLoaderOptions = {
     prefix: prefix,
@@ -20,7 +34,7 @@ var translateProvider = {
     useStaticFilesLoader: function (staticFilesLoaderOptions) { },
     preferredLanguage: function (language) { }
 };
-var obtFake = function (config) {
+var objFake = function (config) {
     this.config = config;
 }
 obtFake.prototype.success = function (callback) {
