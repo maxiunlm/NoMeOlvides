@@ -23,23 +23,25 @@
         return this.createFactoryResponse;
     };
 
+    this.configureApp = function ($translateProvider) {
+        ////$translateProvider.translations('', { 'pageTitle': 'Don't forget me' }); // by default --> 'en'
+        ////$translateProvider.translations('es_AR', { 'pageTitle': 'No me olvides' });
+        //$translateProvider.useStaticFilesLoader({
+        //  prefix: '/NoMeOlvides/Scripts/Common/locale-',
+        //  suffix: '.json'
+        //});
+        //$translateProvider.preferredLanguage('es_AR'); // 'es' for all Spanish
+        $translateProvider.useStaticFilesLoader({
+            prefix: '/NoMeOlvides/WebApi/TranslationsApi?lang=',
+            suffix: ''
+        });
+
+        $translateProvider.preferredLanguage('es'); // by default --> 'en'
+    };
+
     this.load = function () {
         angular.module('pascalprecht.translate').factory('$translateStaticFilesLoader', ['$q', '$http', this.crateFactory]);
-
-        app.config(['$translateProvider', function ($translateProvider) {
-            //$translateProvider.translations('', { 'pageTitle': 'Don't forget me' }); // by default --> 'en'
-            //$translateProvider.translations('es_AR', { 'pageTitle': 'No me olvides' });
-
-            $translateProvider.useStaticFilesLoader({
-                //prefix: '/NoMeOlvides/Scripts/Common/locale-',
-                //suffix: '.json'
-                prefix: '/NoMeOlvides/WebApi/TranslationsApi?lang=',
-                suffix: ''
-            });
-
-            //$translateProvider.preferredLanguage('es_AR'); // 'es' for all Spanish
-            $translateProvider.preferredLanguage('es'); // by default --> 'en'
-        }]);
+        app.config(['$translateProvider', this.configureApp]);
     };
 };
 

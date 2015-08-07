@@ -3,6 +3,7 @@ var applicationNamePath = "/";
 var notFoundIndex = -1;
 var firstItemIndex = 0;
 var secondItemIndex = 1;
+var thirdItemIndex = 2;
 var emptyItemsCount = 0;
 var oneItemCount = 1;
 var twoItemsCount = 2;
