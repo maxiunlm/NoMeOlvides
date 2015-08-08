@@ -34,12 +34,15 @@ var translateProvider = {
     useStaticFilesLoader: function (staticFilesLoaderOptions) { },
     preferredLanguage: function (language) { }
 };
+var objCtor = new Object();
 var objFake = function (config) {
-    this.config = config;
+    objCtor.prototype.config = config;
+
+    return objCtor;
 }
-obtFake.prototype.success = function (callback) {
+objCtor.prototype.success = function (callback) {
     return this;
 }
-obtFake.prototype.error = function (callback) {
+objCtor.prototype.error = function (callback) {
     return this;
 }
