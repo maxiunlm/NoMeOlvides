@@ -34,15 +34,19 @@ var translateProvider = {
     useStaticFilesLoader: function (staticFilesLoaderOptions) { },
     preferredLanguage: function (language) { }
 };
-var objCtor = new Object();
+var objCtor = {
+    config: {},
+    success: function (callback) {
+        deferredFake.resolve(typeParameter);
+        return this;
+    },
+    error: function (callback) {
+        deferredFake.reject(factoryResponseOptions.key);
+        return this;
+    }
+}
 var objFake = function (config) {
-    objCtor.prototype.config = config;
+    objCtor.config = config;
 
     return objCtor;
-}
-objCtor.prototype.success = function (callback) {
-    return this;
-}
-objCtor.prototype.error = function (callback) {
-    return this;
 }
