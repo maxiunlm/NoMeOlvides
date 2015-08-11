@@ -135,7 +135,7 @@
   <data name="cannotBeNull" xml:space="preserve">
     <value>'{0}' no puede ser nulo</value>
   </data>
-  <data name="cellphone" xml:space="preserve">
+  <data name="Cellphone" xml:space="preserve">
     <value>Celular</value>
   </data>
   <data name="contacts" xml:space="preserve">
@@ -218,5 +218,8 @@
   </data>
   <data name="withoutResult" xml:space="preserve">
     <value>Sin resultados</value>
+  </data>
+  <data name="fillCommand" xml:space="preserve">
+    <value>cargar</value>
   </data>
 </root>

@@ -202,6 +202,7 @@
     <Content Include="Scripts\Common\AopManager.js" />
     <Content Include="Scripts\Common\ErrorManager.js" />
     <Content Include="Scripts\Common\TranslateProvider.js" />
+    <Content Include="Scripts\Common\VoiceManager.js" />
     <Content Include="Scripts\Contact\App.js" />
     <Content Include="Scripts\Contact\CRUD.js" />
     <Content Include="Scripts\Contact\Templates\Create.html" />
@@ -211,6 +212,7 @@
     <Content Include="Scripts\Contact\Templates\Form.html" />
     <Content Include="Scripts\Contact\Templates\List.html" />
     <Content Include="Scripts\Contact\Templates\Search.html" />
+    <Content Include="Scripts\Common\VoiceForm.js" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular-touch.min.js.map" />
     <Content Include="Scripts\angular-sanitize.min.js.map" />

@@ -180,6 +180,9 @@
   <data name="fastSearch" xml:space="preserve">
     <value>Fast search</value>
   </data>
+  <data name="fillCommand" xml:space="preserve">
+    <value>fill</value>
+  </data>
   <data name="generalErrorMessage" xml:space="preserve">
     <value>General error</value>
   </data>

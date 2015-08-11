@@ -250,6 +250,15 @@ namespace Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to fill.
+        /// </summary>
+        public static string fillCommand {
+            get {
+                return ResourceManager.GetString("fillCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to General error.
         /// </summary>
         public static string generalErrorMessage {

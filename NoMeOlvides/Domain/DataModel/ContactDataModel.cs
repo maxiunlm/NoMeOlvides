@@ -19,7 +19,7 @@ namespace Domain.DataModel
         [BsonRequired]
         public string Email { get; set; }
         public string Phone { get; set; }
-        public string CellPhone { get; set; }
+        public string Cellphone { get; set; }
         public string Address { get; set; }
         [BsonRequired]
         public string Password { get; set; }
@@ -51,7 +51,7 @@ namespace Domain.DataModel
             this.Surname = contactViewModel.Surname;
             this.Email = contactViewModel.Email;
             this.Phone = contactViewModel.Phone;
-            this.CellPhone = contactViewModel.CellPhone;
+            this.Cellphone = contactViewModel.Cellphone;
             this.Address = contactViewModel.Address;
             this.Password = contactViewModel.Password;
 

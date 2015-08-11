@@ -15,7 +15,7 @@ namespace Domain.ViewModel
         public string Surname { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public string CellPhone { get; set; }
+        public string Cellphone { get; set; }
         public string Address { get; set; }
         public string Password { get; set; }
         private List<string> contacts;
@@ -42,7 +42,7 @@ namespace Domain.ViewModel
             this.Surname = contactDataModel.Surname;
             this.Email = contactDataModel.Email;
             this.Phone = contactDataModel.Phone;
-            this.CellPhone = contactDataModel.CellPhone;
+            this.Cellphone = contactDataModel.Cellphone;
             this.Address = contactDataModel.Address;
             this.Password = contactDataModel.Password;
 

@@ -11,7 +11,7 @@ var firstContact = {
     "Surname": "Gauna",
     "Email": "maxiunlm@gmail.com",
     "Phone": 666,
-    "CellPhone": 666,
+    "Cellphone": 666,
     "Address": "Trulala 666",
     "Password": "Secret... SHHHH!!!!"
 };
@@ -22,7 +22,7 @@ var secondContact = {
     "Surname": "Bill",
     "Email": "a@a.com",
     "Phone": 6662,
-    "CellPhone": 6662,
+    "Cellphone": 6662,
     "Address": "Trulala 6662",
     "Password": "Secret2... SHHHH!!!!"
 };

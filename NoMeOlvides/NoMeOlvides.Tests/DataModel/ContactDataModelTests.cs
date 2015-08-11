@@ -35,7 +35,7 @@ namespace NoMeOlvides.Tests.DataModel
             Assert.AreEqual(contactViewModel.Surname, sut.Surname);
             Assert.AreEqual(contactViewModel.Email, sut.Email);
             Assert.AreEqual(contactViewModel.Phone, sut.Phone);
-            Assert.AreEqual(contactViewModel.CellPhone, sut.CellPhone);
+            Assert.AreEqual(contactViewModel.Cellphone, sut.Cellphone);
             Assert.AreEqual(contactViewModel.Address, sut.Address);
             Assert.AreEqual(contactViewModel.Password, sut.Password);
             Assert.AreEqual(contactViewModel.Contacts.Count, sut.Contacts.Count);
@@ -53,7 +53,7 @@ namespace NoMeOlvides.Tests.DataModel
             Assert.AreEqual(newContactViewModel.Surname, sut.Surname);
             Assert.AreEqual(newContactViewModel.Email, sut.Email);
             Assert.AreEqual(newContactViewModel.Phone, sut.Phone);
-            Assert.AreEqual(newContactViewModel.CellPhone, sut.CellPhone);
+            Assert.AreEqual(newContactViewModel.Cellphone, sut.Cellphone);
             Assert.AreEqual(newContactViewModel.Address, sut.Address);
             Assert.AreEqual(newContactViewModel.Password, sut.Password);
             Assert.AreEqual(contactViewModel.Contacts.Count, sut.Contacts.Count);

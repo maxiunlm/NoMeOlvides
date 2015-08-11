@@ -1,4 +1,9 @@
-﻿var stringEmpty = '';
+﻿var neverCalled = 0;
+var calledOnce = 1;
+var calledTwice = 2;
+var calledThreeTimes = 3;
+var stringEmpty = '';
+var whiteSpace = ' ';
 var exception = new Error('exception');
 var applicationNamePath = "/";
 var notFoundIndex = -1;
@@ -14,8 +19,8 @@ var startIndexOf = 0;
 var confirmationOk = true;
 var confirmationCancel = false;
 var stringResult = 'result';
-var errorMessage1 = "Error message 1";
-var errorMessage2 = "Error message 2";
+var errorMessage1 = 'Error message 1';
+var errorMessage2 = 'Error message 2';
 var callBackSuccessDataWithoutError = {
     "Errors": {
         "HasError": false,

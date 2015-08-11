@@ -84,7 +84,7 @@ describe('ContactController', function () {
             $scope.Contact.Surname = "Gauna";
             $scope.Contact.Email = "c@c.com";
             $scope.Contact.Phone = 666;
-            $scope.Contact.CellPhone = 666;
+            $scope.Contact.Cellphone = 666;
             $scope.Contact.Address = "Trulala 666";
             $scope.Contact.Password = "Secret... SHHHH!!!!";
 
@@ -95,7 +95,7 @@ describe('ContactController', function () {
             expect($scope.Contact.Surname).toEqual("Gauna");
             expect($scope.Contact.Email).toEqual("c@c.com");
             expect($scope.Contact.Phone).toEqual(666);
-            expect($scope.Contact.CellPhone).toEqual(666);
+            expect($scope.Contact.Cellphone).toEqual(666);
             expect($scope.Contact.Address).toEqual("Trulala 666");
             expect($scope.Contact.Password).toEqual("Secret... SHHHH!!!!");
             $scope.Delete();
@@ -187,7 +187,7 @@ describe('ContactController', function () {
             expect($scope.Contacts[firstItemIndex].Surname).toEqual(firstContact.Surname);
             expect($scope.Contacts[firstItemIndex].Email).toEqual(firstContact.Email);
             expect($scope.Contacts[firstItemIndex].Phone).toEqual(firstContact.Phone);
-            expect($scope.Contacts[firstItemIndex].CellPhone).toEqual(firstContact.CellPhone);
+            expect($scope.Contacts[firstItemIndex].Cellphone).toEqual(firstContact.Cellphone);
             expect($scope.Contacts[firstItemIndex].Address).toEqual(firstContact.Address);
             expect($scope.Contacts[firstItemIndex].Password).toEqual(firstContact.Password);
         });
@@ -206,7 +206,7 @@ describe('ContactController', function () {
             expect($scope.Contacts[firstItemIndex].Surname).toEqual(firstContact.Surname);
             expect($scope.Contacts[firstItemIndex].Email).toEqual(firstContact.Email);
             expect($scope.Contacts[firstItemIndex].Phone).toEqual(firstContact.Phone);
-            expect($scope.Contacts[firstItemIndex].CellPhone).toEqual(firstContact.CellPhone);
+            expect($scope.Contacts[firstItemIndex].Cellphone).toEqual(firstContact.Cellphone);
             expect($scope.Contacts[firstItemIndex].Address).toEqual(firstContact.Address);
             expect($scope.Contacts[firstItemIndex].Password).toEqual(firstContact.Password);
             expect($scope.Contacts[secondItemIndex].Id).toEqual(secondContact.Id);
@@ -215,7 +215,7 @@ describe('ContactController', function () {
             expect($scope.Contacts[secondItemIndex].Surname).toEqual(secondContact.Surname);
             expect($scope.Contacts[secondItemIndex].Email).toEqual(secondContact.Email);
             expect($scope.Contacts[secondItemIndex].Phone).toEqual(secondContact.Phone);
-            expect($scope.Contacts[secondItemIndex].CellPhone).toEqual(secondContact.CellPhone);
+            expect($scope.Contacts[secondItemIndex].Cellphone).toEqual(secondContact.Cellphone);
             expect($scope.Contacts[secondItemIndex].Address).toEqual(secondContact.Address);
             expect($scope.Contacts[secondItemIndex].Password).toEqual(secondContact.Password);
         });
