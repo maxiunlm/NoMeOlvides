@@ -37,22 +37,17 @@ describe('loadTranslations - ', function () {
 
                 sut.load();
 
-                expect(angular.module).toHaveBeenCalled();
+                expect(angular.module).toHaveBeenCalledWith('pascalprecht.translate');
             });
 
             it('Calls "module" method with "pascalprecht.translate" parameter', function () {
-                var hasModuleNameDeclared = false;
                 spyOn(angular, 'module').and.callFake(function (name) {
-                    if (name = moduleName) {
-                        hasModuleNameDeclared = true;
-                    }
-
                     return modulePascalprechtTranslate;
                 });
 
                 sut.load();
 
-                expect(hasModuleNameDeclared).toBeTruthy();
+                expect(angular.module).toHaveBeenCalledWith(moduleName);
             });
 
             it('Invokes "factory" method', function () {
@@ -63,49 +58,30 @@ describe('loadTranslations - ', function () {
 
                 sut.load();
 
-                expect(modulePascalprechtTranslate.factory).toHaveBeenCalled();
+                expect(modulePascalprechtTranslate.factory).toHaveBeenCalledWith(factoryName, [$qParameter, $httpParameter, jasmine.any(Function)]);
             });
 
             it('Calls "factory" method with "$translateStaticFilesLoader" parameter', function () {
-                var hasFactoryNameDeclared = false;
                 spyOn(angular, 'module').and.callFake(function () {
                     return modulePascalprechtTranslate;
                 });
-                spyOn(modulePascalprechtTranslate, 'factory').and.callFake(function (name) {
-                    if (name === factoryName) {
-                        hasFactoryNameDeclared = true;
-                    }
-                });
+                spyOn(modulePascalprechtTranslate, 'factory').and.callFake(function (name) { });
 
                 sut.load();
 
-                expect(hasFactoryNameDeclared).toBeTruthy();
+                expect(modulePascalprechtTranslate.factory).toHaveBeenCalledWith(factoryName, jasmine.any(Array));
             });
 
             it('Calls "factory" method with a correct vector parameter', function () {
-                var has$qDeclared = false;
-                var has$httpDeclared = false;
-                var hasCrateFactoryDeclared = false;
                 spyOn(angular, 'module').and.callFake(function () {
                     return modulePascalprechtTranslate;
                 });
                 spyOn(modulePascalprechtTranslate, 'factory').and.callFake(function (name, vector) {
-                    if (vector[firstItemIndex] === $qParameter) {
-                        has$qDeclared = true;
-                    }
-                    if (vector[secondItemIndex] === $httpParameter) {
-                        has$httpDeclared = true;
-                    }
-                    if (_.isFunction(vector[thirdItemIndex])) {
-                        hasCrateFactoryDeclared = true;
-                    }
                 });
 
                 sut.load();
 
-                expect(has$qDeclared).toBeTruthy();
-                expect(has$httpDeclared).toBeTruthy();
-                expect(hasCrateFactoryDeclared).toBeTruthy();
+                expect(modulePascalprechtTranslate.factory).toHaveBeenCalledWith(factoryName, [$qParameter, $httpParameter, jasmine.any(Function)]);
             });
         });
 
@@ -119,25 +95,15 @@ describe('loadTranslations - ', function () {
 
                 sut.load();
 
-                expect(app.config).toHaveBeenCalled();
+                expect(app.config).toHaveBeenCalledWith(['$translateProvider', jasmine.any(Function)]);
             });
 
             it('Calls "config" method with a correct vector parameter', function () {
-                var has$translateProviderParameterDeclared = false;
-                var hasConfigureAppDeclared = false;
-                spyOn(app, 'config').and.callFake(function (vector) {
-                    if (vector[firstItemIndex] === $translateProviderParameter) {
-                        has$translateProviderParameterDeclared = true;
-                    }
-                    if (_.isFunction(vector[secondItemIndex])) {
-                        hasConfigureAppDeclared = true;
-                    }
-                });
+                spyOn(app, 'config').and.callFake(function (vector) { });
 
                 sut.load();
 
-                expect(has$translateProviderParameterDeclared).toBeTruthy();
-                expect(hasConfigureAppDeclared).toBeTruthy();
+                expect(app.config).toHaveBeenCalledWith([$translateProviderParameter, jasmine.any(Function)]);
             });
         });
 
@@ -194,21 +160,15 @@ describe('loadTranslations - ', function () {
 
                 sut.configureApp(translateProvider);
 
-                expect(translateProvider.useStaticFilesLoader).toHaveBeenCalled();
+                expect(translateProvider.useStaticFilesLoader).toHaveBeenCalledWith({ prefix: prefix, suffix: suffix });
             });
 
             it('With "$translateProvider" calls "useStaticFilesLoader" method with the correct parameters', function () {
-                var hasOptionsDeclared = false;
-                spyOn(translateProvider, 'useStaticFilesLoader').and.callFake(function (options) {
-                    if (options.prefix === staticFilesLoaderOptions.prefix
-                        && options.suffix === staticFilesLoaderOptions.suffix) {
-                        hasOptionsDeclared = true;
-                    }
-                });
+                spyOn(translateProvider, 'useStaticFilesLoader').and.callFake(function (options) { });
 
                 sut.configureApp(translateProvider);
 
-                expect(hasOptionsDeclared).toBeTruthy();
+                expect(translateProvider.useStaticFilesLoader).toHaveBeenCalledWith({ prefix: staticFilesLoaderOptions.prefix, suffix: staticFilesLoaderOptions.suffix });
             });
 
             it('With "$translateProvider" invokes "preferredLanguage" method', function () {
@@ -216,20 +176,15 @@ describe('loadTranslations - ', function () {
 
                 sut.configureApp(translateProvider);
 
-                expect(translateProvider.preferredLanguage).toHaveBeenCalled();
+                expect(translateProvider.preferredLanguage).toHaveBeenCalledWith(spanishLanguage);
             });
 
             it('With "$translateProvider" calls "preferredLanguage" method with the correct parameters', function () {
-                var hasLanguageDeclared = false;
-                spyOn(translateProvider, 'preferredLanguage').and.callFake(function (language) {
-                    if (language === spanishLanguage) {
-                        hasLanguageDeclared = true;
-                    }
-                });
+                spyOn(translateProvider, 'preferredLanguage').and.callFake(function (language) { });
 
                 sut.configureApp(translateProvider);
 
-                expect(hasLanguageDeclared).toBeTruthy();
+                expect(translateProvider.preferredLanguage).toHaveBeenCalledWith(spanishLanguage);
             });
         });
 
@@ -238,8 +193,7 @@ describe('loadTranslations - ', function () {
                 myTranslations = sut = new TranslationsLoader(angular, app);
             });
 
-            it('Without a "type" defined throws an exception', function ()
-            {
+            it('Without a "type" defined throws an exception', function () {
                 myTranslations.obj = objFake;
 
                 expect(function () { sut.createFactoryResponse(factoryResponseOptions); }).toThrowError(TypeError);
@@ -271,7 +225,7 @@ describe('loadTranslations - ', function () {
 
                 expect(sut.type.defer).toHaveBeenCalled();
             });
-            
+
             it('With the correct parameters invokes "obj" method', function () {
                 sut.type = typeParameter;
                 spyOn(myTranslations, 'obj').and.callFake(function () {
@@ -280,7 +234,7 @@ describe('loadTranslations - ', function () {
 
                 sut.createFactoryResponse(factoryResponseOptions);
 
-                expect(myTranslations.obj).toHaveBeenCalled();
+                expect(myTranslations.obj).toHaveBeenCalledWith({ url: prefix + spanishLanguage, method: methodGet, params: stringEmpty });
             });
 
             it('With all the parameters calls "obj" method with the correct parameters', function () {
@@ -289,24 +243,16 @@ describe('loadTranslations - ', function () {
                 var hasMethodDeclared = false;
                 var hasParamsDeclared = false;
                 spyOn(myTranslations, 'obj').and.callFake(function (config) {
-                    if (config.url === [factoryResponseOptions.prefix, factoryResponseOptions.key, factoryResponseOptions.suffix].join('')) {
-                        hasUrlDeclared = true;
-                    }
-                    if (config.method === methodGet) {
-                        hasMethodDeclared = true;
-                    }
-                    if (config.params === stringEmpty) {
-                        hasParamsDeclared = true;
-                    }
-
                     return objCtor;
                 });
 
                 sut.createFactoryResponse(factoryResponseOptions);
 
-                expect(hasUrlDeclared).toBeTruthy();
-                expect(hasMethodDeclared).toBeTruthy();
-                expect(hasParamsDeclared).toBeTruthy();
+                expect(myTranslations.obj).toHaveBeenCalledWith({
+                    url: [factoryResponseOptions.prefix, factoryResponseOptions.key, factoryResponseOptions.suffix].join(''),
+                    method: methodGet,
+                    params: stringEmpty
+                });
             });
 
             it('With the correct parameters invokes "obj.success" method', function () {
@@ -318,11 +264,11 @@ describe('loadTranslations - ', function () {
 
                 sut.createFactoryResponse(factoryResponseOptions);
 
-                expect(objCtor.success).toHaveBeenCalled();
+                expect(objCtor.success).toHaveBeenCalledWith(jasmine.any(Function));
             });
 
             it('On a "success" event invokes "deferred.resolve" method', function () {
-                sut.type = typeParameter;             
+                sut.type = typeParameter;
                 spyOn(sut, 'obj').and.callFake(function () {
                     return objCtor;
                 });
@@ -331,7 +277,7 @@ describe('loadTranslations - ', function () {
 
                 sut.createFactoryResponse(factoryResponseOptions);
 
-                expect(deferredFake.resolve).toHaveBeenCalled();
+                expect(deferredFake.resolve).toHaveBeenCalledWith({ defer: jasmine.any(Function) });
             });
 
             it('On a "success" event calls "deferred.resolve" method with de correct parameters', function () {
@@ -339,17 +285,12 @@ describe('loadTranslations - ', function () {
                 spyOn(sut, 'obj').and.callFake(function () {
                     return objCtor;
                 });
-                var hasTypeDeclared = false;
                 spyOn(objCtor, 'success').and.callThrough();
-                spyOn(deferredFake, 'resolve').and.callFake(function (type) {
-                    if (type === typeParameter) {
-                        hasTypeDeclared = true;
-                    }
-                });
+                spyOn(deferredFake, 'resolve').and.callFake(function (type) { });
 
                 sut.createFactoryResponse(factoryResponseOptions);
-            
-                expect(hasTypeDeclared).toBeTruthy();
+
+                expect(deferredFake.resolve).toHaveBeenCalledWith(typeParameter);
             });
 
             it('With the correct parameters invokes "obj.error" method', function () {
@@ -361,7 +302,7 @@ describe('loadTranslations - ', function () {
 
                 sut.createFactoryResponse(factoryResponseOptions);
 
-                expect(objCtor.error).toHaveBeenCalled();
+                expect(objCtor.error).toHaveBeenCalledWith(jasmine.any(Function));
             });
 
             it('On an "error" event invokes "deferred.reject" method', function () {
@@ -374,7 +315,7 @@ describe('loadTranslations - ', function () {
 
                 sut.createFactoryResponse(factoryResponseOptions);
 
-                expect(deferredFake.reject).toHaveBeenCalled();
+                expect(deferredFake.reject).toHaveBeenCalledWith(spanishLanguage);
             });
 
             it('On an "error" event invokes "deferred.reject" method with de correct parameters', function () {
@@ -384,17 +325,12 @@ describe('loadTranslations - ', function () {
 
                     return objCtor;
                 });
-                var hasOptionsKeyDeclared = false;
                 spyOn(objCtor, 'error').and.callThrough();
-                spyOn(deferredFake, 'reject').and.callFake(function (optionsKey) {
-                    if (optionsKey === factoryResponseOptions.key) {
-                        hasOptionsKeyDeclared = true;
-                    }
-                });
+                spyOn(deferredFake, 'reject').and.callFake(function (optionsKey) { });
 
                 sut.createFactoryResponse(factoryResponseOptions);
-        
-                expect(hasOptionsKeyDeclared).toBeTruthy();
+
+                expect(deferredFake.reject).toHaveBeenCalledWith(factoryResponseOptions.key);
             });
 
             it('Returns the "deferred.promise" object', function () {

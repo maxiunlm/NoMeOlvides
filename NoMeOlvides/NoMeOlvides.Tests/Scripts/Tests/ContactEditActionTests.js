@@ -40,7 +40,7 @@ describe('ContactController - ', function () {
 
             $controller = controller('EditAction', { $scope: $scope, $routeParams: $routeParams });
 
-            expect(_.findIndex).toHaveBeenCalled();
+            expect(_.findIndex).toHaveBeenCalledWith(jasmine.any(Object), { Id: contactId });
         });
 
         it('EditAction - Load data Contact to the Edit Form Page', function () {
@@ -77,7 +77,7 @@ describe('ContactController - ', function () {
 
             $scope.Edit();
 
-            expect($scope.http.put).toHaveBeenCalled();
+            expect($scope.http.put).toHaveBeenCalledWith('/WebApi/ContactApi/', undefined);
         });
     });
 
@@ -96,12 +96,11 @@ describe('ContactController - ', function () {
         it('Edit - After call http post Method must call success event $scope.onEditSuccess', inject(function ($http, $httpBackend) {
             $scope.http = httpMock;
             callBackSuccessData = callBackSuccessDataWithoutError;
-            spyOn($scope, "onEditSuccess").and.callFake(function (data) {
-            });
+            spyOn($scope, "onEditSuccess").and.callFake(function (data) { });
             
             $scope.Edit();
 
-            expect($scope.onEditSuccess).toHaveBeenCalled();
+            expect($scope.onEditSuccess).toHaveBeenCalledWith(callBackSuccessDataWithoutError);
         }));
 
         it('Edit - After call http post Method must call error event ErrorManager.getInstance().onGenealErrorEvent', inject(function ($http, $httpBackend) {
@@ -112,7 +111,7 @@ describe('ContactController - ', function () {
 
             $scope.Edit();
 
-            expect(ErrorManager.getInstance().onGenealErrorEvent).toHaveBeenCalled();
+            expect(ErrorManager.getInstance().onGenealErrorEvent).toHaveBeenCalledWith(callBackSuccessDataWithError);
         }));
 
         it('Edit - Stablish isForm == FALSE status for the GUI', function () {

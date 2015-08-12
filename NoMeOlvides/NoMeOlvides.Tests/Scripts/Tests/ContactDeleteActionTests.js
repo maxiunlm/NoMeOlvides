@@ -41,7 +41,7 @@ describe('ContactController - ', function () {
 
             $controller = controller('DeleteAction', { $scope: $scope, $routeParams: $routeParams });
 
-            expect(_.findIndex).toHaveBeenCalled();
+            expect(_.findIndex).toHaveBeenCalledWith(jasmine.any(Object), { Id: contactId });
         });
 
         it('DeleteAction - Load data Contact to the Delete Form Page', function () {
@@ -81,7 +81,7 @@ describe('ContactController - ', function () {
 
             $scope.Delete();
 
-            expect($scope.http.delete).toHaveBeenCalled();
+            expect($scope.http.delete).toHaveBeenCalledWith('/WebApi/ContactApi/' + contactId, {});
         });
 
         it('Delete - Must call the "escape" Method for special characters on an URI', function () {
@@ -90,7 +90,7 @@ describe('ContactController - ', function () {
 
             $scope.Delete();
 
-            expect(window.escape).toHaveBeenCalled();
+            expect(window.escape).toHaveBeenCalledWith(contactId);
         });
     });
     
@@ -115,7 +115,7 @@ describe('ContactController - ', function () {
 
             $scope.Delete();
 
-            expect($scope.onDeleteSuccess).toHaveBeenCalled();
+            expect($scope.onDeleteSuccess).toHaveBeenCalledWith(callBackSuccessDataWithoutError);
         }));
 
         it('Delete - After call http post Method must call error event ErrorManager.getInstance().onGenealErrorEvent', inject(function ($http, $httpBackend) {
@@ -127,7 +127,7 @@ describe('ContactController - ', function () {
 
             $scope.Delete();
 
-            expect(ErrorManager.getInstance().onGenealErrorEvent).toHaveBeenCalled();
+            expect(ErrorManager.getInstance().onGenealErrorEvent).toHaveBeenCalledWith(callBackSuccessDataWithError);
         }));
 
         it('Delete - Stablish isForm == FALSE status for the GUI', function () {
@@ -191,7 +191,7 @@ describe('ContactController - ', function () {
 
             $scope.onDeleteSuccess(httpDataResultOk);
 
-            expect(_.findIndex).toHaveBeenCalled();
+            expect(_.findIndex).toHaveBeenCalledWith([], { Id: contactId });
         });
 
         it('Delete - onDeleteSuccess - With data result of a delete contact invokes method splice of Array.prototype object', function () {
@@ -201,7 +201,7 @@ describe('ContactController - ', function () {
 
             $scope.onDeleteSuccess(httpDataResultOk);
 
-            expect(Array.prototype.splice).toHaveBeenCalled();
+            expect(Array.prototype.splice).toHaveBeenCalledWith(-1, 1);
         });
 
         it('Delete - onDeleteSuccess - With data result of a delete contact returns to root Uri', function () {

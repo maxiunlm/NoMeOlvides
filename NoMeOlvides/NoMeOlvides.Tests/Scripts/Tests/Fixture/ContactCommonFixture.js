@@ -5,7 +5,7 @@ var Contact = {};
 
 var contactId = "5582a9d8dbe53f1b8059d787";
 var firstContact = {
-    "Id": "5580024fdbe5410c9ca00b4d",
+    "Id": contactId,
     "Alias": "El Mazzi (6)",
     "Name": "Maximiliano",
     "Surname": "Gauna",

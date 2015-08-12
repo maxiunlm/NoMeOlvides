@@ -6,8 +6,7 @@
 describe('AopManager - ', function () {
     var sut;
 
-    beforeEach(function () {
-    });
+    beforeEach(function () { });
 
     describe('CONSTRUCTOR - ', function () {
         beforeEach(function () {
@@ -123,21 +122,15 @@ describe('AopManager - ', function () {
         });
 
         it('Invoke the log method of console object', function () {
-            spyOn(console, 'log').and.callFake(function () {
-            });
+            spyOn(console, 'log').and.callFake(function () { });
 
             sut.log();
 
-            expect(console.log).toHaveBeenCalled();
+            expect(console.log).toHaveBeenCalledWith(jasmine.any(String), undefined);
         });
 
         it('With all the parameters generate a log message', function () {
-            var hasObjectParamUsed = false;
-            spyOn(console, 'log').and.callFake(function (param1, objectParam) {
-                if (angular.isDefined(objectParam)) {
-                    hasObjectParamUsed = true;
-                }
-            });
+            spyOn(console, 'log').and.callFake(function (param1, objectParam) { });
 
             sut.log(aopMethod, method, typeParam, objectParam, typeMessage, attemptCounter);
 
@@ -148,7 +141,7 @@ describe('AopManager - ', function () {
             expect(sut.lastLogMessage.indexOf(typeParam) > 0).toBeTruthy();
             expect(sut.lastLogMessage.indexOf(typeMessage) > 0).toBeTruthy();
             expect(sut.lastLogMessage.indexOf(attemptCounter) > 0).toBeTruthy();
-            expect(hasObjectParamUsed).toBeTruthy();
+            expect(console.log).toHaveBeenCalledWith(jasmine.any(String), objectParam);
         });
     });
 
@@ -162,98 +155,63 @@ describe('AopManager - ', function () {
 
             sut.beforeLogEvent(arguments, method);
 
-            expect(sut.log).toHaveBeenCalled();
+            expect(sut.log).toHaveBeenCalledWith('beforeLogEvent', 'method', 'Invocation arguments', jasmine.any(Object));
         });
 
         it('With "aopMethod" parameter "undefined" calls "log" method with the string value "beforeLogEvent"', function () {
-            var hasAopMethodDeclared = false;
-            spyOn(sut, 'log').and.callFake(function (aopMethod) {
-                if (aopMethod === 'beforeLogEvent') {
-                    hasAopMethodDeclared = true;
-                }
-            });
+            spyOn(sut, 'log').and.callFake(function (aopMethod) { });
 
             sut.beforeLogEvent(arguments, method);
 
-            expect(hasAopMethodDeclared).toBeTruthy();
+            expect(sut.log).toHaveBeenCalledWith('beforeLogEvent', 'method', 'Invocation arguments', jasmine.any(Object));
         });
 
         it('With "aopMethod" parameter "null" calls "log" method with the string value "beforeLogEvent"', function () {
-            var hasAopMethodDeclared = false;
-            spyOn(sut, 'log').and.callFake(function (aopMethod) {
-                if (aopMethod === 'beforeLogEvent') {
-                    hasAopMethodDeclared = true;
-                }
-            });
+            spyOn(sut, 'log').and.callFake(function (aopMethod) { });
 
             sut.beforeLogEvent(arguments, method, null);
 
-            expect(hasAopMethodDeclared).toBeTruthy();
+            expect(sut.log).toHaveBeenCalledWith('beforeLogEvent', 'method', 'Invocation arguments', jasmine.any(Object));
         });
 
         it('With all parameters "undefined" calls "log" method with "aopMethod" parameter with the string value "beforeLogEvent"', function () {
-            var hasAopMethodDeclared = false;
-            spyOn(sut, 'log').and.callFake(function (aopMethod) {
-                if (aopMethod === 'beforeLogEvent') {
-                    hasAopMethodDeclared = true;
-                }
-            });
+            spyOn(sut, 'log').and.callThrough();
 
             sut.beforeLogEvent();
 
-            expect(hasAopMethodDeclared).toBeTruthy();
+            expect(sut.log).toHaveBeenCalledWith('beforeLogEvent', undefined, jasmine.any(String), undefined);
         });
 
         it('With all parameters "null" calls "log" method with "aopMethod" parameter with the string value "beforeLogEvent"', function () {
-            var hasAopMethodDeclared = false;
-            spyOn(sut, 'log').and.callFake(function (aopMethod) {
-                if (aopMethod === 'beforeLogEvent') {
-                    hasAopMethodDeclared = true;
-                }
-            });
+            spyOn(sut, 'log').and.callThrough();
 
             sut.beforeLogEvent(null, null, null);
 
-            expect(hasAopMethodDeclared).toBeTruthy();
+            expect(sut.log).toHaveBeenCalledWith('beforeLogEvent', null, jasmine.any(String), null);
         });
 
         it('With all parameters "undefined" calls "log" method with the same parameters and "typeParam" = "Invocation arguments"', function () {
-            var hasTypeParamDeclared = false;
-            spyOn(sut, 'log').and.callFake(function (aopMethod, method, typeParam, arguments) {
-                if (typeParam === 'Invocation arguments') {
-                    hasTypeParamDeclared = true;
-                }
-            });
+            spyOn(sut, 'log').and.callThrough();
 
             sut.beforeLogEvent();
 
-            expect(hasTypeParamDeclared).toBeTruthy();
+            expect(sut.log).toHaveBeenCalledWith(jasmine.any(String), undefined, 'Invocation arguments', undefined);
         });
 
         it('With all parameters "null" calls "log" method with the same parameters and "typeParam" = "Invocation arguments"', function () {
-            var hasTypeParamDeclared = false;
-            spyOn(sut, 'log').and.callFake(function (aopMethod, method, typeParam, arguments) {
-                if (typeParam === 'Invocation arguments') {
-                    hasTypeParamDeclared = true;
-                }
-            });
+            spyOn(sut, 'log').and.callThrough();
 
             sut.beforeLogEvent(null, null, null);
 
-            expect(hasTypeParamDeclared).toBeTruthy();
+            expect(sut.log).toHaveBeenCalledWith(jasmine.any(String), null, 'Invocation arguments', null);
         });
 
         it('With all the parameters calls "log" method with the same parameters and "typeParam" = "Invocation arguments"', function () {
-            var hasTypeParamDeclared = false;
-            spyOn(sut, 'log').and.callFake(function (aopMethod, method, typeParam, arguments) {
-                if (typeParam === 'Invocation arguments') {
-                    hasTypeParamDeclared = true;
-                }
-            });
+            spyOn(sut, 'log').and.callThrough();
 
             sut.beforeLogEvent(arguments, method, aopMethod);
 
-            expect(hasTypeParamDeclared).toBeTruthy();
+            expect(sut.log).toHaveBeenCalledWith(aopMethod, method, 'Invocation arguments', arguments);
         });
     });
 
@@ -267,98 +225,63 @@ describe('AopManager - ', function () {
 
             sut.afterLogEvent(arguments, method);
 
-            expect(sut.log).toHaveBeenCalled();
+            expect(sut.log).toHaveBeenCalledWith('afterLogEvent', method, 'Invocation result', arguments);
         });
 
         it('With "aopMethod" parameter "undefined" calls "log" method with the string value "afterLogEvent"', function () {
-            var hasAopMethodDeclared = false;
-            spyOn(sut, 'log').and.callFake(function (aopMethod) {
-                if (aopMethod === 'afterLogEvent') {
-                    hasAopMethodDeclared = true;
-                }
-            });
+            spyOn(sut, 'log').and.callThrough();
 
             sut.afterLogEvent(arguments, method);
 
-            expect(hasAopMethodDeclared).toBeTruthy();
+            expect(sut.log).toHaveBeenCalledWith('afterLogEvent', method, 'Invocation result', arguments);
         });
 
         it('With "aopMethod" parameter "null" calls "log" method with the string value "afterLogEvent"', function () {
-            var hasAopMethodDeclared = false;
-            spyOn(sut, 'log').and.callFake(function (aopMethod) {
-                if (aopMethod === 'afterLogEvent') {
-                    hasAopMethodDeclared = true;
-                }
-            });
+            spyOn(sut, 'log').and.callThrough();
 
             sut.afterLogEvent(arguments, method, null);
 
-            expect(hasAopMethodDeclared).toBeTruthy();
+            expect(sut.log).toHaveBeenCalledWith('afterLogEvent', method, 'Invocation result', arguments);
         });
 
         it('With all parameters "undefined" calls "log" method with "aopMethod" parameter with the string value "afterLogEvent"', function () {
-            var hasAopMethodDeclared = false;
-            spyOn(sut, 'log').and.callFake(function (aopMethod) {
-                if (aopMethod === 'afterLogEvent') {
-                    hasAopMethodDeclared = true;
-                }
-            });
+            spyOn(sut, 'log').and.callThrough();
 
             sut.afterLogEvent();
 
-            expect(hasAopMethodDeclared).toBeTruthy();
+            expect(sut.log).toHaveBeenCalledWith('afterLogEvent', undefined, jasmine.any(String), undefined);
         });
 
         it('With all parameters "null" calls "log" method with "aopMethod" parameter with the string value "afterLogEvent"', function () {
-            var hasAopMethodDeclared = false;
-            spyOn(sut, 'log').and.callFake(function (aopMethod) {
-                if (aopMethod === 'afterLogEvent') {
-                    hasAopMethodDeclared = true;
-                }
-            });
+            spyOn(sut, 'log').and.callThrough();
 
             sut.afterLogEvent(null, null, null);
 
-            expect(hasAopMethodDeclared).toBeTruthy();
+            expect(sut.log).toHaveBeenCalledWith('afterLogEvent', null, jasmine.any(String), null);
         });
 
         it('With all parameters "undefined" calls "log" method with the same parameters and "typeParam" = "Invocation result"', function () {
-            var hasTypeParamDeclared = false;
-            spyOn(sut, 'log').and.callFake(function (aopMethod, method, typeParam, arguments) {
-                if (typeParam === 'Invocation result') {
-                    hasTypeParamDeclared = true;
-                }
-            });
+            spyOn(sut, 'log').and.callThrough();
 
             sut.afterLogEvent();
 
-            expect(hasTypeParamDeclared).toBeTruthy();
+            expect(sut.log).toHaveBeenCalledWith(jasmine.any(String), undefined, 'Invocation result', undefined);
         });
 
         it('With all parameters "null" calls "log" method with the same parameters and "typeParam" = "Invocation result"', function () {
-            var hasTypeParamDeclared = false;
-            spyOn(sut, 'log').and.callFake(function (aopMethod, method, typeParam, arguments) {
-                if (typeParam === 'Invocation result') {
-                    hasTypeParamDeclared = true;
-                }
-            });
+            spyOn(sut, 'log').and.callThrough();
 
             sut.afterLogEvent(null, null, null);
 
-            expect(hasTypeParamDeclared).toBeTruthy();
+            expect(sut.log).toHaveBeenCalledWith(jasmine.any(String), null, 'Invocation result', null);
         });
 
         it('With all the parameters calls "log" method with the same parameters and "typeParam" = "Invocation result"', function () {
-            var hasTypeParamDeclared = false;
-            spyOn(sut, 'log').and.callFake(function (aopMethod, method, typeParam, arguments) {
-                if (typeParam === 'Invocation result') {
-                    hasTypeParamDeclared = true;
-                }
-            });
+            spyOn(sut, 'log').and.callThrough();
 
             sut.afterLogEvent(arguments, method, aopMethod);
 
-            expect(hasTypeParamDeclared).toBeTruthy();
+            expect(sut.log).toHaveBeenCalledWith(aopMethod, method, 'Invocation result', arguments);
         });
     });
 
@@ -368,9 +291,7 @@ describe('AopManager - ', function () {
         });
 
         it('Without parameters throw an exception', function () {
-            expect(function () {
-                sut.aroundLogEvent();
-            }).toThrow();
+            expect(function () { sut.aroundLogEvent(); }).toThrow();
         });
 
         it('With an empty "invocation" parameter invoke to "beforeLogEvent" method', function () {
@@ -378,20 +299,15 @@ describe('AopManager - ', function () {
 
             sut.aroundLogEvent(invocationEmpty);
 
-            expect(sut.beforeLogEvent).toHaveBeenCalled();
+            expect(sut.beforeLogEvent).toHaveBeenCalledWith([], undefined, 'aroundLogEvent');
         });
 
         it('With an empty "invocation" parameter call "beforeLogEvent" with "aopMethod" equals to "aroundLogEvent"', function () {
-            var hasAopMethodDeclared = false;
-            spyOn(sut, 'beforeLogEvent').and.callFake(function (arguments, method, aopMethod) {
-                if (aopMethod === 'aroundLogEvent') {
-                    hasAopMethodDeclared = true;
-                }
-            });
+            spyOn(sut, 'beforeLogEvent').and.callFake(function (arguments, method, aopMethod) {});
 
             sut.aroundLogEvent(invocationEmpty);
 
-            expect(hasAopMethodDeclared).toBeTruthy();
+            expect(sut.beforeLogEvent).toHaveBeenCalledWith(jasmine.any(Object), undefined, 'aroundLogEvent');
         });
 
         it('With an empty "invocation" parameter invoke to "invocation.proceed" method', function () {
@@ -408,65 +324,45 @@ describe('AopManager - ', function () {
 
             sut.aroundLogEvent(invocationEmpty);
 
-            expect(sut.afterLogEvent).toHaveBeenCalled();
+            expect(sut.afterLogEvent).toHaveBeenCalledWith(undefined, undefined, 'aroundLogEvent');
         });
 
         it('With an empty "invocation" parameter call "afterLogEvent" with "aopMethod" equals to "aroundLogEvent"', function () {
-            var hasAopMethodDeclared = false;
-            spyOn(sut, 'afterLogEvent').and.callFake(function (result, method, aopMethod) {
-                if (aopMethod === 'aroundLogEvent') {
-                    hasAopMethodDeclared = true;
-                }
-            });
+            spyOn(sut, 'afterLogEvent').and.callFake(function (result, method, aopMethod) { });
 
             sut.aroundLogEvent(invocationEmpty);
 
-            expect(hasAopMethodDeclared).toBeTruthy();
+            expect(sut.afterLogEvent).toHaveBeenCalledWith(undefined, undefined, 'aroundLogEvent');
         });
 
         it('With a result of the invoke of "invocation.proceed" call "afterLogEvent" method', function () {
-            var hasResultDeclared = false;
-            spyOn(sut, 'afterLogEvent').and.callFake(function (result, method, aopMethod) {
-                if (result === 'proceed') {
-                    hasResultDeclared = true;
-                }
-            });
+            spyOn(sut, 'afterLogEvent').and.callFake(function (result, method, aopMethod) { });
             spyOn(invocationEmpty, 'proceed').and.callFake(function () {
                 return 'proceed';
             });
 
             sut.aroundLogEvent(invocationEmpty);
 
-            expect(hasResultDeclared).toBeTruthy();
+            expect(sut.afterLogEvent).toHaveBeenCalledWith('proceed', undefined, 'aroundLogEvent');
         });
 
         it('With a null result of the invoke of "invocation.proceed" call "afterLogEvent" method', function () {
-            var hasResultNulled = false;
-            spyOn(sut, 'afterLogEvent').and.callFake(function (result, method, aopMethod) {
-                if (result === null) {
-                    hasResultNulled = true;
-                }
-            });
+            spyOn(sut, 'afterLogEvent').and.callFake(function (result, method, aopMethod) { });
             spyOn(invocationEmpty, 'proceed').and.callFake(function () {
                 return null;
             });
 
             sut.aroundLogEvent(invocationEmpty);
 
-            expect(hasResultNulled).toBeTruthy();
+            expect(sut.afterLogEvent).toHaveBeenCalledWith(null, undefined, 'aroundLogEvent');
         });
 
         it('With an undefined result of the invoke of "invocation.proceed" call "afterLogEvent" method', function () {
-            var hasResultUndefined = false;
-            spyOn(sut, 'afterLogEvent').and.callFake(function (result, method, aopMethod) {
-                if (angular.isUndefined(result)) {
-                    hasResultUndefined = true;
-                }
-            });
+            spyOn(sut, 'afterLogEvent').and.callFake(function (result, method, aopMethod) { });
 
             sut.aroundLogEvent(invocationEmpty);
 
-            expect(hasResultUndefined).toBeTruthy();
+            expect(sut.afterLogEvent).toHaveBeenCalledWith(undefined, undefined, 'aroundLogEvent');
         });
     });
 
@@ -481,150 +377,84 @@ describe('AopManager - ', function () {
             try {
                 sut.afterThrowCatchEvent();
             } catch (e) {
-                expect(sut.log).toHaveBeenCalled();
+                expect(sut.log).toHaveBeenCalledWith('afterThrowCatchEvent', undefined, 'Exception throwed', undefined, 'ERROR');
             }
         });
 
         it('With the parameter "typeParam" == "Exception throwed" calls "log" method ', function () {
-            var hasTypeParamDeclared = false;
-            spyOn(sut, 'log').and.callFake(function (aopMethod, method, typeParam) {
-                if (typeParam === 'Exception throwed') {
-                    hasTypeParamDeclared = true;
-                }
-            });
+            spyOn(sut, 'log').and.callFake(function (aopMethod, method, typeParam) { });
 
             try {
                 sut.afterThrowCatchEvent();
             } catch (e) {
-                expect(hasTypeParamDeclared).toBeTruthy();
+                expect(sut.log).toHaveBeenCalledWith(jasmine.any(String), undefined, 'Exception throwed', undefined, jasmine.any(String));
             }
         });
 
         it('With the parameter "typeMessage" == "ERROR" calls "log" method ', function () {
-            var hasTypeMessageDeclared = false;
-            spyOn(sut, 'log').and.callFake(function (aopMethod, method, typeParam, objectParam, typeMessage) {
-                if (typeMessage === 'ERROR') {
-                    hasTypeMessageDeclared = true;
-                }
-            });
+            spyOn(sut, 'log').and.callFake(function (aopMethod, method, typeParam, objectParam, typeMessage) { });
 
             try {
                 sut.afterThrowCatchEvent();
             } catch (e) {
-                expect(hasTypeMessageDeclared).toBeTruthy();
+                expect(sut.log).toHaveBeenCalledWith(jasmine.any(String), undefined, jasmine.any(String), undefined, 'ERROR');
             }
         });
 
         it('With "aopMethod" parameter "undefined" calls "log" method with the string value "afterThrowCatchEvent"', function () {
-            var hasAopMethodDeclared = false;
-            spyOn(sut, 'log').and.callFake(function (aopMethod) {
-                if (aopMethod === 'afterThrowCatchEvent') {
-                    hasAopMethodDeclared = true;
-                }
-            });
+            spyOn(sut, 'log').and.callFake(function (aopMethod) { });
 
             try {
                 sut.afterThrowCatchEvent(exception, method);
             } catch (e) {
-                expect(hasAopMethodDeclared).toBeTruthy();
+                expect(sut.log).toHaveBeenCalledWith('afterThrowCatchEvent', method, jasmine.any(String), exception, jasmine.any(String));
             }
         });
-        
+
         it('With "aopMethod" parameter "null" calls "log" method with the string value "afterThrowCatchEvent"', function () {
-            var hasAopMethodDeclared = false;
-            spyOn(sut, 'log').and.callFake(function (aopMethod) {
-                if (aopMethod === 'afterThrowCatchEvent') {
-                    hasAopMethodDeclared = true;
-                }
-            });
+            spyOn(sut, 'log').and.callFake(function (aopMethod) { });
 
             try {
                 sut.afterThrowCatchEvent(exception, method, null);
             } catch (e) {
-                expect(hasAopMethodDeclared).toBeTruthy();
+                expect(sut.log).toHaveBeenCalledWith('afterThrowCatchEvent', method, jasmine.any(String), exception, jasmine.any(String));
             }
         });
 
         it('With all parameters "undefined" calls "log" method with "aopMethod" parameter with the string value "afterThrowCatchEvent"', function () {
-            var hasAopMethodDeclared = false;
-            spyOn(sut, 'log').and.callFake(function (aopMethod) {
-                if (aopMethod === 'afterThrowCatchEvent') {
-                    hasAopMethodDeclared = true;
-                }
-            });
+            spyOn(sut, 'log').and.callFake(function (aopMethod) { });
 
             try {
                 sut.afterThrowCatchEvent();
             } catch (e) {
-                expect(hasAopMethodDeclared).toBeTruthy();
+                expect(sut.log).toHaveBeenCalledWith('afterThrowCatchEvent', undefined, jasmine.any(String), undefined, jasmine.any(String));
             }
         });
 
         it('With all parameters "null" calls "log" method with "aopMethod" parameter with the string value "afterThrowCatchEvent"', function () {
-            var hasAopMethodDeclared = false;
-            spyOn(sut, 'log').and.callFake(function (aopMethod) {
-                if (aopMethod === 'afterThrowCatchEvent') {
-                    hasAopMethodDeclared = true;
-                }
-            });
+            spyOn(sut, 'log').and.callFake(function (aopMethod) { });
 
             try {
                 sut.afterThrowCatchEvent(null, null, null);
             } catch (e) {
-                expect(hasAopMethodDeclared).toBeTruthy();
+                expect(sut.log).toHaveBeenCalledWith('afterThrowCatchEvent', null, jasmine.any(String), null, jasmine.any(String));
             }
         });
 
         it('With all the parameters except "attemptCounter" calls "log" method', function () {
-            var hasAopMethodDeclared = false;
-            var hasTypeMessageDeclared = false;
-            var hasTypeParamDeclared = false;
-            var hasMethodDeclared = false;
-            var hasObjectParamDeclared = false;
-            var hasAttemptCounterDeclared = false;
-            spyOn(sut, 'log').and.callFake(function (aopMethodFake, methodFake, typeParam, objectParamFake, typeMessage, attemptCounter) {
-                if (aopMethodFake === aopMethod) {
-                    hasAopMethodDeclared = true;
-                }
-                if (typeParam === 'Exception throwed') {
-                    hasTypeParamDeclared = true;
-                }
-                if (typeMessage === 'ERROR') {
-                    hasTypeMessageDeclared = true;
-                }
-                if (methodFake === method) {
-                    hasMethodDeclared = true;
-                }
-                if (objectParamFake === exception) {
-                    hasObjectParamDeclared = true;
-                }
-                if (angular.isDefined(attemptCounter)) {
-                    hasAttemptCounterDeclared = true;
-                }
-            });
+            spyOn(sut, 'log').and.callFake(function (aopMethodFake, methodFake, typeParam, objectParamFake, typeMessage, attemptCounter) { });
 
             try {
                 sut.afterThrowCatchEvent(exception, method, aopMethod);
             } catch (e) {
-                expect(hasAopMethodDeclared).toBeTruthy();
-                expect(hasTypeParamDeclared).toBeTruthy();
-                expect(hasTypeMessageDeclared).toBeTruthy();
-                expect(hasMethodDeclared).toBeTruthy();
-                expect(hasObjectParamDeclared).toBeTruthy();
-                expect(hasAttemptCounterDeclared).toBeFalsy();
+                expect(sut.log).toHaveBeenCalledWith(aopMethod, method, 'Exception throwed', exception, 'ERROR');
             }
         });
 
         it('With an exception throws the same exception', function () {
 
-            try {
-                sut.afterThrowCatchEvent(exception, method, aopMethod);
-            } catch (e) {
-                expect(e instanceof Error).toBeTruthy();
-                expect(e).toBe(exception);
-            }
+            expect(function () { sut.afterThrowCatchEvent(exception, method, aopMethod) }).toThrowError(Error);
 
-            // ??? No funciona -> expect(sut.afterThrowCatchEvent(exception, method, aopMethod)).toThrowError(Error, exception.message);
         });
     });
 
@@ -634,9 +464,9 @@ describe('AopManager - ', function () {
         });
 
         it('Without parameters throw an exception', function () {
-            expect(function () {
-                sut.aroundLogThrowCatchEvent();
-            }).toThrow();
+
+            expect(function () { sut.aroundLogThrowCatchEvent(); }).toThrow();
+
         });
 
         it('With an empty "invocation" parameter invokes to "beforeLogEvent" method', function () {
@@ -644,30 +474,15 @@ describe('AopManager - ', function () {
 
             sut.aroundLogThrowCatchEvent(invocationEmpty);
 
-            expect(sut.beforeLogEvent).toHaveBeenCalled();
+            expect(sut.beforeLogEvent).toHaveBeenCalledWith([], undefined, 'aroundLogThrowCatchEvent');
         });
 
         it('With an "invocation" parameter invokes to "beforeLogEvent" method with the correct parameters', function () {
-            var hasAopMethodDeclared = false;
-            var hasArgumentsDeclared = false;
-            var hasMethodDeclared = false;
-            spyOn(sut, 'beforeLogEvent').and.callFake(function (arguments, method, aopMethod) {
-                if (aopMethod === 'aroundLogThrowCatchEvent') {
-                    hasAopMethodDeclared = true;
-                }
-                if (arguments === invocationDataX1.arguments) {
-                    hasArgumentsDeclared = true;
-                }
-                if (method === invocationDataX1.method) {
-                    hasMethodDeclared = true;
-                }
-            });
+            spyOn(sut, 'beforeLogEvent').and.callFake(function (arguments, method, aopMethod) { });
 
             sut.aroundLogThrowCatchEvent(invocationDataX1);
 
-            expect(hasAopMethodDeclared).toBeTruthy();
-            expect(hasArgumentsDeclared).toBeTruthy();
-            expect(hasMethodDeclared).toBeTruthy();
+            expect(sut.beforeLogEvent).toHaveBeenCalledWith(invocationDataX1.arguments, invocationDataX1.method, 'aroundLogThrowCatchEvent');
         });
 
         it('With an empty "invocation" parameter invokes to "invocation.proceed" method', function () {
@@ -686,7 +501,7 @@ describe('AopManager - ', function () {
 
             sut.aroundLogThrowCatchEvent(invocationDataX1);
 
-            expect(sut.afterLogEvent).toHaveBeenCalled();
+            expect(sut.afterLogEvent).toHaveBeenCalledWith(stringResult, invocationDataX1.method, 'aroundLogThrowCatchEvent');
         });
 
         it('Calls "invocation.proceed" method without a result value, then never invokes afterLogEvent', function () {
@@ -699,29 +514,14 @@ describe('AopManager - ', function () {
         });
 
         it('With an "invocation" parameter invokes to "afterLogEvent" method with the correct parameters', function () {
-            var hasAopMethodDeclared = false;
-            var hasResultDeclared = false;
-            var hasMethodDeclared = false;
-            spyOn(sut, 'afterLogEvent').and.callFake(function (result, method, aopMethod) {
-                if (aopMethod === 'aroundLogThrowCatchEvent') {
-                    hasAopMethodDeclared = true;
-                }
-                if (result === stringResult) {
-                    hasResultDeclared = true;
-                }
-                if (method === invocationDataX1.method) {
-                    hasMethodDeclared = true;
-                }
-            });
+            spyOn(sut, 'afterLogEvent').and.callFake(function (result, method, aopMethod) { });
             spyOn(invocationDataX1, 'proceed').and.callFake(function () {
                 return stringResult;
             });
 
             sut.aroundLogThrowCatchEvent(invocationDataX1);
 
-            expect(hasAopMethodDeclared).toBeTruthy();
-            expect(hasResultDeclared).toBeTruthy();
-            expect(hasMethodDeclared).toBeTruthy();
+            expect(sut.afterLogEvent).toHaveBeenCalledWith(stringResult, invocationDataX1.method, 'aroundLogThrowCatchEvent');
         });
 
         it('Calls "invocation.proceed" method that throws and exception, then invokes the "afterThrowCatchEvent" method', function () {
@@ -733,7 +533,7 @@ describe('AopManager - ', function () {
             try {
                 sut.aroundLogThrowCatchEvent(invocationDataX1);
             } catch (e) {
-                expect(sut.afterThrowCatchEvent).toHaveBeenCalled();
+                expect(sut.afterThrowCatchEvent).toHaveBeenCalledWith(exception, invocationDataX1.method, 'aroundLogThrowCatchEvent');
             }
         });
 
@@ -751,20 +551,7 @@ describe('AopManager - ', function () {
         });
 
         it('With an "invocation" parameter, calls "invocation.proceed" method that throws and exception, invokes to "aroundLogThrowCatchEvent" method with the correct parameters', function () {
-            var hasAopMethodDeclared = false;
-            var hasExceptionDeclared = false;
-            var hasMethodDeclared = false;
-            spyOn(sut, 'afterThrowCatchEvent').and.callFake(function (exceptionFake, method, aopMethod) {
-                if (aopMethod === 'aroundLogThrowCatchEvent') {
-                    hasAopMethodDeclared = true;
-                }
-                if (exceptionFake === exception) {
-                    hasExceptionDeclared = true;
-                }
-                if (method === invocationDataX1.method) {
-                    hasMethodDeclared = true;
-                }
-            });
+            spyOn(sut, 'afterThrowCatchEvent').and.callFake(function (exceptionFake, method, aopMethod) { });
             spyOn(invocationDataX1, 'proceed').and.callFake(function () {
                 throw exception;
             });
@@ -772,9 +559,7 @@ describe('AopManager - ', function () {
             try {
                 sut.aroundLogThrowCatchEvent(invocationDataX1);
             } finally {
-                expect(hasAopMethodDeclared).toBeTruthy();
-                expect(hasExceptionDeclared).toBeTruthy();
-                expect(hasMethodDeclared).toBeTruthy();
+                expect(sut.afterThrowCatchEvent).toHaveBeenCalledWith(exception, invocationDataX1.method, 'aroundLogThrowCatchEvent');
             }
         });
     });
@@ -819,57 +604,27 @@ describe('AopManager - ', function () {
             try {
                 sut.afterFinallyEvent(stringResult, exception, method);
             } catch (e) {
-                expect(sut.afterLogEvent).toHaveBeenCalled();
-                expect(sut.afterThrowCatchEvent).toHaveBeenCalled();
+                expect(sut.afterLogEvent).toHaveBeenCalledWith(stringResult, method, 'afterFinallyEvent');
+                expect(sut.afterThrowCatchEvent).toHaveBeenCalledWith(exception, method, 'afterFinallyEvent');
             }
         });
 
         it('With all the parameters always calls the "afterLogEvent" method with the correct parameters', function () {
-            var hasAopMethodDeclared = false;
-            var hasResultDeclared = false;
-            var hasMethodDeclared = false;
-            spyOn(sut, 'afterLogEvent').and.callFake(function (resultFake, methodFake, aopMethod) {
-                if (aopMethod === 'afterFinallyEvent') {
-                    hasAopMethodDeclared = true;
-                }
-                if (resultFake === stringResult) {
-                    hasResultDeclared = true;
-                }
-                if (methodFake === invocationDataX1.method) {
-                    hasMethodDeclared = true;
-                }
-            });
+            spyOn(sut, 'afterLogEvent').and.callFake(function (resultFake, methodFake, aopMethod) { });
             spyOn(sut, 'afterThrowCatchEvent').and.callFake(function () { });
 
             sut.afterFinallyEvent(stringResult, exception, method);
 
-            expect(hasAopMethodDeclared).toBeTruthy();
-            expect(hasResultDeclared).toBeTruthy();
-            expect(hasMethodDeclared).toBeTruthy();
+            expect(sut.afterLogEvent).toHaveBeenCalledWith(stringResult, invocationDataX1.method, 'afterFinallyEvent');
         });
 
         it('With all the parameters always calls the "afterThrowCatchEvent" method with the correct parameters', function () {
-            var hasAopMethodDeclared = false;
-            var hasExceptionDeclared = false;
-            var hasMethodDeclared = false;
-            spyOn(sut, 'afterThrowCatchEvent').and.callFake(function (exceptionFake, methodFake, aopMethod) {
-                if (aopMethod === 'afterFinallyEvent') {
-                    hasAopMethodDeclared = true;
-                }
-                if (exceptionFake === exception) {
-                    hasExceptionDeclared = true;
-                }
-                if (methodFake === method) {
-                    hasMethodDeclared = true;
-                }
-            });
+            spyOn(sut, 'afterThrowCatchEvent').and.callFake(function (exceptionFake, methodFake, aopMethod) { });
             spyOn(sut, 'afterLogEvent').and.callThrough();
 
             sut.afterFinallyEvent(stringResult, exception, method);
 
-            expect(hasAopMethodDeclared).toBeTruthy();
-            expect(hasExceptionDeclared).toBeTruthy();
-            expect(hasMethodDeclared).toBeTruthy();
+            expect(sut.afterThrowCatchEvent).toHaveBeenCalledWith(exception, method, 'afterFinallyEvent');
         });
     });
 
@@ -883,7 +638,7 @@ describe('AopManager - ', function () {
             expect(sut.afterThrowRetryEvent).toThrowError(TypeError);
 
         });
-        
+
         it('With only an empty "callback" parameter invokes "getHasAnotherAttempt" method', function () {
             spyOn(sut, 'getHasAnotherAttempt').and.callFake(function () {
                 return true;
@@ -893,7 +648,7 @@ describe('AopManager - ', function () {
 
             expect(sut.getHasAnotherAttempt).toHaveBeenCalled();
         });
-        
+
         it('With only an empty "callback" parameter, calls "getHasAnotherAttempt" method that returns true, then invokes "log" method', function () {
             spyOn(sut, 'getHasAnotherAttempt').and.callFake(function () {
                 return true;
@@ -902,7 +657,7 @@ describe('AopManager - ', function () {
 
             sut.afterThrowRetryEvent(undefined, undefined, callbackEmpty);
 
-            expect(sut.log).toHaveBeenCalled();
+            expect(sut.log).toHaveBeenCalledWith('afterThrowCatchEvent', undefined, 'Exception throwed', undefined, 'ERROR');
         });
 
         it('With only an empty "callback" parameter, calls "getHasAnotherAttempt" method that returns true, then invokes "callback.apply" method', function () {
@@ -913,7 +668,7 @@ describe('AopManager - ', function () {
 
             sut.afterThrowRetryEvent(undefined, undefined, callbackEmpty);
 
-            expect(callbackEmpty.apply).toHaveBeenCalled();
+            expect(callbackEmpty.apply).toHaveBeenCalledWith(undefined, []);
         });
 
         it('With all the parameters, calls "getHasAnotherAttempt" method that returns true, then invokes "log" method', function () {
@@ -924,43 +679,18 @@ describe('AopManager - ', function () {
 
             sut.afterThrowRetryEvent(exception, aopObject, callbackEmpty, method);
 
-            expect(sut.log).toHaveBeenCalled();
+            expect(sut.log).toHaveBeenCalledWith('afterThrowCatchEvent', method, 'Exception throwed', exception, 'ERROR');
         });
 
         it('With all the parameters, calls "getHasAnotherAttempt" method that returns true, then calls "log" method with the correct parameters', function () {
-            var hasAopMethodDeclared = false;
-            var hasExceptionDeclared = false;
-            var hasMethodDeclared = false;
-            var hasTypeParamDeclared = false;
-            var hasTypeMessageDeclared = false;
-            spyOn(sut, 'log').and.callFake(function (aopMethod, methodFake, typeParam, objectParam, typeMessage) {
-                if (aopMethod === 'afterThrowCatchEvent') {
-                    hasAopMethodDeclared = true;
-                }
-                if (typeParam === 'Exception throwed') {
-                    hasTypeParamDeclared = true;
-                }
-                if (typeMessage === 'ERROR') {
-                    hasTypeMessageDeclared = true;
-                }
-                if (objectParam === exception) {
-                    hasExceptionDeclared = true;
-                }
-                if (methodFake === method) {
-                    hasMethodDeclared = true;
-                }
-            });
+            spyOn(sut, 'log').and.callFake(function (aopMethod, methodFake, typeParam, objectParam, typeMessage) { });
             spyOn(sut, 'getHasAnotherAttempt').and.callFake(function () {
                 return true;
             });
 
             sut.afterThrowRetryEvent(exception, aopObject, callbackX1, method);
 
-            expect(hasAopMethodDeclared).toBeTruthy();
-            expect(hasExceptionDeclared).toBeTruthy();
-            expect(hasMethodDeclared).toBeTruthy();
-            expect(hasTypeParamDeclared).toBeTruthy();
-            expect(hasTypeMessageDeclared).toBeTruthy();
+            expect(sut.log).toHaveBeenCalledWith('afterThrowCatchEvent', method, 'Exception throwed', exception, 'ERROR');
         });
 
         it('With all the parameters, calls "getHasAnotherAttempt" method that returns true, then invokes "callback.apply" method', function () {
@@ -971,28 +701,18 @@ describe('AopManager - ', function () {
 
             sut.afterThrowRetryEvent(exception, aopObject, callbackX1, method);
 
-            expect(callbackX1.apply).toHaveBeenCalled();
+            expect(callbackX1.apply).toHaveBeenCalledWith({}, ['argument1']);
         });
 
         it('With all the parameters, calls "getHasAnotherAttempt" method that returns true, then invokes "callback.apply" method with the correct parameters', function () {
-            var hasAopObjectDeclared = false;
-            var hasArgumentsDeclared = false;
-            spyOn(callbackX1, 'apply').and.callFake(function (aopObjectFake, arguments) {
-                if (aopObjectFake === aopObject) {
-                    hasAopObjectDeclared = true;
-                }
-                if (arguments === callbackX1.arguments) {
-                    hasArgumentsDeclared = true;
-                }
-            });
+            spyOn(callbackX1, 'apply').and.callFake(function (aopObjectFake, arguments) { });
             spyOn(sut, 'getHasAnotherAttempt').and.callFake(function () {
                 return true;
             });
 
             sut.afterThrowRetryEvent(exception, aopObject, callbackX1, method);
 
-            expect(hasAopObjectDeclared).toBeTruthy();
-            expect(hasArgumentsDeclared).toBeTruthy();
+            expect(callbackX1.apply).toHaveBeenCalledWith(aopObject, callbackX1.arguments);
         });
 
         it('Without parameters, calls "getHasAnotherAttempt" method that returns false, then invokes "log" method', function () {
@@ -1004,7 +724,7 @@ describe('AopManager - ', function () {
             try {
                 sut.afterThrowRetryEvent(undefined, undefined, callbackEmpty);
             } catch (e) {
-                expect(sut.log).toHaveBeenCalled();
+                expect(sut.log).toHaveBeenCalledWith('afterThrowCatchEvent', undefined, 'Exception throwed', undefined, 'ERROR', -1);
             }
         });
 
@@ -1037,41 +757,12 @@ describe('AopManager - ', function () {
                 return false;
             });
 
-            try {
-                sut.afterThrowRetryEvent(exception);
-            } catch (e) {
-                expect(e instanceof Error).toBeTruthy();
-                expect(e).toBe(exception);
-            }
+            expect(function () { sut.afterThrowRetryEvent(exception); }).toThrowError(Error);
+
         });
 
         it('With all the parameters, calls "getHasAnotherAttempt" method that returns false, then invokes "log" method with the correct parameters', function () {
-            var hasAopMethodDeclared = false;
-            var hasExceptionDeclared = false;
-            var hasMethodDeclared = false;
-            var hasTypeParamDeclared = false;
-            var hasTypeMessageDeclared = false;
-            var hasAttemptCounterDeclared = false;
-            spyOn(sut, 'log').and.callFake(function (aopMethod, methodFake, typeParam, objectParam, typeMessage, attemptCounter) {
-                if (aopMethod === 'afterThrowCatchEvent') {
-                    hasAopMethodDeclared = true;
-                }
-                if (typeParam === 'Exception throwed') {
-                    hasTypeParamDeclared = true;
-                }
-                if (typeMessage === 'ERROR') {
-                    hasTypeMessageDeclared = true;
-                }
-                if (objectParam === exception) {
-                    hasExceptionDeclared = true;
-                }
-                if (methodFake === method) {
-                    hasMethodDeclared = true;
-                }
-                if (attemptCounter === (this.counterAttempIndex - 1)) {
-                    hasAttemptCounterDeclared = true;
-                }
-            });
+            spyOn(sut, 'log').and.callFake(function (aopMethod, methodFake, typeParam, objectParam, typeMessage, attemptCounter) { });
             spyOn(sut, 'getHasAnotherAttempt').and.callFake(function () {
                 return false;
             });
@@ -1080,12 +771,7 @@ describe('AopManager - ', function () {
             try {
                 sut.afterThrowRetryEvent(exception, aopObject, callbackX1, method);
             } catch (e) {
-                expect(hasAopMethodDeclared).toBeTruthy();
-                expect(hasExceptionDeclared).toBeTruthy();
-                expect(hasMethodDeclared).toBeTruthy();
-                expect(hasTypeParamDeclared).toBeTruthy();
-                expect(hasTypeMessageDeclared).toBeTruthy();
-                expect(hasAttemptCounterDeclared).toBeTruthy();
+                expect(sut.log).toHaveBeenCalledWith('afterThrowCatchEvent', method, 'Exception throwed', exception, 'ERROR', (sut.counterAttempIndex - 1));
             }
         });
     });

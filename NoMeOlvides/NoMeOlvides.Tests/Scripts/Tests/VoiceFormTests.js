@@ -68,7 +68,7 @@ describe('VoiceForm - ', function () {
 
             sut.loadDataFromTanslate(translateFake);
 
-            expect(_.each).toHaveBeenCalled();
+            expect(_.each).toHaveBeenCalledWith(jasmine.any(Object), sut.loadDescriptionItemList);
         });
 
         it('With the correct parameters assign "translate" attribute', function () {

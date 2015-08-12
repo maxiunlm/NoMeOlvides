@@ -67,7 +67,7 @@ describe('ContactController - ', function () {
 
             $scope.Create();
 
-            expect($scope.http.post).toHaveBeenCalled();
+            expect($scope.http.post).toHaveBeenCalledWith('/WebApi/ContactApi', jasmine.any(Object));
         });
     });
 
@@ -92,7 +92,7 @@ describe('ContactController - ', function () {
 
             $scope.Create();
 
-            expect($scope.onCreateSuccess).toHaveBeenCalled();
+            expect($scope.onCreateSuccess).toHaveBeenCalledWith(callBackSuccessDataWithoutError);
         }));
 
         it('Create - After call http post Method must call error event ErrorManager.getInstance().onGenealErrorEvent', inject(function ($http, $httpBackend) {
@@ -104,7 +104,7 @@ describe('ContactController - ', function () {
 
             $scope.Create();
 
-            expect(ErrorManager.getInstance().onGenealErrorEvent).toHaveBeenCalled();
+            expect(ErrorManager.getInstance().onGenealErrorEvent).toHaveBeenCalledWith(callBackSuccessDataWithError);
         }));
 
         it('Create - Stablish isForm == FALSE status for the GUI', function () {
