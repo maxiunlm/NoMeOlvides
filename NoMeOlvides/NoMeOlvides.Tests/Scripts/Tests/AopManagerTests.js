@@ -1,7 +1,7 @@
 ﻿/// <reference path='../../../NoMeOlvides/Scripts/angular.js' />
-/// <reference path="Fixture/CommonFixture.js" />
-/// <reference path="Fixture/AopManagerCommonFixture.js" />
-/// <reference path='../../../NoMeOlvides/Scripts/Common/AopManager.js" />
+/// <reference path='Fixture/CommonFixture.js' />
+/// <reference path='Fixture/AopManagerCommonFixture.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/Common/AopManager.js' />
 
 describe('AopManager - ', function () {
     var sut;

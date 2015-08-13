@@ -7,6 +7,7 @@ var cellphoneIndex = 5;
 var addressIndex = 6;
 var passwordIndex = 7;
 var replacerAllWhiteSpacesPattern = / /g;
+var argentineSpanishLanguage = 'es-AR';
 var inputTagTextType = 'text';
 var inputTagNumberType = 'number';
 var aliasTranslateKey = 'alias';
@@ -37,5 +38,8 @@ var translateFake = {
         }
 
         return _.findWhere(this.fields, { TranslateKey: elementTranslateKey }).Description;
+    },
+    preferredLanguage: function () {
+        return argentineSpanishLanguage;
     }
 };

@@ -8,10 +8,10 @@
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/App.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Common/TranslateProvider.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/CRUD.js' />
-/// <reference path='../../../NoMeOlvides/Scripts/Common/ErrorManager.js" />
-/// <reference path="Fixture/CommonFixture.js" />
-/// <reference path="Fixture/ContactCommonFixture.js" />
-/// <reference path="Fixture/ContactCreateFixture.js" />
+/// <reference path='../../../NoMeOlvides/Scripts/Common/ErrorManager.js' />
+/// <reference path='Fixture/CommonFixture.js' />
+/// <reference path='Fixture/ContactCommonFixture.js' />
+/// <reference path='Fixture/ContactCreateFixture.js' />
 
 
 describe('ContactController', function () {

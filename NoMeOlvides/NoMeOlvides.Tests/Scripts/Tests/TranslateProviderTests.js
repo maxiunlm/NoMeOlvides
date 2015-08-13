@@ -1,12 +1,12 @@
-﻿/// <reference path="../../../nomeolvides/scripts/underscore.js" />
+﻿/// <reference path='../../../nomeolvides/scripts/underscore.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular-mocks.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular-translate.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular-translate-loader-url.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/App.js' />
-/// <reference path="Fixture/CommonFixture.js" />
-/// <reference path="Fixture/TranslateCommonFixture.js" />
-/// <reference path='../../../NoMeOlvides/Scripts/Common/TranslateProvider.js" />
+/// <reference path='Fixture/CommonFixture.js' />
+/// <reference path='Fixture/TranslateCommonFixture.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/Common/TranslateProvider.js' />
 
 describe('loadTranslations - ', function () {
     var sut;

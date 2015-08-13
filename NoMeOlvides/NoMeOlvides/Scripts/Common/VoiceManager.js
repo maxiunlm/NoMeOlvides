@@ -1,5 +1,45 @@
-﻿var VoiceManager = function () {
+﻿var VoiceManager = function (translate, autoStart) {
+    if(!translate) {
+        throw new Error('"translate" attribute unassigned.\nAtributo "translate" sin asignar.');
+    }
+
+    this.translate = translate;
+    this.recognizing;
+    this.continuous = true;
+    this.interimResults = true;
+    this.lang = translate.preferredLanguage() || 'en';
+    this.voiceForm = new VoiceForm();
+
+    if (!('webkitSpeechRecognition' in window)) {
+        this.onUndeclared();
+    } else if (autoStart) {
+        this.recognizing = true;
+    }
 };
+VoiceManager.prototype = Object.create(webkitSpeechRecognition.prototype);
+VoiceManager.constructor = VoiceManager;
+VoiceManager.prototype.showInfo = function (info) {
+    // You will have to override this method if you want to do something
+};
+VoiceManager.prototype.onUndeclared = function () {
+    // You will have to override this method if you want to do something
+};
+VoiceManager.prototype.onresult = function (event) {
+    var command = event.results[event.results.length - 1][0].transcript;
+
+    this.voiceForm.evalCommand(command);
+    this.showInfo(command);
+};
+/*
+VoiceManager.prototype.onstart = function () {
+};
+
+VoiceManager.prototype.onerror = function (event) {
+};
+
+VoiceManager.prototype.onend = function () {
+};
+*/
 
 //////////////// TRANSLATE EXAMPLE
 /*
@@ -90,6 +130,8 @@ var final_transcript = '';
 var recognizing = false;
 var ignore_onend;
 var start_timestamp;
+
+////////////////////////////////////////////////////////////////////////////////////
 if (!('webkitSpeechRecognition' in window)) {
     upgrade();
 } else {
@@ -163,6 +205,9 @@ if (!('webkitSpeechRecognition' in window)) {
         evalCommand(event.results[event.results.length - 1][0].transcript);
     };
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
 function upgrade() {
     start_button.style.visibility = 'hidden';
     showInfo('info_upgrade');

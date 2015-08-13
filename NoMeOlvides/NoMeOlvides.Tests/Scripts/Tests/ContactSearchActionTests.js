@@ -1,5 +1,5 @@
 ﻿/// <reference path='../../../NoMeOlvides/Scripts/jquery-2.1.4.js' />
-/// <reference path="../../../nomeolvides/scripts/underscore.js" />
+/// <reference path='../../../nomeolvides/scripts/underscore.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular-mocks.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular-route.js' />
@@ -7,10 +7,10 @@
 /// <reference path='../../../NoMeOlvides/Scripts/angular-translate-loader-url.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/App.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/CRUD.js' />
-/// <reference path='../../../NoMeOlvides/Scripts/Common/ErrorManager.js" />
-/// <reference path="Fixture/CommonFixture.js" />
-/// <reference path="Fixture/ContactCommonFixture.js" />
-/// <reference path="Fixture/ContactCreateFixture.js" />
+/// <reference path='../../../NoMeOlvides/Scripts/Common/ErrorManager.js' />
+/// <reference path='Fixture/CommonFixture.js' />
+/// <reference path='Fixture/ContactCommonFixture.js' />
+/// <reference path='Fixture/ContactCreateFixture.js' />
 
 describe('ContactController - ', function () {
     var rootScope;
