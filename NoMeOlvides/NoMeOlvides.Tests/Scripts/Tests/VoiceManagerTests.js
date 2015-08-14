@@ -45,11 +45,11 @@ describe('VoiceManager - ', function () {
         it('Without "autoStart" parameter initializa attributes', function () {
 
 
-            expect(sut.interimResults).toEqual(true);
+            expect(sut.interimResults).toBeTruthy();
             expect(sut.lang).toEqual(argentineSpanishLanguage);
-            expect(sut.continuous).toEqual(true);
+            expect(sut.continuous).toBeTruthy();
             expect(sut.voiceForm instanceof VoiceForm).toBeTruthy();
-            expect(sut.recognizing).toBeUndefined();
+            expect(sut.recognizing).toBeFalsy();
             expect(sut.translate).toBeDefined();
         });
 

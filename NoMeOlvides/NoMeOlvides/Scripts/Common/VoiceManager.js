@@ -4,7 +4,7 @@
     }
 
     this.translate = translate;
-    this.recognizing;
+    this.recognizing = false;
     this.continuous = true;
     this.interimResults = true;
     this.lang = translate.preferredLanguage() || 'en';
