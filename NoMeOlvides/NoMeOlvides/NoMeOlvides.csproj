@@ -199,7 +199,7 @@
     <Content Include="Scripts\aop.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\Common\AopManager.js" />
+    <Content Include="Scripts\Common\AuditManager.js" />
     <Content Include="Scripts\Common\ErrorManager.js" />
     <Content Include="Scripts\Common\TranslateProvider.js" />
     <Content Include="Scripts\Common\VoiceManager.js" />

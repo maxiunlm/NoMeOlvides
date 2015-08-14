@@ -1,16 +1,16 @@
 ﻿/// <reference path='../../../NoMeOlvides/Scripts/angular.js' />
 /// <reference path='Fixture/CommonFixture.js' />
-/// <reference path='Fixture/AopManagerCommonFixture.js' />
-/// <reference path='../../../NoMeOlvides/Scripts/Common/AopManager.js' />
+/// <reference path='Fixture/AuditManagerCommonFixture.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/Common/AuditManager.js' />
 
-describe('AopManager - ', function () {
+describe('AuditManager - ', function () {
     var sut;
 
     beforeEach(function () { });
 
     describe('CONSTRUCTOR - ', function () {
         beforeEach(function () {
-            sut = new AopManager();
+            sut = new AuditManager();
         });
 
         it('Without parameters initialize the object attributes', function () {
@@ -24,7 +24,7 @@ describe('AopManager - ', function () {
 
         it('With parameters initialize the object attributes', function () {
 
-            sut = new AopManager(maxAttemps, retryMessage);
+            sut = new AuditManager(maxAttemps, retryMessage);
 
             expect(sut.counterAttempIndex).toEqual(0);
             expect(sut.hasAnotherAttempt).toEqual(false);
@@ -35,7 +35,7 @@ describe('AopManager - ', function () {
 
     describe('getHasAnotherAttempt - ', function () {
         beforeEach(function () {
-            sut = new AopManager();
+            sut = new AuditManager();
         });
 
         it('with user confirmation "OK" and counterAttempIndex less than maxAttemps', function () {
@@ -95,7 +95,7 @@ describe('AopManager - ', function () {
 
     describe('log - ', function () {
         beforeEach(function () {
-            sut = new AopManager();
+            sut = new AuditManager();
         });
 
         it('Instance a Date Object', function () {
@@ -147,7 +147,7 @@ describe('AopManager - ', function () {
 
     describe('beforeLogEvent - ', function () {
         beforeEach(function () {
-            sut = new AopManager();
+            sut = new AuditManager();
         });
 
         it('With any parameters invokes "log" method ', function () {
@@ -217,7 +217,7 @@ describe('AopManager - ', function () {
 
     describe('afterLogEvent - ', function () {
         beforeEach(function () {
-            sut = new AopManager();
+            sut = new AuditManager();
         });
 
         it('With any parameters invokes "log" method ', function () {
@@ -287,7 +287,7 @@ describe('AopManager - ', function () {
 
     describe('aroundLogEvent - ', function () {
         beforeEach(function () {
-            sut = new AopManager();
+            sut = new AuditManager();
         });
 
         it('Without parameters throw an exception', function () {
@@ -368,7 +368,7 @@ describe('AopManager - ', function () {
 
     describe('afterThrowCatchEvent - ', function () {
         beforeEach(function () {
-            sut = new AopManager();
+            sut = new AuditManager();
         });
 
         it('With any parameters invokes "log" method ', function () {
@@ -460,7 +460,7 @@ describe('AopManager - ', function () {
 
     describe('aroundLogThrowCatchEvent - ', function () {
         beforeEach(function () {
-            sut = new AopManager();
+            sut = new AuditManager();
         });
 
         it('Without parameters throw an exception', function () {
@@ -566,7 +566,7 @@ describe('AopManager - ', function () {
 
     describe('afterFinallyEvent - ', function () {
         beforeEach(function () {
-            sut = new AopManager();
+            sut = new AuditManager();
         });
 
         it('Without parameters never invokes neither of the "afterLogEvent" or "afterThrowCatchEvent" methods', function () {
@@ -630,7 +630,7 @@ describe('AopManager - ', function () {
 
     describe('afterThrowRetryEvent - ', function () {
         beforeEach(function () {
-            sut = new AopManager();
+            sut = new AuditManager();
         });
 
         it('Without parameters throws a TypeError exception', function () {

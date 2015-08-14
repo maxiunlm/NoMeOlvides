@@ -1,19 +1,19 @@
 ﻿// TODO: TDD con Jasmine !!!
-var AopManager = function (maxAttemps, retryMessage) {
+var AuditManager = function (maxAttemps, retryMessage) {
     this.counterAttempIndex = 0;
     this.hasAnotherAttempt = false;
     this.maxAttemps = maxAttemps || 3;
     this.retryMessage = retryMessage || 'Retry?';
 };
 
-AopManager.prototype.getHasAnotherAttempt = function () {
+AuditManager.prototype.getHasAnotherAttempt = function () {
     this.hasAnotherAttempt = confirm(this.retryMessage) && this.counterAttempIndex < this.maxAttemps;
     this.counterAttempIndex++;
 
     return this.hasAnotherAttempt;
 }
 
-AopManager.prototype.log = function (aopMethod, method, typeParam, objectParam, typeMessage, attemptCounter) {
+AuditManager.prototype.log = function (aopMethod, method, typeParam, objectParam, typeMessage, attemptCounter) {
     this.lastLogDatetime = new Date();
     attemptCounter = attemptCounter || -1;
     typeMessage = typeMessage || 'INFO';
@@ -27,19 +27,19 @@ AopManager.prototype.log = function (aopMethod, method, typeParam, objectParam, 
     console.log(this.lastLogMessage, objectParam);
 }
 
-AopManager.prototype.beforeLogEvent = function (arguments, method, aopMethod) {
+AuditManager.prototype.beforeLogEvent = function (arguments, method, aopMethod) {
     aopMethod = aopMethod || 'beforeLogEvent';
 
     this.log(aopMethod, method, 'Invocation arguments', arguments);
 };
 
-AopManager.prototype.afterLogEvent = function (result, method, aopMethod) {
+AuditManager.prototype.afterLogEvent = function (result, method, aopMethod) {
     aopMethod = aopMethod || 'afterLogEvent';
 
     this.log(aopMethod, method, 'Invocation result', result);
 };
 
-AopManager.prototype.aroundLogEvent = function (invocation) {
+AuditManager.prototype.aroundLogEvent = function (invocation) {
     this.beforeLogEvent(invocation.arguments, invocation.method, 'aroundLogEvent');
 
     var result = invocation.proceed();
@@ -47,7 +47,7 @@ AopManager.prototype.aroundLogEvent = function (invocation) {
     this.afterLogEvent(result, invocation.method, 'aroundLogEvent');
 };
 
-AopManager.prototype.afterThrowCatchEvent = function (exception, method, aopMethod) {
+AuditManager.prototype.afterThrowCatchEvent = function (exception, method, aopMethod) {
     aopMethod = aopMethod || 'afterThrowCatchEvent';
 
     this.log(aopMethod, method, 'Exception throwed', exception, 'ERROR');
@@ -55,7 +55,7 @@ AopManager.prototype.afterThrowCatchEvent = function (exception, method, aopMeth
     throw exception;
 }
 
-AopManager.prototype.aroundLogThrowCatchEvent = function (invocation) {
+AuditManager.prototype.aroundLogThrowCatchEvent = function (invocation) {
     this.beforeLogEvent(invocation.arguments, invocation.method, 'aroundLogThrowCatchEvent');
 
     try {
@@ -71,7 +71,7 @@ AopManager.prototype.aroundLogThrowCatchEvent = function (invocation) {
     }
 };
 
-AopManager.prototype.afterFinallyEvent = function (result, exception, method) {
+AuditManager.prototype.afterFinallyEvent = function (result, exception, method) {
     if (result) {
         this.afterLogEvent(result, method, 'afterFinallyEvent');
     }
@@ -80,7 +80,7 @@ AopManager.prototype.afterFinallyEvent = function (result, exception, method) {
     }
 }
 
-AopManager.prototype.afterThrowRetryEvent = function (exception, aopObject, callback, method) {
+AuditManager.prototype.afterThrowRetryEvent = function (exception, aopObject, callback, method) {
     var aopMethod = 'afterThrowCatchEvent';
     var typeParam = 'Exception throwed';
     var typeMessage = 'ERROR';

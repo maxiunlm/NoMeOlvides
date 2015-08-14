@@ -7,31 +7,31 @@
     }
 
     /////////////////////////////// CONFIG
-    //$scope.aopManager = new AopManager();
+    //$scope.auditManager = new AuditManager();
 
     //jQuery.aop.around({ target: $scope, method: 'initializeGlobalVariables' }, function (invocation) {
-    //    $scope.aopManager.aroundLogThrowCatchEvent(invocation);
+    //    $scope.auditManager.aroundLogThrowCatchEvent(invocation);
     //});
 
     ////jQuery.aop.before({ target: $scope, method: 'initializeGlobalVariables' }, function (arguments, method) {
-    ////    $scope.aopManager.beforeLogEvent(arguments, method);
+    ////    $scope.auditManager.beforeLogEvent(arguments, method);
     ////});
     ////jQuery.aop.afterFinally({ target: $scope, method: 'initializeGlobalVariables' }, function (result, exception, method) {
-    ////    $scope.aopManager.afterFinallyEvent(result, exception, method);
+    ////    $scope.auditManager.afterFinallyEvent(result, exception, method);
     ////});
 
     ////jQuery.aop.around({ target: $scope, method: 'initializeGlobalVariables' }, function (invocation) {
-    ////    $scope.aopManager.aroundLogEvent(invocation);
+    ////    $scope.auditManager.aroundLogEvent(invocation);
     ////});
     ////jQuery.aop.afterThrow({ target: $scope, method: 'initializeGlobalVariables' }, function (exception, method) {
-    ////    $scope.aopManager.afterThrowRetryEvent(exception, $scope, $scope.initializeGlobalVariables, method);
+    ////    $scope.auditManager.afterThrowRetryEvent(exception, $scope, $scope.initializeGlobalVariables, method);
     ////});
 
     ////////jQuery.aop.afterThrow({ target: $scope, method: 'initializeGlobalVariables' }, function (exception, method) {
-    ////////    $scope.aopManager.afterThrowCatchEvent(exception, method);
+    ////////    $scope.auditManager.afterThrowCatchEvent(exception, method);
     ////////});
     ////////jQuery.aop.after({ target: $scope, method: 'initializeGlobalVariables' }, function (result, method) {
-    ////////    $scope.aopManager.afterLogEvent(result, method);
+    ////////    $scope.auditManager.afterLogEvent(result, method);
     ////////});
 
     $scope.initializeGlobalVariables();
@@ -139,9 +139,9 @@ app.controller('DetailsAction', function ($scope, $routeParams) {
     $scope.isForm = false;
     
     ///////////////////////////////////// CONFIG
-    //////var aopManager = new AopManager();
+    //////var auditManager = new AuditManager();
 
     //////jQuery.aop.around({ target: $scope, method: 'onDetailsBack' }, function (invocation, method) {
-    //////    aopManager.aroundLogEvent(invocation, method);
+    //////    auditManager.aroundLogEvent(invocation, method);
     //////});
 });
