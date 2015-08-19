@@ -222,4 +222,7 @@
   <data name="fillCommand" xml:space="preserve">
     <value>cargar</value>
   </data>
+  <data name="genericRetryMessage" xml:space="preserve">
+    <value>¿Desea reintentar?</value>
+  </data>
 </root>

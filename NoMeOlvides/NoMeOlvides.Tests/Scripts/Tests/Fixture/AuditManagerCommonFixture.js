@@ -1,9 +1,9 @@
-﻿var maxAttemps = 1;
+﻿var maxAttemps = 3;
 var initialCounterAttempIndex = 0;
 var attemptCounter = 1000;
 var hasAnotherAttemptTrue = true;
 var hasAnotherAttemptFalse = false;
-var retryMessage = '¿Reintentar?';
+var retryMessage = 'genericRetryMessage';
 var aopMethod = 'aopMethod';
 var aopObject = new Object();
 var typeParam = 'typeParam';

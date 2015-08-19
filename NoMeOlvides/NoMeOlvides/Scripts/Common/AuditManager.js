@@ -1,5 +1,4 @@
-﻿// TODO: TDD con Jasmine !!!
-var AuditManager = function (maxAttemps, retryMessage) {
+﻿var AuditManager = function (maxAttemps, retryMessage) {
     this.counterAttempIndex = 0;
     this.hasAnotherAttempt = false;
     this.maxAttemps = maxAttemps || 3;

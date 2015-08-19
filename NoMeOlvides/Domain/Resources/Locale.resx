@@ -186,6 +186,9 @@
   <data name="generalErrorMessage" xml:space="preserve">
     <value>General error</value>
   </data>
+  <data name="genericRetryMessage" xml:space="preserve">
+    <value>Do you want to retry?</value>
+  </data>
   <data name="name" xml:space="preserve">
     <value>Name</value>
   </data>

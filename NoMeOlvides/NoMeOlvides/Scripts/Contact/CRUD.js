@@ -1,43 +1,4 @@
-﻿app.controller('ContactController', function ($scope, $http) {
-    $scope.initializeGlobalVariables = function () {
-        $scope.Errors = {};
-        $scope.Contacts = contacts;
-        $scope.hasResults = (contacts.length > 0);
-        $scope.isForm = false;
-    }
-
-    /////////////////////////////// CONFIG
-    //$scope.auditManager = new AuditManager();
-
-    //jQuery.aop.around({ target: $scope, method: 'initializeGlobalVariables' }, function (invocation) {
-    //    $scope.auditManager.aroundLogThrowCatchEvent(invocation);
-    //});
-
-    ////jQuery.aop.before({ target: $scope, method: 'initializeGlobalVariables' }, function (arguments, method) {
-    ////    $scope.auditManager.beforeLogEvent(arguments, method);
-    ////});
-    ////jQuery.aop.afterFinally({ target: $scope, method: 'initializeGlobalVariables' }, function (result, exception, method) {
-    ////    $scope.auditManager.afterFinallyEvent(result, exception, method);
-    ////});
-
-    ////jQuery.aop.around({ target: $scope, method: 'initializeGlobalVariables' }, function (invocation) {
-    ////    $scope.auditManager.aroundLogEvent(invocation);
-    ////});
-    ////jQuery.aop.afterThrow({ target: $scope, method: 'initializeGlobalVariables' }, function (exception, method) {
-    ////    $scope.auditManager.afterThrowRetryEvent(exception, $scope, $scope.initializeGlobalVariables, method);
-    ////});
-
-    ////////jQuery.aop.afterThrow({ target: $scope, method: 'initializeGlobalVariables' }, function (exception, method) {
-    ////////    $scope.auditManager.afterThrowCatchEvent(exception, method);
-    ////////});
-    ////////jQuery.aop.after({ target: $scope, method: 'initializeGlobalVariables' }, function (result, method) {
-    ////////    $scope.auditManager.afterLogEvent(result, method);
-    ////////});
-
-    $scope.initializeGlobalVariables();
-});
-
-app.controller('SearchAction', function ($scope, $http) {
+﻿app.controller('SearchAction', function ($scope, $http) {
     $scope.http = $http;
 
     $scope.Search = function () {
@@ -145,3 +106,43 @@ app.controller('DetailsAction', function ($scope, $routeParams) {
     //////    auditManager.aroundLogEvent(invocation, method);
     //////});
 });
+
+app.controller('ContactController', function ($scope, $http) {
+    $scope.initializeGlobalVariables = function () {
+        $scope.Errors = {};
+        $scope.Contacts = contacts;
+        $scope.hasResults = (contacts.length > 0);
+        $scope.isForm = false;
+    }
+
+    /////////////////////////////// CONFIG
+    $scope.auditManager = new AuditManager(3, 'genericRetryMessage');
+
+    jQuery.aop.around({ target: $scope, method: 'initializeGlobalVariables' }, function (invocation) {
+        $scope.auditManager.aroundLogEvent(invocation);
+    });
+    //jQuery.aop.afterThrow({ target: $scope, method: 'initializeGlobalVariables' }, function (exception, method) {
+    //    $scope.auditManager.afterThrowRetryEvent(exception, $scope, $scope.initializeGlobalVariables, method);
+    //});
+
+    //////jQuery.aop.around({ target: $scope, method: 'initializeGlobalVariables' }, function (invocation) {
+    //////    $scope.auditManager.aroundLogThrowCatchEvent(invocation);
+    //////});
+
+    ////jQuery.aop.before({ target: $scope, method: 'initializeGlobalVariables' }, function (arguments, method) {
+    ////    $scope.auditManager.beforeLogEvent(arguments, method);
+    ////});
+    ////jQuery.aop.afterFinally({ target: $scope, method: 'initializeGlobalVariables' }, function (result, exception, method) {
+    ////    $scope.auditManager.afterFinallyEvent(result, exception, method);
+    ////});
+
+    ////////jQuery.aop.afterThrow({ target: $scope, method: 'initializeGlobalVariables' }, function (exception, method) {
+    ////////    $scope.auditManager.afterThrowCatchEvent(exception, method);
+    ////////});
+    ////////jQuery.aop.after({ target: $scope, method: 'initializeGlobalVariables' }, function (result, method) {
+    ////////    $scope.auditManager.afterLogEvent(result, method);
+    ////////});
+
+    $scope.initializeGlobalVariables();
+});
+

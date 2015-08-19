@@ -1,4 +1,5 @@
 ﻿/// <reference path='../../../NoMeOlvides/Scripts/jquery-2.1.4.js' />
+/// <reference path="../../../NoMeOlvides/Scripts/aop.js" />
 /// <reference path='../../../NoMeOlvides/Scripts/angular.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular-mocks.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular-route.js' />
@@ -9,9 +10,11 @@
 /// <reference path='../../../NoMeOlvides/Scripts/Common/TranslateProvider.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/CRUD.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Common/ErrorManager.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/Common/AuditManager.js' />
 /// <reference path='Fixture/CommonFixture.js' />
 /// <reference path='Fixture/ContactCommonFixture.js' />
 /// <reference path='Fixture/ContactCreateFixture.js' />
+/// <reference path="Fixture/AuditManagerCommonFixture.js" />
 
 
 describe('ContactController', function () {
@@ -33,7 +36,7 @@ describe('ContactController', function () {
         contacts = [];
     }));
 
-    describe('ContactController - BDD', function () {
+    describe('ContactController - BDD - ', function () {
         var $scope;
         var $controller;
 
@@ -102,7 +105,7 @@ describe('ContactController', function () {
         });
     });
 
-    describe('ContactController - App.js - App config Route Provider', function () {
+    describe('ContactController - App.js - App config Route Provider - ', function () {
         var $scope;
         var $controller;
 
@@ -153,7 +156,7 @@ describe('ContactController', function () {
         });
     });
 
-    describe('ContactController - CRUD.js - Data querys', function () {
+    describe('ContactController - CRUD.js - Data querys - ', function () {
         var $scope;
         var $controller;
 
@@ -220,7 +223,45 @@ describe('ContactController', function () {
             expect($scope.Contacts[secondItemIndex].Password).toEqual(secondContact.Password);
         });
     });
-    //describe('', function () { });
-    //beforeEach(inject(function () { }));
-    //it('', function () { });
+
+    describe('ContactController - Auditory with AOP - ', function () {
+        var $scope;
+        var $controller;
+
+        beforeEach(inject(function () {
+            $scope = rootScope.$new();
+            contacts = [];
+
+            $controller = controller('ContactController', { $scope: $scope });
+        }));
+
+        it('Instance an "AuditManager" object', function () {
+
+
+            expect($scope.auditManager instanceof AuditManager).toBeTruthy();
+        });
+
+        it('Instance an "AuditManager" object with the correct parameters', function () {
+
+
+            expect($scope.auditManager.maxAttemps).toEqual(maxAttemps);
+            expect($scope.auditManager.retryMessage).toEqual(retryMessage);
+        });
+
+        it('Invokes "jQuery.aop.around" method', function () {
+            spyOn(jQuery.aop, 'around').and.callThrough();
+
+            $controller = controller('ContactController', { $scope: $scope });
+
+            expect(jQuery.aop.around).toHaveBeenCalledWith({ target: $scope, method: 'initializeGlobalVariables' }, jasmine.any(Function));
+        });
+
+        it('Invokes "$scope.auditManager.aroundLogEvent" method', function () {
+            spyOn(AuditManager.prototype, 'aroundLogEvent').and.callThrough();
+
+            $controller = controller('ContactController', { $scope: $scope });
+
+            expect(AuditManager.prototype.aroundLogEvent).toHaveBeenCalledWith(jasmine.any(Object));
+        });
+    });
 });
