@@ -248,7 +248,7 @@ describe('ContactController', function () {
             expect($scope.auditManager.retryMessage).toEqual(retryMessage);
         });
 
-        it('Invokes "jQuery.aop.around" method', function () {
+        it('Invokes "jQuery.aop.around" method for "initializeGlobalVariables"', function () {
             spyOn(jQuery.aop, 'around').and.callThrough();
 
             $controller = controller('ContactController', { $scope: $scope });
@@ -256,12 +256,21 @@ describe('ContactController', function () {
             expect(jQuery.aop.around).toHaveBeenCalledWith({ target: $scope, method: 'initializeGlobalVariables' }, jasmine.any(Function));
         });
 
-        it('Invokes "$scope.auditManager.aroundLogEvent" method', function () {
+        it('Invokes "$scope.auditManager.aroundLogEvent" method for "initializeGlobalVariables"', function () {
             spyOn(AuditManager.prototype, 'aroundLogEvent').and.callThrough();
 
             $controller = controller('ContactController', { $scope: $scope });
 
             expect(AuditManager.prototype.aroundLogEvent).toHaveBeenCalledWith(jasmine.any(Object));
+            //expect(AuditManager.prototype.aroundLogEvent.calls.count()).toEqual(calledTwice);
+        });
+
+        it('Invokes "jQuery.aop.around" method for "Create"', function () {
+            spyOn(jQuery.aop, 'around').and.callThrough();
+
+            $controller = controller('ContactController', { $scope: $scope });
+
+            expect(jQuery.aop.around).toHaveBeenCalledWith({ target: $scope, method: 'Create' }, jasmine.any(Function));
         });
     });
 });

@@ -2,7 +2,9 @@
 
 var contacts = [];
 var Contact = {};
-
+var auditManagerFake = {
+    aroundLogEvent: function (invocation) { }
+};
 var contactId = "5582a9d8dbe53f1b8059d787";
 var firstContact = {
     "Id": contactId,

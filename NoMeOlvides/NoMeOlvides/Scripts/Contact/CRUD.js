@@ -1,6 +1,7 @@
 ﻿app.controller('SearchAction', function ($scope, $http) {
     $scope.http = $http;
 
+    // TODO: TERMINAR CON TDD !!!!!!!!!!!!!!!!!!!!!!!
     $scope.Search = function () {
         $scope.http.get();
     };
@@ -116,13 +117,18 @@ app.controller('ContactController', function ($scope, $http) {
     }
 
     /////////////////////////////// CONFIG
-    $scope.auditManager = new AuditManager(3, 'genericRetryMessage');
+    $scope.auditManager = $scope.auditManager || new AuditManager(3, 'genericRetryMessage');
 
     jQuery.aop.around({ target: $scope, method: 'initializeGlobalVariables' }, function (invocation) {
         $scope.auditManager.aroundLogEvent(invocation);
     });
-    //jQuery.aop.afterThrow({ target: $scope, method: 'initializeGlobalVariables' }, function (exception, method) {
-    //    $scope.auditManager.afterThrowRetryEvent(exception, $scope, $scope.initializeGlobalVariables, method);
+
+    jQuery.aop.around({ target: $scope, method: 'Create' }, function (invocation) {
+        $scope.auditManager.aroundLogEvent(invocation);
+    });
+
+    //jQuery.aop.afterThrow({ target: $scope, method: 'Create' }, function (exception, method) {
+    //    $scope.auditManager.afterThrowRetryEvent(exception, $scope, $scope.Create, method);
     //});
 
     //////jQuery.aop.around({ target: $scope, method: 'initializeGlobalVariables' }, function (invocation) {
