@@ -1,4 +1,5 @@
 ﻿/// <reference path='../../../NoMeOlvides/Scripts/jquery-2.1.4.js' />
+/// <reference path="../../../NoMeOlvides/Scripts/aop.js" />
 /// <reference path='../../../nomeolvides/scripts/underscore.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular-mocks.js' />
@@ -34,13 +35,52 @@ describe('ContactController - ', function () {
         beforeEach(inject(function () { 
             $scope = rootScope.$new();
             $scope.Contacts = contactListX1;
+
+            //controller('ContactController', { $scope: $scope });
+            $controller = controller('CreateAction', { $scope: $scope });
         }));
 
         it('CreateAction - Stablish isForm == TRUE status for the GUI', function () {
 
-            $controller = controller('CreateAction', { $scope: $scope });
 
             expect($scope.isForm).toEqual(true);
+        });
+
+        it('Invokes "jQuery.aop.afterThrow" method for "Create"', function () {
+            spyOn(jQuery.aop, 'afterThrow').and.callThrough();
+
+            $controller = controller('ContactController', { $scope: $scope });
+
+            expect(jQuery.aop.afterThrow).toHaveBeenCalledWith({ target: $scope, method: 'Create' }, $scope.retryInvocationCallback);
+        });
+
+        it('Invokes "jQuery.aop.around" method for "Create"', function () {
+            spyOn(jQuery.aop, 'around').and.callThrough();
+
+            $controller = controller('ContactController', { $scope: $scope });
+
+            expect(jQuery.aop.around).toHaveBeenCalledWith({ target: $scope, method: 'Create' }, $scope.invocationCallback);
+        });
+    });
+
+    describe('$scope.retryCreateCallback - ', function () {
+        var $scope;
+        var $controller;
+
+        beforeEach(inject(function () {
+            $scope = rootScope.$new();
+            contacts = [];
+
+            controller('CreateAction', { $scope: $scope });
+            $controller = controller('ContactController', { $scope: $scope });
+        }));
+
+        it('Invokes "$scope.auditManager.afterThrowRetryEvent" method', function () {
+            spyOn(AuditManager.prototype, 'afterThrowRetryEvent').and.callFake(function () { });
+
+            $scope.retryCreateCallback(exception, method);
+
+            expect(AuditManager.prototype.afterThrowRetryEvent).toHaveBeenCalledWith(exception, jasmine.any(Object), jasmine.any(Function), method);
         });
     });
 

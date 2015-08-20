@@ -1,4 +1,5 @@
 ﻿/// <reference path='../../../NoMeOlvides/Scripts/jquery-2.1.4.js' />
+/// <reference path="../../../NoMeOlvides/Scripts/aop.js" />
 /// <reference path='../../../nomeolvides/scripts/underscore.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular-mocks.js' />
@@ -32,6 +33,8 @@ describe('ContactController - ', function () {
         beforeEach(inject(function () {
             $scope = rootScope.$new();
             $scope.Contacts = contactListX1;
+
+            $controller = controller('EditAction', { $scope: $scope, $routeParams: $routeParams });
         }));
 
         it('EditAction - Invokes the _.findIndex method to find the Contact item by its Id', function () {
@@ -57,6 +60,43 @@ describe('ContactController - ', function () {
             $controller = controller('EditAction', { $scope: $scope, $routeParams: $routeParams });
 
             expect($scope.isForm).toEqual(true);
+        });
+    });
+
+    describe('$scope.retryEditCallback - ', function () {
+        var $scope;
+        var $controller;
+
+        beforeEach(inject(function () {
+            $scope = rootScope.$new();
+            contacts = [];
+
+            //controller('EditAction', { $scope: $scope });
+            $controller = controller('ContactController', { $scope: $scope });
+        }));
+
+        it('Invokes "$scope.auditManager.afterThrowRetryEvent" method', function () {
+            spyOn(AuditManager.prototype, 'afterThrowRetryEvent').and.callFake(function () { });
+
+            $scope.retryEditCallback(exception, method);
+
+            expect(AuditManager.prototype.afterThrowRetryEvent).toHaveBeenCalledWith(exception, $scope, $scope.Edit, method);
+        });
+
+        it('Invokes "jQuery.aop.afterThrow" method for "Edit"', function () {
+            spyOn(jQuery.aop, 'afterThrow').and.callThrough();
+
+            $controller = controller('ContactController', { $scope: $scope });
+
+            expect(jQuery.aop.afterThrow).toHaveBeenCalledWith({ target: $scope, method: 'Edit' }, $scope.retryInvocationCallback);
+        });
+
+        it('Invokes "jQuery.aop.around" method for "Edit"', function () {
+            spyOn(jQuery.aop, 'around').and.callThrough();
+
+            $controller = controller('ContactController', { $scope: $scope });
+
+            expect(jQuery.aop.around).toHaveBeenCalledWith({ target: $scope, method: 'Edit' }, $scope.invocationCallback);
         });
     });
 

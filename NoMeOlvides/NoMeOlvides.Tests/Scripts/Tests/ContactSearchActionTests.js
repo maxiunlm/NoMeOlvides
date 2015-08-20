@@ -1,4 +1,5 @@
 ﻿/// <reference path='../../../NoMeOlvides/Scripts/jquery-2.1.4.js' />
+/// <reference path="../../../NoMeOlvides/Scripts/aop.js" />
 /// <reference path='../../../nomeolvides/scripts/underscore.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular-mocks.js' />
@@ -39,6 +40,43 @@ describe('ContactController - ', function () {
             $scope.Search();
 
             expect($scope.http.get).toHaveBeenCalled();
+        });
+
+        it('Invokes "jQuery.aop.around" method for "Search"', function () {
+            spyOn(jQuery.aop, 'around').and.callThrough();
+
+            $controller = controller('ContactController', { $scope: $scope });
+
+            expect(jQuery.aop.around).toHaveBeenCalledWith({ target: $scope, method: 'Search' }, $scope.invocationCallback);
+        });
+
+        it('Invokes "jQuery.aop.afterThrow" method for "Search"', function () {
+            spyOn(jQuery.aop, 'afterThrow').and.callThrough();
+
+            $controller = controller('ContactController', { $scope: $scope });
+
+            expect(jQuery.aop.afterThrow).toHaveBeenCalledWith({ target: $scope, method: 'Search' }, $scope.retryInvocationCallback);
+        });
+    });
+
+    describe('$scope.retrySearchCallback - ', function () {
+        var $scope;
+        var $controller;
+
+        beforeEach(inject(function () {
+            $scope = rootScope.$new();
+            contacts = [];
+
+            controller('SearchAction', { $scope: $scope });
+            $controller = controller('ContactController', { $scope: $scope });
+        }));
+
+        it('Invokes "$scope.auditManager.afterThrowRetryEvent" method', function () {
+            spyOn(AuditManager.prototype, 'afterThrowRetryEvent').and.callFake(function () { });
+
+            $scope.retrySearchCallback(exception, method);
+
+            expect(AuditManager.prototype.afterThrowRetryEvent).toHaveBeenCalledWith(exception, $scope, $scope.Search, method);
         });
     });
 });
