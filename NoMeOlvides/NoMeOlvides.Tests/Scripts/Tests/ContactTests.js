@@ -39,6 +39,7 @@ describe('ContactController - ', function () {
         spyOn(console, 'log').and.callFake(function () { });
     }));
     
+    // TODO: Hay problemas para testar el Asynchronous !!!!
     //describe('BDD - ', function () {
     //    var $scope;
     //    var $controller;
@@ -48,18 +49,9 @@ describe('ContactController - ', function () {
     //        contacts = [];
     //        $scope.Contacts = [];
     //    }));
-        
-    //    it('Search - With all fields search contacts', function () {
-    //        $controller = controller('SearchAction', { $scope: $scope });
-    //        $scope.Contact = newContact;
-
-    //        $scope.Search();
-
-    //        expect($scope.Contacts).not.toBeUndefined();
-    //        expect($scope.Contacts).not.toBeNull();
-    //    });
 
     //    it('Delete - Delete contact with contact ID', function () {
+    //        controller('CreateAction', { $scope: $scope });
     //        $controller = controller('DeleteAction', { $scope: $scope });
     //        $scope.Contact = newContact;
     //        $scope.Create();
@@ -82,9 +74,10 @@ describe('ContactController - ', function () {
     //    });
 
     //    it('Edit - With all fields save the updated values', function () {
-    //        $controller = controller('EditAction', { $scope: $scope });
+    //        $controller = controller('CreateAction', { $scope: $scope });
     //        $scope.Contact = newContact;
     //        $scope.Create();
+    //        $controller = controller('EditAction', { $scope: $scope });
     //        $scope.Contact.Alias = "El Mazzi (6)";
     //        $scope.Contact.Name = "Maximiliano";
     //        $scope.Contact.Surname = "Gauna";
@@ -105,6 +98,16 @@ describe('ContactController - ', function () {
     //        expect($scope.Contact.Address).toEqual("Trulala 666");
     //        expect($scope.Contact.Password).toEqual("Secret... SHHHH!!!!");
     //        $scope.Delete();
+    //    });
+
+    //    it('Search - With all fields search contacts', function () {
+    //        $controller = controller('SearchAction', { $scope: $scope });
+    //        $scope.Contact = newContact;
+
+    //        $scope.Search();
+
+    //        expect($scope.Contacts).not.toBeUndefined();
+    //        expect($scope.Contacts).not.toBeNull();
     //    });
     //});
 
@@ -324,9 +327,9 @@ describe('ContactController - ', function () {
             $controller = controller('ContactController', { $scope: $scope });
 
             expect(jQuery.aop.afterThrow).toHaveBeenCalled();//({ target: $scope, method: 'Delete' }, $scope.retryDeleteCallback);
-            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[firstItemIndex].target).toEqual($scope);
-            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[firstItemIndex].method).toEqual('Delete');
-            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[secondItemIndex]).toEqual(jasmine.any(Function));
+            expect(jQuery.aop.afterThrow.calls.argsFor(secondItemIndex)[firstItemIndex].target).toEqual($scope);
+            expect(jQuery.aop.afterThrow.calls.argsFor(secondItemIndex)[firstItemIndex].method).toEqual('Delete');
+            expect(jQuery.aop.afterThrow.calls.argsFor(secondItemIndex)[secondItemIndex]).toEqual(jasmine.any(Function));
         });
 
         it('Invokes "jQuery.aop.afterThrow" method for "Edit"', function () {
@@ -334,7 +337,10 @@ describe('ContactController - ', function () {
 
             $controller = controller('ContactController', { $scope: $scope });
 
-            expect(jQuery.aop.afterThrow).toHaveBeenCalledWith({ target: $scope, method: 'Edit' }, $scope.retryInvocationCallback);
+            expect(jQuery.aop.afterThrow).toHaveBeenCalled();//({ target: $scope, method: 'Edit' }, $scope.retryEditCallback);
+            expect(jQuery.aop.afterThrow.calls.argsFor(thirdItemIndex)[firstItemIndex].target).toEqual($scope);
+            expect(jQuery.aop.afterThrow.calls.argsFor(thirdItemIndex)[firstItemIndex].method).toEqual('Edit');
+            expect(jQuery.aop.afterThrow.calls.argsFor(thirdItemIndex)[secondItemIndex]).toEqual(jasmine.any(Function));
         });
 
         it('Invokes "jQuery.aop.around" method for "Edit"', function () {
@@ -342,10 +348,7 @@ describe('ContactController - ', function () {
 
             $controller = controller('ContactController', { $scope: $scope });
 
-            expect(jQuery.aop.afterThrow).toHaveBeenCalled();//({ target: $scope, method: 'Edit' }, $scope.retryEditCallback);
-            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[firstItemIndex].target).toEqual($scope);
-            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[firstItemIndex].method).toEqual('Edit');
-            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[secondItemIndex]).toEqual(jasmine.any(Function));
+            expect(jQuery.aop.around).toHaveBeenCalledWith({ target: $scope, method: 'Edit' }, $scope.invocationCallback);
         });
 
         it('Invokes "jQuery.aop.around" method for "Search"', function () {
@@ -362,9 +365,9 @@ describe('ContactController - ', function () {
             $controller = controller('ContactController', { $scope: $scope });
 
             expect(jQuery.aop.afterThrow).toHaveBeenCalled();//({ target: $scope, method: 'Search' }, $scope.retrySearchCallback);
-            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[firstItemIndex].target).toEqual($scope);
-            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[firstItemIndex].method).toEqual('Search');
-            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[secondItemIndex]).toEqual(jasmine.any(Function));
+            expect(jQuery.aop.afterThrow.calls.argsFor(fourthItemIndex)[firstItemIndex].target).toEqual($scope);
+            expect(jQuery.aop.afterThrow.calls.argsFor(fourthItemIndex)[firstItemIndex].method).toEqual('Search');
+            expect(jQuery.aop.afterThrow.calls.argsFor(fourthItemIndex)[secondItemIndex]).toEqual(jasmine.any(Function));
         });
 
         describe('$scope.retryCreateCallback - ', function () {
