@@ -61,6 +61,8 @@ namespace NoMeOlvides.Tests.BDD
         [Given(@"email de usuario pre existente'(.*)'")]
         public void GivenEmailDeUsuarioPreExistente(string email)
         {
+            contactViewModel = contactViewModel ?? new ContactViewModel();
+            webApiSut = webApiSut ?? new ContactApiController();
             this.email = email;
             contactViewModel.Email = email;
 
