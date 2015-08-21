@@ -39,74 +39,74 @@ describe('ContactController - ', function () {
         spyOn(console, 'log').and.callFake(function () { });
     }));
     
-    describe('BDD - ', function () {
-        var $scope;
-        var $controller;
+    //describe('BDD - ', function () {
+    //    var $scope;
+    //    var $controller;
 
-        beforeEach(inject(function () {
-            $scope = rootScope.$new();
-            contacts = [];
-            $scope.Contacts = [];
-        }));
+    //    beforeEach(inject(function () {
+    //        $scope = rootScope.$new();
+    //        contacts = [];
+    //        $scope.Contacts = [];
+    //    }));
         
-        it('Search - With all fields search contacts', function () {
-            $controller = controller('SearchAction', { $scope: $scope });
-            $scope.Contact = newContact;
+    //    it('Search - With all fields search contacts', function () {
+    //        $controller = controller('SearchAction', { $scope: $scope });
+    //        $scope.Contact = newContact;
 
-            $scope.Search();
+    //        $scope.Search();
 
-            expect($scope.Contacts).not.toBeUndefined();
-            expect($scope.Contacts).not.toBeNull();
-        });
+    //        expect($scope.Contacts).not.toBeUndefined();
+    //        expect($scope.Contacts).not.toBeNull();
+    //    });
 
-        it('Delete - Delete contact with contact ID', function () {
-            $controller = controller('DeleteAction', { $scope: $scope });
-            $scope.Contact = newContact;
-            $scope.Create();
-            //var contactId = $scope.Contact.Id;
+    //    it('Delete - Delete contact with contact ID', function () {
+    //        $controller = controller('DeleteAction', { $scope: $scope });
+    //        $scope.Contact = newContact;
+    //        $scope.Create();
+    //        //var contactId = $scope.Contact.Id;
 
-            $scope.Delete();
+    //        $scope.Delete();
 
-            expect($scope.Contact.Id).not.toBeUndefined();
-            expect($scope.Contact.Id).not.toBeNull();
-        });
+    //        expect($scope.Contact.Id).not.toBeUndefined();
+    //        expect($scope.Contact.Id).not.toBeNull();
+    //    });
         
-        it('Create - With all fields create a new contact', function () {
-            $controller = controller('CreateAction', { $scope: $scope });
-            $scope.Contact = newContact;
+    //    it('Create - With all fields create a new contact', function () {
+    //        $controller = controller('CreateAction', { $scope: $scope });
+    //        $scope.Contact = newContact;
 
-            $scope.Create();
+    //        $scope.Create();
 
-            expect($scope.Contact.Id).not.toBeUndefined();
-            expect($scope.Contact.Id).not.toBeNull();
-        });
+    //        expect($scope.Contact.Id).not.toBeUndefined();
+    //        expect($scope.Contact.Id).not.toBeNull();
+    //    });
 
-        it('Edit - With all fields save the updated values', function () {
-            $controller = controller('EditAction', { $scope: $scope });
-            $scope.Contact = newContact;
-            $scope.Create();
-            $scope.Contact.Alias = "El Mazzi (6)";
-            $scope.Contact.Name = "Maximiliano";
-            $scope.Contact.Surname = "Gauna";
-            $scope.Contact.Email = "c@c.com";
-            $scope.Contact.Phone = 666;
-            $scope.Contact.Cellphone = 666;
-            $scope.Contact.Address = "Trulala 666";
-            $scope.Contact.Password = "Secret... SHHHH!!!!";
+    //    it('Edit - With all fields save the updated values', function () {
+    //        $controller = controller('EditAction', { $scope: $scope });
+    //        $scope.Contact = newContact;
+    //        $scope.Create();
+    //        $scope.Contact.Alias = "El Mazzi (6)";
+    //        $scope.Contact.Name = "Maximiliano";
+    //        $scope.Contact.Surname = "Gauna";
+    //        $scope.Contact.Email = "c@c.com";
+    //        $scope.Contact.Phone = 666;
+    //        $scope.Contact.Cellphone = 666;
+    //        $scope.Contact.Address = "Trulala 666";
+    //        $scope.Contact.Password = "Secret... SHHHH!!!!";
 
-            $scope.Edit();
+    //        $scope.Edit();
 
-            expect($scope.Contact.Alias).toEqual("El Mazzi (6)");
-            expect($scope.Contact.Name).toEqual("Maximiliano");
-            expect($scope.Contact.Surname).toEqual("Gauna");
-            expect($scope.Contact.Email).toEqual("c@c.com");
-            expect($scope.Contact.Phone).toEqual(666);
-            expect($scope.Contact.Cellphone).toEqual(666);
-            expect($scope.Contact.Address).toEqual("Trulala 666");
-            expect($scope.Contact.Password).toEqual("Secret... SHHHH!!!!");
-            $scope.Delete();
-        });
-    });
+    //        expect($scope.Contact.Alias).toEqual("El Mazzi (6)");
+    //        expect($scope.Contact.Name).toEqual("Maximiliano");
+    //        expect($scope.Contact.Surname).toEqual("Gauna");
+    //        expect($scope.Contact.Email).toEqual("c@c.com");
+    //        expect($scope.Contact.Phone).toEqual(666);
+    //        expect($scope.Contact.Cellphone).toEqual(666);
+    //        expect($scope.Contact.Address).toEqual("Trulala 666");
+    //        expect($scope.Contact.Password).toEqual("Secret... SHHHH!!!!");
+    //        $scope.Delete();
+    //    });
+    //});
 
     describe('App.js - App config Route Provider - ', function () {
         var $scope;
@@ -289,6 +289,166 @@ describe('ContactController - ', function () {
 
             expect(AuditManager.prototype.aroundLogEvent).toHaveBeenCalledWith(jasmine.any(Object));
             //expect(AuditManager.prototype.aroundLogEvent.calls.count()).toEqual(calledTwice);
+        });
+
+        it('Invokes "jQuery.aop.afterThrow" method for "Create"', function () {
+            spyOn(jQuery.aop, 'afterThrow').and.callThrough();
+
+            $controller = controller('ContactController', { $scope: $scope });
+
+            expect(jQuery.aop.afterThrow).toHaveBeenCalled();//({ target: $scope, method: 'Create' }, $scope.retryCreateCallback);
+            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[firstItemIndex].target).toEqual($scope);
+            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[firstItemIndex].method).toEqual('Create');
+            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[secondItemIndex]).toEqual(jasmine.any(Function));
+        });
+
+        it('Invokes "jQuery.aop.around" method for "Create"', function () {
+            spyOn(jQuery.aop, 'around').and.callThrough();
+
+            $controller = controller('ContactController', { $scope: $scope });
+
+            expect(jQuery.aop.around).toHaveBeenCalledWith({ target: $scope, method: 'Create' }, $scope.invocationCallback);
+        });
+
+        it('Invokes "jQuery.aop.around" method for "Delete"', function () {
+            spyOn(jQuery.aop, 'around').and.callThrough();
+
+            $controller = controller('ContactController', { $scope: $scope });
+
+            expect(jQuery.aop.around).toHaveBeenCalledWith({ target: $scope, method: 'Delete' }, $scope.invocationCallback);
+        });
+
+        it('Invokes "jQuery.aop.afterThrow" method for "Delete"', function () {
+            spyOn(jQuery.aop, 'afterThrow').and.callThrough();
+
+            $controller = controller('ContactController', { $scope: $scope });
+
+            expect(jQuery.aop.afterThrow).toHaveBeenCalled();//({ target: $scope, method: 'Delete' }, $scope.retryDeleteCallback);
+            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[firstItemIndex].target).toEqual($scope);
+            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[firstItemIndex].method).toEqual('Delete');
+            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[secondItemIndex]).toEqual(jasmine.any(Function));
+        });
+
+        it('Invokes "jQuery.aop.afterThrow" method for "Edit"', function () {
+            spyOn(jQuery.aop, 'afterThrow').and.callThrough();
+
+            $controller = controller('ContactController', { $scope: $scope });
+
+            expect(jQuery.aop.afterThrow).toHaveBeenCalledWith({ target: $scope, method: 'Edit' }, $scope.retryInvocationCallback);
+        });
+
+        it('Invokes "jQuery.aop.around" method for "Edit"', function () {
+            spyOn(jQuery.aop, 'around').and.callThrough();
+
+            $controller = controller('ContactController', { $scope: $scope });
+
+            expect(jQuery.aop.afterThrow).toHaveBeenCalled();//({ target: $scope, method: 'Edit' }, $scope.retryEditCallback);
+            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[firstItemIndex].target).toEqual($scope);
+            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[firstItemIndex].method).toEqual('Edit');
+            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[secondItemIndex]).toEqual(jasmine.any(Function));
+        });
+
+        it('Invokes "jQuery.aop.around" method for "Search"', function () {
+            spyOn(jQuery.aop, 'around').and.callThrough();
+
+            $controller = controller('ContactController', { $scope: $scope });
+
+            expect(jQuery.aop.around).toHaveBeenCalledWith({ target: $scope, method: 'Search' }, $scope.invocationCallback);
+        });
+
+        it('Invokes "jQuery.aop.afterThrow" method for "Search"', function () {
+            spyOn(jQuery.aop, 'afterThrow').and.callThrough();
+
+            $controller = controller('ContactController', { $scope: $scope });
+
+            expect(jQuery.aop.afterThrow).toHaveBeenCalled();//({ target: $scope, method: 'Search' }, $scope.retrySearchCallback);
+            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[firstItemIndex].target).toEqual($scope);
+            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[firstItemIndex].method).toEqual('Search');
+            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[secondItemIndex]).toEqual(jasmine.any(Function));
+        });
+
+        describe('$scope.retryCreateCallback - ', function () {
+            var $scope;
+            var $controller;
+
+            beforeEach(inject(function () {
+                $scope = rootScope.$new();
+                contacts = [];
+
+                controller('CreateAction', { $scope: $scope });
+                $controller = controller('ContactController', { $scope: $scope });
+            }));
+
+            it('Invokes "$scope.auditManager.afterThrowRetryEvent" method', function () {
+                spyOn(AuditManager.prototype, 'afterThrowRetryEvent').and.callFake(function () { });
+
+                $scope.retryCreateCallback(exception, method);
+
+                expect(AuditManager.prototype.afterThrowRetryEvent).toHaveBeenCalledWith(exception, jasmine.any(Object), jasmine.any(Function), method);
+            });
+        });
+
+        describe('$scope.retryDeleteCallback - ', function () {
+            var $scope;
+            var $controller;
+
+            beforeEach(inject(function () {
+                $scope = rootScope.$new();
+                contacts = [];
+
+                //controller('DeleteAction', { $scope: $scope });
+                $controller = controller('ContactController', { $scope: $scope });
+            }));
+
+            it('Invokes "$scope.auditManager.afterThrowRetryEvent" method', function () {
+                spyOn(AuditManager.prototype, 'afterThrowRetryEvent').and.callFake(function () { });
+
+                $scope.retryDeleteCallback(exception, method);
+
+                expect(AuditManager.prototype.afterThrowRetryEvent).toHaveBeenCalledWith(exception, $scope, $scope.Delete, method);
+            });
+        });
+
+        describe('$scope.retryEditCallback - ', function () {
+            var $scope;
+            var $controller;
+
+            beforeEach(inject(function () {
+                $scope = rootScope.$new();
+                contacts = [];
+
+                //controller('EditAction', { $scope: $scope });
+                $controller = controller('ContactController', { $scope: $scope });
+            }));
+
+            it('Invokes "$scope.auditManager.afterThrowRetryEvent" method', function () {
+                spyOn(AuditManager.prototype, 'afterThrowRetryEvent').and.callFake(function () { });
+
+                $scope.retryEditCallback(exception, method);
+
+                expect(AuditManager.prototype.afterThrowRetryEvent).toHaveBeenCalledWith(exception, $scope, $scope.Edit, method);
+            });
+        });
+
+        describe('$scope.retrySearchCallback - ', function () {
+            var $scope;
+            var $controller;
+
+            beforeEach(inject(function () {
+                $scope = rootScope.$new();
+                contacts = [];
+
+                controller('SearchAction', { $scope: $scope });
+                $controller = controller('ContactController', { $scope: $scope });
+            }));
+
+            it('Invokes "$scope.auditManager.afterThrowRetryEvent" method', function () {
+                spyOn(AuditManager.prototype, 'afterThrowRetryEvent').and.callFake(function () { });
+
+                $scope.retrySearchCallback(exception, method);
+
+                expect(AuditManager.prototype.afterThrowRetryEvent).toHaveBeenCalledWith(exception, $scope, $scope.Search, method);
+            });
         });
     });
 });

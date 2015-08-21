@@ -45,43 +45,6 @@ describe('ContactController - ', function () {
 
             expect($scope.isForm).toEqual(true);
         });
-
-        it('Invokes "jQuery.aop.afterThrow" method for "Create"', function () {
-            spyOn(jQuery.aop, 'afterThrow').and.callThrough();
-
-            $controller = controller('ContactController', { $scope: $scope });
-
-            expect(jQuery.aop.afterThrow).toHaveBeenCalledWith({ target: $scope, method: 'Create' }, $scope.retryInvocationCallback);
-        });
-
-        it('Invokes "jQuery.aop.around" method for "Create"', function () {
-            spyOn(jQuery.aop, 'around').and.callThrough();
-
-            $controller = controller('ContactController', { $scope: $scope });
-
-            expect(jQuery.aop.around).toHaveBeenCalledWith({ target: $scope, method: 'Create' }, $scope.invocationCallback);
-        });
-    });
-
-    describe('$scope.retryCreateCallback - ', function () {
-        var $scope;
-        var $controller;
-
-        beforeEach(inject(function () {
-            $scope = rootScope.$new();
-            contacts = [];
-
-            controller('CreateAction', { $scope: $scope });
-            $controller = controller('ContactController', { $scope: $scope });
-        }));
-
-        it('Invokes "$scope.auditManager.afterThrowRetryEvent" method', function () {
-            spyOn(AuditManager.prototype, 'afterThrowRetryEvent').and.callFake(function () { });
-
-            $scope.retryCreateCallback(exception, method);
-
-            expect(AuditManager.prototype.afterThrowRetryEvent).toHaveBeenCalledWith(exception, jasmine.any(Object), jasmine.any(Function), method);
-        });
     });
 
     describe('CreateAction - Call Http POST Method - ', function () {

@@ -34,7 +34,6 @@ describe('ContactController - ', function () {
             $scope = rootScope.$new();
             $scope.Contacts = contactListX1;
             //$routeParams = _$routeParams_;
-            $controller = controller('DeleteAction', { $scope: $scope, $routeParams: $routeParams });
         }));
 
         it('DeleteAction - Invokes the _.findIndex method to find the Contact item by its Id', function () {
@@ -60,43 +59,6 @@ describe('ContactController - ', function () {
             $controller = controller('DeleteAction', { $scope: $scope, $routeParams: $routeParams });
 
             expect($scope.isForm).toEqual(true);
-        });
-
-        it('Invokes "jQuery.aop.around" method for "Delete"', function () {
-            spyOn(jQuery.aop, 'around').and.callThrough();
-
-            $controller = controller('ContactController', { $scope: $scope });
-
-            expect(jQuery.aop.around).toHaveBeenCalledWith({ target: $scope, method: 'Delete' }, $scope.invocationCallback);
-        });
-
-        it('Invokes "jQuery.aop.afterThrow" method for "Delete"', function () {
-            spyOn(jQuery.aop, 'afterThrow').and.callThrough();
-
-            $controller = controller('ContactController', { $scope: $scope });
-
-            expect(jQuery.aop.afterThrow).toHaveBeenCalledWith({ target: $scope, method: 'Delete' }, $scope.retryInvocationCallback);
-        });
-    });
-
-    describe('$scope.retryDeleteCallback - ', function () {
-        var $scope;
-        var $controller;
-
-        beforeEach(inject(function () {
-            $scope = rootScope.$new();
-            contacts = [];
-
-            //controller('DeleteAction', { $scope: $scope });
-            $controller = controller('ContactController', { $scope: $scope });
-        }));
-
-        it('Invokes "$scope.auditManager.afterThrowRetryEvent" method', function () {
-            spyOn(AuditManager.prototype, 'afterThrowRetryEvent').and.callFake(function () { });
-
-            $scope.retryDeleteCallback(exception, method);
-
-            expect(AuditManager.prototype.afterThrowRetryEvent).toHaveBeenCalledWith(exception, $scope, $scope.Delete, method);
         });
     });
 
