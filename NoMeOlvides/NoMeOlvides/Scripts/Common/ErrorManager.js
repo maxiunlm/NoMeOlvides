@@ -6,7 +6,13 @@
                 singleton = {
 
                     onGenealErrorEvent: function (data) {
-                        alert('ERROR: ' + data);
+                        var message = data;
+
+                        if (data.HasError) {
+                            message = data.Messages.join('\n\t* ');
+                        }
+
+                        alert('ERROR: ' + message);
                     }
 
                 }

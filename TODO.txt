@@ -1,0 +1,7 @@
++ Revisar la auditoria Javascript AOP
++ Revisar translates manuales del lado del cliente
++ Revisar BDD con Jasmine, no funciona bien por el asincronismo
++ Corregir el BDD de Specflow para las nuevas necesidades
++ Validaciones del lado del cliente
++ Integrar la herramienta de reconocimiento de voz
+
