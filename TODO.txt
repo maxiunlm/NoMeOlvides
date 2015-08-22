@@ -1,4 +1,5 @@
 + Revisar la auditoria Javascript AOP
+----> Pasar la configuracion de la auditoria del Action ppal a los Actions CRUD.
 + Revisar translates manuales del lado del cliente
 + Revisar BDD con Jasmine, no funciona bien por el asincronismo
 + Corregir el BDD de Specflow para las nuevas necesidades
