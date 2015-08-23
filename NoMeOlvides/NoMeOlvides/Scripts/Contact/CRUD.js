@@ -1,150 +1,157 @@
-﻿app.controller('SearchAction', function ($scope, $http) {
-    $scope.http = $http;
-
-    // TODO: TERMINAR CON TDD !!!!!!!!!!!!!!!!!!!!!!!
-    $scope.Search = function () {
-        $scope.http.get();
-    };
-});
-
-app.controller('CreateAction', function ($scope, $location, $http) {//, $filter) {
-    $scope.http = $http;
-    $scope.isForm = true;
-
-    $scope.Create = function () {
-        $scope.http.post(applicationNamePath + 'WebApi/ContactApi', $scope.Contact)
-            .success($scope.onCreateSuccess)
-            .error(ErrorManager.getInstance().onGenealErrorEvent);
-
-        $scope.isForm = false;
+﻿(function () {
+    // TODO: hacer con TDD
+    var auditManager = new AuditManager(3, 'genericRetryMessage');
+    var invocationCallback = function(invocation) {
+        auditManager.aroundLogEvent(invocation);
     };
 
-    $scope.onCreateSuccess = function (data) {
-        //throw (JSON.stringify(data.Errors));
-        $scope.Errors = data.Errors;
-        $scope.transactionSuccessMessage = 'emptyText';
+    app.controller('SearchAction', function ($scope, $http) {
+        $scope.http = $http;
 
-        if (data.Errors.HasError) {
-            return;
+        // TODO: TERMINAR CON TDD !!!!!!!!!!!!!!!!!!!!!!!
+        $scope.Search = function () {
+            $scope.http.get();
+        };
+
+        $scope.retrySearchCallback = function (exception, method) {
+            auditManager.afterThrowRetryEvent(exception, $scope, $scope.Search, method);
+        };
+
+        jQuery.aop.around({ target: $scope, method: 'Search' }, invocationCallback);
+        jQuery.aop.afterThrow({ target: $scope, method: 'Search' }, $scope.retrySearchCallback);
+    });
+
+    app.controller('CreateAction', function ($scope, $location, $http) {//, $filter) {
+        $scope.http = $http;
+        $scope.isForm = true;
+
+        $scope.Create = function () {
+            $scope.http.post(applicationNamePath + 'WebApi/ContactApi', $scope.Contact)
+                .success($scope.onCreateSuccess)
+                .error(ErrorManager.getInstance().onGenealErrorEvent);
+
+            $scope.isForm = false;
+        };
+
+        $scope.onCreateSuccess = function (data) {
+            //throw (JSON.stringify(data.Errors));
+            $scope.Errors = data.Errors;
+            $scope.transactionSuccessMessage = 'emptyText';
+
+            if (data.Errors.HasError) {
+                return;
+            }
+
+            $scope.Contact.Id = data.Contact.Id;
+            $scope.Contacts.push($scope.Contact);
+            $scope.transactionSuccessMessage = 'transactionSuccessMessage';//$filter('translate')('transactionSuccessMessage');
+            //////// TODO TDD ???!!!
+            //////$scope.refreshResult();
+            $location.url("/");
+        };
+
+        invocationCallback = function (invocation) {
+            auditManager.aroundLogEvent(invocation);
+        };
+
+        $scope.retryCreateCallback = function (exception, method) {
+            auditManager.afterThrowRetryEvent(exception, $scope, $scope.Create, method);
+        };
+
+        jQuery.aop.around({ target: $scope, method: 'Create' }, invocationCallback);
+        jQuery.aop.afterThrow({ target: $scope, method: 'Create' }, $scope.retryCreateCallback);
+    });
+
+    app.controller('DeleteAction', function ($scope, $routeParams, $location, $http) { //, $filter
+        $scope.http = $http;
+        var contactIndex = _.findIndex($scope.Contacts, { "Id": $routeParams.id });
+        $scope.Contact = $scope.Contacts[contactIndex];
+        $scope.isForm = true;
+
+        $scope.Delete = function () {
+            $scope.http.delete(applicationNamePath + 'WebApi/ContactApi/' + escape($scope.Contact.Id), {})
+                .success($scope.onDeleteSuccess)
+                .error(ErrorManager.getInstance().onGenealErrorEvent);
+
+            $scope.isForm = false;
         }
 
-        $scope.Contact.Id = data.Contact.Id;
-        $scope.Contacts.push($scope.Contact);
-        $scope.transactionSuccessMessage = 'transactionSuccessMessage';//$filter('translate')('transactionSuccessMessage');
-        //////// TODO TDD ???!!!
-        //////$scope.refreshResult();
-        $location.url("/");
-    };
-});
+        $scope.onDeleteSuccess = function (data) {
+            $scope.Errors = data.Errors;
+            $scope.transactionSuccessMessage = 'emptyText';
 
-app.controller('DeleteAction', function ($scope, $routeParams, $location, $http) { //, $filter
-    $scope.http = $http;
-    var contactIndex = _.findIndex($scope.Contacts, { "Id": $routeParams.id });
-    $scope.Contact = $scope.Contacts[contactIndex];
-    $scope.isForm = true;
+            if (data.Errors.HasError) {
+                return;
+            }
 
-    $scope.Delete = function () {
-        $scope.http.delete(applicationNamePath + 'WebApi/ContactApi/' + escape($scope.Contact.Id), {})
-            .success($scope.onDeleteSuccess)
-            .error(ErrorManager.getInstance().onGenealErrorEvent);
+            var contactIndex = _.findIndex($scope.Contacts, { "Id": $scope.Contact.Id });
+            $scope.Contacts.splice(contactIndex, 1);
+            $scope.transactionSuccessMessage = 'transactionSuccessMessage';
+            //////// TODO TDD ???!!!
+            //////$scope.refreshResult();
+            $location.url("/");
+        };
 
+        $scope.retryDeleteCallback = function (exception, method) {
+            auditManager.afterThrowRetryEvent(exception, $scope, $scope.Delete, method);
+        };
+
+        jQuery.aop.around({ target: $scope, method: 'Delete' }, invocationCallback);
+        jQuery.aop.afterThrow({ target: $scope, method: 'Delete' }, $scope.retryDeleteCallback);
+    });
+
+    app.controller('EditAction', function ($scope, $routeParams, $location, $http) {
+        $scope.http = $http;
+        var contactIndex = _.findIndex($scope.Contacts, { "Id": $routeParams.id });
+        $scope.Contact = $scope.Contacts[contactIndex];
+        $scope.isForm = true;
+
+        $scope.Edit = function () {
+            $scope.http.put(applicationNamePath + 'WebApi/ContactApi/', $scope.Contact)
+                .success($scope.onEditSuccess)
+                .error(ErrorManager.getInstance().onGenealErrorEvent);
+
+            $scope.isForm = false;
+        };
+
+        $scope.onEditSuccess = function (data) {
+            $scope.Errors = data.Errors;
+            $scope.transactionSuccessMessage = 'emptyText';
+
+            if (data.Errors.HasError) {
+                return;
+            }
+
+            $scope.transactionSuccessMessage = 'transactionSuccessMessage';
+            $location.url("/");
+        };
+
+        $scope.retryEditCallback = function (exception, method) {
+            auditManager.afterThrowRetryEvent(exception, $scope, $scope.Edit, method);
+        };
+
+        jQuery.aop.around({ target: $scope, method: 'Edit' }, invocationCallback);
+        jQuery.aop.afterThrow({ target: $scope, method: 'Edit' }, $scope.retryEditCallback);
+    });
+
+    app.controller('DetailsAction', function ($scope, $routeParams) {
+        var contactIndex = _.findIndex($scope.Contacts, { "Id": $routeParams.id });
+        $scope.Contact = $scope.Contacts[contactIndex];
         $scope.isForm = false;
-    }
+    });
 
-    $scope.onDeleteSuccess = function (data) {
-        $scope.Errors = data.Errors;
-        $scope.transactionSuccessMessage = 'emptyText';
-
-        if (data.Errors.HasError) {
-            return;
+    app.controller('ContactController', function ($scope, $http) {
+        $scope.initializeGlobalVariables = function () {
+            $scope.Errors = {};
+            $scope.Contacts = contacts;
+            $scope.hasResults = (contacts.length > 0);
+            $scope.isForm = false;
         }
 
-        var contactIndex = _.findIndex($scope.Contacts, { "Id": $scope.Contact.Id });
-        $scope.Contacts.splice(contactIndex, 1);
-        $scope.transactionSuccessMessage = 'transactionSuccessMessage';
-        //////// TODO TDD ???!!!
-        //////$scope.refreshResult();
-        $location.url("/");
-    };
-});
+        /////////////////////////////// CONFIG
 
-app.controller('EditAction', function ($scope, $routeParams, $location, $http) {
-    $scope.http = $http;
-    var contactIndex = _.findIndex($scope.Contacts, { "Id": $routeParams.id });
-    $scope.Contact = $scope.Contacts[contactIndex];
-    $scope.isForm = true;
+        jQuery.aop.around({ target: $scope, method: 'initializeGlobalVariables' }, invocationCallback);
 
-    $scope.Edit = function () {
-        $scope.http.put(applicationNamePath + 'WebApi/ContactApi/', $scope.Contact)
-            .success($scope.onEditSuccess)
-            .error(ErrorManager.getInstance().onGenealErrorEvent);
-
-        $scope.isForm = false;
-    };
-
-    $scope.onEditSuccess = function (data) {
-        $scope.Errors = data.Errors;
-        $scope.transactionSuccessMessage = 'emptyText';
-
-        if (data.Errors.HasError) {
-            return;
-        }
-
-        $scope.transactionSuccessMessage = 'transactionSuccessMessage';
-        $location.url("/");
-    };
-});
-
-app.controller('DetailsAction', function ($scope, $routeParams) {
-    var contactIndex = _.findIndex($scope.Contacts, { "Id": $routeParams.id });
-    $scope.Contact = $scope.Contacts[contactIndex];
-    $scope.isForm = false;
-});
-
-app.controller('ContactController', function ($scope, $http) {
-    $scope.initializeGlobalVariables = function () {
-        $scope.Errors = {};
-        $scope.Contacts = contacts;
-        $scope.hasResults = (contacts.length > 0);
-        $scope.isForm = false;
-    }
-
-    /////////////////////////////// CONFIG
-    $scope.auditManager = new AuditManager(3, 'genericRetryMessage');
-
-    $scope.invocationCallback = function (invocation) {
-        $scope.auditManager.aroundLogEvent(invocation);
-    };
-
-    $scope.retryCreateCallback = function (exception, method) {
-        $scope.auditManager.afterThrowRetryEvent(exception, $scope, $scope.Create, method);
-    };
-
-    $scope.retrySearchCallback = function (exception, method) {
-        $scope.auditManager.afterThrowRetryEvent(exception, $scope, $scope.Search, method);
-    };
-
-    $scope.retryDeleteCallback = function (exception, method) {
-        $scope.auditManager.afterThrowRetryEvent(exception, $scope, $scope.Delete, method);
-    };
-
-    $scope.retryEditCallback = function (exception, method) {
-        $scope.auditManager.afterThrowRetryEvent(exception, $scope, $scope.Edit, method);
-    };
-
-    jQuery.aop.around({ target: $scope, method: 'initializeGlobalVariables' }, $scope.invocationCallback);
-
-    jQuery.aop.around({ target: $scope, method: 'Create' }, $scope.invocationCallback);
-    jQuery.aop.afterThrow({ target: $scope, method: 'Create' }, $scope.retryCreateCallback);
-
-    jQuery.aop.around({ target: $scope, method: 'Delete' }, $scope.invocationCallback);
-    jQuery.aop.afterThrow({ target: $scope, method: 'Delete' }, $scope.retryDeleteCallback);
-
-    jQuery.aop.around({ target: $scope, method: 'Edit' }, $scope.invocationCallback);
-    jQuery.aop.afterThrow({ target: $scope, method: 'Edit' }, $scope.retryEditCallback);
-
-    jQuery.aop.around({ target: $scope, method: 'Search' }, $scope.invocationCallback);
-    jQuery.aop.afterThrow({ target: $scope, method: 'Search' }, $scope.retrySearchCallback);
-    
-    $scope.initializeGlobalVariables();
-});
+        $scope.initializeGlobalVariables();
+    });
+})();
