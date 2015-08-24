@@ -7,16 +7,15 @@
 /// <reference path='../../../NoMeOlvides/Scripts/angular-translate.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular-translate-loader-url.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/i18n/angular-locale_es-ar.js />
-/// <reference path='../../../NoMeOlvides/Scripts/Common/TranslateProvider.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Common/ErrorManager.js' />
-/// <reference path="../../../nomeolvides/scripts/common/auditmanager.js" />
+/// <reference path="../../../NoMeOlvides/Scripts/Common/AuditManager.js" />
 /// <reference path='Fixture/CommonFixture.js' />
 /// <reference path='Fixture/ContactCommonFixture.js' />
 /// <reference path='Fixture/ContactCreateFixture.js' />
 /// <reference path="Fixture/AuditManagerCommonFixture.js" />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/App.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/Common/TranslateProvider.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/CRUD.js' />
-
 
 describe('ContactController - ', function () {
     var location;

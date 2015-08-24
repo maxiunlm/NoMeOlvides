@@ -6,11 +6,12 @@
 /// <reference path='../../../NoMeOlvides/Scripts/angular-route.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular-translate.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular-translate-loader-url.js' />
-/// <reference path='../../../NoMeOlvides/Scripts/Contact/App.js' />
-/// <reference path='../../../NoMeOlvides/Scripts/Contact/CRUD.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Common/ErrorManager.js' />
+/// <reference path="../../../NoMeOlvides/Scripts/Common/AuditManager.js" />
 /// <reference path='Fixture/CommonFixture.js' />
 /// <reference path='Fixture/ContactCommonFixture.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/Contact/App.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/Contact/CRUD.js' />
 
 describe('ContactController - ', function () {
     var rootScope;
@@ -23,6 +24,8 @@ describe('ContactController - ', function () {
         rootScope = _$rootScope_;
         controller = _$controller_;
         location = _$location_;
+
+        spyOn(console, 'log').and.callFake(function () { });
     }));
 
     describe('EditAction - Load Edit Form - ', function () {
@@ -171,6 +174,47 @@ describe('ContactController - ', function () {
             $scope.onEditSuccess(httpDataResultOk);
 
             expect(location.path()).toBe('/');
+        });
+    });
+
+
+    it('Invokes "jQuery.aop.afterThrow" method for "Edit"', function () {
+        spyOn(jQuery.aop, 'afterThrow').and.callThrough();
+
+        $controller = controller('ContactController', { $scope: $scope });
+
+        expect(jQuery.aop.afterThrow).toHaveBeenCalled();//({ target: $scope, method: 'Edit' }, $scope.retryEditCallback);
+        expect(jQuery.aop.afterThrow.calls.argsFor(thirdItemIndex)[firstItemIndex].target).toEqual($scope);
+        expect(jQuery.aop.afterThrow.calls.argsFor(thirdItemIndex)[firstItemIndex].method).toEqual('Edit');
+        expect(jQuery.aop.afterThrow.calls.argsFor(thirdItemIndex)[secondItemIndex]).toEqual(jasmine.any(Function));
+    });
+
+    it('Invokes "jQuery.aop.around" method for "Edit"', function () {
+        spyOn(jQuery.aop, 'around').and.callThrough();
+
+        $controller = controller('ContactController', { $scope: $scope });
+
+        expect(jQuery.aop.around).toHaveBeenCalledWith({ target: $scope, method: 'Edit' }, $scope.invocationCallback);
+    });
+
+    describe('$scope.retryEditCallback - ', function () {
+        var $scope;
+        var $controller;
+
+        beforeEach(inject(function () {
+            $scope = rootScope.$new();
+            contacts = [];
+
+            //controller('EditAction', { $scope: $scope });
+            $controller = controller('ContactController', { $scope: $scope });
+        }));
+
+        it('Invokes "$scope.auditManager.afterThrowRetryEvent" method', function () {
+            spyOn(AuditManager.prototype, 'afterThrowRetryEvent').and.callFake(function () { });
+
+            $scope.retryEditCallback(exception, method);
+
+            expect(AuditManager.prototype.afterThrowRetryEvent).toHaveBeenCalledWith(exception, $scope, $scope.Edit, method);
         });
     });
 });
