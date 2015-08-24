@@ -228,26 +228,6 @@ describe('ContactController - ', function () {
         });
     });
 
-    describe('$scope.invocationCallback - ', function () {
-        var $scope;
-        var $controller;
-
-        beforeEach(inject(function () {
-            $scope = rootScope.$new();
-            contacts = [];
-
-            $controller = controller('ContactController', { $scope: $scope });
-        }));
-
-        it('Invokes "$scope.auditManager.aroundLogEvent" method', function () {
-            spyOn(AuditManager.prototype, 'aroundLogEvent').and.callThrough();
-
-            $scope.invocationCallback(invocationEmpty);
-
-            expect(AuditManager.prototype.aroundLogEvent).toHaveBeenCalledWith(invocationEmpty);
-        });
-    });
-
     describe('ContactController - Auditory with AOP - ', function () {
         var $scope;
         var $controller;
@@ -281,16 +261,11 @@ describe('ContactController - ', function () {
 
             $controller = controller('ContactController', { $scope: $scope });
 
-            expect(jQuery.aop.around).toHaveBeenCalledWith({ target: window, method: 'initializeGlobalVariables' }, $scope.invocationCallback);
-        });
-
-        it('Invokes "auditManager.aroundLogEvent" method for "initializeGlobalVariables"', function () {
-            spyOn(AuditManager.prototype, 'aroundLogEvent').and.callThrough();
-
-            $controller = controller('ContactController', { $scope: $scope });
-
-            expect(AuditManager.prototype.aroundLogEvent).toHaveBeenCalledWith(jasmine.any(Object));
-            //expect(AuditManager.prototype.aroundLogEvent.calls.count()).toEqual(calledTwice);
+            //expect(jQuery.aop.around).toHaveBeenCalledWith({ target: window, method: 'initializeGlobalVariables' }, invocationCallback);
+            expect(jQuery.aop.around).toHaveBeenCalled();
+            expect(jQuery.aop.around.calls.argsFor(firstItemIndex)[firstItemIndex].target).toEqual(window);
+            expect(jQuery.aop.around.calls.argsFor(firstItemIndex)[firstItemIndex].method).toEqual('initializeGlobalVariables');
+            expect(jQuery.aop.around.calls.argsFor(firstItemIndex)[secondItemIndex]).toEqual(jasmine.any(Function));
         });
     });
 });

@@ -194,6 +194,7 @@
     <Content Include="Scripts\Tests\Fixture\TranslateCommonFixture.js" />
     <Content Include="Scripts\Tests\Fixture\VoiceFormFixture.js" />
     <Content Include="Scripts\Tests\Fixture\VoiceManagerFixture.js" />
+    <Content Include="Scripts\Tests\GlobalsTests.js" />
     <Content Include="Scripts\Tests\TranslateProviderTests.js" />
     <Content Include="Scripts\Tests\VoiceFormTests.js" />
     <Content Include="Scripts\Tests\VoiceManagerTests.js" />
