@@ -6,12 +6,12 @@
 /// <reference path='../../../NoMeOlvides/Scripts/angular-route.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular-translate.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular-translate-loader-url.js' />
-/// <reference path='../../../NoMeOlvides/Scripts/Contact/App.js' />
-/// <reference path='../../../NoMeOlvides/Scripts/Contact/CRUD.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Common/ErrorManager.js' />
 /// <reference path='Fixture/CommonFixture.js' />
 /// <reference path='Fixture/ContactCommonFixture.js' />
 /// <reference path='Fixture/ContactCreateFixture.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/Contact/App.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/Contact/CRUD.js' />
 
 describe('ContactController - ', function () {
     var location;
@@ -226,4 +226,166 @@ describe('ContactController - ', function () {
             expect(location.path()).toBe('/');
         });
     });
+
+
+    it('Invokes "jQuery.aop.afterThrow" method for "Create"', function () {
+        spyOn(jQuery.aop, 'afterThrow').and.callThrough();
+
+        $controller = controller('ContactController', { $scope: $scope });
+
+        expect(jQuery.aop.afterThrow).toHaveBeenCalled();//({ target: $scope, method: 'Create' }, $scope.retryCreateCallback);
+        expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[firstItemIndex].target).toEqual($scope);
+        expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[firstItemIndex].method).toEqual('Create');
+        expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[secondItemIndex]).toEqual(jasmine.any(Function));
+    });
+
+    it('Invokes "jQuery.aop.around" method for "Create"', function () {
+        spyOn(jQuery.aop, 'around').and.callThrough();
+
+        $controller = controller('ContactController', { $scope: $scope });
+
+        expect(jQuery.aop.around).toHaveBeenCalledWith({ target: $scope, method: 'Create' }, $scope.invocationCallback);
+    });
+
+    it('Invokes "jQuery.aop.around" method for "Delete"', function () {
+        spyOn(jQuery.aop, 'around').and.callThrough();
+
+        $controller = controller('ContactController', { $scope: $scope });
+
+        expect(jQuery.aop.around).toHaveBeenCalledWith({ target: $scope, method: 'Delete' }, $scope.invocationCallback);
+    });
+
+    it('Invokes "jQuery.aop.afterThrow" method for "Delete"', function () {
+        spyOn(jQuery.aop, 'afterThrow').and.callThrough();
+
+        $controller = controller('ContactController', { $scope: $scope });
+
+        expect(jQuery.aop.afterThrow).toHaveBeenCalled();//({ target: $scope, method: 'Delete' }, $scope.retryDeleteCallback);
+        expect(jQuery.aop.afterThrow.calls.argsFor(secondItemIndex)[firstItemIndex].target).toEqual($scope);
+        expect(jQuery.aop.afterThrow.calls.argsFor(secondItemIndex)[firstItemIndex].method).toEqual('Delete');
+        expect(jQuery.aop.afterThrow.calls.argsFor(secondItemIndex)[secondItemIndex]).toEqual(jasmine.any(Function));
+    });
+
+    it('Invokes "jQuery.aop.afterThrow" method for "Edit"', function () {
+        spyOn(jQuery.aop, 'afterThrow').and.callThrough();
+
+        $controller = controller('ContactController', { $scope: $scope });
+
+        expect(jQuery.aop.afterThrow).toHaveBeenCalled();//({ target: $scope, method: 'Edit' }, $scope.retryEditCallback);
+        expect(jQuery.aop.afterThrow.calls.argsFor(thirdItemIndex)[firstItemIndex].target).toEqual($scope);
+        expect(jQuery.aop.afterThrow.calls.argsFor(thirdItemIndex)[firstItemIndex].method).toEqual('Edit');
+        expect(jQuery.aop.afterThrow.calls.argsFor(thirdItemIndex)[secondItemIndex]).toEqual(jasmine.any(Function));
+    });
+
+    it('Invokes "jQuery.aop.around" method for "Edit"', function () {
+        spyOn(jQuery.aop, 'around').and.callThrough();
+
+        $controller = controller('ContactController', { $scope: $scope });
+
+        expect(jQuery.aop.around).toHaveBeenCalledWith({ target: $scope, method: 'Edit' }, $scope.invocationCallback);
+    });
+
+    it('Invokes "jQuery.aop.around" method for "Search"', function () {
+        spyOn(jQuery.aop, 'around').and.callThrough();
+
+        $controller = controller('ContactController', { $scope: $scope });
+
+        expect(jQuery.aop.around).toHaveBeenCalledWith({ target: $scope, method: 'Search' }, $scope.invocationCallback);
+    });
+
+    it('Invokes "jQuery.aop.afterThrow" method for "Search"', function () {
+        spyOn(jQuery.aop, 'afterThrow').and.callThrough();
+
+        $controller = controller('ContactController', { $scope: $scope });
+
+        expect(jQuery.aop.afterThrow).toHaveBeenCalled();//({ target: $scope, method: 'Search' }, $scope.retrySearchCallback);
+        expect(jQuery.aop.afterThrow.calls.argsFor(fourthItemIndex)[firstItemIndex].target).toEqual($scope);
+        expect(jQuery.aop.afterThrow.calls.argsFor(fourthItemIndex)[firstItemIndex].method).toEqual('Search');
+        expect(jQuery.aop.afterThrow.calls.argsFor(fourthItemIndex)[secondItemIndex]).toEqual(jasmine.any(Function));
+    });
+
+    describe('$scope.retryCreateCallback - ', function () {
+        var $scope;
+        var $controller;
+
+        beforeEach(inject(function () {
+            $scope = rootScope.$new();
+            contacts = [];
+
+            controller('CreateAction', { $scope: $scope });
+            $controller = controller('ContactController', { $scope: $scope });
+        }));
+
+        it('Invokes "$scope.auditManager.afterThrowRetryEvent" method', function () {
+            spyOn(AuditManager.prototype, 'afterThrowRetryEvent').and.callFake(function () { });
+
+            $scope.retryCreateCallback(exception, method);
+
+            expect(AuditManager.prototype.afterThrowRetryEvent).toHaveBeenCalledWith(exception, jasmine.any(Object), jasmine.any(Function), method);
+        });
+    });
+
+    describe('$scope.retryDeleteCallback - ', function () {
+        var $scope;
+        var $controller;
+
+        beforeEach(inject(function () {
+            $scope = rootScope.$new();
+            contacts = [];
+
+            //controller('DeleteAction', { $scope: $scope });
+            $controller = controller('ContactController', { $scope: $scope });
+        }));
+
+        it('Invokes "$scope.auditManager.afterThrowRetryEvent" method', function () {
+            spyOn(AuditManager.prototype, 'afterThrowRetryEvent').and.callFake(function () { });
+
+            $scope.retryDeleteCallback(exception, method);
+
+            expect(AuditManager.prototype.afterThrowRetryEvent).toHaveBeenCalledWith(exception, $scope, $scope.Delete, method);
+        });
+    });
+
+    describe('$scope.retryEditCallback - ', function () {
+        var $scope;
+        var $controller;
+
+        beforeEach(inject(function () {
+            $scope = rootScope.$new();
+            contacts = [];
+
+            //controller('EditAction', { $scope: $scope });
+            $controller = controller('ContactController', { $scope: $scope });
+        }));
+
+        it('Invokes "$scope.auditManager.afterThrowRetryEvent" method', function () {
+            spyOn(AuditManager.prototype, 'afterThrowRetryEvent').and.callFake(function () { });
+
+            $scope.retryEditCallback(exception, method);
+
+            expect(AuditManager.prototype.afterThrowRetryEvent).toHaveBeenCalledWith(exception, $scope, $scope.Edit, method);
+        });
+    });
+
+    describe('$scope.retrySearchCallback - ', function () {
+        var $scope;
+        var $controller;
+
+        beforeEach(inject(function () {
+            $scope = rootScope.$new();
+            contacts = [];
+
+            controller('SearchAction', { $scope: $scope });
+            $controller = controller('ContactController', { $scope: $scope });
+        }));
+
+        it('Invokes "$scope.auditManager.afterThrowRetryEvent" method', function () {
+            spyOn(AuditManager.prototype, 'afterThrowRetryEvent').and.callFake(function () { });
+
+            $scope.retrySearchCallback(exception, method);
+
+            expect(AuditManager.prototype.afterThrowRetryEvent).toHaveBeenCalledWith(exception, $scope, $scope.Search, method);
+        });
+    });
+
 });
