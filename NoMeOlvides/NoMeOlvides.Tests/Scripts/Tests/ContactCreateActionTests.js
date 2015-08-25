@@ -11,6 +11,7 @@
 /// <reference path='Fixture/CommonFixture.js' />
 /// <reference path='Fixture/ContactCommonFixture.js' />
 /// <reference path='Fixture/ContactCreateFixture.js' />
+/// <reference path="Fixture/AuditManagerCommonFixture.js" />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/App.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/CRUD.js' />
 
@@ -47,6 +48,25 @@ describe('ContactController - ', function () {
 
 
             expect($scope.isForm).toEqual(true);
+        });
+
+        it('Invokes "jQuery.aop.afterThrow" method for "Create"', function () {
+            spyOn(jQuery.aop, 'afterThrow').and.callThrough();
+
+            $controller = controller('CreateAction', { $scope: $scope });
+
+            expect(jQuery.aop.afterThrow).toHaveBeenCalled();//({ target: $scope, method: 'Create' }, $scope.retryCreateCallback);
+            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[firstItemIndex].target).toEqual($scope);
+            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[firstItemIndex].method).toEqual('Create');
+            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[secondItemIndex]).toEqual(jasmine.any(Function));
+        });
+
+        it('Invokes "jQuery.aop.around" method for "Create"', function () {
+            spyOn(jQuery.aop, 'around').and.callThrough();
+
+            $controller = controller('CreateAction', { $scope: $scope });
+
+            expect(jQuery.aop.around).toHaveBeenCalledWith({ target: window, method: 'Create' }, invocationCallback);
         });
     });
 
@@ -230,26 +250,6 @@ describe('ContactController - ', function () {
         });
     });
 
-
-    it('Invokes "jQuery.aop.afterThrow" method for "Create"', function () {
-        spyOn(jQuery.aop, 'afterThrow').and.callThrough();
-
-        $controller = controller('ContactController', { $scope: $scope });
-
-        expect(jQuery.aop.afterThrow).toHaveBeenCalled();//({ target: $scope, method: 'Create' }, $scope.retryCreateCallback);
-        expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[firstItemIndex].target).toEqual($scope);
-        expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[firstItemIndex].method).toEqual('Create');
-        expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[secondItemIndex]).toEqual(jasmine.any(Function));
-    });
-
-    it('Invokes "jQuery.aop.around" method for "Create"', function () {
-        spyOn(jQuery.aop, 'around').and.callThrough();
-
-        $controller = controller('ContactController', { $scope: $scope });
-
-        expect(jQuery.aop.around).toHaveBeenCalledWith({ target: $scope, method: 'Create' }, $scope.invocationCallback);
-    });
-
     describe('$scope.retryCreateCallback - ', function () {
         var $scope;
         var $controller;
@@ -262,7 +262,7 @@ describe('ContactController - ', function () {
             $controller = controller('ContactController', { $scope: $scope });
         }));
 
-        it('Invokes "$scope.auditManager.afterThrowRetryEvent" method', function () {
+        it('Invokes "auditManager.afterThrowRetryEvent" method', function () {
             spyOn(AuditManager.prototype, 'afterThrowRetryEvent').and.callFake(function () { });
 
             $scope.retryCreateCallback(exception, method);

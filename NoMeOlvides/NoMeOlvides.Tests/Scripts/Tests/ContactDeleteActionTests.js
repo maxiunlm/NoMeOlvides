@@ -9,10 +9,11 @@
 /// <reference path='../../../NoMeOlvides/Scripts/Common/ErrorManager.js" />
 /// <reference path="../../../NoMeOlvides/Scripts/Common/AuditManager.js" />
 /// <reference path='Fixture/ContactCommonFixture.js' />
+/// <reference path="Fixture/AuditManagerCommonFixture.js" />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/App.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/CRUD.js' />
 
-describe('ContactController - ', function () {
+describe('ContactController - DeleteAction - ', function () {
     var location;
     var rootScope;
     var controller;
@@ -28,7 +29,7 @@ describe('ContactController - ', function () {
         spyOn(console, 'log').and.callFake(function () { });
     }));
 
-    describe('DeleteAction - Load Delete Form - ', function () {
+    describe('Load Delete Form - ', function () {
         var $scope;
         var $controller;
         var $routeParams;
@@ -39,7 +40,7 @@ describe('ContactController - ', function () {
             //$routeParams = _$routeParams_;
         }));
 
-        it('DeleteAction - Invokes the _.findIndex method to find the Contact item by its Id', function () {
+        it('Invokes the _.findIndex method to find the Contact item by its Id', function () {
             spyOn(_, 'findIndex').and.callThrough();
             $routeParams = { id: firstContact.Id };
 
@@ -48,7 +49,7 @@ describe('ContactController - ', function () {
             expect(_.findIndex).toHaveBeenCalledWith(jasmine.any(Object), { Id: contactId });
         });
 
-        it('DeleteAction - Load data Contact to the Delete Form Page', function () {
+        it('Load data Contact to the Delete Form Page', function () {
             $routeParams = { id: firstContact.Id };
 
             $controller = controller('DeleteAction', { $scope: $scope, $routeParams: $routeParams });
@@ -56,16 +57,35 @@ describe('ContactController - ', function () {
             expect($scope.Contact).toBe(firstContact);
         });
 
-        it('DeleteAction - Stablish isForm == TRUE status for the GUI', function () {
+        it('Stablish isForm == TRUE status for the GUI', function () {
             $routeParams = { id: firstContact.Id };
 
             $controller = controller('DeleteAction', { $scope: $scope, $routeParams: $routeParams });
 
             expect($scope.isForm).toEqual(true);
         });
+        
+        it('Invokes "jQuery.aop.around" method for "Delete"', function () {
+            spyOn(jQuery.aop, 'around').and.callThrough();
+
+            $controller = controller('DeleteAction', { $scope: $scope });
+
+            expect(jQuery.aop.around).toHaveBeenCalledWith({ target: window, method: 'Delete' }, invocationCallback);
+        });
+
+        it('Invokes "jQuery.aop.afterThrow" method for "Delete"', function () {
+            spyOn(jQuery.aop, 'afterThrow').and.callThrough();
+
+            $controller = controller('DeleteAction', { $scope: $scope });
+
+            expect(jQuery.aop.afterThrow).toHaveBeenCalled();//({ target: $scope, method: 'Delete' }, $scope.retryDeleteCallback);
+            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[firstItemIndex].target).toEqual($scope);
+            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[firstItemIndex].method).toEqual('Delete');
+            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[secondItemIndex]).toEqual(jasmine.any(Function));
+        });
     });
 
-    describe('DeleteAction - Call Http DELETE Method - ', function () {
+    describe('Call Http DELETE Method - ', function () {
         var $scope;
         var $controller;
         var httpBackend;
@@ -98,7 +118,7 @@ describe('ContactController - ', function () {
         });
     });
     
-    describe('DeleteAction - Call Response Events - ', function () {
+    describe('Call Response Events - ', function () {
         var $scope;
 
         beforeEach(inject(function () {
@@ -144,7 +164,7 @@ describe('ContactController - ', function () {
         });
     });
 
-    describe('DeleteAction - On success event - ', function () {
+    describe('On success event - ', function () {
         var $scope;
         var $controller
 
@@ -218,36 +238,17 @@ describe('ContactController - ', function () {
         });
     });
 
-
-    it('Invokes "jQuery.aop.around" method for "Delete"', function () {
-        spyOn(jQuery.aop, 'around').and.callThrough();
-
-        $controller = controller('ContactController', { $scope: $scope });
-
-        expect(jQuery.aop.around).toHaveBeenCalledWith({ target: $scope, method: 'Delete' }, $scope.invocationCallback);
-    });
-
-    it('Invokes "jQuery.aop.afterThrow" method for "Delete"', function () {
-        spyOn(jQuery.aop, 'afterThrow').and.callThrough();
-
-        $controller = controller('ContactController', { $scope: $scope });
-
-        expect(jQuery.aop.afterThrow).toHaveBeenCalled();//({ target: $scope, method: 'Delete' }, $scope.retryDeleteCallback);
-        expect(jQuery.aop.afterThrow.calls.argsFor(secondItemIndex)[firstItemIndex].target).toEqual($scope);
-        expect(jQuery.aop.afterThrow.calls.argsFor(secondItemIndex)[firstItemIndex].method).toEqual('Delete');
-        expect(jQuery.aop.afterThrow.calls.argsFor(secondItemIndex)[secondItemIndex]).toEqual(jasmine.any(Function));
-    });
-
     describe('$scope.retryDeleteCallback - ', function () {
         var $scope;
         var $controller;
 
         beforeEach(inject(function () {
             $scope = rootScope.$new();
-            contacts = [];
+            $scope.Contacts = contactListX1;
+            $routeParams = { id: firstContact.Id };
+            auditManager = new AuditManager();
 
-            //controller('DeleteAction', { $scope: $scope });
-            $controller = controller('ContactController', { $scope: $scope });
+            $controller = controller('DeleteAction', { $scope: $scope, $routeParams: $routeParams });
         }));
 
         it('Invokes "$scope.auditManager.afterThrowRetryEvent" method', function () {

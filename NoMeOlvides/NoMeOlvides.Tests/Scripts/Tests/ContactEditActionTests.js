@@ -10,10 +10,11 @@
 /// <reference path="../../../NoMeOlvides/Scripts/Common/AuditManager.js" />
 /// <reference path='Fixture/CommonFixture.js' />
 /// <reference path='Fixture/ContactCommonFixture.js' />
+/// <reference path="Fixture/AuditManagerCommonFixture.js" />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/App.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/CRUD.js' />
 
-describe('ContactController - ', function () {
+describe('ContactController - EditAction - ', function () {
     var rootScope;
     var controller;
     var location;
@@ -28,7 +29,7 @@ describe('ContactController - ', function () {
         spyOn(console, 'log').and.callFake(function () { });
     }));
 
-    describe('EditAction - Load Edit Form - ', function () {
+    describe('Load Edit Form - ', function () {
         var $scope;
         var $controller;
         var $routeParams;
@@ -62,9 +63,28 @@ describe('ContactController - ', function () {
 
             expect($scope.isForm).toEqual(true);
         });
+        
+        it('Invokes "jQuery.aop.afterThrow" method for "Edit"', function () {
+            spyOn(jQuery.aop, 'afterThrow').and.callThrough();
+
+            $controller = controller('EditAction', { $scope: $scope });
+
+            expect(jQuery.aop.afterThrow).toHaveBeenCalled();//({ target: $scope, method: 'Edit' }, $scope.retryEditCallback);
+            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[firstItemIndex].target).toEqual($scope);
+            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[firstItemIndex].method).toEqual('Edit');
+            expect(jQuery.aop.afterThrow.calls.argsFor(firstItemIndex)[secondItemIndex]).toEqual(jasmine.any(Function));
+        });
+
+        it('Invokes "jQuery.aop.around" method for "Edit"', function () {
+            spyOn(jQuery.aop, 'around').and.callThrough();
+
+            $controller = controller('EditAction', { $scope: $scope });
+
+            expect(jQuery.aop.around).toHaveBeenCalledWith({ target: window, method: 'Edit' }, invocationCallback);
+        });
     });
 
-    describe('EditAction - Call Http PUT Method - ', function () {
+    describe('Call Http PUT Method - ', function () {
         var $scope;
         var $controller;
 
@@ -85,7 +105,7 @@ describe('ContactController - ', function () {
         });
     });
 
-    describe('EditAction - Call Response Events - ', function () {
+    describe('Call Response Events - ', function () {
         var $scope;
 
         beforeEach(inject(function () {
@@ -126,7 +146,7 @@ describe('ContactController - ', function () {
         });
     });
 
-    describe('EditAction - On success event - ', function () {
+    describe('On success event - ', function () {
         var $scope;
 
         beforeEach(inject(function () {
@@ -177,36 +197,16 @@ describe('ContactController - ', function () {
         });
     });
 
-
-    it('Invokes "jQuery.aop.afterThrow" method for "Edit"', function () {
-        spyOn(jQuery.aop, 'afterThrow').and.callThrough();
-
-        $controller = controller('ContactController', { $scope: $scope });
-
-        expect(jQuery.aop.afterThrow).toHaveBeenCalled();//({ target: $scope, method: 'Edit' }, $scope.retryEditCallback);
-        expect(jQuery.aop.afterThrow.calls.argsFor(thirdItemIndex)[firstItemIndex].target).toEqual($scope);
-        expect(jQuery.aop.afterThrow.calls.argsFor(thirdItemIndex)[firstItemIndex].method).toEqual('Edit');
-        expect(jQuery.aop.afterThrow.calls.argsFor(thirdItemIndex)[secondItemIndex]).toEqual(jasmine.any(Function));
-    });
-
-    it('Invokes "jQuery.aop.around" method for "Edit"', function () {
-        spyOn(jQuery.aop, 'around').and.callThrough();
-
-        $controller = controller('ContactController', { $scope: $scope });
-
-        expect(jQuery.aop.around).toHaveBeenCalledWith({ target: $scope, method: 'Edit' }, $scope.invocationCallback);
-    });
-
     describe('$scope.retryEditCallback - ', function () {
         var $scope;
         var $controller;
 
         beforeEach(inject(function () {
             $scope = rootScope.$new();
-            contacts = [];
+            $scope.Contacts = contactListX1;
+            $routeParams = { id: firstContact.Id };
 
-            //controller('EditAction', { $scope: $scope });
-            $controller = controller('ContactController', { $scope: $scope });
+            $controller = controller('EditAction', { $scope: $scope, $routeParams: $routeParams });
         }));
 
         it('Invokes "$scope.auditManager.afterThrowRetryEvent" method', function () {

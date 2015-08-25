@@ -3,7 +3,8 @@
 var contacts = [];
 var Contact = {};
 var auditManagerFake = {
-    aroundLogEvent: function (invocation) { }
+    aroundLogEvent: function (invocation) { },
+    afterThrowRetryEvent: function (exception, aopObject, callback, method) { }
 };
 var contactId = "5582a9d8dbe53f1b8059d787";
 var firstContact = {
