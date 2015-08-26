@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title><script type="text/javascript" src="Scripts/log4javascript.js"></script>
+<script type="text/javascript">
+    //<![CDATA[
+    var log = log4javascript.getLogger();
+    var logMessageLayout = new log4javascript.PatternLayout("%d{HH:mm:ss} %-5p - %m%n");
+    //var popUpAppender = new log4javascript.PopUpAppender();
+    //popUpAppender.setLayout(logMessageLayout);
+    //log.addAppender(popUpAppender);
+    var ajaxAppender = new log4javascript.AjaxAppender("api/log4javascript");
+    ajaxAppender.setThreshold(log4javascript.Level.INFO);
+    //ajaxAppender.setLayout(logMessageLayout);
+    ajaxAppender.setLayout(new log4javascript.JsonLayout());
+    ajaxAppender.addHeader("Content-Type", "application/json; charset=utf-8");
+    log.addAppender(ajaxAppender);
+    log.error("Error message (appears in pop-up and in server log)");
+    log.debug("Debugging message (appears in pop-up)");
+    //]]>
+</script>
+</head>
+<body>
+
+</body>
+</html>

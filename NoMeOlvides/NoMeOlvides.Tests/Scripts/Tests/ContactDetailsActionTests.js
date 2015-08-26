@@ -5,9 +5,10 @@
 /// <reference path='../../../NoMeOlvides/Scripts/angular-route.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular-translate.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular-translate-loader-url.js' />
+/// <reference path='Fixture/ContactCommonFixture.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/Common/AuditManager.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/App.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/CRUD.js' />
-/// <reference path='Fixture/ContactCommonFixture.js' />
 
 describe('ContactController', function () {
     var rootScope;
