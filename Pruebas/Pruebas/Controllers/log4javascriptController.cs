@@ -3,42 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Web.Http;
 using Log4Javascript.Web.Models;
+using log4net;
+using log4net.Core;
+using Newtonsoft.Json;
 
 namespace Pruebas.Controllers
 {
     public class log4javascriptController : ApiController
     {
-        // GET api/<controller>
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<controller>/5
-        public string Get(string log)
-        {
-            return "value";
-        }
-
+        private static ILog logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static ILog javascriptLogger = LogManager.GetLogger("log4javascript");
+        
         //////// POST api/<controller>
-        //////public void Post([FromBody]string value)
-        //////{
-        //////}
-
         public void Write(LogEntry[] data)
         {
-        }
-
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
+            if(data != null)
+            {
+                javascriptLogger.Debug(JsonConvert.SerializeObject(data));
+            }
         }
     }
 }

@@ -10,12 +10,12 @@
     //popUpAppender.setLayout(logMessageLayout);
     //log.addAppender(popUpAppender);
     var ajaxAppender = new log4javascript.AjaxAppender("api/log4javascript");
-    ajaxAppender.setThreshold(log4javascript.Level.INFO);
+    ajaxAppender.setThreshold(log4javascript.Level.DEBUG);
     //ajaxAppender.setLayout(logMessageLayout);
     ajaxAppender.setLayout(new log4javascript.JsonLayout());
     ajaxAppender.addHeader("Content-Type", "application/json; charset=utf-8");
     log.addAppender(ajaxAppender);
-    log.error("Error message (appears in pop-up and in server log)");
+    log.error(new Error('Mensaje de Error de Prueba en una Exception'));
     log.debug("Debugging message (appears in pop-up)");
     //]]>
 </script>
