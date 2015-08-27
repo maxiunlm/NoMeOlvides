@@ -6,7 +6,7 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     <script type="text/javascript">
 
-    var applicationNamePath = '/@Request.Url.Segments[1]';
+        var applicationNamePath = '/@Request.Url.Segments[1]';
 
     </script>
     @Styles.Render("~/Content/css")
@@ -33,6 +33,10 @@
         </div>
     </div>
     <div class="container body-content">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
+        {
+            @Html.AntiForgeryToken()
+        }
         @RenderBody()
         <hr />
         <footer>
