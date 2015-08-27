@@ -1,10 +1,10 @@
 + Revisar TODOs y todo el TDD faltante
 + Estudiar como prevenir Man-in-the-middle con MVC y AngularJS
 + Revisar la auditoria Javascript AOP
-----> Pasar los TDDs de la configuracion de la auditoria del Action ppal a los Actions CRUD.
+----> Implementar log4javascript con log4net.
 + Revisar translates manuales del lado del cliente
 + Revisar BDD con Jasmine, no funciona bien por el asincronismo
-+ Corregir el BDD de Specflow para las nuevas necesidades
++ Corregir el BDD de Specflow para las nuevas necesidades NO ESTA FUNCIONANDO EL SPECFLOW
 + Validaciones del lado del cliente
 + Integrar la herramienta de reconocimiento de voz
 
