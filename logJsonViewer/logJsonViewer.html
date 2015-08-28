@@ -1,0 +1,96 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>JSON Log Viewer</title>
+	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript" src="js/json2html.js"></script>
+    <script type="text/javascript" src="js/jquery.json2html.js"></script>
+	<script type="text/javascript">
+	
+	function jsonDataReview (text) {
+		try {
+			var jsonData = {};
+			
+			try {
+				jsonData = JSON.parse(text);
+			} catch (e) {
+				jsonData = JSON.parse(
+					'[' 
+					+ text.replace(/\r\n/g, '\n').replace(/}\n{/g, '},{') + 
+					']');
+				
+				
+			}
+			
+			try {
+				for(var log in jsonData) {
+					jsonData[log].message = JSON.parse(jsonData[log].message);
+				}
+			} catch (e) {}
+			
+			document.getElementById('generatedJson').innerHTML = JSON.stringify(jsonData);
+						
+			var transforms = {
+				"main" : {"tag":"li", "html": "${level} - ${date} - Server Info", "children":function() {
+					return(json2html.transform(this, transforms.log));
+				}},
+				"log" : {"tag":"ul","children":[
+					{"tag":"li","html":"Application: ${appname}"},
+					{"tag":"li","html":"Logger Adapter: ${logger}"},
+					{"tag":"li","html":"NDC: ${ndc}"},
+					{"tag":"li","children": function() {
+						return(json2html.transform(this.message, transforms.message));
+					}}
+				]},
+				"message" : {"tag":"ul", "html": "Client Info","children":[
+					{"tag":"li","html":"Logger: ${Logger}"},
+					{"tag":"li","html":"Timestamp: ${Timestamp}"},
+					{"tag":"li","html":"Level: ${Level}"},
+					{"tag":"li","children":[
+						{"tag":"a","target":"_blank","href":"${Url}","html":"${Url}"}
+					  ]},
+					{"tag":"li","html":"Message: ${Message}"}
+				]}
+			};
+		 
+			$('#treeViewer').json2html(jsonData, transforms.main);
+		} catch (e) {
+			alert(e.message);
+		}
+	}
+	
+	</script>
+	<style type="text/css">
+	
+	#scroll-container {
+		height: 320px;
+		overflow-y: scroll;
+		overflow-x: auto;
+		position: relative;  /* ie7 fix */
+		-ms-user-select: none;
+		user-select: none;
+	}
+
+	</style>
+</head>
+<body>
+	<table style="width: 100%">
+		<tr>
+			<td style="width: 37%">
+				<textarea id="jsonData" style="width: 100%" rows="20"></textarea>
+			</td>
+			<td><button onclick="jsonDataReview(getElementById('jsonData').value)">&gt;</button></td>
+			<td style="width: 60%">
+				<div id="scroll-container">
+					<ol id="treeViewer" class="tree"></ol>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<div id="generatedJson"></div>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>
