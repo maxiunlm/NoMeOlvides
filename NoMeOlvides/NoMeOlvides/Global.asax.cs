@@ -18,6 +18,12 @@ namespace NoMeOlvides
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            LoadLog4Net();
+        }
+
+        private void LoadLog4Net()
+        {
+            log4net.Config.XmlConfigurator.Configure();
         }
     }
 }

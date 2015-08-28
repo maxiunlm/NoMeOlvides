@@ -1,4 +1,5 @@
 ﻿/// <reference path='../../../NoMeOlvides/Scripts/angular.js' />
+/// <reference path="../../../nomeolvides/scripts/log4javascript.js" />
 /// <reference path='Fixture/CommonFixture.js' />
 /// <reference path='Fixture/AuditManagerCommonFixture.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Common/AuditManager.js' />
