@@ -14,7 +14,7 @@ namespace Pruebas.Controllers
 {
     public class log4javascriptController : ApiController
     {
-        private static ILog logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        //private static ILog logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static ILog javascriptLogger = LogManager.GetLogger("log4javascript");
         
         //////// POST api/<controller>
