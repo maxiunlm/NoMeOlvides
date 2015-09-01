@@ -277,6 +277,15 @@ namespace Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The message from log4Javascript client side is NULL.
+        /// </summary>
+        public static string log4JavascriptNullMessage {
+            get {
+                return ResourceManager.GetString("log4JavascriptNullMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string name {

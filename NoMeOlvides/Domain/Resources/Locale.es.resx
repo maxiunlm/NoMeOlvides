@@ -225,4 +225,7 @@
   <data name="genericRetryMessage" xml:space="preserve">
     <value>¿Desea reintentar?</value>
   </data>
+  <data name="log4JavascriptNullMessage" xml:space="preserve">
+    <value>El mensaje del lado del cleinte de log4Javascript es NULO</value>
+  </data>
 </root>

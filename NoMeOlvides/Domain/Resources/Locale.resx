@@ -189,6 +189,9 @@
   <data name="genericRetryMessage" xml:space="preserve">
     <value>Do you want to retry?</value>
   </data>
+  <data name="log4JavascriptNullMessage" xml:space="preserve">
+    <value>The message from log4Javascript client side is NULL</value>
+  </data>
   <data name="name" xml:space="preserve">
     <value>Name</value>
   </data>
