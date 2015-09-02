@@ -11,6 +11,7 @@ var firstItemIndex = 0;
 var secondItemIndex = 1;
 var thirdItemIndex = 2;
 var fourthItemIndex = 3;
+var fifthItemIndex = 4;
 var emptyItemsCount = 0;
 var oneItemCount = 1;
 var twoItemsCount = 2;

@@ -8,10 +8,19 @@ var aopMethod = 'aopMethod';
 var aopObject = new Object();
 var typeParam = 'typeParam';
 var objectParam = 'objectParam';
-var typeMessage = 'typeMessage';
-var argument1 = "argument1";
-var argument2 = "argument2";
-var method = "method";
+var typeMessage = 'INFO';
+var typeErrorMessage = 'ERROR';
+var argument1 = 'argument1';
+var argument2 = 'argument2';
+var method = 'method';
+var patternLayout = '%d{HH:mm:ss} %-5p - %m%n';
+var ajaxAppenderUrl = 'webapi/log4javascript';
+var loggerFake = {
+    addAppender: function (appender) { }
+};
+var getLoggerFake = function () {
+    return loggerFake;
+}
 var proceedFakeFunction = function () { };
 var invocationEmpty = {
     arguments: [],

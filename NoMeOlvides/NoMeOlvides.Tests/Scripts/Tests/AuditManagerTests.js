@@ -1,5 +1,5 @@
 ﻿/// <reference path='../../../NoMeOlvides/Scripts/angular.js' />
-/// <reference path="../../../nomeolvides/scripts/log4javascript.js" />
+/// <reference path="../../../NoMeOlvides/Scripts/log4javascript.js" />
 /// <reference path='Fixture/CommonFixture.js' />
 /// <reference path='Fixture/AuditManagerCommonFixture.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Common/AuditManager.js' />
@@ -15,22 +15,71 @@ describe('AuditManager - ', function () {
         });
 
         it('Without parameters initialize the object attributes', function () {
-
+            //spyOn(log4javascript.prototype, 'AjaxAppender').and.callThrough();
 
             expect(sut.counterAttempIndex).toEqual(0);
-            expect(sut.hasAnotherAttempt).toEqual(false);
+            expect(sut.hasAnotherAttempt).toBeFalsy();
             expect(sut.maxAttemps).toEqual(3);
+            expect(sut.logger).toBeDefined();
+            expect(sut.logMessageLayout instanceof log4javascript.PatternLayout).toBeTruthy();
+            expect(sut.browserAppender instanceof log4javascript.BrowserConsoleAppender).toBeTruthy();
+            expect(sut.ajaxAppender instanceof log4javascript.AjaxAppender).toBeTruthy();
+            expect(sut.jsonLayout instanceof log4javascript.JsonLayout).toBeTruthy();
             expect(sut.retryMessage).toEqual('Retry?');
+            expect(sut.logMessageLayout.pattern).toEqual(patternLayout);
+            // TODO: expect(log4javascript.prototype.AjaxAppender).toHaveBeenCalledWith(ajaxAppender); ??? 
         });
 
         it('With parameters initialize the object attributes', function () {
+            //spyOn(log4javascript.prototype, 'AjaxAppender').and.callThrough();
 
             sut = new AuditManager(maxAttemps, retryMessage);
 
             expect(sut.counterAttempIndex).toEqual(0);
-            expect(sut.hasAnotherAttempt).toEqual(false);
+            expect(sut.hasAnotherAttempt).toBeFalsy();
             expect(sut.maxAttemps).toEqual(maxAttemps);
+            expect(sut.logger).toBeDefined();
+            expect(sut.logMessageLayout instanceof log4javascript.PatternLayout).toBeTruthy();
+            expect(sut.browserAppender instanceof log4javascript.BrowserConsoleAppender).toBeTruthy();
+            expect(sut.ajaxAppender instanceof log4javascript.AjaxAppender).toBeTruthy();
+            expect(sut.jsonLayout instanceof log4javascript.JsonLayout).toBeTruthy();
             expect(sut.retryMessage).toEqual(retryMessage);
+            expect(sut.logMessageLayout.pattern).toEqual(patternLayout);
+            // TODO: expect(log4javascript.prototype.AjaxAppender).toHaveBeenCalledWith(ajaxAppender); ??? 
+        });
+
+        it('With the "logMessageLayout" object invokes "setLayout" method from "browserAppender" object', function () {
+            spyOn(log4javascript.BrowserConsoleAppender.prototype, 'setLayout').and.callThrough();
+
+            sut = new AuditManager(maxAttemps, retryMessage);
+
+            expect(log4javascript.BrowserConsoleAppender.prototype.setLayout).toHaveBeenCalledWith(sut.logMessageLayout);
+        });
+
+        it('With the "browserAppender" object invokes "addAppender" method from "logger" object', function () {
+            spyOn(log4javascript, 'getLogger').and.callFake(getLoggerFake);
+            spyOn(loggerFake, 'addAppender').and.callThrough();
+
+            sut = new AuditManager(maxAttemps, retryMessage);
+
+            expect(loggerFake.addAppender).toHaveBeenCalledWith(sut.browserAppender);
+        });
+
+        it('With the "log4javascript.Level.WARN" default level invokes "setThreshold" method from "ajaxAppender" object', function () {
+            spyOn(log4javascript.AjaxAppender.prototype, 'setThreshold').and.callThrough();
+
+            sut = new AuditManager(maxAttemps, retryMessage);
+
+            expect(log4javascript.AjaxAppender.prototype.setThreshold).toHaveBeenCalledWith(log4javascript.Level.WARN);
+        });
+
+        it('With the "jsonLayout" object invokes "setLayout" method from "AjaxAppender" object', function () {
+            spyOn(log4javascript.AjaxAppender.prototype, 'setLayout').and.callThrough();
+
+            sut = new AuditManager(maxAttemps, retryMessage);
+
+            // TODO: Hacer funcionar !!! expect(log4javascript.AjaxAppender.prototype.setLayout).toHaveBeenCalledWith(sut.jsonLayout);
+            expect(sut.ajaxAppender.layout).toBeDefined();
         });
     });
 
@@ -122,16 +171,16 @@ describe('AuditManager - ', function () {
             expect(sut.lastLogMessage).not.toBeUndefined();
         });
 
-        it('Invoke the log method of console object', function () {
-            spyOn(console, 'log').and.callFake(function () { });
+        it('Invokes the "Info" method of Logger object', function () {
+            spyOn(sut.logger, 'info').and.callFake(function () { });
 
             sut.log();
 
-            expect(console.log).toHaveBeenCalledWith(jasmine.any(String), undefined);
+            expect(sut.logger.info).toHaveBeenCalledWith(jasmine.any(String), undefined);
         });
 
-        it('With all the parameters generate a log message', function () {
-            spyOn(console, 'log').and.callFake(function (param1, objectParam) { });
+        it('With all the parameters generate a log Info message', function () {
+            spyOn(sut.logger, 'info').and.callFake(function (param1, objectParam) { });
 
             sut.log(aopMethod, method, typeParam, objectParam, typeMessage, attemptCounter);
 
@@ -142,7 +191,54 @@ describe('AuditManager - ', function () {
             expect(sut.lastLogMessage.indexOf(typeParam) > 0).toBeTruthy();
             expect(sut.lastLogMessage.indexOf(typeMessage) > 0).toBeTruthy();
             expect(sut.lastLogMessage.indexOf(attemptCounter) > 0).toBeTruthy();
-            expect(console.log).toHaveBeenCalledWith(jasmine.any(String), objectParam);
+            expect(sut.logger.info).toHaveBeenCalledWith(jasmine.any(String), objectParam);
+        });
+
+        it('With all the parameters and "typeMessage === ERROR" generate a log Error message', function () {
+            spyOn(sut.logger, 'error').and.callFake(function (param1, objectParam) { });
+
+            sut.log(aopMethod, method, typeParam, objectParam, typeErrorMessage, attemptCounter);
+
+            expect(sut.lastLogMessage).not.toBeNull();
+            expect(sut.lastLogMessage).not.toBeUndefined();
+            expect(sut.lastLogMessage.indexOf(aopMethod) > 0).toBeTruthy();
+            expect(sut.lastLogMessage.indexOf(method) > 0).toBeTruthy();
+            expect(sut.lastLogMessage.indexOf(typeParam) > 0).toBeTruthy();
+            expect(sut.lastLogMessage.indexOf(typeErrorMessage) > 0).toBeTruthy();
+            expect(sut.lastLogMessage.indexOf(attemptCounter) > 0).toBeTruthy();
+            expect(sut.logger.error).toHaveBeenCalledWith(jasmine.any(String), objectParam);
+        });
+
+        it('Calls the "error" method of Logger object that throws an Exception then Invokes the "log" method of "console" object', function () {
+            spyOn(sut.logger, 'error').and.callFake(function (param1, objectParam) {
+                throw exception;
+            });
+            spyOn(console, 'log').and.callFake(function (param1, objectParam) { });
+
+            sut.log(aopMethod, method, typeParam, objectParam, typeErrorMessage);
+
+            expect(console.log).toHaveBeenCalledWith(jasmine.any(String), jasmine.any(Error), jasmine.any(String), jasmine.any(String), objectParam);
+            //expect(console.log.calls.argsFor(firstItemIndex)[firstItemIndex]).toEqual(jasmine.any(String));
+            //expect(console.log.calls.argsFor(firstItemIndex)[secondItemIndex]).toEqual(jasmine.any(Error));
+            //expect(console.log.calls.argsFor(firstItemIndex)[thirdItemIndex]).toEqual(jasmine.any(String));
+            //expect(console.log.calls.argsFor(firstItemIndex)[fourthItemIndex]).toEqual(jasmine.any(String));
+            //expect(console.log.calls.argsFor(firstItemIndex)[fifthItemIndex]).toEqual(objectParam);
+        });
+
+        it('Calls the "info" method of Logger object that throws an Exception then Invokes the "log" method of "console" object', function () {
+            spyOn(sut.logger, 'info').and.callFake(function (param1, objectParam) {
+                throw exception;
+            });
+            spyOn(console, 'log').and.callFake(function (param1, objectParam1, param2, objectParam2) { });
+
+            sut.log();
+
+            expect(console.log).toHaveBeenCalledWith(jasmine.any(String), jasmine.any(Error), jasmine.any(String), jasmine.any(String), undefined);
+            //expect(console.log.calls.argsFor(firstItemIndex)[firstItemIndex]).toEqual(jasmine.any(String));
+            //expect(console.log.calls.argsFor(firstItemIndex)[secondItemIndex]).toEqual(jasmine.any(Error));
+            //expect(console.log.calls.argsFor(firstItemIndex)[thirdItemIndex]).toEqual(jasmine.any(String));
+            //expect(console.log.calls.argsFor(firstItemIndex)[fourthItemIndex]).toEqual(jasmine.any(String));
+            //expect(console.log.calls.argsFor(firstItemIndex)[fifthItemIndex]).toEqual(undefined);
         });
     });
 
@@ -304,7 +400,7 @@ describe('AuditManager - ', function () {
         });
 
         it('With an empty "invocation" parameter call "beforeLogEvent" with "aopMethod" equals to "aroundLogEvent"', function () {
-            spyOn(sut, 'beforeLogEvent').and.callFake(function (arguments, method, aopMethod) {});
+            spyOn(sut, 'beforeLogEvent').and.callFake(function (arguments, method, aopMethod) { });
 
             sut.aroundLogEvent(invocationEmpty);
 
