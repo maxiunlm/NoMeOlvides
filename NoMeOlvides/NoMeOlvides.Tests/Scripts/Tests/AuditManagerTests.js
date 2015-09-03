@@ -15,7 +15,7 @@ describe('AuditManager - ', function () {
         });
 
         it('Without parameters initialize the object attributes', function () {
-            //spyOn(log4javascript.prototype, 'AjaxAppender').and.callThrough();
+
 
             expect(sut.counterAttempIndex).toEqual(0);
             expect(sut.hasAnotherAttempt).toBeFalsy();
@@ -27,7 +27,6 @@ describe('AuditManager - ', function () {
             expect(sut.jsonLayout instanceof log4javascript.JsonLayout).toBeTruthy();
             expect(sut.retryMessage).toEqual('Retry?');
             expect(sut.logMessageLayout.pattern).toEqual(patternLayout);
-            // TODO: expect(log4javascript.prototype.AjaxAppender).toHaveBeenCalledWith(ajaxAppender); ??? 
         });
 
         it('With parameters initialize the object attributes', function () {
@@ -74,12 +73,30 @@ describe('AuditManager - ', function () {
         });
 
         it('With the "jsonLayout" object invokes "setLayout" method from "AjaxAppender" object', function () {
-            spyOn(log4javascript.AjaxAppender.prototype, 'setLayout').and.callThrough();
+            spyOn(ajaxAppenderFake, 'setLayout').and.callThrough();
+
+            sut = new AuditManager(maxAttemps, retryMessage, ajaxAppenderFake);
+
+            expect(ajaxAppenderFake.setLayout).toHaveBeenCalledWith(sut.jsonLayout);
+        });
+
+        it('With the content type parameters invokes "addHeader" method from "ajaxAppender" object', function () {
+            spyOn(ajaxAppenderFake, 'addHeader').and.callThrough();
+
+            sut = new AuditManager(maxAttemps, retryMessage, ajaxAppenderFake);
+
+            expect(ajaxAppenderFake.addHeader).toHaveBeenCalledWith(contentTypeDefinition, contentTypeValue);
+        });
+
+        it('With the "ajaxAppender" object invokes "addAppender" method from "logger" object', function () {
+            spyOn(log4javascript, 'getLogger').and.callFake(getLoggerFake);
+            spyOn(loggerFake, 'addAppender').and.callThrough();
 
             sut = new AuditManager(maxAttemps, retryMessage);
 
-            // TODO: Hacer funcionar !!! expect(log4javascript.AjaxAppender.prototype.setLayout).toHaveBeenCalledWith(sut.jsonLayout);
-            expect(sut.ajaxAppender.layout).toBeDefined();
+            expect(loggerFake.addAppender).toHaveBeenCalledWith(sut.ajaxAppender);
+            //expect(loggerFake.addAppender.calls.count()).toEqual(twoItemsCount);
+            //expect(loggerFake.addAppender.calls.argsFor(secondItemIndex)[firstItemIndex]).toEqual(sut.ajaxAppender);
         });
     });
 

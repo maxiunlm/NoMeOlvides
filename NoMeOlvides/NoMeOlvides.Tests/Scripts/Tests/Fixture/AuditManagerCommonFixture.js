@@ -15,6 +15,13 @@ var argument2 = 'argument2';
 var method = 'method';
 var patternLayout = '%d{HH:mm:ss} %-5p - %m%n';
 var ajaxAppenderUrl = 'webapi/log4javascript';
+var contentTypeDefinition = 'Content-Type';
+var contentTypeValue = 'application/json; charset=utf-8';
+var ajaxAppenderFake = {
+    setThreshold: function (level) {},
+    setLayout: function (layout) { },
+    addHeader: function (name, value) { }
+};
 var loggerFake = {
     addAppender: function (appender) { }
 };

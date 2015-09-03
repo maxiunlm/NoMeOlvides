@@ -1,22 +1,22 @@
-﻿var AuditManager = function (maxAttemps, retryMessage) {
+﻿var AuditManager = function (maxAttemps, retryMessage, ajaxAppender) {
     this.counterAttempIndex = 0;
     this.hasAnotherAttempt = false;
     this.maxAttemps = maxAttemps || 3;
     this.retryMessage = retryMessage || 'Retry?';
-    this.logger = log4javascript.getLogger();
-    this.logMessageLayout = new log4javascript.PatternLayout('%d{HH:mm:ss} %-5p - %m%n');
-    this.jsonLayout = new log4javascript.JsonLayout();
-    this.browserAppender = new log4javascript.BrowserConsoleAppender();
-    this.ajaxAppender = new log4javascript.AjaxAppender('webapi/log4javascript');
 
+    this.logger = log4javascript.getLogger();
+
+    this.logMessageLayout = new log4javascript.PatternLayout('%d{HH:mm:ss} %-5p - %m%n');
+    this.browserAppender = new log4javascript.BrowserConsoleAppender();
     this.browserAppender.setLayout(this.logMessageLayout);
     this.logger.addAppender(this.browserAppender);
 
+    this.jsonLayout = new log4javascript.JsonLayout();
+    this.ajaxAppender = ajaxAppender || new log4javascript.AjaxAppender('webapi/log4javascript');
     this.ajaxAppender.setThreshold(log4javascript.Level.WARN);
     this.ajaxAppender.setLayout(this.jsonLayout);
-    // TODO: Termiar TDD!!!
-    //////this.ajaxAppender.addHeader("Content-Type", "application/json; charset=utf-8");
-    //////this.logger.addAppender(this.ajaxAppender);
+    this.ajaxAppender.addHeader("Content-Type", "application/json; charset=utf-8");
+    this.logger.addAppender(this.ajaxAppender);
 };
 
 AuditManager.prototype.getHasAnotherAttempt = function () {
