@@ -39,9 +39,9 @@ AuditManager.prototype.log = function (aopMethod, method, typeParam, objectParam
 
     try {// TODO : REFACTOR !!!
         if (typeMessage === 'ERROR') {
-            this.logger.error(this.lastLogMessage, objectParam);
+            this.logger.error([this.lastLogMessage, objectParam]);
         } else {
-            this.logger.info(this.lastLogMessage, objectParam);
+            this.logger.info([this.lastLogMessage, objectParam]);
         }
     } catch (exception) {
         console.log('Unespected Exception:\n', exception, '\n\n\t--> Original message or exception:\n\n', this.lastLogMessage, objectParam);

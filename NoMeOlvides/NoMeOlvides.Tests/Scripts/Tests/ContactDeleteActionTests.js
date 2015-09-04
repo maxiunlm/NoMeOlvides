@@ -1,6 +1,7 @@
 ﻿/// <reference path='../../../NoMeOlvides/Scripts/jquery-2.1.4.js' />
 /// <reference path="../../../NoMeOlvides/Scripts/aop.js" />
 /// <reference path='../../../nomeolvides/scripts/underscore.js' />
+/// <reference path="../../../NoMeOlvides/Scripts/log4javascript.js" />
 /// <reference path='../../../NoMeOlvides/Scripts/angular.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular-mocks.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular-route.js' />
@@ -70,7 +71,7 @@ describe('ContactController - DeleteAction - ', function () {
 
             $controller = controller('DeleteAction', { $scope: $scope });
 
-            expect(jQuery.aop.around).toHaveBeenCalledWith({ target: window, method: 'Delete' }, invocationCallback);
+            expect(jQuery.aop.around).toHaveBeenCalledWith({ target: $scope, method: 'Delete' }, invocationCallback);
         });
 
         it('Invokes "jQuery.aop.afterThrow" method for "Delete"', function () {

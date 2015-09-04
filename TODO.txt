@@ -6,10 +6,19 @@ http://techbrij.com/angularjs-antiforgerytoken-asp-net-mvc
 <form action="/NoMeOlvides/Contact" id="__AjaxAntiForgeryForm" method="post"><input name="__RequestVerificationToken" type="hidden" value="C-3Qd3RbVGVjxdSnhLhFB_PY9niI2ixAoI2EUjkozrjJoSHC8l78JHfbUXTuBrwzs9Anzh2S6TyJTU0DZYCbGKGeSpmBwLcLqnG6iyiBmp01" /></form>        
 
 + Revisar la auditoria Javascript AOP
-----> Implementar log4javascript con log4net.
+----> En el log de ERRORES:
+----------> Pierde la EXCEPTION del lado del cliente
+----------> Estudiar como hacer que llegue el StackTrace del Cliente al Server
+----------> Loguea por dupolicado en ServerSide y ClientSide para la misma Exception del Cliente
+
 + Revisar translates manuales del lado del cliente
++ Revisar seguridad en el Translate:
+----> http://angular-translate.github.io/docs/#/guide/19_security
+
 + Revisar BDD con Jasmine, no funciona bien por el asincronismo
 + Corregir el BDD de Specflow para las nuevas necesidades NO ESTA FUNCIONANDO EL SPECFLOW
+
 + Validaciones del lado del cliente
+
 + Integrar la herramienta de reconocimiento de voz
 

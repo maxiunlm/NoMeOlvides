@@ -1,5 +1,6 @@
 ﻿/// <reference path='../../../NoMeOlvides/Scripts/jquery-2.1.4.js' />
 /// <reference path='../../../nomeolvides/scripts/underscore.js' />
+/// <reference path="../../../NoMeOlvides/Scripts/log4javascript.js" />
 /// <reference path='../../../NoMeOlvides/Scripts/angular.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular-mocks.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/angular-route.js' />

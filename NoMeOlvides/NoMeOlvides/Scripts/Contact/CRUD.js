@@ -32,7 +32,7 @@ app.controller('SearchAction', function ($scope, $http) {
         auditManager.afterThrowRetryEvent(exception, $scope, $scope.Search, method);
     };
 
-    jQuery.aop.around({ target: window, method: 'Search' }, invocationCallback);
+    jQuery.aop.around({ target: $scope, method: 'Search' }, invocationCallback);
     jQuery.aop.afterThrow({ target: $scope, method: 'Search' }, $scope.retrySearchCallback);
 });
 
@@ -41,6 +41,7 @@ app.controller('CreateAction', function ($scope, $location, $http) {//, $filter)
     $scope.isForm = true;
 
     $scope.Create = function () {
+        throw new Error("CHUPALA");
         $scope.http.post(applicationNamePath + 'WebApi/ContactApi', $scope.Contact)
             .success($scope.onCreateSuccess)
             .error(ErrorManager.getInstance().onGenealErrorEvent);
@@ -69,7 +70,7 @@ app.controller('CreateAction', function ($scope, $location, $http) {//, $filter)
         auditManager.afterThrowRetryEvent(exception, $scope, $scope.Create, method);
     };
 
-    jQuery.aop.around({ target: window, method: 'Create' }, invocationCallback);
+    jQuery.aop.around({ target: $scope, method: 'Create' }, invocationCallback);
     jQuery.aop.afterThrow({ target: $scope, method: 'Create' }, $scope.retryCreateCallback);
 });
 
@@ -107,7 +108,7 @@ app.controller('DeleteAction', function ($scope, $routeParams, $location, $http)
         auditManager.afterThrowRetryEvent(exception, $scope, $scope.Delete, method);
     };
 
-    jQuery.aop.around({ target: window, method: 'Delete' }, invocationCallback);
+    jQuery.aop.around({ target: $scope, method: 'Delete' }, invocationCallback);
     jQuery.aop.afterThrow({ target: $scope, method: 'Delete' }, $scope.retryDeleteCallback);
 });
 
@@ -141,7 +142,7 @@ app.controller('EditAction', function ($scope, $routeParams, $location, $http) {
         auditManager.afterThrowRetryEvent(exception, $scope, $scope.Edit, method);
     };
 
-    jQuery.aop.around({ target: window, method: 'Edit' }, invocationCallback);
+    jQuery.aop.around({ target: $scope, method: 'Edit' }, invocationCallback);
     jQuery.aop.afterThrow({ target: $scope, method: 'Edit' }, $scope.retryEditCallback);
 });
 

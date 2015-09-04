@@ -193,7 +193,7 @@ describe('AuditManager - ', function () {
 
             sut.log();
 
-            expect(sut.logger.info).toHaveBeenCalledWith(jasmine.any(String), undefined);
+            expect(sut.logger.info).toHaveBeenCalledWith([jasmine.any(String), undefined]);
         });
 
         it('With all the parameters generate a log Info message', function () {
@@ -208,13 +208,13 @@ describe('AuditManager - ', function () {
             expect(sut.lastLogMessage.indexOf(typeParam) > 0).toBeTruthy();
             expect(sut.lastLogMessage.indexOf(typeMessage) > 0).toBeTruthy();
             expect(sut.lastLogMessage.indexOf(attemptCounter) > 0).toBeTruthy();
-            expect(sut.logger.info).toHaveBeenCalledWith(jasmine.any(String), objectParam);
+            expect(sut.logger.info).toHaveBeenCalledWith([jasmine.any(String), objectParam]);
         });
 
         it('With all the parameters and "typeMessage === ERROR" generate a log Error message', function () {
             spyOn(sut.logger, 'error').and.callFake(function (param1, objectParam) { });
 
-            sut.log(aopMethod, method, typeParam, objectParam, typeErrorMessage, attemptCounter);
+            sut.log(aopMethod, method, typeParam, exception, typeErrorMessage, attemptCounter);
 
             expect(sut.lastLogMessage).not.toBeNull();
             expect(sut.lastLogMessage).not.toBeUndefined();
@@ -223,7 +223,7 @@ describe('AuditManager - ', function () {
             expect(sut.lastLogMessage.indexOf(typeParam) > 0).toBeTruthy();
             expect(sut.lastLogMessage.indexOf(typeErrorMessage) > 0).toBeTruthy();
             expect(sut.lastLogMessage.indexOf(attemptCounter) > 0).toBeTruthy();
-            expect(sut.logger.error).toHaveBeenCalledWith(jasmine.any(String), objectParam);
+            expect(sut.logger.error).toHaveBeenCalledWith([jasmine.any(String), exception]);
         });
 
         it('Calls the "error" method of Logger object that throws an Exception then Invokes the "log" method of "console" object', function () {

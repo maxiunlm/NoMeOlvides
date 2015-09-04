@@ -12,6 +12,7 @@ using log4net;
 
 namespace NoMeOlvides.WebApis
 {
+    [Route("WebApi/Log4javascript")]
     public class Log4javascriptController : ApiController
     {
         private ILog javascriptErrorLogger;
