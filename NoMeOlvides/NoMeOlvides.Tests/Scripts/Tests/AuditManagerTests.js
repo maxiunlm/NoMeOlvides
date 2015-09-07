@@ -223,7 +223,9 @@ describe('AuditManager - ', function () {
             expect(sut.lastLogMessage.indexOf(typeParam) > 0).toBeTruthy();
             expect(sut.lastLogMessage.indexOf(typeErrorMessage) > 0).toBeTruthy();
             expect(sut.lastLogMessage.indexOf(attemptCounter) > 0).toBeTruthy();
-            expect(sut.logger.error).toHaveBeenCalledWith([jasmine.any(String), exception]);
+            expect(sut.logger.error).toHaveBeenCalled();
+            expect(sut.logger.error.calls.argsFor(firstItemIndex)[firstItemIndex] instanceof Error).toBeTruthy();
+            expect(sut.logger.error.calls.argsFor(firstItemIndex)[firstItemIndex].lastLogMessage).toBeDefined();
         });
 
         it('Calls the "error" method of Logger object that throws an Exception then Invokes the "log" method of "console" object', function () {

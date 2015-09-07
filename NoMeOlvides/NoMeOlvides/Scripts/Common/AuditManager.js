@@ -39,7 +39,8 @@ AuditManager.prototype.log = function (aopMethod, method, typeParam, objectParam
 
     try {// TODO : REFACTOR !!!
         if (typeMessage === 'ERROR') {
-            this.logger.error([this.lastLogMessage, objectParam]);
+            objectParam.lastLogMessage = this.lastLogMessage;
+            this.logger.error(objectParam);
         } else {
             this.logger.info([this.lastLogMessage, objectParam]);
         }

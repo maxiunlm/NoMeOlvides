@@ -8,6 +8,7 @@ http://techbrij.com/angularjs-antiforgerytoken-asp-net-mvc
 + Revisar la auditoria Javascript AOP
 ----> En el log de ERRORES:
 ----------> Pierde la EXCEPTION del lado del cliente
+----------> Hacer stringify del Object Param del lado del cliente
 ----------> Estudiar como hacer que llegue el StackTrace del Cliente al Server
 ----------> Loguea por dupolicado en ServerSide y ClientSide para la misma Exception del Cliente
 
