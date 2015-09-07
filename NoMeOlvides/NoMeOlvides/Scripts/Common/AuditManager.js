@@ -26,6 +26,35 @@ AuditManager.prototype.getHasAnotherAttempt = function () {
     return this.hasAnotherAttempt;
 }
 
+AuditManager.prototype.logFormattedInfoDataToServer = function (formattedMessage, objectParam) {
+    try {
+        this.logger.info([formattedMessage, JSON.stringify(objectParam)]);
+    } catch (e) {
+        this.logger.info([formattedMessage, objectParam]);
+    }
+}
+
+AuditManager.prototype.logFormattedDataToServer = function (formattedMessage, objectParam, typeMessage) {
+    if (typeMessage === 'ERROR') {
+        objectParam.lastLogMessage = formattedMessage;
+        this.logger.error(objectParam);
+    } else {
+        this.logFormattedInfoDataToServer(formattedMessage, objectParam);
+    }
+}
+
+AuditManager.prototype.logFormattedData = function (formattedMessage, objectParam, typeMessage) {
+    try {
+        this.logFormattedDataToServer(formattedMessage, objectParam, typeMessage);
+    } catch (exception) {
+        console.log('Unespected Exception:\n'
+            , exception
+            , '\n\n\t--> Original message or exception:\n\n'
+            , formattedMessage
+            , objectParam);
+    }
+};
+
 AuditManager.prototype.log = function (aopMethod, method, typeParam, objectParam, typeMessage, attemptCounter) {
     this.lastLogDatetime = new Date();
     attemptCounter = attemptCounter || -1;
@@ -37,16 +66,7 @@ AuditManager.prototype.log = function (aopMethod, method, typeParam, objectParam
         + (attemptCounter >= 0 ? 'It does not have another attempt [attemp number "' + attemptCounter + '"]: Callback ' : '')
         + 'Method [' + method + ']: ' + (typeParam ? typeParam + ': ' : '');
 
-    try {// TODO : REFACTOR !!!
-        if (typeMessage === 'ERROR') {
-            objectParam.lastLogMessage = this.lastLogMessage;
-            this.logger.error(objectParam);
-        } else {
-            this.logger.info([this.lastLogMessage, objectParam]);
-        }
-    } catch (exception) {
-        console.log('Unespected Exception:\n', exception, '\n\n\t--> Original message or exception:\n\n', this.lastLogMessage, objectParam);
-    }
+    this.logFormattedData(this.lastLogMessage, objectParam, typeMessage)
 }
 
 AuditManager.prototype.beforeLogEvent = function (arguments, method, aopMethod) {

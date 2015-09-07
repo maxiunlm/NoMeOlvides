@@ -5,6 +5,7 @@ var calledThreeTimes = 3;
 var stringEmpty = '';
 var whiteSpace = ' ';
 var exception = new Error('exception');
+var exceptionTypeError = new TypeError('TypeError exception');
 var applicationNamePath = "/";
 var notFoundIndex = -1;
 var firstItemIndex = 0;

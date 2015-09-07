@@ -100,9 +100,234 @@ describe('AuditManager - ', function () {
         });
     });
 
+    describe('log - ', function () {
+        beforeEach(function () {
+            sut = new AuditManager();
+            spyOn(console, 'log').and.callFake(function (message) { });
+            spyOn(sut.logger, 'info').and.callFake(function (message) { });
+            spyOn(sut.logger, 'error').and.callFake(function (message) { });
+        });
+
+        it('Instance a "Date" Object', function () {
+
+            sut.log();
+
+            expect(sut.lastLogDatetime).not.toBeNull();
+            expect(sut.lastLogDatetime).not.toBeUndefined();
+        });
+
+        it('Invoke the "toISOString" method of a Date Object', function () {
+
+            sut.log();
+
+            expect(sut.lastLogMessage.indexOf(sut.lastLogDatetime.toISOString())).toEqual(startIndexOf);
+        });
+
+        it('Without parameters generate a log message', function () {
+
+            sut.log();
+
+            expect(sut.lastLogMessage).not.toBeNull();
+            expect(sut.lastLogMessage).not.toBeUndefined();
+        });
+
+        it('Without parameters invokes the "logFormattedData" method from the "sut" Object', function () {
+            spyOn(sut, 'logFormattedData').and.callFake(function () { });
+
+            sut.log();
+
+            expect(sut.logFormattedData).toHaveBeenCalledWith(jasmine.any(String), undefined, jasmine.any(String));
+        });
+
+        it('With all the parameters invokes the "logFormattedData" method from the "sut" Object', function () {
+            spyOn(sut, 'logFormattedData').and.callFake(function (param1, objectParam) { });
+
+            sut.log(aopMethod, method, typeParam, objectParam, typeMessage, attemptCounter);
+
+            expect(sut.logFormattedData).toHaveBeenCalledWith(jasmine.any(String), objectParam, typeMessage);
+        });
+
+        it('With all the parameters generate a log Info message', function () {
+            spyOn(sut, 'logFormattedData').and.callFake(function (param1, objectParam) { });
+
+            sut.log(aopMethod, method, typeParam, objectParam, typeMessage, attemptCounter);
+
+            expect(sut.lastLogMessage).not.toBeNull();
+            expect(sut.lastLogMessage).not.toBeUndefined();
+            expect(sut.lastLogMessage.indexOf(aopMethod) > 0).toBeTruthy();
+            expect(sut.lastLogMessage.indexOf(method) > 0).toBeTruthy();
+            expect(sut.lastLogMessage.indexOf(typeParam) > 0).toBeTruthy();
+            expect(sut.lastLogMessage.indexOf(typeMessage) > 0).toBeTruthy();
+            expect(sut.lastLogMessage.indexOf(attemptCounter) > 0).toBeTruthy();
+        });
+
+        it('With all the parameters and "typeMessage === ERROR" generate a log Error message', function () {
+            spyOn(sut, 'logFormattedData').and.callFake(function (param1, objectParam) { });
+
+            sut.log(aopMethod, method, typeParam, objectParam, typeErrorMessage, attemptCounter);
+
+            expect(sut.lastLogMessage).not.toBeNull();
+            expect(sut.lastLogMessage).not.toBeUndefined();
+            expect(sut.lastLogMessage.indexOf(aopMethod) > 0).toBeTruthy();
+            expect(sut.lastLogMessage.indexOf(method) > 0).toBeTruthy();
+            expect(sut.lastLogMessage.indexOf(typeParam) > 0).toBeTruthy();
+            expect(sut.lastLogMessage.indexOf(typeErrorMessage) > 0).toBeTruthy();
+            expect(sut.lastLogMessage.indexOf(attemptCounter) > 0).toBeTruthy();
+        });
+    });
+
+    describe('logFormattedData - ', function () {
+        beforeEach(function () {
+            sut = new AuditManager();
+        });
+
+        it('Without parameters invokes the "logFormattedDataToServer" method from "sut"', function () {
+            spyOn(sut, 'logFormattedDataToServer').and.callFake(function (formattedMessage, objectParam, typeMessage) { });
+
+            sut.logFormattedData();
+
+            expect(sut.logFormattedDataToServer).toHaveBeenCalledWith(undefined, undefined, undefined);
+        });
+
+        it('With all the parameters invokes the "logFormattedDataToServer" method from "sut"', function () {
+            spyOn(sut, 'logFormattedDataToServer').and.callFake(function (formattedMessage, objectParam, typeMessage) { });
+
+            sut.logFormattedData(errorMessage1, objectParam, typeMessage);
+
+            expect(sut.logFormattedDataToServer).toHaveBeenCalledWith(errorMessage1, objectParam, typeMessage);
+        });
+
+        it('With all the parameters and "typeMessage === ERROR" invokes the "logFormattedDataToServer" method from "sut"', function () {
+            spyOn(sut, 'logFormattedDataToServer').and.callFake(function (formattedMessage, objectParam, typeMessage) { });
+
+            sut.logFormattedData(errorMessage1, exception, typeErrorMessage);
+
+            expect(sut.logFormattedDataToServer).toHaveBeenCalledWith(errorMessage1, exception, typeErrorMessage);
+        });
+
+        it('Calls the "info" method of Logger object that throws an Exception then Invokes the "log" method of "console" object', function () {
+            spyOn(sut.logger, 'info').and.callFake(function (param1, objectParam) {
+                throw exception;
+            });
+            spyOn(console, 'log').and.callFake(function (param1, objectParam1, param2, objectParam2) { });
+
+            sut.logFormattedData(errorMessage1, objectParam, typeMessage);
+
+            expect(console.log).toHaveBeenCalledWith(jasmine.any(String), exception, jasmine.any(String), errorMessage1, objectParam);
+        });
+
+        it('Calls the "error" method of Logger object that throws an Exception then Invokes the "log" method of "console" object', function () {
+            spyOn(sut.logger, 'error').and.callFake(function (param1, objectParam) {
+                throw exception;
+            });
+            spyOn(console, 'log').and.callFake(function (param1, objectParam) { });
+
+            sut.logFormattedData(errorMessage1, exceptionTypeError, typeErrorMessage);
+
+            expect(console.log).toHaveBeenCalledWith(jasmine.any(String), exception, jasmine.any(String), errorMessage1, exceptionTypeError);
+        });
+    });
+
+    describe('logFormattedDataToServer - ', function () {
+        beforeEach(function () {
+            sut = new AuditManager();
+        });
+
+        it('Without parameters invokes the "logFormattedInfoDataToServer" method from "sut"', function () {
+            spyOn(sut, 'logFormattedInfoDataToServer').and.callFake(function (formattedMessage, objectParam) { });
+
+            sut.logFormattedDataToServer();
+
+            expect(sut.logFormattedInfoDataToServer).toHaveBeenCalledWith(undefined, undefined);
+        });
+
+        it('With all the parameters invokes the "logFormattedInfoDataToServer" method from "sut"', function () {
+            spyOn(sut, 'logFormattedInfoDataToServer').and.callFake(function (formattedMessage, objectParam) { });
+
+            sut.logFormattedDataToServer(errorMessage1, objectParam, typeMessage);
+
+            expect(sut.logFormattedInfoDataToServer).toHaveBeenCalledWith(errorMessage1, objectParam);
+        });
+
+        it('With all the parameters and "typeMessage === ERROR" invokes the "error" method of Logger object', function () {
+            spyOn(sut.logger, 'error').and.callFake(function (param1, objectParam) { });
+
+            sut.logFormattedDataToServer(errorMessage1, exception, typeErrorMessage);
+
+            expect(sut.logger.error).toHaveBeenCalled();
+            expect(sut.logger.error.calls.argsFor(firstItemIndex)[firstItemIndex] instanceof Error).toBeTruthy();
+            expect(sut.logger.error.calls.argsFor(firstItemIndex)[firstItemIndex].lastLogMessage).toBeDefined();
+        });
+
+        it('Calling the "error" method of Logger object that throws an Exception', function () {
+            spyOn(sut.logger, 'error').and.callFake(function (param1, objectParam) {
+                throw exception;
+            });
+            spyOn(console, 'log').and.callFake(function (param1, objectParam) { });
+
+            expect(function () { sut.logFormattedDataToServer(errorMessage1, exceptionTypeError, typeErrorMessage); }).toThrowError(Error);
+
+        });
+    });
+
+    describe('logFormattedInfoDataToServer - ', function () {
+        beforeEach(function () {
+            sut = new AuditManager();
+        });
+
+        it('Without parameters invokes the "info" method of Logger object', function () {
+            spyOn(sut.logger, 'info').and.callFake(function (param1, objectParam) { });
+
+            sut.logFormattedInfoDataToServer();
+
+            expect(sut.logger.info).toHaveBeenCalledWith([undefined, undefined]);
+        });
+
+        it('With all the parameters invokes the "info" method of Logger object', function () {
+            spyOn(sut.logger, 'info').and.callFake(function () { });
+
+            sut.logFormattedInfoDataToServer(errorMessage1, objectParam, typeMessage);
+
+            expect(sut.logger.info).toHaveBeenCalledWith([jasmine.any(String), JSON.stringify(objectParam)]);
+        });
+
+        it('With all the parameters for a log Info message invokes "stringify" method from "JSON" object', function () {
+            spyOn(sut.logger, 'info').and.callFake(function (param1) { });
+            spyOn(JSON, 'stringify').and.callFake(function (objectParam) { });
+
+            sut.logFormattedInfoDataToServer(errorMessage1, objectParam, typeMessage);
+
+            expect(JSON.stringify).toHaveBeenCalledWith(objectParam);
+        });
+
+        it('With an non stringify object the "stringify" method throws an excetion then log "objectParam" without call "stringify" method', function () {
+            spyOn(sut.logger, 'info').and.callFake(function (param1) { });
+            spyOn(JSON, 'stringify').and.callFake(function (objectParam) {
+                throw exception;
+            });
+
+            sut.logFormattedInfoDataToServer(errorMessage1, objectParam, typeMessage);
+
+            expect(sut.logger.info).toHaveBeenCalledWith([jasmine.any(String), objectParam]);
+        });
+
+        it('Calling the "info" method of Logger object that throws an Exception', function () {
+            spyOn(sut.logger, 'info').and.callFake(function (param1, objectParam) {
+                throw exceptionTypeError;
+            });
+            spyOn(console, 'log').and.callFake(function (param1, objectParam1, param2, objectParam2) { });
+
+            expect(function () { sut.logFormattedInfoDataToServer(errorMessage1, objectParam, typeMessage); }).toThrowError(TypeError);
+
+        });
+    });
+
     describe('getHasAnotherAttempt - ', function () {
         beforeEach(function () {
             sut = new AuditManager();
+            spyOn(console, 'log').and.callFake(function (message) { });
+            spyOn(sut.logger, 'info').and.callFake(function (message) { });
+            spyOn(sut.logger, 'error').and.callFake(function (message) { });
         });
 
         it('with user confirmation "OK" and counterAttempIndex less than maxAttemps', function () {
@@ -160,110 +385,12 @@ describe('AuditManager - ', function () {
         });
     });
 
-    describe('log - ', function () {
-        beforeEach(function () {
-            sut = new AuditManager();
-        });
-
-        it('Instance a Date Object', function () {
-
-            sut.log();
-
-            expect(sut.lastLogDatetime).not.toBeNull();
-            expect(sut.lastLogDatetime).not.toBeUndefined();
-        });
-
-        it('Invoke the toISOString method of a Date Object', function () {
-
-            sut.log();
-
-            expect(sut.lastLogMessage.indexOf(sut.lastLogDatetime.toISOString())).toEqual(startIndexOf);
-        });
-
-        it('Without parameters generate a log message', function () {
-
-            sut.log();
-
-            expect(sut.lastLogMessage).not.toBeNull();
-            expect(sut.lastLogMessage).not.toBeUndefined();
-        });
-
-        it('Invokes the "Info" method of Logger object', function () {
-            spyOn(sut.logger, 'info').and.callFake(function () { });
-
-            sut.log();
-
-            expect(sut.logger.info).toHaveBeenCalledWith([jasmine.any(String), undefined]);
-        });
-
-        it('With all the parameters generate a log Info message', function () {
-            spyOn(sut.logger, 'info').and.callFake(function (param1, objectParam) { });
-
-            sut.log(aopMethod, method, typeParam, objectParam, typeMessage, attemptCounter);
-
-            expect(sut.lastLogMessage).not.toBeNull();
-            expect(sut.lastLogMessage).not.toBeUndefined();
-            expect(sut.lastLogMessage.indexOf(aopMethod) > 0).toBeTruthy();
-            expect(sut.lastLogMessage.indexOf(method) > 0).toBeTruthy();
-            expect(sut.lastLogMessage.indexOf(typeParam) > 0).toBeTruthy();
-            expect(sut.lastLogMessage.indexOf(typeMessage) > 0).toBeTruthy();
-            expect(sut.lastLogMessage.indexOf(attemptCounter) > 0).toBeTruthy();
-            expect(sut.logger.info).toHaveBeenCalledWith([jasmine.any(String), objectParam]);
-        });
-
-        it('With all the parameters and "typeMessage === ERROR" generate a log Error message', function () {
-            spyOn(sut.logger, 'error').and.callFake(function (param1, objectParam) { });
-
-            sut.log(aopMethod, method, typeParam, exception, typeErrorMessage, attemptCounter);
-
-            expect(sut.lastLogMessage).not.toBeNull();
-            expect(sut.lastLogMessage).not.toBeUndefined();
-            expect(sut.lastLogMessage.indexOf(aopMethod) > 0).toBeTruthy();
-            expect(sut.lastLogMessage.indexOf(method) > 0).toBeTruthy();
-            expect(sut.lastLogMessage.indexOf(typeParam) > 0).toBeTruthy();
-            expect(sut.lastLogMessage.indexOf(typeErrorMessage) > 0).toBeTruthy();
-            expect(sut.lastLogMessage.indexOf(attemptCounter) > 0).toBeTruthy();
-            expect(sut.logger.error).toHaveBeenCalled();
-            expect(sut.logger.error.calls.argsFor(firstItemIndex)[firstItemIndex] instanceof Error).toBeTruthy();
-            expect(sut.logger.error.calls.argsFor(firstItemIndex)[firstItemIndex].lastLogMessage).toBeDefined();
-        });
-
-        it('Calls the "error" method of Logger object that throws an Exception then Invokes the "log" method of "console" object', function () {
-            spyOn(sut.logger, 'error').and.callFake(function (param1, objectParam) {
-                throw exception;
-            });
-            spyOn(console, 'log').and.callFake(function (param1, objectParam) { });
-
-            sut.log(aopMethod, method, typeParam, objectParam, typeErrorMessage);
-
-            expect(console.log).toHaveBeenCalledWith(jasmine.any(String), jasmine.any(Error), jasmine.any(String), jasmine.any(String), objectParam);
-            //expect(console.log.calls.argsFor(firstItemIndex)[firstItemIndex]).toEqual(jasmine.any(String));
-            //expect(console.log.calls.argsFor(firstItemIndex)[secondItemIndex]).toEqual(jasmine.any(Error));
-            //expect(console.log.calls.argsFor(firstItemIndex)[thirdItemIndex]).toEqual(jasmine.any(String));
-            //expect(console.log.calls.argsFor(firstItemIndex)[fourthItemIndex]).toEqual(jasmine.any(String));
-            //expect(console.log.calls.argsFor(firstItemIndex)[fifthItemIndex]).toEqual(objectParam);
-        });
-
-        it('Calls the "info" method of Logger object that throws an Exception then Invokes the "log" method of "console" object', function () {
-            spyOn(sut.logger, 'info').and.callFake(function (param1, objectParam) {
-                throw exception;
-            });
-            spyOn(console, 'log').and.callFake(function (param1, objectParam1, param2, objectParam2) { });
-
-            sut.log();
-
-            expect(console.log).toHaveBeenCalledWith(jasmine.any(String), jasmine.any(Error), jasmine.any(String), jasmine.any(String), undefined);
-            //expect(console.log.calls.argsFor(firstItemIndex)[firstItemIndex]).toEqual(jasmine.any(String));
-            //expect(console.log.calls.argsFor(firstItemIndex)[secondItemIndex]).toEqual(jasmine.any(Error));
-            //expect(console.log.calls.argsFor(firstItemIndex)[thirdItemIndex]).toEqual(jasmine.any(String));
-            //expect(console.log.calls.argsFor(firstItemIndex)[fourthItemIndex]).toEqual(jasmine.any(String));
-            //expect(console.log.calls.argsFor(firstItemIndex)[fifthItemIndex]).toEqual(undefined);
-        });
-    });
-
     describe('beforeLogEvent - ', function () {
         beforeEach(function () {
             sut = new AuditManager();
+            spyOn(console, 'log').and.callFake(function (message) { });
+            spyOn(sut.logger, 'info').and.callFake(function (message) { });
+            spyOn(sut.logger, 'error').and.callFake(function (message) { });
         });
 
         it('With any parameters invokes "log" method ', function () {
@@ -334,6 +461,9 @@ describe('AuditManager - ', function () {
     describe('afterLogEvent - ', function () {
         beforeEach(function () {
             sut = new AuditManager();
+            spyOn(console, 'log').and.callFake(function (message) { });
+            spyOn(sut.logger, 'info').and.callFake(function (message) { });
+            spyOn(sut.logger, 'error').and.callFake(function (message) { });
         });
 
         it('With any parameters invokes "log" method ', function () {
@@ -404,6 +534,9 @@ describe('AuditManager - ', function () {
     describe('aroundLogEvent - ', function () {
         beforeEach(function () {
             sut = new AuditManager();
+            spyOn(console, 'log').and.callFake(function (message) { });
+            spyOn(sut.logger, 'info').and.callFake(function (message) { });
+            spyOn(sut.logger, 'error').and.callFake(function (message) { });
         });
 
         it('Without parameters throw an exception', function () {
@@ -485,6 +618,9 @@ describe('AuditManager - ', function () {
     describe('afterThrowCatchEvent - ', function () {
         beforeEach(function () {
             sut = new AuditManager();
+            spyOn(console, 'log').and.callFake(function (message) { });
+            spyOn(sut.logger, 'info').and.callFake(function (message) { });
+            spyOn(sut.logger, 'error').and.callFake(function (message) { });
         });
 
         it('With any parameters invokes "log" method ', function () {
@@ -577,6 +713,9 @@ describe('AuditManager - ', function () {
     describe('aroundLogThrowCatchEvent - ', function () {
         beforeEach(function () {
             sut = new AuditManager();
+            spyOn(console, 'log').and.callFake(function (message) { });
+            spyOn(sut.logger, 'info').and.callFake(function (message) { });
+            spyOn(sut.logger, 'error').and.callFake(function (message) { });
         });
 
         it('Without parameters throw an exception', function () {
@@ -683,6 +822,9 @@ describe('AuditManager - ', function () {
     describe('afterFinallyEvent - ', function () {
         beforeEach(function () {
             sut = new AuditManager();
+            spyOn(console, 'log').and.callFake(function (param1) { });
+            spyOn(sut.logger, 'info').and.callFake(function (param1) { });
+            spyOn(sut.logger, 'error').and.callFake(function (param1) { });
         });
 
         it('Without parameters never invokes neither of the "afterLogEvent" or "afterThrowCatchEvent" methods', function () {
@@ -747,6 +889,9 @@ describe('AuditManager - ', function () {
     describe('afterThrowRetryEvent - ', function () {
         beforeEach(function () {
             sut = new AuditManager();
+            spyOn(console, 'log').and.callFake(function (message) { });
+            spyOn(sut.logger, 'info').and.callFake(function (message) { });
+            spyOn(sut.logger, 'error').and.callFake(function (message) { });
         });
 
         it('Without parameters throws a TypeError exception', function () {
