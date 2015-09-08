@@ -39,9 +39,10 @@ app.controller('SearchAction', function ($scope, $http) {
 app.controller('CreateAction', function ($scope, $location, $http) {//, $filter) {
     $scope.http = $http;
     $scope.isForm = true;
+    $scope.Contact = {};
 
     $scope.Create = function () {
-        throw new Error("CHUPALA");
+        //throw new Error("What error!!!");
         $scope.http.post(applicationNamePath + 'WebApi/ContactApi', $scope.Contact)
             .success($scope.onCreateSuccess)
             .error(ErrorManager.getInstance().onGenealErrorEvent);

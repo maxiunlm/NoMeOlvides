@@ -1,3 +1,5 @@
++ En el CREATE no estan llegando los datos del Formulario a $scope.Contact
+
 + Revisar TODOs y todo el TDD faltante
 + Estudiar como prevenir Man-in-the-middle (AntiForgeryToken) con MVC y AngularJS:
 
@@ -6,9 +8,8 @@ http://techbrij.com/angularjs-antiforgerytoken-asp-net-mvc
 <form action="/NoMeOlvides/Contact" id="__AjaxAntiForgeryForm" method="post"><input name="__RequestVerificationToken" type="hidden" value="C-3Qd3RbVGVjxdSnhLhFB_PY9niI2ixAoI2EUjkozrjJoSHC8l78JHfbUXTuBrwzs9Anzh2S6TyJTU0DZYCbGKGeSpmBwLcLqnG6iyiBmp01" /></form>        
 
 + Revisar la auditoria Javascript AOP
-----> En el log de ERRORES:
-----------> Pierde la EXCEPTION del lado del cliente
-----------> Hacer stringify del Object Param del lado del cliente
+----> En el log de INFO:
+----------> Pierde los PARAMETROS del lado del cliente
 ----------> Estudiar como hacer que llegue el StackTrace del Cliente al Server
 ----------> Loguea por dupolicado en ServerSide y ClientSide para la misma Exception del Cliente
 

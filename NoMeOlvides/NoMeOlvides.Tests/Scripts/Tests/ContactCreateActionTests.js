@@ -16,7 +16,7 @@
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/App.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/CRUD.js' />
 
-describe('ContactController - ', function () {
+describe('ContactController - CreateAction - ', function () {
     var location;
     var rootScope;
     var route;
@@ -33,7 +33,7 @@ describe('ContactController - ', function () {
         spyOn(console, 'log').and.callFake(function () { });
     }));
 
-    describe('CreateAction - Load Creadte Form - ', function () {
+    describe('Load Creadte Form - ', function () {
         var $scope;
         var $controller;
 
@@ -45,10 +45,16 @@ describe('ContactController - ', function () {
             $controller = controller('CreateAction', { $scope: $scope });
         }));
 
-        it('CreateAction - Stablish isForm == TRUE status for the GUI', function () {
+        it('Instance a new "$scope.Contact" object', function () {
 
 
-            expect($scope.isForm).toEqual(true);
+            expect($scope.Contact).toBeDefined();
+        });
+
+        it('Stablish isForm == TRUE status for the GUI', function () {
+
+
+            expect($scope.isForm).toBeTruthy();
         });
 
         it('Invokes "jQuery.aop.afterThrow" method for "Create"', function () {
@@ -71,7 +77,7 @@ describe('ContactController - ', function () {
         });
     });
 
-    describe('CreateAction - Call Http POST Method - ', function () {
+    describe('Call Http POST Method - ', function () {
         var $scope;
         var $controller;
         //var httpBackend;
@@ -98,7 +104,7 @@ describe('ContactController - ', function () {
         });
     });
 
-    describe('CreateAction - Call Response Events - ', function () {
+    describe('Call Response Events - ', function () {
         var $scope;
         var $controller;
 
@@ -176,7 +182,7 @@ describe('ContactController - ', function () {
         //    ////}));
     });
 
-    describe('CreateAction - On success event - ', function () {
+    describe('On success event - ', function () {
         var $scope;
         var $controller;
         //var $location;
