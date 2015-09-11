@@ -162,6 +162,9 @@
   <data name="detailsContactTitle" xml:space="preserve">
     <value>Detail of Contact</value>
   </data>
+  <data name="duplicatedEmailsBetweenContacts" xml:space="preserve">
+    <value>The e-mail is in use</value>
+  </data>
   <data name="editContactTitle" xml:space="preserve">
     <value>Update Contact</value>
   </data>

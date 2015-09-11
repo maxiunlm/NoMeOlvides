@@ -26,7 +26,7 @@ namespace Domain.Hepler
             }
             catch (InvalidOperationException)
             {
-                throw new DevelopedControlledException(ConfigurationManager.AppSettings["DuplicatedEmailsBetweenContacts"]);
+                throw new DevelopedControlledException(ConfigurationManager.AppSettings["duplicatedEmailsBetweenContacts"]);
             }
         }
 

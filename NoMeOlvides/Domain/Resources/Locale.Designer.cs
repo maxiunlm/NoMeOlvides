@@ -196,6 +196,15 @@ namespace Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The e-mail is in use.
+        /// </summary>
+        public static string duplicatedEmailsBetweenContacts {
+            get {
+                return ResourceManager.GetString("duplicatedEmailsBetweenContacts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Update Contact.
         /// </summary>
         public static string editContactTitle {

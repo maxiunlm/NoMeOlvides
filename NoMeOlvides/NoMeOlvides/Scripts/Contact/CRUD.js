@@ -5,7 +5,7 @@ function invocationCallback(invocation) {
     auditManager.aroundLogEvent(invocation);
 };
 
-app.controller('ContactController', function ($scope, $http) {
+app.controller('ContactController', ['$scope', function ($scope, $http) {
     $scope.initializeGlobalVariables = function () {
         $scope.Errors = {};
         $scope.Contacts = contacts;
@@ -18,7 +18,7 @@ app.controller('ContactController', function ($scope, $http) {
     jQuery.aop.around({ target: window, method: 'initializeGlobalVariables' }, invocationCallback);
 
     $scope.initializeGlobalVariables();
-});
+}]);
 
 app.controller('SearchAction', function ($scope, $http) {
     $scope.http = $http;
@@ -36,18 +36,16 @@ app.controller('SearchAction', function ($scope, $http) {
     jQuery.aop.afterThrow({ target: $scope, method: 'Search' }, $scope.retrySearchCallback);
 });
 
-app.controller('CreateAction', function ($scope, $location, $http) {//, $filter) {
+app.controller('CreateAction', ['$scope', '$location', '$http', function ($scope, $location, $http) {//, $filter) {
     $scope.http = $http;
     $scope.isForm = true;
-    $scope.Contact = {};
+    $scope.Contact = { };
 
     $scope.Create = function () {
         //throw new Error("What error!!!");
         $scope.http.post(applicationNamePath + 'WebApi/ContactApi', $scope.Contact)
             .success($scope.onCreateSuccess)
             .error(ErrorManager.getInstance().onGenealErrorEvent);
-
-        $scope.isForm = false;
     };
 
     $scope.onCreateSuccess = function (data) {
@@ -62,6 +60,8 @@ app.controller('CreateAction', function ($scope, $location, $http) {//, $filter)
         $scope.Contact.Id = data.Contact.Id;
         $scope.Contacts.push($scope.Contact);
         $scope.transactionSuccessMessage = 'transactionSuccessMessage';//$filter('translate')('transactionSuccessMessage');
+
+        $scope.isForm = false;
         //////// TODO TDD ???!!!
         //////$scope.refreshResult();
         $location.url("/");
@@ -73,7 +73,7 @@ app.controller('CreateAction', function ($scope, $location, $http) {//, $filter)
 
     jQuery.aop.around({ target: $scope, method: 'Create' }, invocationCallback);
     jQuery.aop.afterThrow({ target: $scope, method: 'Create' }, $scope.retryCreateCallback);
-});
+}]);
 
 app.controller('DeleteAction', function ($scope, $routeParams, $location, $http) { //, $filter
     $scope.http = $http;

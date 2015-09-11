@@ -77,7 +77,7 @@ describe('ContactController - CreateAction - ', function () {
         });
     });
 
-    describe('Call Http POST Method - ', function () {
+    describe('Call Http POST Method - Create - ', function () {
         var $scope;
         var $controller;
         //var httpBackend;
@@ -91,7 +91,7 @@ describe('ContactController - CreateAction - ', function () {
             $controller = controller('CreateAction', { $scope: $scope }); // , $location: location, $httpBackend: httpBackend
         }));
 
-        it('Create - Must call the Http Post Method to a new Contact', function () { //$controller// <-- Error: Timeout - Async callback was not invoked within timeout specified by jasmine.DEFAULT_TIMEOUT_INTERVAL.
+        it('Must call the Http Post Method to a new Contact', function () { //$controller// <-- Error: Timeout - Async callback was not invoked within timeout specified by jasmine.DEFAULT_TIMEOUT_INTERVAL.
             $scope.http = httpMock;
             spyOn($scope.http, 'post').and.callThrough();
             //// XOR
@@ -104,7 +104,7 @@ describe('ContactController - CreateAction - ', function () {
         });
     });
 
-    describe('Call Response Events - ', function () {
+    describe('Call Response Events - Create - ', function () {
         var $scope;
         var $controller;
 
@@ -117,7 +117,7 @@ describe('ContactController - CreateAction - ', function () {
             $controller = controller('CreateAction', { $scope: $scope, $location: location, $httpBackend: $httpBackend });
         }));
 
-        it('Create - After call http post Method must call success event $scope.onCreateSuccess', inject(function ($http, $httpBackend) {
+        it('After call http post Method must call success event $scope.onCreateSuccess', inject(function ($http, $httpBackend) {
             $scope.http = httpMock;
             callBackSuccessData = callBackSuccessDataWithoutError;
             spyOn($scope, 'onCreateSuccess').and.callFake(function (data) {
@@ -128,7 +128,7 @@ describe('ContactController - CreateAction - ', function () {
             expect($scope.onCreateSuccess).toHaveBeenCalledWith(callBackSuccessDataWithoutError);
         }));
 
-        it('Create - After call http post Method must call error event ErrorManager.getInstance().onGenealErrorEvent', inject(function ($http, $httpBackend) {
+        it('After call http post Method must call error event ErrorManager.getInstance().onGenealErrorEvent', inject(function ($http, $httpBackend) {
             $scope.http = httpMock;
             callBackErrorData = callBackSuccessDataWithError;
             //////errorCallback = jasmine.createSpy('error'); ???? COMO es de esta manera ????
@@ -139,13 +139,6 @@ describe('ContactController - CreateAction - ', function () {
 
             expect(ErrorManager.getInstance().onGenealErrorEvent).toHaveBeenCalledWith(callBackSuccessDataWithError);
         }));
-
-        it('Create - Stablish isForm == FALSE status for the GUI', function () {
-
-            $scope.Create();
-
-            expect($scope.isForm).toEqual(false);
-        });
 
         //    ////it('expects POST http calls and returns mock data', inject(function ($http, $httpBackend) {
         //    ////    $scope.http = $http;
@@ -182,7 +175,7 @@ describe('ContactController - CreateAction - ', function () {
         //    ////}));
     });
 
-    describe('On success event - ', function () {
+    describe('On success event - Create - onCreateSuccess - ', function () {
         var $scope;
         var $controller;
         //var $location;
@@ -199,7 +192,7 @@ describe('ContactController - CreateAction - ', function () {
         }));
 
 
-        it('Create - onCreateSuccess - With data result of a new contact OK', function () {
+        it('With data result of a new contact OK', function () {
             $scope.Contact = newContact;
 
             $scope.onCreateSuccess(httpDataResultOk);
@@ -211,7 +204,7 @@ describe('ContactController - CreateAction - ', function () {
             expect($scope.Errors.Messages.length).toEqual(emptyItemsCount);
         });
 
-        it('Create - onCreateSuccess - With data result of a new contact with ONE Error Message', function () {
+        it('With data result of a new contact with ONE Error Message', function () {
             $scope.Contact = newContact;
 
             $scope.onCreateSuccess(httpDataResultErrorX1);
@@ -224,7 +217,7 @@ describe('ContactController - CreateAction - ', function () {
             expect($scope.Errors.Messages[firstItemIndex]).toEqual(errorMessage1);
         });
 
-        it('Create - onCreateSuccess - With data result of a new contact with TWO Error Messages', function () {
+        it('With data result of a new contact with TWO Error Messages', function () {
             $scope.Contact = newContact;
 
             $scope.onCreateSuccess(httpDataResultErrorX2);
@@ -238,7 +231,7 @@ describe('ContactController - CreateAction - ', function () {
             expect($scope.Errors.Messages[secondItemIndex]).toEqual(errorMessage2);
         });
 
-        it('Create - onCreateSuccess - With data result of a new contact put it on the contact list', function () {
+        it('With data result of a new contact put it on the contact list', function () {
             $scope.Contact = newContact;
 
             $scope.onCreateSuccess(httpDataResultOk);
@@ -248,12 +241,20 @@ describe('ContactController - CreateAction - ', function () {
             expect(_.findWhere($scope.Contacts, function (contact) { contact.Id === $scope.Contact.Id })).not.toBeUndefined();
         });
 
-        it('Create - onCreateSuccess - With data result of a new contact returns to root Uri', function () {
+        it('With data result of a new contact returns to root Uri', function () {
             $scope.Contact = newContact;
 
             $scope.onCreateSuccess(httpDataResultOk);
 
             expect(location.path()).toBe('/');
+        });
+        
+        it('Stablish isForm == FALSE status for the GUI', function () {
+            $scope.Contact = newContact;
+
+            $scope.onCreateSuccess(httpDataResultOk);
+
+            expect($scope.isForm).toEqual(false);
         });
     });
 
