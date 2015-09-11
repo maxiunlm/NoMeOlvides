@@ -14,7 +14,6 @@ http://techbrij.com/angularjs-antiforgerytoken-asp-net-mvc
 ----------> Loguea por duplicado en ServerSide y ClientSide para la misma Exception del Cliente
 
 + Revisar translates manuales del lado del cliente
-+ Revisar que los mensajes del Server envien el Translate de los Resources (falta por ej. "duplicatedEmailsBetweenContacts")
 + Revisar seguridad en el Translate:
 ----> http://angular-translate.github.io/docs/#/guide/19_security
 

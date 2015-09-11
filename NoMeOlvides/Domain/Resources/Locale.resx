@@ -213,6 +213,9 @@
   <data name="phone" xml:space="preserve">
     <value>Phone</value>
   </data>
+  <data name="preExistentContact" xml:space="preserve">
+    <value>The Contact already exists</value>
+  </data>
   <data name="searchButtonLabel" xml:space="preserve">
     <value>Search</value>
   </data>

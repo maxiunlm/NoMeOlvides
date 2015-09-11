@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
 using MongoDB.Bson;
+using Domain.Resources;
 
 namespace Domain.Hepler
 {
@@ -26,7 +27,7 @@ namespace Domain.Hepler
             }
             catch (InvalidOperationException)
             {
-                throw new DevelopedControlledException(ConfigurationManager.AppSettings["duplicatedEmailsBetweenContacts"]);
+                throw new DevelopedControlledException(Locale.duplicatedEmailsBetweenContacts);
             }
         }
 

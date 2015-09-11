@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Hepler;
+using Domain.Resources;
 
 namespace Domain.Data
 {
@@ -64,7 +65,7 @@ namespace Domain.Data
 
             if (IsPreExistentContact(contactDataModel, preExistentContact))
             {
-                throw new DevelopedControlledException(ConfigurationManager.AppSettings["PreExistentContact"]);
+                throw new DevelopedControlledException(Locale.preExistentContact);
             }
         }
 

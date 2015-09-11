@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Web.Mvc;
 using TechTalk.SpecFlow;
+using Domain.Resources;
 
 namespace NoMeOlvides.Tests.BDD
 {
@@ -222,7 +223,7 @@ namespace NoMeOlvides.Tests.BDD
         public void ThenElSistemaArrojaExepcionControladaDeUsuarioPreExistente()
         {
             Assert.IsInstanceOf<DevelopedControlledException>(exceptionResult);
-            Assert.AreEqual(ConfigurationManager.AppSettings["PreExistentContact"], exceptionResult.Message);
+            Assert.AreEqual(Locale.preExistentContact, exceptionResult.Message);
         }
 
         #endregion

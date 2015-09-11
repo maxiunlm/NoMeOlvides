@@ -349,6 +349,15 @@ namespace Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Contact already exists.
+        /// </summary>
+        public static string preExistentContact {
+            get {
+                return ResourceManager.GetString("preExistentContact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
         public static string searchButtonLabel {

@@ -9,6 +9,7 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Resources;
 
 namespace NoMeOlvides.Tests.Helper
 {
@@ -44,7 +45,7 @@ namespace NoMeOlvides.Tests.Helper
             new ContactDataModel { Id = objectId2, Name = "Name2", Email = "a@a.com" }
         };
         private readonly IQueryable<ContactDataModel> emptyQueryable = new List<ContactDataModel>().AsQueryable();
-        private readonly DevelopedControlledException developedControlledException = new DevelopedControlledException(ConfigurationManager.AppSettings["duplicatedEmailsBetweenContacts"]);
+        private readonly DevelopedControlledException developedControlledException = new DevelopedControlledException(Locale.duplicatedEmailsBetweenContacts);
         private readonly List<ContactDataModel> contactsX0 = new List<ContactDataModel>();
         private readonly List<ContactDataModel> contactsX1 = new List<ContactDataModel> { 
             new ContactDataModel { Id = objectId, Contacts = new List<ObjectId> { contactObjectId } }

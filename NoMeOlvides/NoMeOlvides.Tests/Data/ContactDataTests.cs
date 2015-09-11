@@ -12,6 +12,7 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Resources;
 
 namespace NoMeOlvides.Tests.Data
 {
@@ -39,7 +40,7 @@ namespace NoMeOlvides.Tests.Data
         private const string emptyEmail = "";
         private const string nullEmail = null;
         private readonly ContactDataModel contactEmptyDataModel = new ContactDataModel();
-        private readonly DevelopedControlledException developedControlledException = new DevelopedControlledException(ConfigurationManager.AppSettings["PreExistentContact"]);
+        private readonly DevelopedControlledException developedControlledException = new DevelopedControlledException(Locale.preExistentContact);
         private static readonly ObjectId objectId = ObjectId.GenerateNewId();
         private static readonly ObjectId objectId2 = ObjectId.GenerateNewId();
         private readonly ContactDataModel contactDataModel = new ContactDataModel { Id = ObjectId.GenerateNewId(), Email = "b@b.com", Password = "123456" };

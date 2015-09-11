@@ -231,4 +231,7 @@
   <data name="duplicatedEmailsBetweenContacts" xml:space="preserve">
     <value>El e-mail ya esta en uso.</value>
   </data>
+  <data name="preExistentContact" xml:space="preserve">
+    <value>El Contacto ya existe</value>
+  </data>
 </root>
