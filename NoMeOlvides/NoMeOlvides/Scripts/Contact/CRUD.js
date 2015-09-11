@@ -20,7 +20,7 @@ app.controller('ContactController', ['$scope', function ($scope, $http) {
     $scope.initializeGlobalVariables();
 }]);
 
-app.controller('SearchAction', function ($scope, $http) {
+app.controller('SearchAction', ['$scope', '$http', function ($scope, $http) {
     $scope.http = $http;
 
     // TODO: TERMINAR CON TDD !!!!!!!!!!!!!!!!!!!!!!!
@@ -34,7 +34,7 @@ app.controller('SearchAction', function ($scope, $http) {
 
     jQuery.aop.around({ target: $scope, method: 'Search' }, invocationCallback);
     jQuery.aop.afterThrow({ target: $scope, method: 'Search' }, $scope.retrySearchCallback);
-});
+}]);
 
 app.controller('CreateAction', ['$scope', '$location', '$http', function ($scope, $location, $http) {//, $filter) {
     $scope.http = $http;
@@ -75,7 +75,7 @@ app.controller('CreateAction', ['$scope', '$location', '$http', function ($scope
     jQuery.aop.afterThrow({ target: $scope, method: 'Create' }, $scope.retryCreateCallback);
 }]);
 
-app.controller('DeleteAction', function ($scope, $routeParams, $location, $http) { //, $filter
+app.controller('DeleteAction', ['$scope', '$routeParams', '$location', '$http', function ($scope, $routeParams, $location, $http) { //, $filter
     $scope.http = $http;
     var contactIndex = _.findIndex($scope.Contacts, { "Id": $routeParams.id });
     $scope.Contact = $scope.Contacts[contactIndex];
@@ -111,9 +111,9 @@ app.controller('DeleteAction', function ($scope, $routeParams, $location, $http)
 
     jQuery.aop.around({ target: $scope, method: 'Delete' }, invocationCallback);
     jQuery.aop.afterThrow({ target: $scope, method: 'Delete' }, $scope.retryDeleteCallback);
-});
+}]);
 
-app.controller('EditAction', function ($scope, $routeParams, $location, $http) {
+app.controller('EditAction', ['$scope', '$routeParams', '$location', '$http', function ($scope, $routeParams, $location, $http) {
     $scope.http = $http;
     var contactIndex = _.findIndex($scope.Contacts, { "Id": $routeParams.id });
     $scope.Contact = $scope.Contacts[contactIndex];
@@ -145,11 +145,11 @@ app.controller('EditAction', function ($scope, $routeParams, $location, $http) {
 
     jQuery.aop.around({ target: $scope, method: 'Edit' }, invocationCallback);
     jQuery.aop.afterThrow({ target: $scope, method: 'Edit' }, $scope.retryEditCallback);
-});
+}]);
 
-app.controller('DetailsAction', function ($scope, $routeParams) {
+app.controller('DetailsAction', ['$scope', '$routeParams', function ($scope, $routeParams) {
     var contactIndex = _.findIndex($scope.Contacts, { "Id": $routeParams.id });
     $scope.Contact = $scope.Contacts[contactIndex];
     $scope.isForm = false;
-});
+}]);
 //})();
