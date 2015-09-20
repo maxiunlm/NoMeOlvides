@@ -22,7 +22,9 @@ namespace NoMeOlvides.WebApis
             {
                 if (javascriptErrorLogger == null)
                 {
-                    javascriptErrorLogger = LogManager.GetLogger("clientErrorFile");
+                    ThreadContext.Properties["LogName"] = "ClientSide";
+                    javascriptErrorLogger = LogManager.GetLogger("errorsLog");
+                    //javascriptErrorLogger.Logger.Repository.Properties["LogName"] = "ClientSide";
                 }
 
                 return javascriptErrorLogger;
@@ -40,7 +42,9 @@ namespace NoMeOlvides.WebApis
             {
                 if (javascriptAuditoryLogger == null)
                 {
-                    javascriptAuditoryLogger = LogManager.GetLogger("clientAuditoryFile");
+                    ThreadContext.Properties["LogName"] = "ClientSide";
+                    javascriptAuditoryLogger = LogManager.GetLogger("auditoryLog");
+                    //javascriptAuditoryLogger.Logger.Repository.Properties["LogName"] = "ClientSide";
                 }
 
                 return javascriptAuditoryLogger;
@@ -111,7 +115,7 @@ namespace NoMeOlvides.WebApis
             }
         }
 
-        private static bool IsNoDataMessage(LogEntry[] dataMessage)
+        private bool IsNoDataMessage(LogEntry[] dataMessage)
         {
             return dataMessage == null;
         }

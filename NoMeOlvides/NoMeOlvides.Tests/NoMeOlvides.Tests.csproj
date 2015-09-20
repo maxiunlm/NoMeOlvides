@@ -171,6 +171,7 @@
     </Compile>
     <Compile Include="BDD\ContactSteps.cs" />
     <Compile Include="Business\ContactBusinessTests.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Controllers\ContactControllerTests.cs" />
     <Compile Include="DataModel\ContactDataModelTests.cs" />
     <Compile Include="Data\ContactDataTests.cs" />

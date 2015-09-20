@@ -42,7 +42,7 @@ app.controller('CreateAction', ['$scope', '$location', '$http', function ($scope
     $scope.Contact = { };
 
     $scope.Create = function () {
-        //throw new Error("What error!!!");
+        throw new Error("What error!!!");
         $scope.http.post(applicationNamePath + 'WebApi/ContactApi', $scope.Contact)
             .success($scope.onCreateSuccess)
             .error(ErrorManager.getInstance().onGenealErrorEvent);
