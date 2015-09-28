@@ -182,6 +182,7 @@
     <Compile Include="Service\ContactServiceTests.cs" />
     <Compile Include="ViewModel\ContactViewModelTests.cs" />
     <Compile Include="ViewModel\ErrorResponseViewModelTests.cs" />
+    <Compile Include="ViewModel\LogEntryViewModelTests.cs" />
     <Compile Include="WebApis\ContactApiControllerTests.cs" />
     <Compile Include="WebApis\Log4javascriptControllerTests.cs" />
     <Compile Include="WebApis\TranslationsApiControllerTests.cs" />

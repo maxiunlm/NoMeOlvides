@@ -5,6 +5,7 @@ using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Resources;
+using Domain.ViewModel;
 using Log4Javascript.Web.Models;
 using log4net;
 using Moq;
@@ -17,11 +18,13 @@ namespace NoMeOlvides.Tests.WebApis
     public class Log4javascriptControllerTests
     {
         private Log4javascriptController sut;
-        private Mock<ILog> javascriptErrorLoggerMock;
-        private Mock<ILog> javascriptAuditoryLoggerMock;
+        private Mock<ILog> ErrorLoggerMock;
+        private Mock<ILog> AuditoryLoggerMock;
 
         #region Fixture
-        
+
+        private const int firstIndex = 0;
+        private const int secondIndex = 1;
         private const string allLevelMessage = "ALL message";
         private const string traceLevelMessage = "TRACE message";
         private const string debugLevelMessage = "DEBUG message";
@@ -30,15 +33,20 @@ namespace NoMeOlvides.Tests.WebApis
         private const string errorLevelMessage = "ERROR message";
         private const string fatalLevelMessage = "FATAL message";
         private const string noneLevelMessage = "NONE message";
-        private readonly LogEntry[] dataNulled = null;
-        private readonly LogEntry[] dataAllLevel = new LogEntry[] { new LogEntry { Level = "ALL", Message = allLevelMessage } };
-        private readonly LogEntry[] dataTraceLevel = new LogEntry[] { new LogEntry { Level = "TRACE", Message = traceLevelMessage } };
-        private readonly LogEntry[] dataDebugLevel = new LogEntry[] { new LogEntry { Level = "DEBUG", Message = debugLevelMessage } };
-        private readonly LogEntry[] dataInfoLevel = new LogEntry[] { new LogEntry { Level = "INFO", Message = infoLevelMessage } };
-        private readonly LogEntry[] dataWarmLevel = new LogEntry[] { new LogEntry { Level = "WARM", Message = warmLevelMessage } };
-        private readonly LogEntry[] dataErrorLevel = new LogEntry[] { new LogEntry { Level = "ERROR", Message = errorLevelMessage } };
-        private readonly LogEntry[] dataFatalLevel = new LogEntry[] { new LogEntry { Level = "FATAL", Message = fatalLevelMessage } };
-        private readonly LogEntry[] dataNoneLevel = new LogEntry[] { new LogEntry { Level = "NONE", Message = noneLevelMessage } };
+        private readonly LogEntryViewModel[] dataNulled = null;
+        private readonly LogEntryViewModel[] dataAllLevel = new LogEntryViewModel[] { new LogEntryViewModel { Level = "ALL", Message = allLevelMessage } };
+        private readonly LogEntryViewModel[] dataTraceLevel = new LogEntryViewModel[] { new LogEntryViewModel { Level = "TRACE", Message = traceLevelMessage } };
+        private readonly LogEntryViewModel[] dataDebugLevel = new LogEntryViewModel[] { new LogEntryViewModel { Level = "DEBUG", Message = debugLevelMessage } };
+        private readonly LogEntryViewModel[] dataInfoLevel = new LogEntryViewModel[] { new LogEntryViewModel { Level = "INFO", Message = infoLevelMessage } };
+        private readonly LogEntryViewModel[] dataWarmLevel = new LogEntryViewModel[] { new LogEntryViewModel { Level = "WARM", Message = warmLevelMessage } };
+        private readonly LogEntryViewModel[] dataErrorLevel = new LogEntryViewModel[] { new LogEntryViewModel { Level = "ERROR", Message = errorLevelMessage } };
+        private readonly LogEntryViewModel[] dataFatalLevel = new LogEntryViewModel[] { new LogEntryViewModel { Level = "FATAL", Message = fatalLevelMessage } };
+        private readonly LogEntryViewModel[] dataNoneLevel = new LogEntryViewModel[] { new LogEntryViewModel { Level = "NONE", Message = noneLevelMessage } };
+        private LogEntryViewModel[] dataMessagesX1 = new LogEntryViewModel[] { new LogEntryViewModel { Level = "ALL", Message = allLevelMessage } };
+        private LogEntryViewModel[] dataMessagesX2 = new LogEntryViewModel[] { 
+            new LogEntryViewModel { Level = "ALL", Message = allLevelMessage },
+            new LogEntryViewModel { Level = "NONE", Message = noneLevelMessage },
+        };
 
         #endregion
 
@@ -46,11 +54,14 @@ namespace NoMeOlvides.Tests.WebApis
         public void SetUp()
         {
             sut = new Log4javascriptController();
-            javascriptErrorLoggerMock = new Mock<ILog>();
-            javascriptAuditoryLoggerMock = new Mock<ILog>();
+            ErrorLoggerMock = new Mock<ILog>();
+            AuditoryLoggerMock = new Mock<ILog>();
+            dataAllLevel[firstIndex].MessageLogType = MessageLogType.ServerSide;
+            dataMessagesX1[firstIndex].MessageLogType = MessageLogType.ServerSide;
+            dataMessagesX2[secondIndex].MessageLogType = MessageLogType.ServerSide;
 
-            sut.JavascriptErrorLogger = javascriptErrorLoggerMock.Object;
-            sut.JavascriptAuditoryLogger = javascriptAuditoryLoggerMock.Object;
+            sut.ErrorLogger = ErrorLoggerMock.Object;
+            sut.AuditoryLogger = AuditoryLoggerMock.Object;
         }
 
         #region CONSTRUCTOR
@@ -60,7 +71,7 @@ namespace NoMeOlvides.Tests.WebApis
         {
 
 
-            Assert.IsInstanceOf<ILog>(sut.JavascriptErrorLogger);
+            Assert.IsInstanceOf<ILog>(sut.ErrorLogger);
         }
 
         [Test]
@@ -68,75 +79,75 @@ namespace NoMeOlvides.Tests.WebApis
         {
 
 
-            Assert.IsInstanceOf<ILog>(sut.JavascriptAuditoryLogger);
+            Assert.IsInstanceOf<ILog>(sut.AuditoryLogger);
         }
 
         #endregion
 
-        #region JavascriptErrorLogger [GET]
+        #region ErrorLogger [GET]
 
         [Test]
-        public void JavascriptErrorLogger_GET__WithoutPreviousAssignament_ReturnsAnInstanceLogger()
+        public void ErrorLogger_GET__WithoutPreviousAssignament_ReturnsAnInstanceLogger()
         {
 
 
-            Assert.IsInstanceOf<ILog>(sut.JavascriptErrorLogger);
+            Assert.IsInstanceOf<ILog>(sut.ErrorLogger);
         }
 
         #endregion
 
-        #region JavascriptErrorLogger [SET]
+        #region ErrorLogger [SET]
 
         [Test]
-        public void JavascriptErrorLogger_GET__WithoutANullAssignament_ReturnsAnInstanceLogger()
+        public void ErrorLogger_GET__WithoutANullAssignament_ReturnsAnInstanceLogger()
         {
-            sut.JavascriptErrorLogger = null;
+            sut.ErrorLogger = null;
 
 
-            Assert.IsInstanceOf<ILog>(sut.JavascriptErrorLogger);
+            Assert.IsInstanceOf<ILog>(sut.ErrorLogger);
         }
 
         [Test]
-        public void JavascriptErrorLogger_GET__WithoutACorrectAssignament_ReturnsAnInstanceLogger()
+        public void ErrorLogger_GET__WithoutACorrectAssignament_ReturnsAnInstanceLogger()
         {
-            sut.JavascriptErrorLogger = LogManager.GetLogger("log4javascript");
+            sut.ErrorLogger = LogManager.GetLogger("log4javascript");
 
 
-            Assert.IsInstanceOf<ILog>(sut.JavascriptErrorLogger);
-        }
-
-        #endregion
-
-        #region JavascriptAuditoryLogger [GET]
-
-        [Test]
-        public void JavascriptAuditoryLogger_GET__WithoutPreviousAssignament_ReturnsAnInstanceLogger()
-        {
-
-
-            Assert.IsInstanceOf<ILog>(sut.JavascriptAuditoryLogger);
+            Assert.IsInstanceOf<ILog>(sut.ErrorLogger);
         }
 
         #endregion
 
-        #region JavascriptAuditoryLogger [SET]
+        #region AuditoryLogger [GET]
 
         [Test]
-        public void JavascriptAuditoryLogger_GET__WithANullAssignament_ReturnsAnInstanceLogger()
+        public void AuditoryLogger_GET__WithoutPreviousAssignament_ReturnsAnInstanceLogger()
         {
-            sut.JavascriptAuditoryLogger = null;
 
 
-            Assert.IsInstanceOf<ILog>(sut.JavascriptAuditoryLogger);
+            Assert.IsInstanceOf<ILog>(sut.AuditoryLogger);
+        }
+
+        #endregion
+
+        #region AuditoryLogger [SET]
+
+        [Test]
+        public void AuditoryLogger_GET__WithANullAssignament_ReturnsAnInstanceLogger()
+        {
+            sut.AuditoryLogger = null;
+
+
+            Assert.IsInstanceOf<ILog>(sut.AuditoryLogger);
         }
 
         [Test]
-        public void JavascriptAuditoryLogger_GET__WithACorrectAssignament_ReturnsAnInstanceLogger()
+        public void AuditoryLogger_GET__WithACorrectAssignament_ReturnsAnInstanceLogger()
         {
-            sut.JavascriptAuditoryLogger = LogManager.GetLogger("log4javascript");
+            sut.AuditoryLogger = LogManager.GetLogger("log4javascript");
 
 
-            Assert.IsInstanceOf<ILog>(sut.JavascriptAuditoryLogger);
+            Assert.IsInstanceOf<ILog>(sut.AuditoryLogger);
         }
 
         #endregion
@@ -146,101 +157,122 @@ namespace NoMeOlvides.Tests.WebApis
         [Test]
         public void Write_WithAnAllLevelLogMessage_InvokesAnInfoMethodOfLogger()
         {
-            javascriptAuditoryLoggerMock.Setup(o => o.Info(dataAllLevel));
+            AuditoryLoggerMock.Setup(o => o.Info(dataAllLevel));
 
             sut.Write(dataAllLevel);
 
-            javascriptAuditoryLoggerMock.Verify(o => o.Info(dataAllLevel));
+            AuditoryLoggerMock.Verify(o => o.Info(dataAllLevel));
         }
         
         [Test]
         public void Write_WithAnAllLevelLogMessage_InvokesAnErrorMethodOfLogger()
         {
-            javascriptErrorLoggerMock.Setup(o => o.Error(dataAllLevel));
+            ErrorLoggerMock.Setup(o => o.Error(dataAllLevel));
 
             sut.Write(dataAllLevel);
 
-            javascriptErrorLoggerMock.Setup(o => o.Error(dataAllLevel));
+            ErrorLoggerMock.Setup(o => o.Error(dataAllLevel));
         }
 
         [Test]
         public void Write_WithATraceLevelLogMessage_InvokesWarmMethodOfLogger()
         {
-            javascriptAuditoryLoggerMock.Setup(o => o.Debug(dataTraceLevel));
+            AuditoryLoggerMock.Setup(o => o.Debug(dataTraceLevel));
 
             sut.Write(dataTraceLevel);
 
-            javascriptAuditoryLoggerMock.Verify(o => o.Debug(dataTraceLevel));
+            AuditoryLoggerMock.Verify(o => o.Debug(dataTraceLevel));
         }
 
         [Test]
         public void Write_WithADebugLevelLogMessage_InvokesWarmMethodOfLogger()
         {
-            javascriptAuditoryLoggerMock.Setup(o => o.Debug(dataDebugLevel));
+            AuditoryLoggerMock.Setup(o => o.Debug(dataDebugLevel));
 
             sut.Write(dataDebugLevel);
 
-            javascriptAuditoryLoggerMock.Verify(o => o.Debug(dataDebugLevel));
+            AuditoryLoggerMock.Verify(o => o.Debug(dataDebugLevel));
         }
 
         [Test]
         public void Write_WithAnInfoLevelLogMessage_InvokesInfoMethodOfLogger()
         {
-            javascriptAuditoryLoggerMock.Setup(o => o.Info(dataInfoLevel));
+            AuditoryLoggerMock.Setup(o => o.Info(dataInfoLevel));
 
             sut.Write(dataInfoLevel);
 
-            javascriptAuditoryLoggerMock.Verify(o => o.Info(dataInfoLevel));
+            AuditoryLoggerMock.Verify(o => o.Info(dataInfoLevel));
         }
 
         [Test]
         public void Write_WithAWarmLevelLogMessage_InvokesWarmMethodOfLogger()
         {
-            javascriptErrorLoggerMock.Setup(o => o.Warn(dataWarmLevel));
+            ErrorLoggerMock.Setup(o => o.Warn(dataWarmLevel));
 
             sut.Write(dataWarmLevel);
 
-            javascriptErrorLoggerMock.Verify(o => o.Warn(dataWarmLevel));
+            ErrorLoggerMock.Verify(o => o.Warn(dataWarmLevel));
         }
 
         [Test]
         public void Write_WithAnErrorLevelLogMessage_InvokesErrorMethodOfLogger()
         {
-            javascriptErrorLoggerMock.Setup(o => o.Error(dataErrorLevel));
+            ErrorLoggerMock.Setup(o => o.Error(dataErrorLevel));
 
             sut.Write(dataErrorLevel);
 
-            javascriptErrorLoggerMock.Verify(o => o.Error(dataErrorLevel));
+            ErrorLoggerMock.Verify(o => o.Error(dataErrorLevel));
         }
 
         [Test]
         public void Write_WithAFatalLevelLogMessage_InvokesFatalMethodOfLogger()
         {
-            javascriptErrorLoggerMock.Setup(o => o.Fatal(dataFatalLevel));
+            ErrorLoggerMock.Setup(o => o.Fatal(dataFatalLevel));
 
             sut.Write(dataFatalLevel);
 
-            javascriptErrorLoggerMock.Verify(o => o.Fatal(dataFatalLevel));
+            ErrorLoggerMock.Verify(o => o.Fatal(dataFatalLevel));
         }
 
         [Test]
         public void Write_WithANoneLevelLogMessage_InvokesErrorMethodOfLogger()
         {
-            javascriptErrorLoggerMock.Setup(o => o.Error(dataNoneLevel));
+            ErrorLoggerMock.Setup(o => o.Error(dataNoneLevel));
 
             sut.Write(dataNoneLevel);
 
-            javascriptErrorLoggerMock.Verify(o => o.Error(dataNoneLevel));
+            ErrorLoggerMock.Verify(o => o.Error(dataNoneLevel));
         }
 
         [Test]
         public void Write_WithANulledMessage_InvokesErrorMethodOfLogger()
         {
-            javascriptErrorLoggerMock.Setup(o => o.Error(Locale.log4JavascriptNullMessage));
+            ErrorLoggerMock.Setup(o => o.Error(Locale.log4JavascriptNullMessage));
 
             sut.Write(dataNulled);
 
-            javascriptErrorLoggerMock.Verify(o => o.Error(Locale.log4JavascriptNullMessage));
+            ErrorLoggerMock.Verify(o => o.Error(Locale.log4JavascriptNullMessage));
+        }
+
+        [Test]
+        public void Write_WithOneMessage_SetMessageLogTypeToClientSideValue()
+        {
+            AuditoryLoggerMock.Setup(o => o.Info(dataMessagesX1));
+
+            sut.Write(dataMessagesX1);
+
+            Assert.AreEqual(MessageLogType.ClientSide, dataMessagesX1[firstIndex].MessageLogType);
+        }
+
+        [Test]
+        public void Write_WithTwoMessages_SetAllMessageLogTypesToClientSideValue()
+        {
+            AuditoryLoggerMock.Setup(o => o.Info(dataMessagesX2));
+
+            sut.Write(dataMessagesX2);
+
+            Assert.AreEqual(MessageLogType.ClientSide, dataMessagesX2[firstIndex].MessageLogType);
+            Assert.AreEqual(MessageLogType.ClientSide, dataMessagesX2[secondIndex].MessageLogType);
         }
 
         #endregion

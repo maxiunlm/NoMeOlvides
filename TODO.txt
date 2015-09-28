@@ -11,7 +11,6 @@ http://techbrij.com/angularjs-antiforgerytoken-asp-net-mvc
 ----> En el log de INFO:
 ----------> Pierde los PARAMETROS del lado del cliente
 ----------> Estudiar como hacer que llegue el StackTrace del Cliente al Server
-----------> Loguea por duplicado en ServerSide y ClientSide para la misma Exception del Cliente
 
 + Revisar translates manuales del lado del cliente
 + Revisar seguridad en el Translate:

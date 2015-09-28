@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Resources;
 using System.Web.Http;
 using Domain.Resources;
+using Domain.ViewModel;
 using Log4Javascript.Web.Models;
 using log4net;
 
@@ -15,43 +16,39 @@ namespace NoMeOlvides.WebApis
     [Route("WebApi/Log4javascript")]
     public class Log4javascriptController : ApiController
     {
-        private ILog javascriptErrorLogger;
-        internal ILog JavascriptErrorLogger
+        private ILog errorLogger;
+        internal ILog ErrorLogger
         {
             get
             {
-                if (javascriptErrorLogger == null)
+                if (errorLogger == null)
                 {
-                    ThreadContext.Properties["LogName"] = "ClientSide";
-                    javascriptErrorLogger = LogManager.GetLogger("errorsLog");
-                    //javascriptErrorLogger.Logger.Repository.Properties["LogName"] = "ClientSide";
+                    errorLogger = LogManager.GetLogger("errorsLog");
                 }
 
-                return javascriptErrorLogger;
+                return errorLogger;
             }
             set
             {
-                javascriptErrorLogger = value;
+                errorLogger = value;
             }
         }
 
-        private ILog javascriptAuditoryLogger;
-        internal ILog JavascriptAuditoryLogger
+        private ILog auditoryLogger;
+        internal ILog AuditoryLogger
         {
             get
             {
-                if (javascriptAuditoryLogger == null)
+                if (auditoryLogger == null)
                 {
-                    ThreadContext.Properties["LogName"] = "ClientSide";
-                    javascriptAuditoryLogger = LogManager.GetLogger("auditoryLog");
-                    //javascriptAuditoryLogger.Logger.Repository.Properties["LogName"] = "ClientSide";
+                    auditoryLogger = LogManager.GetLogger("auditoryLog");
                 }
 
-                return javascriptAuditoryLogger;
+                return auditoryLogger;
             }
             set
             {
-                javascriptAuditoryLogger = value;
+                auditoryLogger = value;
             }
         }
 
@@ -59,17 +56,27 @@ namespace NoMeOlvides.WebApis
         {
         }
 
-        public void Write(LogEntry[] dataMessage)
+        public void Write(LogEntryViewModel[] dataMessage)
         {
             if (IsNoDataMessage(dataMessage))
             {
-                JavascriptErrorLogger.Error(Locale.log4JavascriptNullMessage);
+                ErrorLogger.Error(Locale.log4JavascriptNullMessage);
             }
             else
             {
+                SetAllMessageLogTypesToClientSideValue(dataMessage);
+
                 LogEntry firstDataMessage = dataMessage.First();
 
                 LogDataMessage(dataMessage, firstDataMessage);
+            }
+        }
+
+        private void SetAllMessageLogTypesToClientSideValue(LogEntryViewModel[] dataMessage)
+        {
+            foreach (var message in dataMessage)
+            {
+                message.MessageLogType = MessageLogType.ClientSide;
             }
         }
 
@@ -77,15 +84,15 @@ namespace NoMeOlvides.WebApis
         {
             if (IsDebugLevel(firstDataMessage))
             {
-                JavascriptAuditoryLogger.Debug(dataMessage);
+                AuditoryLogger.Debug(dataMessage);
             }
             else if (IsWarmLevel(firstDataMessage))
             {
-                JavascriptErrorLogger.Warn(dataMessage);
+                ErrorLogger.Warn(dataMessage);
             }
             else if (IsFatalLevel(firstDataMessage))
             {
-                JavascriptErrorLogger.Fatal(dataMessage);
+                ErrorLogger.Fatal(dataMessage);
             }
             else
             {
@@ -103,7 +110,7 @@ namespace NoMeOlvides.WebApis
         {
             if (IsErrorLevel(firstDataMessage))
             {
-                JavascriptErrorLogger.Error(dataMessage);
+                ErrorLogger.Error(dataMessage);
             }
         }
 
@@ -111,7 +118,7 @@ namespace NoMeOlvides.WebApis
         {
             if (IsInfoLevel(firstDataMessage))
             {
-                JavascriptAuditoryLogger.Info(dataMessage);
+                AuditoryLogger.Info(dataMessage);
             }
         }
 
