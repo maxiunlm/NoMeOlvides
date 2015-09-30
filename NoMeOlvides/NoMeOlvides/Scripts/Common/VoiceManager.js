@@ -1,4 +1,11 @@
-﻿var VoiceManager = function (translate, autoStart) {
+﻿var onUndeclared = function (exception) { // TODO: TDD !!!!!!!!!!!!!!!
+    // You will have to override this method if you want to do something
+    // TODO: Ver manejo de errores !!!!!!!!!!!!!11111
+    var message = 'Impossible to load "VoiceManager" module. Reason:\n';
+    console.log(message, exception);
+};
+
+var VoiceManager = function (translate, autoStart) {
     if(!translate) {
         throw new Error('"translate" attribute unassigned.\nAtributo "translate" sin asignar.');
     }
@@ -11,19 +18,32 @@
     this.voiceForm = new VoiceForm();
 
     if (!('webkitSpeechRecognition' in window)) {
-        this.onUndeclared();
+        onUndeclared('You need to use Chrome browser for that.');
     } else if (autoStart) {
         this.recognizing = true;
     }
 };
-VoiceManager.prototype = Object.create(webkitSpeechRecognition.prototype);
+
+try { // TODO: TDD !!! no funciona en Firefox !!!!!!!!!!!!!!!1
+    VoiceManager.prototype = Object.create(webkitSpeechRecognition.prototype);
+} catch (e) {
+    if(e instanceof ReferenceError || !('webkitSpeechRecognition' in window)) {
+        onUndeclared(e);
+    }
+    else {
+        // TODO: Ver manejo de errores !!!!!!!!!!!!!11111
+        var message = 'Impossible to load "VoiceManager" module by unknown reason.';
+        console(message, e);
+        alert(message);
+    }
+}
+
 VoiceManager.constructor = VoiceManager;
+
 VoiceManager.prototype.showInfo = function (info) {
     // You will have to override this method if you want to do something
 };
-VoiceManager.prototype.onUndeclared = function () {
-    // You will have to override this method if you want to do something
-};
+
 VoiceManager.prototype.onresult = function (event) {
     var command = event.results[event.results.length - 1][0].transcript;
 

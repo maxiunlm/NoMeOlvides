@@ -1,4 +1,16 @@
 ﻿//(function () { // Trae problemas para el TDD !!!
+
+var formFields = [
+        { "Description": "Alias", "TranslateKey": "alias" },
+        { "Description": "Name", "TranslateKey": "name" },
+        { "Description": "Surname", "TranslateKey": "surname" },
+        { "Description": "Email", "TranslateKey": "email" },
+        { "Description": "Phone", "TranslateKey": "phone" },
+        { "Description": "Cellphone", "TranslateKey": "cellphone" },
+        { "Description": "Address", "TranslateKey": "address" },
+        { "Description": "Password", "TranslateKey": "password" }
+];
+
 var auditManager = new AuditManager(3, 'genericRetryMessage');
 
 function invocationCallback(invocation) {
@@ -40,9 +52,15 @@ app.controller('CreateAction', ['$scope', '$location', '$http', function ($scope
     $scope.http = $http;
     $scope.isForm = true;
     $scope.Contact = { };
+    $scope.formFields = formFields;
+
+    // TODO: Poner aqui el Google Speach HACER TDD!!!!!!!!!!!!!!!!!!!!!
+    $scope.translateProvider = myTranslations.translateProvider;
+    $scope.VoiceManager = new VoiceManager($scope.translateProvider, true);
+
 
     $scope.Create = function () {
-        throw new Error("What error!!!");
+        //throw new Error("What error!!!");
         $scope.http.post(applicationNamePath + 'WebApi/ContactApi', $scope.Contact)
             .success($scope.onCreateSuccess)
             .error(ErrorManager.getInstance().onGenealErrorEvent);

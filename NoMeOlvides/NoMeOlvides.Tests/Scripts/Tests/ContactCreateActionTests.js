@@ -14,6 +14,9 @@
 /// <reference path='Fixture/ContactCreateFixture.js' />
 /// <reference path="Fixture/AuditManagerCommonFixture.js" />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/App.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/Common/TranslateProvider.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/Contact/VoiceForm.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/Contact/VoiceManager.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/CRUD.js' />
 
 describe('ContactController - CreateAction - ', function () {
@@ -74,6 +77,13 @@ describe('ContactController - CreateAction - ', function () {
             $controller = controller('CreateAction', { $scope: $scope });
 
             expect(jQuery.aop.around).toHaveBeenCalledWith({ target: $scope, method: 'Create' }, invocationCallback);
+        });
+
+        it('Instance the "$scope.formFields" array', function () {
+
+
+            expect($scope.formFields).toBeDefined();
+            expect($scope.formFields instanceof Array).toBeTruthy();
         });
     });
 
