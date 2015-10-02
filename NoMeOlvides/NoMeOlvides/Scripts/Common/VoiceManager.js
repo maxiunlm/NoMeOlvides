@@ -14,7 +14,12 @@ var VoiceManager = function (translate, autoStart) {
     this.recognizing = false;
     this.continuous = true;
     this.interimResults = true;
-    this.lang = translate.preferredLanguage() || 'en';
+    try {// TODO: TDD!!!
+        this.lang = translate.preferredLanguage() || 'en';
+    } catch (e) {
+        console.log('Error on VoiceManager when is doing translate.preferredLanguage()', e);
+        this.lang = 'en';
+    }
     this.voiceForm = new VoiceForm();
 
     if (!('webkitSpeechRecognition' in window)) {
@@ -24,8 +29,9 @@ var VoiceManager = function (translate, autoStart) {
     }
 };
 
-try { // TODO: TDD !!! no funciona en Firefox !!!!!!!!!!!!!!!1
-    VoiceManager.prototype = Object.create(webkitSpeechRecognition.prototype);
+try { // TODO: TDD !!!
+    VoiceManager.prototype = Object.create(webkitSpeechRecognition.prototype.__proto__);
+    VoiceManager.constructor = VoiceManager;
 } catch (e) {
     if(e instanceof ReferenceError || !('webkitSpeechRecognition' in window)) {
         onUndeclared(e);
@@ -37,8 +43,6 @@ try { // TODO: TDD !!! no funciona en Firefox !!!!!!!!!!!!!!!1
         alert(message);
     }
 }
-
-VoiceManager.constructor = VoiceManager;
 
 VoiceManager.prototype.showInfo = function (info) {
     // You will have to override this method if you want to do something
