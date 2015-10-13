@@ -15,8 +15,8 @@
 /// <reference path="Fixture/AuditManagerCommonFixture.js" />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/App.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Common/TranslateProvider.js' />
-/// <reference path='../../../NoMeOlvides/Scripts/Contact/VoiceForm.js' />
-/// <reference path='../../../NoMeOlvides/Scripts/Contact/VoiceManager.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/Common/VoiceForm.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/Common/VoiceManager.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/CRUD.js' />
 
 describe('ContactController - CreateAction - ', function () {
