@@ -1,4 +1,6 @@
-﻿/// <reference path='../../../NoMeOlvides/Scripts/underscore.js' />
+﻿/// <reference path="../../../nomeolvides/scripts/jquery-2.1.4.js" />
+/// <reference path="../../../nomeolvides/scripts/jquery-migrate-1.2.1.js" />
+/// <reference path='../../../NoMeOlvides/Scripts/underscore.js' />
 //         / <reference path='../../../NoMeOlvides/Scripts/angular.js' />
 /// <reference path='Fixture/CommonFixture.js' />
 /// <reference path='Fixture/VoiceFormFixture.js' />
@@ -11,6 +13,17 @@ describe('VoiceManager - ', function () {
 
     beforeEach(function () { });
 
+    describe('GLOBALS - ', function () {
+
+
+        it('Global method "onUndeclared" is defined', function () {
+
+
+            expect(onUndeclared).toBeDefined();
+            expect(_.isFunction(onUndeclared)).toBeTruthy();
+        });
+    });
+
     describe('CONSTRUCTOR - ', function () {
         beforeEach(function () {
             sut = new VoiceManager(translateFake);
@@ -19,7 +32,12 @@ describe('VoiceManager - ', function () {
         it('inherits of "webkitSpeechRecognition"', function () {
 
 
-            expect((sut.prototype || sut.__proto__) instanceof webkitSpeechRecognition).toBeTruthy()
+
+            if ($.browser.webkit && navigator.userAgent.indexOf('PhantomJS') == -1) {
+                expect((sut.prototype || sut.__proto__) instanceof webkitSpeechRecognition).toBeTruthy();
+            } else {
+                expect((sut.prototype || sut.__proto__) instanceof webkitSpeechRecognition).toBeFalsy();
+            }
         });
 
         it('the constructor is of "VoiceManager" type', function () {
@@ -33,13 +51,6 @@ describe('VoiceManager - ', function () {
 
             expect(sut.showInfo).toBeDefined();
             expect(_.isFunction(sut.showInfo)).toBeTruthy()
-        });
-
-        it('Overwritable method "onUndeclared" is defined', function () {
-
-
-            expect(sut.onUndeclared).toBeDefined();
-            expect(_.isFunction(sut.onUndeclared)).toBeTruthy()
         });
 
         it('Without "autoStart" parameter initializa attributes', function () {
@@ -100,19 +111,17 @@ describe('VoiceManager - ', function () {
             expect(sut.lang).toEqual(englishLanguage);
         });
 
-        // TODO: No functiona !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //////it('If "webkitSpeechRecognition" is not declared in "window" invokes "onUndeclared" method', function () {
-        //////    var onUndeclaredCalled = false;
         //////    VoiceManager.prototype = Object.create(emptyObjectFake.prototype);
         //////    VoiceManager.constructor = VoiceManager;
         //////    VoiceManager.prototype.onUndeclared = function () { };
-        //////    spyOn(VoiceManager.prototype, 'onUndeclared').and.callFake(function () {
+        //////    spyOn(window, 'onUndeclared').and.callFake(function () {
         //////        onUndeclaredCalled = true;
         //////    });
 
         //////    sut = new VoiceManager();
 
-        //////    expect(VoiceManager.prototype.onUndeclared).toHaveBeenCalled();
+        //////    expect(window.prototype.onUndeclared).toHaveBeenCalled();
         //////    VoiceManager.prototype = Object.create(webkitSpeechRecognition.prototype);
         //////    VoiceManager.constructor = VoiceManager;
         //////});

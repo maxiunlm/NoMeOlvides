@@ -1,4 +1,4 @@
-﻿var onUndeclared = function (exception) { // TODO: TDD !!!!!!!!!!!!!!!
+﻿var onUndeclared = function (exception) {
     // You will have to override this method if you want to do something
     // TODO: Ver manejo de errores !!!!!!!!!!!!!11111
     var message = 'Impossible to load "VoiceManager" module. Reason:\n';
