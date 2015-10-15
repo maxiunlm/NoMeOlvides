@@ -34,9 +34,9 @@ describe('VoiceManager - ', function () {
 
 
             if ($.browser.webkit && navigator.userAgent.indexOf('PhantomJS') == -1) {
-                expect((sut.prototype || sut.__proto__) instanceof webkitSpeechRecognition).toBeTruthy();
+                expect(sut instanceof webkitSpeechRecognition.__proto__).toBeTruthy();
             } else {
-                expect((sut.prototype || sut.__proto__) instanceof webkitSpeechRecognition).toBeFalsy();
+                expect(sut instanceof webkitSpeechRecognition).toBeFalsy();
             }
         });
 
@@ -111,41 +111,54 @@ describe('VoiceManager - ', function () {
             expect(sut.lang).toEqual(englishLanguage);
         });
 
-        //////it('If "webkitSpeechRecognition" is not declared in "window" invokes "onUndeclared" method', function () {
-        //////    VoiceManager.prototype = Object.create(emptyObjectFake.prototype);
-        //////    VoiceManager.constructor = VoiceManager;
-        //////    VoiceManager.prototype.onUndeclared = function () { };
-        //////    spyOn(window, 'onUndeclared').and.callFake(function () {
-        //////        onUndeclaredCalled = true;
-        //////    });
+        describe('onresult - ', function () {
+            beforeEach(function () {
+                sut = new VoiceManager(translateFake);
+            });
 
-        //////    sut = new VoiceManager();
+            it('With an event result invokes "VoiceForm.evalCommand" method with the "command"', function () {
+                spyOn(sut.voiceForm, 'evalCommand').and.callFake(function (command) { });
 
-        //////    expect(window.prototype.onUndeclared).toHaveBeenCalled();
-        //////    VoiceManager.prototype = Object.create(webkitSpeechRecognition.prototype);
-        //////    VoiceManager.constructor = VoiceManager;
-        //////});
-    });
+                sut.onresult(eventFake);
 
-    describe('onresult - ', function () {
-        beforeEach(function () {
+                expect(sut.voiceForm.evalCommand).toHaveBeenCalledWith(correctCommand);
+            });
+
+            it('With an event result invokes "showInfo" method with the "command" text', function () {
+                spyOn(sut, 'showInfo').and.callFake(function (command) { });
+
+                sut.onresult(eventFake);
+
+                expect(sut.showInfo).toHaveBeenCalledWith(correctCommand);
+            });
+        });
+
+        it('If "webkitSpeechRecognition" is not declared in "window" invokes "onUndeclared" method', function () {
+            if ($.browser.webkit && navigator.userAgent.indexOf('PhantomJS') != -1) {
+                window.webkitSpeechRecognition = undefined;
+            }
+            VoiceManager.prototype = Object.create(emptyObjectFake.prototype);
+            VoiceManager.constructor = VoiceManager;
+            spyOn(window, 'onUndeclared').and.callFake(function () {
+                onUndeclaredCalled = true;
+            });
+
             sut = new VoiceManager(translateFake);
-        });
 
-        it('With an event result invokes "VoiceForm.evalCommand" method with the "command"', function () {
-            spyOn(sut.voiceForm, 'evalCommand').and.callFake(function (command) { });
+            if ($.browser.webkit && navigator.userAgent.indexOf('PhantomJS') == -1) {
+                expect(window.onUndeclared).not.toHaveBeenCalled();
+            } else {
+                expect(window.onUndeclared).toHaveBeenCalled();
+            }
 
-            sut.onresult(eventFake);
-
-            expect(sut.voiceForm.evalCommand).toHaveBeenCalledWith(correctCommand);
-        });
-
-        it('With an event result invokes "showInfo" method with the "command" text', function () {
-            spyOn(sut, 'showInfo').and.callFake(function (command) { });
-
-            sut.onresult(eventFake);
-
-            expect(sut.showInfo).toHaveBeenCalledWith(correctCommand);
+            webkitSpeechRecognition = function () { };
+            if ($.browser.webkit && navigator.userAgent.indexOf('PhantomJS') == -1) {
+                webkitSpeechRecognition.prototype = Object.create(webkitSpeechRecognitionFake.prototype);
+            } else {
+                webkitSpeechRecognition.prototype = Object.create(webkitSpeechRecognitionFake.prototype);
+            }
+            VoiceManager.prototype = Object.create(webkitSpeechRecognition.prototype.__proto__);
+            VoiceManager.constructor = VoiceManager;
         });
     });
 });

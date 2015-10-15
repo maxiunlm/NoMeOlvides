@@ -22,7 +22,8 @@ var VoiceManager = function (translate, autoStart) {
     }
     this.voiceForm = new VoiceForm();
 
-    if (!('webkitSpeechRecognition' in window)) {
+    //if (!('webkitSpeechRecognition' in window) ||
+    if (!window.webkitSpeechRecognition) {
         onUndeclared('You need to use Chrome browser for that.');
     } else if (autoStart) {
         this.recognizing = true;
