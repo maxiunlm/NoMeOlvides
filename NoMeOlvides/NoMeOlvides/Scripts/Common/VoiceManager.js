@@ -14,12 +14,14 @@ var VoiceManager = function (translate, autoStart) {
     this.recognizing = false;
     this.continuous = true;
     this.interimResults = true;
-    try {// TODO: TDD!!!
+
+    try {
         this.lang = translate.preferredLanguage() || 'en';
     } catch (e) {
         console.log('Error on VoiceManager when is doing translate.preferredLanguage()', e);
         this.lang = 'en';
     }
+
     this.voiceForm = new VoiceForm();
 
     //if (!('webkitSpeechRecognition' in window) ||
@@ -30,19 +32,20 @@ var VoiceManager = function (translate, autoStart) {
     }
 };
 
-try { // TODO: TDD !!!
+try {
     VoiceManager.prototype = Object.create(webkitSpeechRecognition.prototype.__proto__);
-    VoiceManager.constructor = VoiceManager;
-} catch (e) {
-    if(e instanceof ReferenceError || !('webkitSpeechRecognition' in window)) {
+} catch (e) { // TODO: TDD !!!
+    if(e instanceof ReferenceError || !window.webkitSpeechRecognition) {//!('webkitSpeechRecognition' in window)) {
         onUndeclared(e);
     }
     else {
         // TODO: Ver manejo de errores !!!!!!!!!!!!!11111
         var message = 'Impossible to load "VoiceManager" module by unknown reason.';
-        console(message, e);
+        console.log(message, e);
         alert(message);
     }
+} finally {
+    VoiceManager.constructor = VoiceManager;
 }
 
 VoiceManager.prototype.showInfo = function (info) {

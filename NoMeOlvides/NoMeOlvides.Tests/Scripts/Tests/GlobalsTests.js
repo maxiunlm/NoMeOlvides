@@ -2,6 +2,7 @@
 /// <reference path="../../../NoMeOlvides/Scripts/log4javascript.js" />
 /// <reference path="../../../NoMeOlvides/Scripts/aop.js" />
 /// <reference path="../../../NoMeOlvides/Scripts/Common/AuditManager.js" />
+/// <reference path="../../../NoMeOlvides/Scripts/Common/Globals.js" />
 /// <reference path='Fixture/CommonFixture.js' />
 /// <reference path="Fixture/AuditManagerCommonFixture.js" />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/CRUD.js' />
@@ -11,47 +12,43 @@ describe('Globals - ', function () {
         spyOn(console, 'log').and.callFake(function () { });
     });
 
-    describe('CRUD.js  - ', function () {
+    describe('AuditManager - ', function () {
         beforeEach(function () { });
 
-        describe('AuditManager - ', function () {
-            beforeEach(function () { });
-
-            it('The global object "auditManager" must be declared', function () {
+        it('The global object "auditManager" must be declared', function () {
 
 
-                expect(auditManager).toBeDefined();
-                expect(auditManager instanceof AuditManager).toBeTruthy();
-            });
+            expect(auditManager).toBeDefined();
+            expect(auditManager instanceof AuditManager).toBeTruthy();
+        });
+    });
+
+    describe('invocationCallback - ', function () {
+        beforeEach(function () {
+            auditManager = new AuditManager();
         });
 
-        describe('invocationCallback - ', function () {
-            beforeEach(function () {
-                auditManager = new AuditManager();
-            });
+        it('Without an AuditManager instanced object throws an exception', function () {
+            auditManager = undefined;
 
-            it('Without an AuditManager instanced object throws an exception', function () {
-                auditManager = undefined;
+            expect(function () { invocationCallback(invocationEmpty) }).toThrowError(TypeError);
 
-                expect(function () { invocationCallback(invocationEmpty) }).toThrowError(TypeError);
+        });
 
-            });
+        it('With an AuditManager instanced object invokes "auditManager.aroundLogEvent" method', function () {
+            spyOn(AuditManager.prototype, 'aroundLogEvent').and.callThrough();
 
-            it('With an AuditManager instanced object invokes "auditManager.aroundLogEvent" method', function () {
-                spyOn(AuditManager.prototype, 'aroundLogEvent').and.callThrough();
+            invocationCallback(invocationEmpty);
 
-                invocationCallback(invocationEmpty);
+            expect(AuditManager.prototype.aroundLogEvent).toHaveBeenCalledWith(invocationEmpty);
+        });
 
-                expect(AuditManager.prototype.aroundLogEvent).toHaveBeenCalledWith(invocationEmpty);
-            });
+        it('Invokes "auditManager.aroundLogEvent" method for "initializeGlobalVariables"', function () {
+            spyOn(AuditManager.prototype, 'aroundLogEvent').and.callThrough();
 
-            it('Invokes "auditManager.aroundLogEvent" method for "initializeGlobalVariables"', function () {
-                spyOn(AuditManager.prototype, 'aroundLogEvent').and.callThrough();
+            invocationCallback(invocationEmpty);
 
-                invocationCallback(invocationEmpty);
-
-                expect(AuditManager.prototype.aroundLogEvent).toHaveBeenCalledWith(jasmine.any(Object));
-            });
+            expect(AuditManager.prototype.aroundLogEvent).toHaveBeenCalledWith(jasmine.any(Object));
         });
     });
 });

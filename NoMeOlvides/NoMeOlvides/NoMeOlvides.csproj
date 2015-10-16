@@ -218,6 +218,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Common\AuditManager.js" />
     <Content Include="Scripts\Common\ErrorManager.js" />
+    <Content Include="Scripts\Common\Globals.js" />
     <Content Include="Scripts\Common\TranslateProvider.js" />
     <Content Include="Scripts\Common\VoiceManager.js" />
     <Content Include="Scripts\Contact\App.js" />

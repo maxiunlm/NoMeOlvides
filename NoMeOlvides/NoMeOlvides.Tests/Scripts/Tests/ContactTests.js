@@ -14,6 +14,7 @@
 /// <reference path='Fixture/ContactCommonFixture.js' />
 /// <reference path='Fixture/ContactCreateFixture.js' />
 /// <reference path="Fixture/AuditManagerCommonFixture.js" />
+/// <reference path="../../../NoMeOlvides/Scripts/Common/Globals.js" />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/App.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Common/TranslateProvider.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/CRUD.js' />

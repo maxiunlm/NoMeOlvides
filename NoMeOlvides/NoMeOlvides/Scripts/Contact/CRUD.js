@@ -11,11 +11,6 @@ var formFields = [
         { "Description": "Password", "TranslateKey": "password" }
 ];
 
-var auditManager = new AuditManager(3, 'genericRetryMessage');
-
-function invocationCallback(invocation) {
-    auditManager.aroundLogEvent(invocation);
-};
 
 app.controller('ContactController', ['$scope', function ($scope, $http) {
     $scope.initializeGlobalVariables = function () {

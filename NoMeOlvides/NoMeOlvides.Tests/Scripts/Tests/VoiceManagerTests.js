@@ -2,6 +2,7 @@
 /// <reference path="../../../nomeolvides/scripts/jquery-migrate-1.2.1.js" />
 /// <reference path='../../../NoMeOlvides/Scripts/underscore.js' />
 //         / <reference path='../../../NoMeOlvides/Scripts/angular.js' />
+/// <reference path="../../../NoMeOlvides/Scripts/log4javascript.js" />
 /// <reference path='Fixture/CommonFixture.js' />
 /// <reference path='Fixture/VoiceFormFixture.js' />
 /// <reference path='Fixture/VoiceManagerFixture.js' />
@@ -89,6 +90,24 @@ describe('VoiceManager - ', function () {
             sut = new VoiceManager(translateFake);
 
             expect(translateFake.preferredLanguage).toHaveBeenCalled();
+        });
+
+        it('With an asigned language invokes the "translate.preferredLanguage" method throws an exception and call "console.log"', function () {
+            spyOn(translateFake, 'preferredLanguage').and.throwError(exception);
+            spyOn(console, 'log').and.callFake(function (message, exception) { });
+
+            sut = new VoiceManager(translateFake);
+
+            expect(console.log).toHaveBeenCalledWith('Error on VoiceManager when is doing translate.preferredLanguage()', exception);
+        });
+
+        it('With an asigned language invokes the "translate.preferredLanguage" method throws an exception but the final language is "englishLanguage"', function () {
+            spyOn(translateFake, 'preferredLanguage').and.throwError(exception);
+            spyOn(console, 'log').and.callFake(function (message, exception) { });
+
+            sut = new VoiceManager(translateFake);
+
+            expect(sut.lang).toEqual(englishLanguage);
         });
 
         it('With an asigned language calls the "translate.preferredLanguage" method that returns "argentineSpanishLanguage"', function () {
