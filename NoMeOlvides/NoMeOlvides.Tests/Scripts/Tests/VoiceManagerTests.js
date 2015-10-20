@@ -6,6 +6,8 @@
 /// <reference path='Fixture/CommonFixture.js' />
 /// <reference path='Fixture/VoiceFormFixture.js' />
 /// <reference path='Fixture/VoiceManagerFixture.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/Common/AuditManager.js' />
+/// <reference path='../../../NoMeOlvides/Scripts/Common/Globals.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Common/VoiceForm.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Common/VoiceManager.js' />
 
@@ -15,13 +17,81 @@ describe('VoiceManager - ', function () {
     beforeEach(function () { });
 
     describe('GLOBALS - ', function () {
+        beforeEach(function () {
+            auditManager = new AuditManager(3, 'genericRetryMessage');
+        });
+
+        it('Global method "onVoiceManagerException" is defined', function () {
 
 
-        it('Global method "onUndeclared" is defined', function () {
+            expect(onVoiceManagerException).toBeDefined();
+            expect(_.isFunction(onVoiceManagerException)).toBeTruthy();
+        });
+
+        it('Calls "onVoiceManagerException" with an undefined "auditManager" object then throws an exception', function () {
+            auditManager = undefined;
+
+            expect(function () { onVoiceManagerException(); }).toThrowError(TypeError);
+
+        });
+
+        it('Calls "onVoiceManagerException" with an nulled "auditManager" object then throws an exception', function () {
+            auditManager = null;
+
+            expect(function () { onVoiceManagerException(); }).toThrowError(TypeError);
+
+        });
+
+        it('On "onVoiceManagerException" method invokes "auditManager.logFormattedDataToServer" with an exception parameter', function () {
+            spyOn(auditManager, 'logFormattedDataToServer').and.callFake(function (message, objectParam, messageType) { });
+
+            onVoiceManagerException(exception);
+
+            expect(auditManager.logFormattedDataToServer).toHaveBeenCalledWith('Impossible to load "VoiceManager" module. Reason:\n', exception, 'ERROR');
+        });
 
 
-            expect(onUndeclared).toBeDefined();
-            expect(_.isFunction(onUndeclared)).toBeTruthy();
+        it('On "onVoiceManagerException" method invokes "auditManager.logFormattedDataToServer" with a message parameter', function () {
+            spyOn(auditManager, 'logFormattedDataToServer').and.callFake(function (message, objectParam, messageType) { });
+
+            onVoiceManagerException(undefined, errorMessage1);
+
+            expect(auditManager.logFormattedDataToServer).toHaveBeenCalledWith(errorMessage1, undefined, 'ERROR');
+        });
+
+        it('On "onVoiceManagerException" method invokes "auditManager.logFormattedDataToServer" with all the parameters', function () {
+            spyOn(auditManager, 'logFormattedDataToServer').and.callFake(function (message, objectParam, messageType) { });
+
+            onVoiceManagerException(exception, errorMessage1);
+
+            expect(auditManager.logFormattedDataToServer).toHaveBeenCalledWith(errorMessage1, exception, 'ERROR');
+        });
+
+        it('On "onVoiceManagerPrototypeException" method invokes "onVoiceManagerException" with the same exception', function () {
+            spyOn(window, 'onVoiceManagerException').and.callFake(function (exception) { });
+            spyOn(window, 'alert').and.callFake(function (message) { });
+
+            onVoiceManagerPrototypeException(exception);
+
+            expect(window.onVoiceManagerException).toHaveBeenCalledWith(exception, 'Impossible to load "VoiceManager" module by unknown reason.');
+        });
+
+        it('On "onVoiceManagerPrototypeException" method invokes "onVoiceManagerException" without an exception', function () {
+            spyOn(window, 'onVoiceManagerException').and.callFake(function (exception) { });
+            spyOn(window, 'alert').and.callFake(function (message) { });
+
+            onVoiceManagerPrototypeException(undefined);
+
+            expect(window.onVoiceManagerException).toHaveBeenCalledWith(undefined, 'Impossible to load "VoiceManager" module by unknown reason.');
+        });
+
+        it('On "onVoiceManagerPrototypeException" method invokes "alert" without a default message', function () {
+            spyOn(window, 'onVoiceManagerException').and.callFake(function (exception, message) { });
+            spyOn(window, 'alert').and.callFake(function (message) { });
+
+            onVoiceManagerPrototypeException(undefined);
+
+            expect(window.alert).toHaveBeenCalledWith('Impossible to load "VoiceManager" module by unknown reason.');
         });
     });
 
@@ -152,22 +222,22 @@ describe('VoiceManager - ', function () {
             });
         });
 
-        it('If "webkitSpeechRecognition" is not declared in "window" invokes "onUndeclared" method', function () {
+        it('If "webkitSpeechRecognition" is not declared in "window" invokes "onVoiceManagerException" method', function () {
             if ($.browser.webkit && navigator.userAgent.indexOf('PhantomJS') != -1) {
                 window.webkitSpeechRecognition = undefined;
             }
             VoiceManager.prototype = Object.create(emptyObjectFake.prototype);
             VoiceManager.constructor = VoiceManager;
-            spyOn(window, 'onUndeclared').and.callFake(function () {
-                onUndeclaredCalled = true;
+            spyOn(window, 'onVoiceManagerException').and.callFake(function () {
+                onVoiceManagerExceptionCalled = true;
             });
 
             sut = new VoiceManager(translateFake);
 
             if ($.browser.webkit && navigator.userAgent.indexOf('PhantomJS') == -1) {
-                expect(window.onUndeclared).not.toHaveBeenCalled();
+                expect(window.onVoiceManagerException).not.toHaveBeenCalled();
             } else {
-                expect(window.onUndeclared).toHaveBeenCalled();
+                expect(window.onVoiceManagerException).toHaveBeenCalled();
             }
 
             webkitSpeechRecognition = function () { };

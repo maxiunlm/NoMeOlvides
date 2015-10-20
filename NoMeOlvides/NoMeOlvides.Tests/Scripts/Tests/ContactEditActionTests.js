@@ -164,7 +164,7 @@ describe('ContactController - EditAction - ', function () {
 
             $scope.onEditSuccess(httpDataResultOk);
 
-            expect($scope.transactionSuccessMessage).toEqual('transactionSuccessMessage'); // TODO: VER !!! 'Your operation was successful');
+            expect($scope.transactionSuccessMessage).toEqual('transactionSuccessMessage');
             expect($scope.Errors.HasError).toEqual(false);
             expect($scope.Errors.Messages.length).toEqual(emptyItemsCount);
         });

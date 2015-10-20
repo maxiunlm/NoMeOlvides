@@ -22,6 +22,8 @@ describe('loadTranslations - ', function () {
 
                 expect(sut.angular).toBeDefined();
                 expect(sut.app).toBeDefined();
+                expect(sut.obj).toBeDefined();
+                expect(sut.translateProvider).toBeDefined();
             });
         });
 
@@ -153,6 +155,13 @@ describe('loadTranslations - ', function () {
 
                 expect(function () { sut.configureApp() }).toThrowError(TypeError);
 
+            });
+
+            it('With "$translateProvider" assign "this.translateProvider" attribute', function () {
+
+                sut.configureApp(translateProvider);
+
+                expect(sut.translateProvider).toEqual(translateProvider);
             });
 
             it('With "$translateProvider" invokes "useStaticFilesLoader" method', function () {

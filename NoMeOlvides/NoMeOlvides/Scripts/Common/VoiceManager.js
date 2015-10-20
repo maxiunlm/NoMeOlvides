@@ -1,12 +1,18 @@
-﻿var onUndeclared = function (exception) {
-    // You will have to override this method if you want to do something
-    // TODO: Ver manejo de errores !!!!!!!!!!!!!11111
-    var message = 'Impossible to load "VoiceManager" module. Reason:\n';
-    console.log(message, exception);
-};
+﻿function onVoiceManagerException(exception, message) {
+    message = message || 'Impossible to load "VoiceManager" module. Reason:\n';
+
+    auditManager.logFormattedDataToServer(message, exception, 'ERROR');
+}
+
+function onVoiceManagerPrototypeException(exception) {
+    var message = 'Impossible to load "VoiceManager" module by unknown reason.';
+
+    onVoiceManagerException(exception, message);
+    alert(message);
+}
 
 var VoiceManager = function (translate, autoStart) {
-    if(!translate) {
+    if (!translate) {
         throw new Error('"translate" attribute unassigned.\nAtributo "translate" sin asignar.');
     }
 
@@ -26,7 +32,7 @@ var VoiceManager = function (translate, autoStart) {
 
     //if (!('webkitSpeechRecognition' in window) ||
     if (!window.webkitSpeechRecognition) {
-        onUndeclared('You need to use Chrome browser for that.');
+        onVoiceManagerException('You need to use Chrome browser for that.');
     } else if (autoStart) {
         this.recognizing = true;
     }
@@ -34,15 +40,12 @@ var VoiceManager = function (translate, autoStart) {
 
 try {
     VoiceManager.prototype = Object.create(webkitSpeechRecognition.prototype.__proto__);
-} catch (e) { // TODO: TDD !!!
-    if(e instanceof ReferenceError || !window.webkitSpeechRecognition) {//!('webkitSpeechRecognition' in window)) {
-        onUndeclared(e);
+} catch (e) { // TODO: TDD ???!!!
+    if (e instanceof ReferenceError || !window.webkitSpeechRecognition) {//!('webkitSpeechRecognition' in window)) {
+        onVoiceManagerException(e);
     }
     else {
-        // TODO: Ver manejo de errores !!!!!!!!!!!!!11111
-        var message = 'Impossible to load "VoiceManager" module by unknown reason.';
-        console.log(message, e);
-        alert(message);
+        onVoiceManagerPrototypeException(e);
     }
 } finally {
     VoiceManager.constructor = VoiceManager;

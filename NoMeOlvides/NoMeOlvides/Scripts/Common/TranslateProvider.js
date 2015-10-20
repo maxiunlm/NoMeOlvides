@@ -5,7 +5,7 @@ var TranslationsLoader = function (angular, app) {
     this.obj = function () { };
     this.angular = angular;
     this.app = app;
-    this.translateProvider = {}; //TODO: TDD!!!
+    this.translateProvider = {};
 };
 
 TranslationsLoader.prototype.createFactoryResponse = function (options) {
@@ -38,7 +38,7 @@ TranslationsLoader.prototype.configureApp = function ($translateProvider) {
     //});
     //$translateProvider.preferredLanguage('es_AR'); // 'es' for all Spanish
 
-    this.translateProvider = $translateProvider; //TODO: TDD!!!
+    this.translateProvider = $translateProvider;
 
     $translateProvider.useStaticFilesLoader({
         prefix: '/NoMeOlvides/WebApi/TranslationsApi?lang=',

@@ -13,6 +13,8 @@
 /// <reference path='Fixture/ContactCommonFixture.js' />
 /// <reference path='Fixture/ContactCreateFixture.js' />
 /// <reference path="Fixture/AuditManagerCommonFixture.js" />
+/// <reference path='Fixture/VoiceFormFixture.js' />
+/// <reference path='Fixture/VoiceManagerFixture.js' />
 /// <reference path="../../../NoMeOlvides/Scripts/Common/Globals.js" />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/App.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Common/TranslateProvider.js' />
@@ -46,19 +48,18 @@ describe('ContactController - CreateAction - ', function () {
             $scope.Contacts = contactListX1;
 
             //controller('ContactController', { $scope: $scope });
-            $controller = controller('CreateAction', { $scope: $scope });
+            $controller = controller('CreateAction', { $scope: $scope, $http: httpMock});
         }));
 
-        it('Instance a new "$scope.Contact" object', function () {
+        it('Load the "$scope.Contact" object data', function () {
 
 
             expect($scope.Contact).toBeDefined();
-        });
-
-        it('Stablish isForm == TRUE status for the GUI', function () {
-
-
             expect($scope.isForm).toBeTruthy();
+            expect($scope.http).toEqual(httpMock);
+            expect($scope.formFields).toEqual(formFields);
+            expect($scope.translateProvider).toEqual(myTranslations.translateProvider);
+            expect($scope.VoiceManager instanceof VoiceManager).toBeTruthy();
         });
 
         it('Invokes "jQuery.aop.afterThrow" method for "Create"', function () {
@@ -210,7 +211,7 @@ describe('ContactController - CreateAction - ', function () {
 
             expect($scope.Contact.Id).not.toBeUndefined();
             expect($scope.Contact.Id).not.toBeNull();
-            expect($scope.transactionSuccessMessage).toEqual('transactionSuccessMessage'); // TODO: VER !!! 'Your operation was successful');
+            expect($scope.transactionSuccessMessage).toEqual('transactionSuccessMessage');
             expect($scope.Errors.HasError).toEqual(false);
             expect($scope.Errors.Messages.length).toEqual(emptyItemsCount);
         });

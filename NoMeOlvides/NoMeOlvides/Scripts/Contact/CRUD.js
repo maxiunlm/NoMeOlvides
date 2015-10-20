@@ -49,11 +49,10 @@ app.controller('CreateAction', ['$scope', '$location', '$http', function ($scope
     $scope.Contact = { };
     $scope.formFields = formFields;
 
-    // TODO: Poner aqui el Google Speach HACER TDD!!!!!!!!!!!!!!!!!!!!!
     $scope.translateProvider = myTranslations.translateProvider;
     $scope.VoiceManager = new VoiceManager($scope.translateProvider, true);
-
-
+    // TODO: Poner aqui el Google Speach HACER TDD!!!!!!!!!!!!!!!!!!!!!
+    
     $scope.Create = function () {
         //throw new Error("What error!!!");
         $scope.http.post(applicationNamePath + 'WebApi/ContactApi', $scope.Contact)
