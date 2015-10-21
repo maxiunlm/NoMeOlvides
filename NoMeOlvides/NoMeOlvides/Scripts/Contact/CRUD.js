@@ -52,6 +52,7 @@ app.controller('CreateAction', ['$scope', '$location', '$http', function ($scope
     $scope.translateProvider = myTranslations.translateProvider;
     $scope.VoiceManager = new VoiceManager($scope.translateProvider, true);
     // TODO: Poner aqui el Google Speach HACER TDD!!!!!!!!!!!!!!!!!!!!!
+    $scope.VoiceManager.start();
     
     $scope.Create = function () {
         //throw new Error("What error!!!");

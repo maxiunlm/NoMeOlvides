@@ -1,3 +1,5 @@
++ VoiceManager no puede heredar de webkitSpeechRecognition, tiene que agregarlo (FACADE)!!!!!
+
 + Arregle que en el CREATE llegen los datos del Formulario a $scope.Contact
 
 + Revisar TODOs y todo el TDD faltante

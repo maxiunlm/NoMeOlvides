@@ -12,6 +12,7 @@
 /// <reference path='../../../NoMeOlvides/Scripts/Common/VoiceManager.js' />
 
 describe('VoiceManager - ', function () {
+    // TODO: TDD !!! VoiceManager no puede heredar de webkitSpeechRecognition, tiene que agregarlo (FACADE)!!!!!
     var sut;
 
     beforeEach(function () { });

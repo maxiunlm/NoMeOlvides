@@ -1,4 +1,5 @@
-﻿/// <reference path='../../../NoMeOlvides/Scripts/angular.js' />
+﻿/// <reference path="../../../NoMeOlvides/Scripts/underscore.js" />
+/// <reference path='../../../NoMeOlvides/Scripts/angular.js' />
 /// <reference path="../../../NoMeOlvides/Scripts/log4javascript.js" />
 /// <reference path='Fixture/CommonFixture.js' />
 /// <reference path='Fixture/AuditManagerCommonFixture.js' />
@@ -30,7 +31,6 @@ describe('AuditManager - ', function () {
         });
 
         it('With parameters initialize the object attributes', function () {
-            //spyOn(log4javascript.prototype, 'AjaxAppender').and.callThrough();
 
             sut = new AuditManager(maxAttemps, retryMessage);
 
@@ -44,7 +44,14 @@ describe('AuditManager - ', function () {
             expect(sut.jsonLayout instanceof log4javascript.JsonLayout).toBeTruthy();
             expect(sut.retryMessage).toEqual(retryMessage);
             expect(sut.logMessageLayout.pattern).toEqual(patternLayout);
-            // TODO: expect(log4javascript.prototype.AjaxAppender).toHaveBeenCalledWith(ajaxAppender); ??? 
+            expect(_.findWhere(sut.logger.getEffectiveAppenders(),
+                function (adapter) {
+                    return adapter instanceof log4javascript.AjaxAppender;
+                })).toBeDefined();
+            expect(_.findWhere(sut.logger.getEffectiveAppenders(),
+                function (adapter) {
+                    return adapter instanceof log4javascript.BrowserConsoleAppender;
+                })).toBeDefined();
         });
 
         it('With the "logMessageLayout" object invokes "setLayout" method from "browserAppender" object', function () {
