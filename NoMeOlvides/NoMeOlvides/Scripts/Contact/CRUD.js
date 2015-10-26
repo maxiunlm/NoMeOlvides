@@ -1,16 +1,26 @@
 ﻿//(function () { // Trae problemas para el TDD !!!
 
+// TODO:  TDD!!!!!!!!!!!!!!!!!!!!!
 var formFields = [
-        { "Description": "Alias", "TranslateKey": "alias" },
-        { "Description": "Name", "TranslateKey": "name" },
-        { "Description": "Surname", "TranslateKey": "surname" },
-        { "Description": "Email", "TranslateKey": "email" },
-        { "Description": "Phone", "TranslateKey": "phone" },
-        { "Description": "Cellphone", "TranslateKey": "cellphone" },
-        { "Description": "Address", "TranslateKey": "address" },
-        { "Description": "Password", "TranslateKey": "password" }
+       { "Id": "Alias", "TranslateKey": "alias", "Description": "Alias" },
+       { "Id": "Name", "TranslateKey": "name", "Description": "Name" },
+       { "Id": "Surname", "TranslateKey": "surname", "Description": "Surname" },
+       { "Id": "Email", "TranslateKey": "email", "Description": "Email" },
+       { "Id": "Phone", "TranslateKey": "phone", "Description": "Phone" },
+       { "Id": "Cellphone", "TranslateKey": "cellphone", "Description": "Cellphone" },
+       { "Id": "Address", "TranslateKey": "address", "Description": "Address" },
+       { "Id": "Password", "TranslateKey": "password", "Description": "Password" }
 ];
-
+//[
+//        { "Description": "Alias", "TranslateKey": "alias" },
+//        { "Description": "", "TranslateKey": "name" },
+//        { "Description": "", "TranslateKey": "surname" },
+//        { "Description": "", "TranslateKey": "email" },
+//        { "Description": "", "TranslateKey": "phone" },
+//        { "Description": "", "TranslateKey": "cellphone" },
+//        { "Description": "", "TranslateKey": "address" },
+//        { "Description": "", "TranslateKey": "password" }
+//];
 
 app.controller('ContactController', ['$scope', function ($scope, $http) {
     $scope.initializeGlobalVariables = function () {
@@ -50,9 +60,9 @@ app.controller('CreateAction', ['$scope', '$location', '$http', function ($scope
     $scope.formFields = formFields;
 
     $scope.translateProvider = myTranslations.translateProvider;
-    $scope.VoiceManager = new VoiceManager($scope.translateProvider, true);
-    // TODO: Poner aqui el Google Speach HACER TDD!!!!!!!!!!!!!!!!!!!!!
-    $scope.VoiceManager.start();
+    // TODO:  TDD!!!!!!!!!!!!!!!!!!!!!
+    $scope.VoiceManager = new VoiceManager($scope.translateProvider, true, formFields);
+    //$scope.VoiceManager.start();
     
     $scope.Create = function () {
         //throw new Error("What error!!!");

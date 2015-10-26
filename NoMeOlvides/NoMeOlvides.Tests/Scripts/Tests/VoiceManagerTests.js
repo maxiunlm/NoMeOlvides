@@ -13,7 +13,7 @@
 
 describe('VoiceManager - ', function () {
     // TODO: TDD !!! VoiceManager no puede heredar de webkitSpeechRecognition, tiene que agregarlo (FACADE)!!!!!
-    var sut;
+     var sut;
 
     beforeEach(function () { });
 

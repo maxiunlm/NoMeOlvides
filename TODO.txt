@@ -1,5 +1,7 @@
 + VoiceManager no puede heredar de webkitSpeechRecognition, tiene que agregarlo (FACADE)!!!!!
 
++ Agregar foto del contacto con la webcam o subida de archivo
+
 + Arregle que en el CREATE llegen los datos del Formulario a $scope.Contact
 
 + Revisar TODOs y todo el TDD faltante
@@ -25,3 +27,9 @@ http://techbrij.com/angularjs-antiforgerytoken-asp-net-mvc
 
 + Integrar la herramienta de reconocimiento de voz
 
++ En VoiceManager revisar:
+1) function upgrade() {
+    start_button.style.visibility = 'hidden';
+    showInfo('info_upgrade');
+}
+2) Mensajeria de errores y/o comandos incorrectos

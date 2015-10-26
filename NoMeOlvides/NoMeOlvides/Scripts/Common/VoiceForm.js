@@ -1,17 +1,9 @@
-﻿var VoiceForm = function () {
+﻿// TODO: TDD !!!
+var VoiceForm = function (translate, fields) {
     //"use strict"; // see strict mode
     //this.thisVoiceForm = this;
-    this.translate;
-    this.fields = [
-        { "Id": "Alias", "TranslateKey": "alias", "Description": "" },
-        { "Id": "Name", "TranslateKey": "name", "Description": "" },
-        { "Id": "Surname", "TranslateKey": "surname", "Description": "" },
-        { "Id": "Email", "TranslateKey": "email", "Description": "" },
-        { "Id": "Phone", "TranslateKey": "phone", "Description": "" },
-        { "Id": "Cellphone", "TranslateKey": "cellphone", "Description": "" },
-        { "Id": "Address", "TranslateKey": "address", "Description": "" },
-        { "Id": "Password", "TranslateKey": "password", "Description": "" }
-    ];
+    this.translate = translate;
+    this.fields = fields;
     this.fillCommand = '';
 }
 
@@ -19,8 +11,8 @@ VoiceForm.prototype.loadDescriptionItemList = function (field, index, list) {
     field.Description = this.translate.instant(field.TranslateKey).toLowerCase();
 };
 
-VoiceForm.prototype.loadCommands = function (translate) {
-    this.fillCommand = translate.instant('fillCommand');
+VoiceForm.prototype.loadCommands = function (translate) { // TODO: TDD !!!
+    this.fillCommand = translate.instant('fillCommand') || 'cargar';
 }
 
 VoiceForm.prototype.loadDataFromTanslate = function (translate) {

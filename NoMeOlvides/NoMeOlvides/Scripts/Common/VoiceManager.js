@@ -11,7 +11,7 @@ function onVoiceManagerPrototypeException(exception) {
     alert(message);
 }
 
-var VoiceManager = function (translate, autoStart) {
+var VoiceManager = function (translate, autoStart, fields) {// TODO: TDD!!!
     if (!translate) {
         throw new Error('"translate" attribute unassigned.\nAtributo "translate" sin asignar.');
     }
@@ -20,36 +20,48 @@ var VoiceManager = function (translate, autoStart) {
     this.recognizing = false;
     this.continuous = true;
     this.interimResults = true;
+    this.fields = fields;// TODO: TDD!!!
 
     try {
-        this.lang = translate.preferredLanguage() || 'en';
+        this.lang = translate.preferredLanguage() || 'es';
     } catch (e) {
         console.log('Error on VoiceManager when is doing translate.preferredLanguage()', e);
-        this.lang = 'en';
+        this.lang = 'es';
     }
-
-    this.voiceForm = new VoiceForm();
 
     //if (!('webkitSpeechRecognition' in window) ||
     if (!window.webkitSpeechRecognition) {
         onVoiceManagerException('You need to use Chrome browser for that.');
     } else if (autoStart) {
+        // TODO: TDD!!!
+        this.recognition = new webkitSpeechRecognition();
+        this.recognition.continuous = true;
+        this.recognition.interimResults = true;
+        this.recognition.lang = this.lang;
+        this.recognition.voiceForm = new VoiceForm(translate, translate);
+        this.recognition.onresult = function (event) {
+            var command = event.results[event.results.length - 1][0].transcript;
+            
+            var voiceForm = new VoiceForm(translate, fields);
+            voiceForm.evalCommand(command);
+        };
+        this.recognition.start();
         this.recognizing = true;
     }
 };
 
-try {
-    VoiceManager.prototype = Object.create(webkitSpeechRecognition.prototype.__proto__);
-} catch (e) { // TODO: TDD ???!!!
-    if (e instanceof ReferenceError || !window.webkitSpeechRecognition) {//!('webkitSpeechRecognition' in window)) {
-        onVoiceManagerException(e);
-    }
-    else {
-        onVoiceManagerPrototypeException(e);
-    }
-} finally {
-    VoiceManager.constructor = VoiceManager;
-}
+//try {
+//    VoiceManager.prototype = Object.create(webkitSpeechRecognition.prototype.__proto__);
+//} catch (e) { // TODO: TDD ???!!!
+//    if (e instanceof ReferenceError || !window.webkitSpeechRecognition) {//!('webkitSpeechRecognition' in window)) {
+//        onVoiceManagerException(e);
+//    }
+//    else {
+//        onVoiceManagerPrototypeException(e);
+//    }
+//} finally {
+//    VoiceManager.constructor = VoiceManager;
+//}
 
 VoiceManager.prototype.showInfo = function (info) {
     // You will have to override this method if you want to do something
