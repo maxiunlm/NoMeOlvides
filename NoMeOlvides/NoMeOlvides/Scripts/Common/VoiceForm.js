@@ -12,7 +12,7 @@ VoiceForm.prototype.loadDescriptionItemList = function (field, index, list) {
 };
 
 VoiceForm.prototype.loadCommands = function (translate) { // TODO: TDD !!!
-    this.fillCommand = translate.instant('fillCommand') || 'cargar';
+    this.fillCommand = translate.instant('fillCommand') || 'cargar'; // NO FUNCIONA !!!!!!!!!!!!!!!!!!!!!!
 }
 
 VoiceForm.prototype.loadDataFromTanslate = function (translate) {

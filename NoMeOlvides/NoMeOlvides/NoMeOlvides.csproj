@@ -1021,6 +1021,11 @@
     <Content Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\underscore.string.js" />
     <Content Include="Scripts\underscore.string.min.js" />
+    <Content Include="Scripts\webcamjs-master\demos\shutter.mp3" />
+    <Content Include="Scripts\webcamjs-master\flash\README.txt" />
+    <Content Include="Scripts\webcamjs-master\webcam.js" />
+    <Content Include="Scripts\webcamjs-master\webcam.min.js" />
+    <Content Include="Scripts\webcamjs-master\webcam.swf" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -1038,6 +1043,9 @@
     <Content Include="Views\Contact\Index.cshtml" />
     <Content Include="Scripts\underscore.min.map" />
     <Content Include="Scripts\version.json" />
+    <Content Include="Scripts\webcamjs-master\demos\shutter.ogg" />
+    <Content Include="Scripts\webcamjs-master\flash\Webcam.as" />
+    <Content Include="Scripts\webcamjs-master\flash\Webcam.fla" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

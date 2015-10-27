@@ -3,8 +3,8 @@
 // TODO:  TDD!!!!!!!!!!!!!!!!!!!!!
 var formFields = [
        { "Id": "Alias", "TranslateKey": "alias", "Description": "Alias" },
-       { "Id": "Name", "TranslateKey": "name", "Description": "Name" },
-       { "Id": "Surname", "TranslateKey": "surname", "Description": "Surname" },
+       { "Id": "Name", "TranslateKey": "name", "Description": "Nombre" },
+       { "Id": "Surname", "TranslateKey": "surname", "Description": "Apellido" },
        { "Id": "Email", "TranslateKey": "email", "Description": "Email" },
        { "Id": "Phone", "TranslateKey": "phone", "Description": "Phone" },
        { "Id": "Cellphone", "TranslateKey": "cellphone", "Description": "Cellphone" },

@@ -37,8 +37,8 @@ var VoiceManager = function (translate, autoStart, fields) {// TODO: TDD!!!
         this.recognition = new webkitSpeechRecognition();
         this.recognition.continuous = true;
         this.recognition.interimResults = true;
-        this.recognition.lang = this.lang;
-        this.recognition.voiceForm = new VoiceForm(translate, translate);
+        this.recognition.lang = 'es-AR';
+        //this.recognition.voiceForm = new VoiceForm(translate, fields);
         this.recognition.onresult = function (event) {
             var command = event.results[event.results.length - 1][0].transcript;
             
