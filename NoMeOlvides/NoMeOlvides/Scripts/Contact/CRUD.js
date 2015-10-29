@@ -61,7 +61,7 @@ app.controller('CreateAction', ['$scope', '$location', '$http', function ($scope
 
     $scope.translateProvider = myTranslations.translateProvider;
     // TODO:  TDD!!!!!!!!!!!!!!!!!!!!!
-    $scope.VoiceManager = new VoiceManager($scope.translateProvider, true, formFields);
+    //$scope.VoiceManager = new VoiceManager($scope.translateProvider, true, formFields);
     //$scope.VoiceManager.start();
     
     $scope.Create = function () {

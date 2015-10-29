@@ -1,6 +1,6 @@
 + VoiceManager no puede heredar de webkitSpeechRecognition, tiene que agregarlo (FACADE)!!!!!
 
-+ Agregar foto del contacto con la webcam o subida de archivo
++ Agregar foto del contacto con la webcam o subida de archivo (Hacer andar la Webcam.js)
 
 + Arregle que en el CREATE llegen los datos del Formulario a $scope.Contact
 
