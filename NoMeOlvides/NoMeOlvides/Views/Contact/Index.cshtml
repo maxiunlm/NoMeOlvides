@@ -13,6 +13,21 @@
     <div class="view-animate-container">
         <div ng-view class="view-animate">...</div>
     </div>
+
+    <div>
+        <div id="my_photo_booth">
+            <div id="my_camera" class="camera_frame"></div>
+            <div id="pre_take_buttons">
+                <input type=button value="Take Snapshot" onClick="previewSnapshot()">
+            </div>
+            <div id="post_take_buttons" style="display:none">
+                <input type=button value="&lt; Take Another" onClick="cancelPreview()">
+                <input type=button value="Save Photo &gt;" onClick="savePhoto()" style="font-weight:bold;">
+            </div>
+        </div>
+        <div id="my_camera_results" class="camera_frame" style="display:none">
+        </div>
+    </div>
 </div>
 @section Scripts {
     @*@Scripts.Render("~/bundles/bootstrap")*@
@@ -41,4 +56,9 @@
     <script type="text/javascript" src="~/Scripts/Common/VoiceForm.js"></script>
     <script type="text/javascript" src="~/Scripts/Common/VoiceManager.js"></script>
     <script type="text/javascript" src="~/Scripts/Contact/CRUD.js"></script>
+
+
+<link href="~/Content/Webcam.css" rel="stylesheet" />
+<script type="text/javascript" src="~/Scripts/webcamjs-master/webcam.min.js"></script>
+<script type="text/javascript" src="~/Scripts/Common/WebcamManager.js"></script>
 }

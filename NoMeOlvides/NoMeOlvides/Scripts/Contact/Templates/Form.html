@@ -62,34 +62,6 @@
     </div>
 </div>
 
-<div>
-    <div id="my_photo_booth">
-        <div id="my_camera" class="camera_frame"></div>
-
-        <!-- A button for taking snaps -->
-        <form>
-            <div id="pre_take_buttons">
-                <!-- This button is shown before the user takes a snapshot -->
-                <input type=button value="Take Snapshot" onClick="previewSnapshot()">
-            </div>
-            <div id="post_take_buttons" style="display:none">
-                <!-- These buttons are shown after a snapshot is taken -->
-                <input type=button value="&lt; Take Another" onClick="cancelPreview()">
-                <input type=button value="Save Photo &gt;" onClick="savePhoto()" style="font-weight:bold;">
-            </div>
-        </form>
-    </div>
-
-    <div id="my_camera_results" class="camera_frame" style="display:none">
-        <!-- Your captured image will appear here... -->
-    </div>
-</div>
-
 <button type="submit" ng-show="isForm">{{ 'submitButtonLabel' | translate }}</button>
 <span ng-show="isForm"> | </span>
 <a href="#/">{{ 'backLinkLabel' | translate }}</a>
-
-
-<link href="~/Content/Webcam.css" rel="stylesheet" />
-<script type="text/javascript" src="~/Scripts/webcamjs-master/webcam.min.js"></script>
-<script type="text/javascript" src="~/Scripts/Common/WebcamManager.js"></script>
