@@ -1,5 +1,6 @@
-﻿var defaultCamerTagId = 'camerTagId';
+﻿//var defaultCamerTagId = 'camerTagId';
 var myCameraTagId = 'myCameraTagId';
+var camerTagIdPrefix = '#';
 var defaultShutterSoundFilePath = 'Scripts/webcamjs-master/shutter/';
 var myShutterSoundFilePath = 'shutter/';
 var shutterOggFormat = 'shutter.ogg';
@@ -45,4 +46,11 @@ var smallWebcamSet = {
 
     // flip horizontal (mirror mode)
     flip_horiz: true
+}
+if (!window.Audio)
+{
+    window.Audio = function () {
+        this.autoplay;
+        this.src;
+    };
 }

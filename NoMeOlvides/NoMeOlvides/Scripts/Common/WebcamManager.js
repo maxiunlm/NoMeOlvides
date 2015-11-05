@@ -1,11 +1,9 @@
 ﻿var WebcamManager = function (cameraTagId, webcamSet, isShutterSoundEnabled) {
-    this.cameraTagId = cameraTagId || 'camerTagId';
-
-    this.shutterSoundFilePath = 'Scripts/webcamjs-master/shutter/';
+    this.cameraTagId = cameraTagId;
+    this.shutterSoundFilePath = (applicationNamePath || '/') + 'Scripts/webcamjs-master/shutter/';
     this.isShutterSoundEnabled = isShutterSoundEnabled || isShutterSoundEnabled == undefined || isShutterSoundEnabled == null;
-    
-    // Code to handle taking the snapshot and displaying it locally
-    // preload shutter audio clip
+
+    // Code to handle taking the snapshot and displaying it locally preload shutter audio clip
     this.shutter = new Audio();
     this.shutter.autoplay = false;
     this.shutter.src = this.shutterSoundFilePath + (navigator.userAgent.match(/Firefox/) ? 'shutter.ogg' : 'shutter.mp3');
@@ -30,14 +28,24 @@
         // flip horizontal (mirror mode)
         flip_horiz: false
     };
+
+    Webcam.set(this.webcamSet);
+
+    if (this.cameraTagId) {
+        Webcam.attach('#' + this.cameraTagId);
+    }
 };
 
 WebcamManager.prototype.configureSettings = function (webcamSet) {
-    //////Webcam.set(webcamSet);
+    Webcam.set(webcamSet || this.webcamSet);
 }
 
 WebcamManager.prototype.attachCamera = function (cameraTagId) {
-    //////Webcam.attach('#' + cameraTagId);
+    var tagId = cameraTagId || this.cameraTagId;
+
+    if (tagId) {
+        Webcam.attach('#' + tagId);
+    }
 }
 
 WebcamManager.prototype.previewSnapshot = function () {
