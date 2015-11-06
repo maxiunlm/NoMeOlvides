@@ -187,6 +187,70 @@ describe('WebcamManager - ', function () {
         });
     });
 
+    describe('setShutterCurrentTime - ', function () {
+        beforeEach(function () {
+            sut = new WebcamManager();
+        });
+
+        it('Without parameters set the "currentTime" attribute of "shutter" object to "0"', function () {
+
+            sut.setShutterCurrentTime();
+
+            expect(sut.shutter.currentTime).toEqual(defaultShutterCurrentTime);
+        });
+
+        it('With the "currentTime" parameter set the "currentTime" attribute of "shutter" object', function () {
+
+            sut.setShutterCurrentTime(myShutterCurrentTime);
+
+            expect(sut.shutter.currentTime).toEqual(myShutterCurrentTime);
+        });
+    });
+
+    describe('playSoundEffect - ', function () {
+        beforeEach(function () {
+            sut = new WebcamManager();
+        });
+
+        it('With attribute "isShutterSoundEnabled" enabled and without parameters invokes the "setShutterCurrentTime" method from "sut"', function () {
+            spyOn(sut, 'setShutterCurrentTime').and.callFake(function () {
+            });
+
+            sut.playSoundEffect();
+
+            expect(sut.setShutterCurrentTime).toHaveBeenCalled();
+        });
+
+        it('With attribute "isShutterSoundEnabled" enabled invokes the "play" method of "shutter" object', function () {
+            spyOn(sut.shutter, 'play').and.callFake(function () {
+            });
+
+            sut.playSoundEffect();
+
+            expect(sut.shutter.play).toHaveBeenCalled();
+        });
+
+        it('With attribute "isShutterSoundEnabled" disabled never invokes the "play" method of "shutter" object', function () {
+            sut = new WebcamManager(undefined, undefined, false);
+            spyOn(sut.shutter, 'play').and.callFake(function () {
+            });
+
+            sut.playSoundEffect();
+
+            expect(sut.shutter.play).not.toHaveBeenCalled();
+        });
+
+        it('With attribute "isShutterSoundEnabled" disabled and without parameters never invokes the "setShutterCurrentTime" method from "sut"', function () {
+            sut = new WebcamManager(undefined, undefined, false);
+            spyOn(sut, 'setShutterCurrentTime').and.callFake(function () {
+            });
+
+            sut.playSoundEffect();
+
+            expect(sut.setShutterCurrentTime).not.toHaveBeenCalled();
+        });
+    });
+
     describe('previewSnapshot - ', function () {
         beforeEach(function () {
             sut = new WebcamManager();

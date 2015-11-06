@@ -5,6 +5,8 @@ var defaultShutterSoundFilePath = 'Scripts/webcamjs-master/shutter/';
 var myShutterSoundFilePath = 'shutter/';
 var shutterOggFormat = 'shutter.ogg';
 var shutterMp3Format = 'shutter.mp3';
+var defaultShutterCurrentTime = 0;
+var myShutterCurrentTime = 1;
 var defaultIsShutterSoundEnabledTrue = true;
 var isShutterSoundEnabledFalse = false;
 var defaultWebcamSet = {
@@ -52,5 +54,7 @@ if (!window.Audio)
     window.Audio = function () {
         this.autoplay;
         this.src;
+        this.play = function () {
+        }
     };
 }

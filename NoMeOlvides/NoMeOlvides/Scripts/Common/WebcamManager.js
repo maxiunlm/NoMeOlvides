@@ -48,10 +48,22 @@ WebcamManager.prototype.attachCamera = function (cameraTagId) {
     }
 }
 
+WebcamManager.prototype.setShutterCurrentTime = function (currentTime) {
+    try {
+        this.shutter.currentTime = currentTime? currentTime: 0;
+    } catch (e) { // fails in IE
+    }
+}
+
+WebcamManager.prototype.playSoundEffect = function () {
+    if (this.isShutterSoundEnabled) {
+        this.setShutterCurrentTime();
+        this.shutter.play();
+    }
+}
+
 WebcamManager.prototype.previewSnapshot = function () {
-    //////// play sound effect
-    //////try { shutter.currentTime = 0; } catch (e) {; } // fails in IE
-    //////shutter.play();
+    ////////     this.playSoundEffect();
 
     //////// freeze camera so user can preview current frame
     //////Webcam.freeze();
