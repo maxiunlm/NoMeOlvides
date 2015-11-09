@@ -1,5 +1,11 @@
 ﻿//var defaultCamerTagId = 'camerTagId';
-var myCameraTagId = 'myCameraTagId';
+var myCameraTagsId = {
+    cameraTagId: 'myCameraTagId',
+    resultTagId: 'myResultTagId',
+    photoBooth: 'myphotoBoothId',
+    preTakeButtonsId: 'myPreTakeButtonsId',
+    postTakeButtonsId: 'myPostTakeButtonsId'
+};
 var camerTagIdPrefix = '#';
 var defaultShutterSoundFilePath = 'Scripts/webcamjs-master/shutter/';
 var myShutterSoundFilePath = 'shutter/';
@@ -9,6 +15,11 @@ var defaultShutterCurrentTime = 0;
 var myShutterCurrentTime = 1;
 var defaultIsShutterSoundEnabledTrue = true;
 var isShutterSoundEnabledFalse = false;
+var buttonVisibilitySyle = {
+    style: {
+        display: undefined
+    }
+};
 var defaultWebcamSet = {
     // live preview size
     width: 320,
@@ -49,8 +60,7 @@ var smallWebcamSet = {
     // flip horizontal (mirror mode)
     flip_horiz: true
 }
-if (!window.Audio)
-{
+if (!window.Audio) {
     window.Audio = function () {
         this.autoplay;
         this.src;

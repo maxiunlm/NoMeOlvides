@@ -1,5 +1,5 @@
-﻿var WebcamManager = function (cameraTagId, webcamSet, isShutterSoundEnabled) {
-    this.cameraTagId = cameraTagId;
+﻿var WebcamManager = function (cameraTagsId, webcamSet, isShutterSoundEnabled) {
+    this.cameraTagsId = cameraTagsId;
     this.shutterSoundFilePath = (applicationNamePath || '/') + 'Scripts/webcamjs-master/shutter/';
     this.isShutterSoundEnabled = isShutterSoundEnabled || isShutterSoundEnabled == undefined || isShutterSoundEnabled == null;
 
@@ -31,8 +31,8 @@
 
     Webcam.set(this.webcamSet);
 
-    if (this.cameraTagId) {
-        Webcam.attach('#' + this.cameraTagId);
+    if (this.cameraTagsId && this.cameraTagsId.cameraTagId) {
+        Webcam.attach('#' + this.cameraTagsId.cameraTagId);
     }
 };
 
@@ -41,7 +41,10 @@ WebcamManager.prototype.configureSettings = function (webcamSet) {
 }
 
 WebcamManager.prototype.attachCamera = function (cameraTagId) {
-    var tagId = cameraTagId || this.cameraTagId;
+    var tagId = cameraTagId
+        || ((this.cameraTagsId !== undefined && this.cameraTagsId.cameraTagId)
+        ? this.cameraTagsId.cameraTagId
+        : false);
 
     if (tagId) {
         Webcam.attach('#' + tagId);
@@ -63,10 +66,9 @@ WebcamManager.prototype.playSoundEffect = function () {
 }
 
 WebcamManager.prototype.previewSnapshot = function () {
-    ////////     this.playSoundEffect();
+    this.playSoundEffect();
 
-    //////// freeze camera so user can preview current frame
-    //////Webcam.freeze();
+    Webcam.freeze();
 
     //////// swap button sets
     //////document.getElementById('pre_take_buttons').style.display = 'none';

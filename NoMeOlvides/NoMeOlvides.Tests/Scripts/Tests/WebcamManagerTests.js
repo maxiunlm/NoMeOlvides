@@ -36,12 +36,12 @@ describe('WebcamManager - ', function () {
 
         it('With all the parameters instances an "WebcamManager" object', function () {
 
-            sut = new WebcamManager(myCameraTagId
+            sut = new WebcamManager(myCameraTagsId
                 , smallWebcamSet
                 , isShutterSoundEnabledFalse);
 
             expect(sut).toBeDefined();
-            expect(sut.cameraTagId).toEqual(myCameraTagId);
+            expect(sut.cameraTagsId).toEqual(myCameraTagsId);
             expect(sut.webcamSet).toEqual(smallWebcamSet);
             expect(sut.shutterSoundFilePath).toEqual(applicationNamePath + defaultShutterSoundFilePath);
             expect(sut.isShutterSoundEnabled).toEqual(isShutterSoundEnabledFalse);
@@ -55,14 +55,14 @@ describe('WebcamManager - ', function () {
             spyOn(Webcam, 'set').and.callFake(function (webcamSet) {
             });
 
-            sut = new WebcamManager(myCameraTagId
+            sut = new WebcamManager(myCameraTagsId
                 , smallWebcamSet
                 , isShutterSoundEnabledFalse);
 
             expect(Webcam.set).toHaveBeenCalledWith(smallWebcamSet);
         });
 
-        it('Is the "cameraTagId" undefined never invokes the "attach" method from the "Webcam" object', function () {
+        it('Is "cameraTagId" undefined never invokes the "attach" method from the "Webcam" object', function () {
             spyOn(Webcam, 'set').and.callFake(function (webcamSet) {
             });
             spyOn(Webcam, 'attach').and.callFake(function (id) {
@@ -75,7 +75,7 @@ describe('WebcamManager - ', function () {
             expect(Webcam.attach).not.toHaveBeenCalled();
         });
 
-        it('Is the "cameraTagId" null never invokes the "attach" method from the "Webcam" object', function () {
+        it('Is "cameraTagId" null never invokes the "attach" method from the "Webcam" object', function () {
             spyOn(Webcam, 'set').and.callFake(function (webcamSet) {
             });
             spyOn(Webcam, 'attach').and.callFake(function (id) {
@@ -88,17 +88,17 @@ describe('WebcamManager - ', function () {
             expect(Webcam.attach).not.toHaveBeenCalled();
         });
 
-        it('Is the "cameraTagId" defined invokes the "attach" method from the "Webcam" object', function () {
+        it('Is "cameraTagId" defined invokes the "attach" method from the "Webcam" object', function () {
             spyOn(Webcam, 'set').and.callFake(function (webcamSet) {
             });
             spyOn(Webcam, 'attach').and.callFake(function (id) {
             });
 
-            sut = new WebcamManager(myCameraTagId
+            sut = new WebcamManager(myCameraTagsId
                 , smallWebcamSet
                 , isShutterSoundEnabledFalse);
 
-            expect(Webcam.attach).toHaveBeenCalledWith(camerTagIdPrefix + myCameraTagId);
+            expect(Webcam.attach).toHaveBeenCalledWith(camerTagIdPrefix + myCameraTagsId.cameraTagId);
         });
     });
 
@@ -159,9 +159,9 @@ describe('WebcamManager - ', function () {
             spyOn(Webcam, 'attach').and.callFake(function (id) {
             });
 
-            sut.attachCamera(myCameraTagId);
+            sut.attachCamera(myCameraTagsId.cameraTagId);
 
-            expect(Webcam.attach).toHaveBeenCalledWith(camerTagIdPrefix + myCameraTagId);
+            expect(Webcam.attach).toHaveBeenCalledWith(camerTagIdPrefix + myCameraTagsId.cameraTagId);
         });
 
         it('With the "cameraTagId" parameter null but the "cameraTagId" attribute defined, invokes the "attach" method from the "Webcam" object', function () {
@@ -170,9 +170,9 @@ describe('WebcamManager - ', function () {
             spyOn(Webcam, 'attach').and.callFake(function (id) {
             });
 
-            sut.attachCamera(myCameraTagId);
+            sut.attachCamera(myCameraTagsId.cameraTagId);
 
-            expect(Webcam.attach).toHaveBeenCalledWith(camerTagIdPrefix + myCameraTagId);
+            expect(Webcam.attach).toHaveBeenCalledWith(camerTagIdPrefix + myCameraTagsId.cameraTagId);
         });
 
         it('With the "cameraTagId" parameter defined invokes the "attach" method from the "Webcam" object', function () {
@@ -181,9 +181,9 @@ describe('WebcamManager - ', function () {
             spyOn(Webcam, 'attach').and.callFake(function (id) {
             });
 
-            sut.attachCamera(myCameraTagId);
+            sut.attachCamera(myCameraTagsId.cameraTagId);
 
-            expect(Webcam.attach).toHaveBeenCalledWith(camerTagIdPrefix + myCameraTagId);
+            expect(Webcam.attach).toHaveBeenCalledWith(camerTagIdPrefix + myCameraTagsId.cameraTagId);
         });
     });
 
@@ -256,7 +256,49 @@ describe('WebcamManager - ', function () {
             sut = new WebcamManager();
         });
 
-        it('', function () {
+        it('without parameters invokes the "playSoundEffect" method from the "WebcamManager" object', function () {
+            spyOn(sut, 'playSoundEffect').and.callFake(function () {
+            });
+
+            sut.previewSnapshot();
+
+            expect(sut.playSoundEffect).toHaveBeenCalled();
+        });
+
+        it('without parameters invokes the "freeze" method from the "Webcam" object that freeze camera so user can preview current frame', function () {
+            spyOn(Webcam, 'freeze').and.callFake(function () {
+            });
+
+            sut.previewSnapshot();
+
+            expect(Webcam.freeze).toHaveBeenCalled();
+        });
+
+        it('Is "preTakeButtonsId" defined invokes the "getElementById" method from the "document" object', function () {
+            spyOn(document, 'getElementById').and.callFake(function () {
+            });
+
+            sut.previewSnapshot();
+
+            expect(document.getElementById).toHaveBeenCalled();
+        });
+
+        it('Is "preTakeButtonsId" defined hide this HTML tag', function () {
+            spyOn(document, 'getElementById').and.callFake(function () {
+            });
+
+            sut.previewSnapshot();
+
+            expect(Webcam.freeze).toHaveBeenCalled();
+        });
+
+        it('without parameters invokes the "" method from the "" object', function () {
+            spyOn(Webcam, 'freeze').and.callFake(function () {
+            });
+
+            sut.previewSnapshot();
+
+            expect(Webcam.freeze).toHaveBeenCalled();
         });
     });
 
