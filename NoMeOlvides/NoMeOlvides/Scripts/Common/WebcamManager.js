@@ -71,7 +71,7 @@ WebcamManager.prototype.previewSnapshot = function () {
     Webcam.freeze();
 
     //////// swap button sets
-    //////document.getElementById('pre_take_buttons').style.display = 'none';
+    document.getElementById(this.cameraTagsId.preTakeButtonsId).style.display = 'none';
     //////document.getElementById('post_take_buttons').style.display = '';
 }
 

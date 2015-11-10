@@ -253,11 +253,14 @@ describe('WebcamManager - ', function () {
 
     describe('previewSnapshot - ', function () {
         beforeEach(function () {
-            sut = new WebcamManager();
-        });
+            sut = new WebcamManager(myCameraTagsId);
+        });//expect(function () { sut.previewSnapshot(); }).toThrowError(TypeError);!!!!!!!!!!!!1
 
-        it('without parameters invokes the "playSoundEffect" method from the "WebcamManager" object', function () {
+        it('With the Tag Ids defined invokes the "playSoundEffect" method from the "WebcamManager" object', function () {
             spyOn(sut, 'playSoundEffect').and.callFake(function () {
+            });
+            spyOn(document, 'getElementById').and.callFake(function () {
+                return htmlTagVisibilitySyle
             });
 
             sut.previewSnapshot();
@@ -265,8 +268,11 @@ describe('WebcamManager - ', function () {
             expect(sut.playSoundEffect).toHaveBeenCalled();
         });
 
-        it('without parameters invokes the "freeze" method from the "Webcam" object that freeze camera so user can preview current frame', function () {
+        it('With the Tag Ids defined invokes the "freeze" method from the "Webcam" object that freeze camera so user can preview current frame', function () {
             spyOn(Webcam, 'freeze').and.callFake(function () {
+            });
+            spyOn(document, 'getElementById').and.callFake(function () {
+                return htmlTagVisibilitySyle
             });
 
             sut.previewSnapshot();
@@ -274,27 +280,33 @@ describe('WebcamManager - ', function () {
             expect(Webcam.freeze).toHaveBeenCalled();
         });
 
-        it('Is "preTakeButtonsId" defined invokes the "getElementById" method from the "document" object', function () {
+        it('Is "preTakeButtonsId" defined and exists the Html Tag invokes the "getElementById" method from the "document" object', function () {
             spyOn(document, 'getElementById').and.callFake(function () {
+                return htmlTagVisibilitySyle
             });
 
             sut.previewSnapshot();
 
-            expect(document.getElementById).toHaveBeenCalled();
+            expect(document.getElementById).toHaveBeenCalledWith(myCameraTagsId.preTakeButtonsId);
         });
 
         it('Is "preTakeButtonsId" defined hide this HTML tag', function () {
             spyOn(document, 'getElementById').and.callFake(function () {
+                return htmlTagVisibilitySyle;
             });
 
             sut.previewSnapshot();
 
-            expect(Webcam.freeze).toHaveBeenCalled();
+            expect(htmlTagVisibilitySyle.style.display).toEqual(displayNone);
         });
 
         it('without parameters invokes the "" method from the "" object', function () {
             spyOn(Webcam, 'freeze').and.callFake(function () {
             });
+            spyOn(document, 'getElementById').and.callFake(function () {
+                return htmlTagVisibilitySyle;
+            });
+
 
             sut.previewSnapshot();
 

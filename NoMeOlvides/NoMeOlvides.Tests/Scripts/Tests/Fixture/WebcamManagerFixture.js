@@ -15,7 +15,7 @@ var defaultShutterCurrentTime = 0;
 var myShutterCurrentTime = 1;
 var defaultIsShutterSoundEnabledTrue = true;
 var isShutterSoundEnabledFalse = false;
-var buttonVisibilitySyle = {
+var htmlTagVisibilitySyle = {
     style: {
         display: undefined
     }
