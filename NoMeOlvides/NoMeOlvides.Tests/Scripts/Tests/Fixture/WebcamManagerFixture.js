@@ -1,10 +1,12 @@
 ﻿//var defaultCamerTagId = 'camerTagId';
+var preTakeButtonsId = 'myPreTakeButtonsId';
+var postTakeButtonsId = 'myPostTakeButtonsId';
 var myCameraTagsId = {
     cameraTagId: 'myCameraTagId',
     resultTagId: 'myResultTagId',
     photoBooth: 'myphotoBoothId',
-    preTakeButtonsId: 'myPreTakeButtonsId',
-    postTakeButtonsId: 'myPostTakeButtonsId'
+    preTakeButtonsId: preTakeButtonsId,
+    postTakeButtonsId: postTakeButtonsId
 };
 var camerTagIdPrefix = '#';
 var defaultShutterSoundFilePath = 'Scripts/webcamjs-master/shutter/';
@@ -16,6 +18,11 @@ var myShutterCurrentTime = 1;
 var defaultIsShutterSoundEnabledTrue = true;
 var isShutterSoundEnabledFalse = false;
 var htmlTagVisibilitySyle = {
+    style: {
+        display: undefined
+    }
+};
+var htmlSecondTagVisibilitySyle = {
     style: {
         display: undefined
     }
