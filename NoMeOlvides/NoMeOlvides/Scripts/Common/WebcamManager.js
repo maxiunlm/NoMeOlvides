@@ -65,22 +65,20 @@ WebcamManager.prototype.playSoundEffect = function () {
     }
 }
 
-WebcamManager.prototype.previewSnapshot = function () {
+WebcamManager.prototype.previewSnapshot = function (preTakeButtonsId, postTakeButtonsId) {
     this.playSoundEffect();
 
     Webcam.freeze();
 
-    document.getElementById(this.cameraTagsId.preTakeButtonsId).style.display = 'none';
-    document.getElementById(this.cameraTagsId.postTakeButtonsId).style.display = '';
+    document.getElementById(preTakeButtonsId || this.cameraTagsId.preTakeButtonsId).style.display = 'none';
+    document.getElementById(postTakeButtonsId || this.cameraTagsId.postTakeButtonsId).style.display = '';
 }
 
 WebcamManager.prototype.cancelPreview = function () {
-    //////// cancel preview freeze and return to live camera view
-    //////Webcam.unfreeze();
+    Webcam.unfreeze();
 
-    //////// swap buttons back to first set
-    //////document.getElementById('pre_take_buttons').style.display = '';
-    //////document.getElementById('post_take_buttons').style.display = 'none';
+    document.getElementById(preTakeButtonsId || this.cameraTagsId.preTakeButtonsId).style.display = '';
+    document.getElementById(postTakeButtonsId || this.cameraTagsId.postTakeButtonsId).style.display = 'none';
 }
 
 WebcamManager.prototype.savePhoto = function () {

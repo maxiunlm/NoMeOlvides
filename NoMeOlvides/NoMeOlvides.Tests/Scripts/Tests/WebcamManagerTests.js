@@ -254,9 +254,11 @@ describe('WebcamManager - ', function () {
     describe('previewSnapshot - ', function () {
         beforeEach(function () {
             sut = new WebcamManager(myCameraTagsId);
-        });//expect(function () { sut.previewSnapshot(); }).toThrowError(TypeError);!!!!!!!!!!!!1
+            htmlTagVisibilitySyle.style.display = undefined;
+            htmlSecondTagVisibilitySyle.style.display = undefined;
+        });
 
-        it('With the Tag Ids defined invokes the "playSoundEffect" method from the "WebcamManager" object', function () {
+        it('With the Ids Tag defined invokes the "playSoundEffect" method from the "WebcamManager" object', function () {
             spyOn(sut, 'playSoundEffect').and.callFake(function () {
             });
             spyOn(document, 'getElementById').and.callFake(function () {
@@ -268,7 +270,7 @@ describe('WebcamManager - ', function () {
             expect(sut.playSoundEffect).toHaveBeenCalled();
         });
 
-        it('With the Tag Ids defined invokes the "freeze" method from the "Webcam" object that freeze camera so user can preview current frame', function () {
+        it('With the Ids Tag defined invokes the "freeze" method from the "Webcam" object that freeze the camera so user can preview current frame', function () {
             spyOn(Webcam, 'freeze').and.callFake(function () {
             });
             spyOn(document, 'getElementById').and.callFake(function () {
@@ -280,7 +282,7 @@ describe('WebcamManager - ', function () {
             expect(Webcam.freeze).toHaveBeenCalled();
         });
 
-        it('Is "preTakeButtonsId" defined and exists the Html Tag invokes the "getElementById" method from the "document" object', function () {
+        it('Is "preTakeButtonsId" attribute defined and exists the Html Tag invokes the "getElementById" method from the "document" object', function () {
             spyOn(document, 'getElementById').and.callFake(function (tagId) {
                 return tagId === myCameraTagsId.preTakeButtonsId ? htmlTagVisibilitySyle : htmlSecondTagVisibilitySyle;
             });
@@ -290,7 +292,7 @@ describe('WebcamManager - ', function () {
             expect(document.getElementById).toHaveBeenCalledWith(myCameraTagsId.preTakeButtonsId);
         });
 
-        it('Is "preTakeButtonsId" defined hide this HTML tag', function () {
+        it('Is "preTakeButtonsId" attribute defined hide this HTML tag', function () {
             spyOn(document, 'getElementById').and.callFake(function (tagId) {
                 return tagId === myCameraTagsId.preTakeButtonsId ? htmlTagVisibilitySyle : htmlSecondTagVisibilitySyle;
             });
@@ -300,7 +302,7 @@ describe('WebcamManager - ', function () {
             expect(htmlTagVisibilitySyle.style.display).toEqual(displayNone);
         });
 
-        it('Is "postTakeButtonsId" defined and exists the Html Tag invokes the "getElementById" method from the "document" object', function () {
+        it('Is "postTakeButtonsId" attribute defined and exists the Html Tag invokes the "getElementById" method from the "document" object', function () {
             spyOn(document, 'getElementById').and.callFake(function (tagId) {
                 return tagId === myCameraTagsId.preTakeButtonsId ? htmlTagVisibilitySyle : htmlSecondTagVisibilitySyle;
             });
@@ -310,7 +312,7 @@ describe('WebcamManager - ', function () {
             expect(document.getElementById).toHaveBeenCalledWith(myCameraTagsId.postTakeButtonsId);
         });
 
-        it('Is "postTakeButtonsId" defined display this HTML tag', function () {
+        it('Is "postTakeButtonsId" attribute defined display this HTML tag', function () {
             spyOn(document, 'getElementById').and.callFake(function (tagId) {
                 return tagId === myCameraTagsId.preTakeButtonsId ? htmlTagVisibilitySyle : htmlSecondTagVisibilitySyle;
             });
@@ -320,60 +322,156 @@ describe('WebcamManager - ', function () {
             expect(htmlSecondTagVisibilitySyle.style.display).toEqual(displayVisible);
         });
 
-        it('With the parameter "preTakeButtonsId" defined and exists the Html Tag invokes the "getElementById" method from the "document" object', function () {
-            sut = new WebcamManager();
+        it('With the "preTakeButtonsId" parameter defined and exists the Html Tag invokes the "getElementById" method from the "document" object', function () {
             spyOn(document, 'getElementById').and.callFake(function (tagId) {
                 return tagId === preTakeButtonsId ? htmlTagVisibilitySyle : htmlSecondTagVisibilitySyle;
             });
 
-            sut.previewSnapshot(preTakeButtonsId);
+            sut.previewSnapshot(preTakeButtonsId, undefined);
 
             expect(document.getElementById).toHaveBeenCalledWith(preTakeButtonsId);
         });
 
-        it('With the parameter "preTakeButtonsId" defined hide this HTML tag', function () {
-            sut = new WebcamManager();
+        it('With the "preTakeButtonsId" parameter defined hide this HTML tag', function () {
             spyOn(document, 'getElementById').and.callFake(function (tagId) {
                 return tagId === preTakeButtonsId ? htmlTagVisibilitySyle : htmlSecondTagVisibilitySyle;
             });
 
-            sut.previewSnapshot(preTakeButtonsId);
+            sut.previewSnapshot(preTakeButtonsId, undefined);
 
             expect(htmlTagVisibilitySyle.style.display).toEqual(displayNone);
         });
 
-        it('With the parameter "postTakeButtonsId" defined and exists the Html Tag invokes the "getElementById" method from the "document" object', function () {
-            sut = new WebcamManager();
+        it('With the "postTakeButtonsId" parameter defined and exists the Html Tag invokes the "getElementById" method from the "document" object', function () {
             spyOn(document, 'getElementById').and.callFake(function (tagId) {
                 return tagId === postTakeButtonsId ? htmlTagVisibilitySyle : htmlSecondTagVisibilitySyle;
             });
 
-            sut.previewSnapshot(postTakeButtonsId);
+            sut.previewSnapshot(undefined, postTakeButtonsId);
 
             expect(document.getElementById).toHaveBeenCalledWith(postTakeButtonsId);
         });
 
-        it('With the parameter "postTakeButtonsId" defined hide this HTML tag', function () {
-            sut = new WebcamManager();
+        it('With the "postTakeButtonsId" parameter defined hide this HTML tag', function () {
             spyOn(document, 'getElementById').and.callFake(function (tagId) {
                 return tagId === postTakeButtonsId ? htmlTagVisibilitySyle : htmlSecondTagVisibilitySyle;
             });
 
-            sut.previewSnapshot(postTakeButtonsId);
+            sut.previewSnapshot(undefined, postTakeButtonsId);
 
-            expect(htmlTagVisibilitySyle.style.display).toEqual(displayNone);
+            expect(htmlSecondTagVisibilitySyle.style.display).toEqual(displayNone);
         });
 
-        it('', function () {
+        it('Without any parameter or attribute defined throws an exception', function () {
+            sut = new WebcamManager();
+
+            expect(function () { sut.previewSnapshot(); }).toThrowError(TypeError);
         });
     });
 
     describe('cancelPreview - ', function () {
         beforeEach(function () {
-            sut = new WebcamManager();
+            sut = new WebcamManager(myCameraTagsId);
+            htmlTagVisibilitySyle.style.display = undefined;
+            htmlSecondTagVisibilitySyle.style.display = undefined;
         });
 
-        it('', function () {
+        it('With the Ids Tag defined invokes the "unfreeze" method from the "Webcam" object that unfreeze the camera so user can preview current frame', function () {
+            spyOn(Webcam, 'unfreeze').and.callFake(function () {
+            });
+            spyOn(document, 'getElementById').and.callFake(function () {
+                return htmlTagVisibilitySyle
+            });
+
+            sut.cancelPreview();
+
+            expect(Webcam.unfreeze).toHaveBeenCalled();
+        });
+
+        it('Is "preTakeButtonsId" attribute defined and exists the Html Tag invokes the "getElementById" method from the "document" object', function () {
+            spyOn(document, 'getElementById').and.callFake(function (tagId) {
+                return tagId === myCameraTagsId.preTakeButtonsId ? htmlTagVisibilitySyle : htmlSecondTagVisibilitySyle;
+            });
+
+            sut.cancelPreview();
+
+            expect(document.getElementById).toHaveBeenCalledWith(myCameraTagsId.preTakeButtonsId);
+        });
+
+        it('Is "preTakeButtonsId" attribute defined display this HTML tag', function () {
+            spyOn(document, 'getElementById').and.callFake(function (tagId) {
+                return tagId === myCameraTagsId.preTakeButtonsId ? htmlTagVisibilitySyle : htmlSecondTagVisibilitySyle;
+            });
+
+            sut.cancelPreview();
+
+            expect(htmlTagVisibilitySyle.style.display).toEqual(displayVisible);
+        });
+
+        it('Is "postTakeButtonsId" attribute defined and exists the Html Tag invokes the "getElementById" method from the "document" object', function () {
+            spyOn(document, 'getElementById').and.callFake(function (tagId) {
+                return tagId === myCameraTagsId.preTakeButtonsId ? htmlTagVisibilitySyle : htmlSecondTagVisibilitySyle;
+            });
+
+            sut.cancelPreview();
+
+            expect(document.getElementById).toHaveBeenCalledWith(myCameraTagsId.postTakeButtonsId);
+        });
+
+        it('Is "postTakeButtonsId" attribute defined hide this HTML tag', function () {
+            spyOn(document, 'getElementById').and.callFake(function (tagId) {
+                return tagId === myCameraTagsId.preTakeButtonsId ? htmlTagVisibilitySyle : htmlSecondTagVisibilitySyle;
+            });
+
+            sut.cancelPreview();
+
+            expect(htmlSecondTagVisibilitySyle.style.display).toEqual(displayNone);
+        });
+
+        it('With the "preTakeButtonsId" parameter defined and exists the Html Tag invokes the "getElementById" method from the "document" object', function () {
+            spyOn(document, 'getElementById').and.callFake(function (tagId) {
+                return tagId === preTakeButtonsId ? htmlTagVisibilitySyle : htmlSecondTagVisibilitySyle;
+            });
+
+            sut.cancelPreview(preTakeButtonsId, undefined);
+
+            expect(document.getElementById).toHaveBeenCalledWith(preTakeButtonsId);
+        });
+
+        it('With the "preTakeButtonsId" parameter defined display this HTML tag', function () {
+            spyOn(document, 'getElementById').and.callFake(function (tagId) {
+                return tagId === preTakeButtonsId ? htmlTagVisibilitySyle : htmlSecondTagVisibilitySyle;
+            });
+
+            sut.cancelPreview(preTakeButtonsId, undefined);
+
+            expect(htmlTagVisibilitySyle.style.display).toEqual(displayVisible);
+        });
+
+        it('With the "postTakeButtonsId" parameter defined and exists the Html Tag invokes the "getElementById" method from the "document" object', function () {
+            spyOn(document, 'getElementById').and.callFake(function (tagId) {
+                return tagId === postTakeButtonsId ? htmlTagVisibilitySyle : htmlSecondTagVisibilitySyle;
+            });
+
+            sut.cancelPreview(undefined, postTakeButtonsId);
+
+            expect(document.getElementById).toHaveBeenCalledWith(postTakeButtonsId);
+        });
+
+        it('With the "postTakeButtonsId" parameter defined display this HTML tag', function () {
+            spyOn(document, 'getElementById').and.callFake(function (tagId) {
+                return tagId === postTakeButtonsId ? htmlTagVisibilitySyle : htmlSecondTagVisibilitySyle;
+            });
+
+            sut.cancelPreview(undefined, postTakeButtonsId);
+
+            expect(htmlSecondTagVisibilitySyle.style.display).toEqual(displayVisible);
+        });
+
+        it('Without any parameter or attribute defined throws an exception', function () {
+            sut = new WebcamManager();
+
+            expect(function () { sut.cancelPreview(); }).toThrowError(TypeError);
         });
     });
 
