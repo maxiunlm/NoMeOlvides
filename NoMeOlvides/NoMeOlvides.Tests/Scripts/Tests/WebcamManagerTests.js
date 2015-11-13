@@ -480,7 +480,10 @@ describe('WebcamManager - ', function () {
             sut = new WebcamManager();
         });
 
-        it('', function () {
+        it('There is an overwritable function "savePhoto" for the developer', function () {
+
+
+            expect(typeof (sut.savePhoto) === 'function').toBeTruthy();
         });
     });
 });
