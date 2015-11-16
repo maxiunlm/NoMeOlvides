@@ -81,6 +81,16 @@ WebcamManager.prototype.cancelPreview = function () {
     document.getElementById(postTakeButtonsId || this.cameraTagsId.postTakeButtonsId).style.display = 'none';
 }
 
+WebcamManager.prototype.turnOff = function () {
+    Webcam.off();
+}
+
+WebcamManager.prototype.onError = function (callback) {
+    ////Webcam.on('error', callback || function (errorMessage) { // TODO: pasar esta func a WebcamManager.prototype.onErrorDefaultCallback !!!!!
+    ////    alert(errorMessage);
+    ////});
+}
+
 WebcamManager.prototype.savePhoto = function () {
     // You must override this method
     ////////// actually snap photo (from preview freeze) and display it

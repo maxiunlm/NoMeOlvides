@@ -13,10 +13,13 @@ var defaultShutterSoundFilePath = 'Scripts/webcamjs-master/shutter/';
 var myShutterSoundFilePath = 'shutter/';
 var shutterOggFormat = 'shutter.ogg';
 var shutterMp3Format = 'shutter.mp3';
+var onErrorEventName = 'error';
 var defaultShutterCurrentTime = 0;
 var myShutterCurrentTime = 1;
 var defaultIsShutterSoundEnabledTrue = true;
 var isShutterSoundEnabledFalse = false;
+var onErrorEventCallback = function (errorMessage) {
+};
 var htmlTagVisibilitySyle = {
     style: {
         display: undefined

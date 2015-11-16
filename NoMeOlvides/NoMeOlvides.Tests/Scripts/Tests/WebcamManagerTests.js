@@ -3,6 +3,8 @@
 /// <reference path="Fixture/WebcamManagerFixture.js" />
 /// <reference path="../../../NoMeOlvides/Scripts/Common/WebcamManager.js" />
 
+
+// https://github.com/jhuckaby/webcamjs
 describe('WebcamManager - ', function () {
     var sut;
 
@@ -472,6 +474,42 @@ describe('WebcamManager - ', function () {
             sut = new WebcamManager();
 
             expect(function () { sut.cancelPreview(); }).toThrowError(TypeError);
+        });
+    });
+
+    describe('turnOff - ', function () {
+        beforeEach(function () {
+            sut = new WebcamManager();
+        });
+
+        it('Without any parameter invokes the "off" method from de "Webcam" object to remove all listeners', function () {
+            spyOn(Webcam, 'off').and.callFake(function () { });
+
+            sut.turnOff();
+
+            expect(Webcam.off).toHaveBeenCalled();
+        });
+    });
+
+    describe('onError - ', function () {
+        beforeEach(function () {
+            sut = new WebcamManager();
+        });
+
+        it('With a callback function invokes the "on" method of the "Webcam" object to set the error event', function () {
+            spyOn(Webcam, 'on').and.callFake(function (event, callback) { });
+
+            sut.onError();
+
+            expect(Webcam.on).toHaveBeenCalledWith(onErrorEventName, onErrorEventCallback);
+        });
+
+        it('Without any callback function invokes the "on" method of the "Webcam" object to set the error event', function () {
+            spyOn(Webcam, 'on').and.callFake(function (event, callback) { });
+
+            sut.onError();
+
+            expect(Webcam.on).toHaveBeenCalledWith(onErrorEventName, jasmine.any(Function));
         });
     });
 
