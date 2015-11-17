@@ -19,6 +19,7 @@ describe('WebcamManager - ', function () {
 
             expect(sut).toBeDefined();
             expect(sut.cameraTagId).toBeUndefined();
+            //expect(sut.self).toEqual(sut);
             expect(sut.webcamSet).toEqual(defaultWebcamSet);
             expect(sut.shutterSoundFilePath).toEqual(applicationNamePath + defaultShutterSoundFilePath);
             expect(sut.isShutterSoundEnabled).toEqual(defaultIsShutterSoundEnabledTrue);
@@ -499,7 +500,7 @@ describe('WebcamManager - ', function () {
         it('With a callback function invokes the "on" method of the "Webcam" object to set the error event', function () {
             spyOn(Webcam, 'on').and.callFake(function (event, callback) { });
 
-            sut.onError();
+            sut.onError(onErrorEventCallback);
 
             expect(Webcam.on).toHaveBeenCalledWith(onErrorEventName, onErrorEventCallback);
         });
@@ -509,7 +510,49 @@ describe('WebcamManager - ', function () {
 
             sut.onError();
 
-            expect(Webcam.on).toHaveBeenCalledWith(onErrorEventName, jasmine.any(Function));
+            expect(Webcam.on).toHaveBeenCalledWith(onErrorEventName, sut.onErrorDefaultCallback);
+        });
+    });
+
+    describe('onErrorDefaultCallback - ', function () {
+        beforeEach(function () {
+            sut = new WebcamManager();
+        });
+
+        it('With an error message invokes the "alert" method of the "window" object', function () {
+            spyOn(window, 'alert').and.callFake(function (message) {
+            });
+
+            sut.onErrorDefaultCallback(errorMessage1);
+
+            expect(window.alert).toHaveBeenCalledWith(errorMessage1);
+        });
+
+        it('With an empty error message invokes the "alert" method of the "window" object', function () {
+            spyOn(window, 'alert').and.callFake(function (message) {
+            });
+
+            sut.onErrorDefaultCallback(stringEmpty);
+
+            expect(window.alert).toHaveBeenCalledWith(stringEmpty);
+        });
+
+        it('With a null error message invokes the "alert" method of the "window" object', function () {
+            spyOn(window, 'alert').and.callFake(function (message) {
+            });
+
+            sut.onErrorDefaultCallback(nullValue);
+
+            expect(window.alert).toHaveBeenCalledWith(nullValue);
+        });
+
+        it('With an undefined error message invokes the "alert" method of the "window" object', function () {
+            spyOn(window, 'alert').and.callFake(function (message) {
+            });
+
+            sut.onErrorDefaultCallback(undefinedValue);
+
+            expect(window.alert).toHaveBeenCalledWith(undefinedValue);
         });
     });
 

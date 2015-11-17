@@ -1,4 +1,5 @@
 ﻿var WebcamManager = function (cameraTagsId, webcamSet, isShutterSoundEnabled) {
+    var self = this;
     this.cameraTagsId = cameraTagsId;
     this.shutterSoundFilePath = (applicationNamePath || '/') + 'Scripts/webcamjs-master/shutter/';
     this.isShutterSoundEnabled = isShutterSoundEnabled || isShutterSoundEnabled == undefined || isShutterSoundEnabled == null;
@@ -34,6 +35,8 @@
     if (this.cameraTagsId && this.cameraTagsId.cameraTagId) {
         Webcam.attach('#' + this.cameraTagsId.cameraTagId);
     }
+
+    // TODO: hacer BIND de los botones sin perder el Contexto del THIS, ver Function.apply
 };
 
 WebcamManager.prototype.configureSettings = function (webcamSet) {
@@ -85,10 +88,12 @@ WebcamManager.prototype.turnOff = function () {
     Webcam.off();
 }
 
+WebcamManager.prototype.onErrorDefaultCallback = function (errorMessage) {
+    alert(errorMessage);
+}
+
 WebcamManager.prototype.onError = function (callback) {
-    ////Webcam.on('error', callback || function (errorMessage) { // TODO: pasar esta func a WebcamManager.prototype.onErrorDefaultCallback !!!!!
-    ////    alert(errorMessage);
-    ////});
+    Webcam.on('error', callback || this.onErrorDefaultCallback);
 }
 
 WebcamManager.prototype.savePhoto = function () {

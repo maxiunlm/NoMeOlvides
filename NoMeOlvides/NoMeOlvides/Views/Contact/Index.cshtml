@@ -15,17 +15,17 @@
     </div>
 
     <div>
-        <div id="my_photo_booth">
-            <div id="my_camera" class="camera_frame"></div>
-            <div id="pre_take_buttons">
-                <input type=button value="Take Snapshot" onClick="previewSnapshot()">
+        <div id="myphotoBooth">
+            <div id="myCamera" class="camera_frame"></div>
+            <div id="preTakeButtons">
+                <input id="previewSnapshot" type=button value="Take Snapshot">
             </div>
-            <div id="post_take_buttons" style="display:none">
-                <input type=button value="&lt; Take Another" onClick="cancelPreview()">
-                <input type=button value="Save Photo &gt;" onClick="savePhoto()" style="font-weight:bold;">
+            <div id="postTakeButtons" style="display:none">
+                <input id="cancelPreview" type=button value="&lt; Take Another">
+                <input id="savePhoto" type=button value="Save Photo &gt;" style="font-weight:bold;">
             </div>
         </div>
-        <div id="my_camera_results" class="camera_frame" style="display:none">
+        <div id="myResult" class="camera_frame" style="display:none">
         </div>
     </div>
 </div>
@@ -48,17 +48,15 @@
     <script type="text/javascript" src="~/Scripts/log4javascript.js"></script>
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript" src="~/Scripts/aop.js"></script>
+    <link href="~/Content/Webcam.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/Scripts/webcamjs-master/webcam.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/Common/WebcamManager.js"></script>
     <script type="text/javascript" src="~/Scripts/Common/AuditManager.js"></script>
-    <script type="text/javascript" src="~/Scripts/Common/ErrorManager.js"></script>
     <script type="text/javascript" src="~/Scripts/Common/Globals.js"></script>
+    <script type="text/javascript" src="~/Scripts/Common/ErrorManager.js"></script>
     <script type="text/javascript" src="~/Scripts/Contact/App.js"></script>
     <script type="text/javascript" src="~/Scripts/Common/TranslateProvider.js"></script>
     <script type="text/javascript" src="~/Scripts/Common/VoiceForm.js"></script>
     <script type="text/javascript" src="~/Scripts/Common/VoiceManager.js"></script>
     <script type="text/javascript" src="~/Scripts/Contact/CRUD.js"></script>
-
-
-<link href="~/Content/Webcam.css" rel="stylesheet" />
-<script type="text/javascript" src="~/Scripts/webcamjs-master/webcam.min.js"></script>
-<script type="text/javascript" src="~/Scripts/Common/WebcamManager.js"></script>
 }
