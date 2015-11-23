@@ -14,6 +14,7 @@
 /// <reference path='Fixture/ContactCreateFixture.js' />
 /// <reference path="Fixture/AuditManagerCommonFixture.js" />
 /// <reference path="../../../NoMeOlvides/Scripts/Common/Globals.js" />
+/// <reference path="../../../NoMeOlvides/Scripts/Common/WebcamManager.js" />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/App.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/CRUD.js' />
 
@@ -69,13 +70,14 @@ describe('ContactController - ', function () {
 
         it('Seacrh - Must call the Http GET Method to get the Contact list result', function () {
             $scope.http = httpMock;
+            $scope.Contact = searchContactWithAllTheFields;
             spyOn($scope.http, 'get').and.callThrough();
 
             $scope.Search();
 
-            expect($scope.http.get).toHaveBeenCalled();
+            expect($scope.http.get).toHaveBeenCalledWith(contactBaseUri, $scope.Contact);
         });
-    });
+    });// TODO success y Error !!!!!!!!!!!!!!
 
     describe('$scope.retrySearchCallback - ', function () {
         var $scope;

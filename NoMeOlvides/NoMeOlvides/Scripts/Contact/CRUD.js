@@ -11,7 +11,7 @@ var formFields = [
        { "Id": "Address", "TranslateKey": "address", "Description": "Address" },
        { "Id": "Password", "TranslateKey": "password", "Description": "Password" }
 ];
-//[
+//[ // TODO: La descripcion se tiene que cargar del Translate !!!!!!!!!!!!!!!!!!!!!!
 //        { "Description": "Alias", "TranslateKey": "alias" },
 //        { "Description": "", "TranslateKey": "name" },
 //        { "Description": "", "TranslateKey": "surname" },
@@ -42,7 +42,7 @@ app.controller('SearchAction', ['$scope', '$http', function ($scope, $http) {
 
     // TODO: TERMINAR CON TDD !!!!!!!!!!!!!!!!!!!!!!!
     $scope.Search = function () {
-        $scope.http.get();
+        $scope.http.get(applicationNamePath + 'WebApi/ContactApi', $scope.Contact);
     };
 
     $scope.retrySearchCallback = function (exception, method) {

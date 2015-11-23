@@ -16,6 +16,7 @@
 /// <reference path='Fixture/VoiceFormFixture.js' />
 /// <reference path='Fixture/VoiceManagerFixture.js' />
 /// <reference path="../../../NoMeOlvides/Scripts/Common/Globals.js" />
+/// <reference path="../../../NoMeOlvides/Scripts/Common/WebcamManager.js" />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/App.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Common/TranslateProvider.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Common/VoiceForm.js' />

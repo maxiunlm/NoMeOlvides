@@ -12,6 +12,7 @@
 /// <reference path='Fixture/ContactCommonFixture.js' />
 /// <reference path="Fixture/AuditManagerCommonFixture.js" />
 /// <reference path="../../../NoMeOlvides/Scripts/Common/Globals.js" />
+/// <reference path="../../../NoMeOlvides/Scripts/Common/WebcamManager.js" />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/App.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/CRUD.js' />
 
@@ -107,7 +108,7 @@ describe('ContactController - DeleteAction - ', function () {
 
             $scope.Delete();
 
-            expect($scope.http.delete).toHaveBeenCalledWith('/WebApi/ContactApi/' + contactId, {});
+            expect($scope.http.delete).toHaveBeenCalledWith(contactBaseUriForId + contactId, {});
         });
 
         it('Delete - Must call the "escape" Method for special characters on an URI', function () {

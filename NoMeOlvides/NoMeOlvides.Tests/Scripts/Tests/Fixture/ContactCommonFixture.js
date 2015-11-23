@@ -1,5 +1,6 @@
 ﻿/// <reference path="CommonFixture.js" />
-
+var contactBaseUri = '/WebApi/ContactApi';
+var contactBaseUriForId = '/WebApi/ContactApi/';
 var contacts = [];
 var Contact = {};
 var auditManagerFake = {
@@ -7,6 +8,16 @@ var auditManagerFake = {
     afterThrowRetryEvent: function (exception, aopObject, callback, method) { }
 };
 var contactId = "5582a9d8dbe53f1b8059d787";
+var searchContactWithAllTheFields = {
+    "Alias": "El Mazzi (6)",
+    "Name": "Maximiliano",
+    "Surname": "Gauna",
+    "Email": "maxiunlm@gmail.com",
+    "Phone": 666,
+    "Cellphone": 666,
+    "Address": "Trulala 666",
+    "Password": "Secret... SHHHH!!!!"
+};
 var firstContact = {
     "Id": contactId,
     "Alias": "El Mazzi (6)",
