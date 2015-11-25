@@ -42,7 +42,18 @@ app.controller('SearchAction', ['$scope', '$http', function ($scope, $http) {
 
     // TODO: TERMINAR CON TDD !!!!!!!!!!!!!!!!!!!!!!!
     $scope.Search = function () {
-        $scope.http.get(applicationNamePath + 'WebApi/ContactApi', $scope.Contact);
+        $scope.http.get(applicationNamePath + 'WebApi/ContactApi', $scope.Contact)
+            .success($scope.onSearchSuccess)
+            .error(ErrorManager.getInstance().onGenealErrorEvent);
+    };
+
+    $scope.onSearchSuccess = function (data) {
+        $scope.Errors = data.Errors;
+        $scope.transactionSuccessMessage = 'emptyText';
+
+        if (data.Errors.HasError) {
+            return;
+        }
     };
 
     $scope.retrySearchCallback = function (exception, method) {

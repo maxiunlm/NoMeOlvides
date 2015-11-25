@@ -58,7 +58,7 @@ namespace NoMeOlvides.WebApis
                 error.Messages.Add(Locale.generalErrorMessage);
                 respose.Content = new StringContent(System.Web.Helpers.Json.Encode(error));
 
-                throw new HttpResponseException(respose); ;
+                throw new HttpResponseException(respose);
             }
         }
 

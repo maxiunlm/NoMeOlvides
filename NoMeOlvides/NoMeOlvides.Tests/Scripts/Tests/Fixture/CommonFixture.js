@@ -30,6 +30,7 @@ var expectationFalsy = false;
 var stringResult = 'result';
 var errorMessage1 = 'Error message 1';
 var errorMessage2 = 'Error message 2';
+var emptyTextString = 'emptyText';
 var callBackSuccessDataWithoutError = {
     "Errors": {
         "HasError": false,

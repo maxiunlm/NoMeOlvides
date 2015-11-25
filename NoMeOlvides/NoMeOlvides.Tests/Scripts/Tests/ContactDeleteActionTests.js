@@ -88,7 +88,7 @@ describe('ContactController - DeleteAction - ', function () {
         });
     });
 
-    describe('Call Http DELETE Method - ', function () {
+    describe('Delete -', function () {
         var $scope;
         var $controller;
         var httpBackend;
@@ -102,7 +102,7 @@ describe('ContactController - DeleteAction - ', function () {
             $controller = controller('DeleteAction', { $scope: $scope, $routeParams: $routeParams });
         }));
 
-        it('Delete - Must call the Http Post Method to delete a Contact', function () {
+        it(' Must call the Http Post Method to delete a Contact', function () {
             $scope.http = httpMock;
             spyOn($scope.http, 'delete').and.callThrough();
 
@@ -111,7 +111,7 @@ describe('ContactController - DeleteAction - ', function () {
             expect($scope.http.delete).toHaveBeenCalledWith(contactBaseUriForId + contactId, {});
         });
 
-        it('Delete - Must call the "escape" Method for special characters on an URI', function () {
+        it('Must call the "escape" Method for special characters on an URI', function () {
             $scope.http = httpMock;
             spyOn(window, 'escape').and.callThrough();
 
@@ -133,7 +133,7 @@ describe('ContactController - DeleteAction - ', function () {
             $controller = controller('DeleteAction', { $scope: $scope, $location: location });
         }));
 
-        it('Delete - After call http post Method must call success event $scope.onDeleteSuccess', inject(function ($http, $httpBackend) {
+        it('After call http post Method must call success event $scope.onDeleteSuccess', function() {
             $scope.http = httpMock;
             $scope.Contact = { "Id": contactId };
             callBackSuccessData = callBackSuccessDataWithoutError;
@@ -143,9 +143,9 @@ describe('ContactController - DeleteAction - ', function () {
             $scope.Delete();
 
             expect($scope.onDeleteSuccess).toHaveBeenCalledWith(callBackSuccessDataWithoutError);
-        }));
+        });
 
-        it('Delete - After call http post Method must call error event ErrorManager.getInstance().onGenealErrorEvent', inject(function ($http, $httpBackend) {
+        it('After call http post Method must call error event ErrorManager.getInstance().onGenealErrorEvent', function() {
             $scope.http = httpMock;
             $scope.Contact = { "Id": contactId };
             callBackErrorData = callBackSuccessDataWithError;
@@ -155,9 +155,9 @@ describe('ContactController - DeleteAction - ', function () {
             $scope.Delete();
 
             expect(ErrorManager.getInstance().onGenealErrorEvent).toHaveBeenCalledWith(callBackSuccessDataWithError);
-        }));
+        });
 
-        it('Delete - Stablish isForm == FALSE status for the GUI', function () {
+        it('Stablish isForm == FALSE status for the GUI', function () {
             $scope.Contact = firstContact;
             $routeParams = { id: firstContact.Id };
 
@@ -167,7 +167,7 @@ describe('ContactController - DeleteAction - ', function () {
         });
     });
 
-    describe('On success event - ', function () {
+    describe('onDeleteSuccess - ', function () {
         var $scope;
         var $controller
 
@@ -178,7 +178,7 @@ describe('ContactController - DeleteAction - ', function () {
             $controller = controller('DeleteAction', { $scope: $scope, $location: location });
         }));
 
-        it('Delete - onDeleteSuccess - With data result of a delete contact OK', function () {
+        it('With data result of a delete contact OK', function () {
             $scope.Contact = firstContact;
             $scope.Contacts = contactListX2;
 
@@ -190,28 +190,28 @@ describe('ContactController - DeleteAction - ', function () {
             expect(_.findIndex($scope.Contacts, { "Id": $scope.Contact.Id })).toEqual(notFoundIndex);
         });
 
-        it('Delete - onDeleteSuccess - With data result of a delete contact with ONE Error Message', function () {
+        it('With data result of a delete contact with ONE Error Message', function () {
 
             $scope.onDeleteSuccess(httpDataResultErrorX1);
 
             expect($scope.Errors.HasError).toEqual(true);
-            expect($scope.transactionSuccessMessage).toEqual('emptyText');
+            expect($scope.transactionSuccessMessage).toEqual(emptyTextString);
             expect($scope.Errors.Messages.length).toEqual(oneItemCount);
             expect($scope.Errors.Messages[firstItemIndex]).toEqual(errorMessage1)
         });
 
-        it('Delete - onDeleteSuccess - With data result of a delete contact with Two Error Messages', function () {
+        it('With data result of a delete contact with TWO Error Messages', function () {
 
             $scope.onDeleteSuccess(httpDataResultErrorX2);
 
             expect($scope.Errors.HasError).toEqual(true);
-            expect($scope.transactionSuccessMessage).toEqual('emptyText');
+            expect($scope.transactionSuccessMessage).toEqual(emptyTextString);
             expect($scope.Errors.Messages.length).toEqual(twoItemsCount);
             expect($scope.Errors.Messages[firstItemIndex]).toEqual(errorMessage1);
             expect($scope.Errors.Messages[secondItemIndex]).toEqual(errorMessage2);
         });
 
-        it('Delete - onDeleteSuccess - With data result of a delete contact invokes method findIndex of Underscore object', function () {
+        it('With data result of a delete contact invokes method findIndex of Underscore object', function () {
             $scope.Contact = firstContact;
             $scope.Contacts = contactListX2;
             spyOn(_, 'findIndex').and.callThrough();
@@ -221,7 +221,7 @@ describe('ContactController - DeleteAction - ', function () {
             expect(_.findIndex).toHaveBeenCalledWith([], { Id: contactId });
         });
 
-        it('Delete - onDeleteSuccess - With data result of a delete contact invokes method splice of Array.prototype object', function () {
+        it('With data result of a delete contact invokes method splice of Array.prototype object', function () {
             $scope.Contact = firstContact;
             $scope.Contacts = contactListX2;
             spyOn(Array.prototype, "splice").and.callThrough();
@@ -231,7 +231,7 @@ describe('ContactController - DeleteAction - ', function () {
             expect(Array.prototype.splice).toHaveBeenCalledWith(-1, 1);
         });
 
-        it('Delete - onDeleteSuccess - With data result of a delete contact returns to root Uri', function () {
+        it('With data result of a delete contact returns to root Uri', function () {
             $scope.Contact = firstContact;
             $scope.Contacts = contactListX2;
 

@@ -225,7 +225,7 @@ describe('ContactController - CreateAction - ', function () {
             //expect($scope.Contact.Id).toBeUndefined();
             expect($scope.Contact.Id).toBeNull();
             expect($scope.Errors.HasError).toEqual(true);
-            expect($scope.transactionSuccessMessage).toEqual('emptyText');
+            expect($scope.transactionSuccessMessage).toEqual(emptyTextString);
             expect($scope.Errors.Messages.length).toEqual(oneItemCount);
             expect($scope.Errors.Messages[firstItemIndex]).toEqual(errorMessage1);
         });
@@ -238,7 +238,7 @@ describe('ContactController - CreateAction - ', function () {
             //expect($scope.Contact.Id).toBeUndefined();
             expect($scope.Contact.Id).toBeNull();
             expect($scope.Errors.HasError).toEqual(true);
-            expect($scope.transactionSuccessMessage).toEqual('emptyText');
+            expect($scope.transactionSuccessMessage).toEqual(emptyTextString);
             expect($scope.Errors.Messages.length).toEqual(twoItemsCount);
             expect($scope.Errors.Messages[firstItemIndex]).toEqual(errorMessage1);
             expect($scope.Errors.Messages[secondItemIndex]).toEqual(errorMessage2);

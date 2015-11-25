@@ -175,7 +175,7 @@ describe('ContactController - EditAction - ', function () {
             $scope.onEditSuccess(httpDataResultErrorX1);
 
             expect($scope.Errors.HasError).toEqual(true);
-            expect($scope.transactionSuccessMessage).toEqual('emptyText');
+            expect($scope.transactionSuccessMessage).toEqual(emptyTextString);
             expect($scope.Errors.Messages.length).toEqual(oneItemCount);
             expect($scope.Errors.Messages[firstItemIndex]).toEqual(errorMessage1)
         });
@@ -185,7 +185,7 @@ describe('ContactController - EditAction - ', function () {
             $scope.onEditSuccess(httpDataResultErrorX2);
 
             expect($scope.Errors.HasError).toEqual(true);
-            expect($scope.transactionSuccessMessage).toEqual('emptyText');
+            expect($scope.transactionSuccessMessage).toEqual(emptyTextString);
             expect($scope.Errors.Messages.length).toEqual(twoItemsCount);
             expect($scope.Errors.Messages[firstItemIndex]).toEqual(errorMessage1);
             expect($scope.Errors.Messages[secondItemIndex]).toEqual(errorMessage2);

@@ -11,22 +11,23 @@
 /// <reference path="../../../NoMeOlvides/Scripts/Common/AuditManager.js" />
 /// <reference path='Fixture/CommonFixture.js' />
 /// <reference path='Fixture/ContactCommonFixture.js' />
-/// <reference path='Fixture/ContactCreateFixture.js' />
 /// <reference path="Fixture/AuditManagerCommonFixture.js" />
 /// <reference path="../../../NoMeOlvides/Scripts/Common/Globals.js" />
 /// <reference path="../../../NoMeOlvides/Scripts/Common/WebcamManager.js" />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/App.js' />
 /// <reference path='../../../NoMeOlvides/Scripts/Contact/CRUD.js' />
 
-describe('ContactController - ', function () {
+describe('ContactController - SearchAction - ', function () {
     var rootScope;
     var controller;
+    var location;
 
     beforeEach(module('app'));
 
-    beforeEach(inject(function (_$controller_, _$rootScope_) {
+    beforeEach(inject(function (_$controller_, _$rootScope_, _$location_) {
         rootScope = _$rootScope_;
         controller = _$controller_;
+        location = _$location_;
 
         spyOn(console, 'log').and.callFake(function () { });
     }));
@@ -59,7 +60,7 @@ describe('ContactController - ', function () {
         });
     });
 
-    describe('SearchAction - Call Http GET Method - ', function () {
+    describe('Seacrh - ', function () {
         var $scope;
         var $controller;
 
@@ -68,7 +69,7 @@ describe('ContactController - ', function () {
             $controller = controller('SearchAction', { $scope: $scope });
         }));
 
-        it('Seacrh - Must call the Http GET Method to get the Contact list result', function () {
+        it('Must call the Http GET Method to get the Contact list result', function () {
             $scope.http = httpMock;
             $scope.Contact = searchContactWithAllTheFields;
             spyOn($scope.http, 'get').and.callThrough();
@@ -77,7 +78,86 @@ describe('ContactController - ', function () {
 
             expect($scope.http.get).toHaveBeenCalledWith(contactBaseUri, $scope.Contact);
         });
-    });// TODO success y Error !!!!!!!!!!!!!!
+    });
+
+    describe('Call Response Events', function () {
+        var $scope;
+        var $controller;
+
+        beforeEach(inject(function () {
+            $scope = rootScope.$new();
+            $scope.Contacts = undefined;
+            callBackSuccessData = null;
+            callBackErrorData = null;
+
+            $controller = controller('SearchAction', { $scope: $scope, $location: location });
+        }));
+
+        it('Search - After call http post Method must call success event $scope.onSearchSuccess', function() {
+            $scope.http = httpMock;
+            $scope.Contact = searchContactWithAllTheFields;
+            callBackSuccessData = callBackSuccessDataWithoutError;
+            spyOn($scope, 'onSearchSuccess').and.callFake(function (data) {
+            });
+
+            $scope.Search();
+
+            expect($scope.onSearchSuccess).toHaveBeenCalledWith(callBackSuccessDataWithoutError);
+        });
+
+        it('Search - After call http post Method must call error event ErrorManager.getInstance().onGenealErrorEvent', function() {
+            $scope.http = httpMock;
+            $scope.Contact = searchContactWithAllTheFields;
+            callBackErrorData = callBackSuccessDataWithError;
+            spyOn(ErrorManager.getInstance(), "onGenealErrorEvent").and.callFake(function (data) {
+            });
+
+            $scope.Search();
+
+            expect(ErrorManager.getInstance().onGenealErrorEvent).toHaveBeenCalledWith(callBackSuccessDataWithError);
+        });
+    });
+
+    describe('onSearchSuccess - ', function () {
+        beforeEach(inject(function () {
+            $scope = rootScope.$new();
+            $scope.Contacts = [];
+            $scope.Contact = {};
+            $controller = controller('SearchAction', { $scope: $scope, $location: location });
+        }));
+
+        it('With data result of a search contact with ONE Error Message', function () {
+
+            $scope.onSearchSuccess(httpDataResultErrorX1);
+
+            expect($scope.Errors.HasError).toEqual(true);
+            expect($scope.transactionSuccessMessage).toEqual(emptyTextString);
+            expect($scope.Errors.Messages.length).toEqual(oneItemCount);
+            expect($scope.Errors.Messages[firstItemIndex]).toEqual(errorMessage1)
+        });
+
+        it('With data result of a search contact with TWO Error Messages', function () {
+
+            $scope.onSearchSuccess(httpDataResultErrorX2);
+
+            expect($scope.Errors.HasError).toEqual(true);
+            expect($scope.transactionSuccessMessage).toEqual(emptyTextString);
+            expect($scope.Errors.Messages.length).toEqual(twoItemsCount);
+            expect($scope.Errors.Messages[firstItemIndex]).toEqual(errorMessage1);
+            expect($scope.Errors.Messages[secondItemIndex]).toEqual(errorMessage2);
+        });
+
+        it('With data result of a search contact OK', function () {
+
+            $scope.onDeleteSuccess(contactListX1);
+
+            expect($scope.Errors.HasError).toEqual(false);
+            expect($scope.Errors.Messages.length).toEqual(emptyItemsCount);
+            expect($scope.Contacts.length).toEqual(oneItemCount);
+            expect(_.findIndex($scope.Contacts, { "Id": $scope.Contact.Id })).toEqual(firstItemIndex);
+        });
+
+    });
 
     describe('$scope.retrySearchCallback - ', function () {
         var $scope;
