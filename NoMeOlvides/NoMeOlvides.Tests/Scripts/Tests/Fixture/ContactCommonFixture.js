@@ -49,6 +49,18 @@ var httpDataResultOk = {
     },
     "Errors": callBackSuccessDataWithoutError.Errors
 };
+var httpSearchDataResultX0 = {
+    "Contacts": contactListX0,
+    "Errors": callBackSuccessDataWithoutError.Errors
+};
+var httpSearchDataResultX1 = {
+    "Contacts": contactListX1,
+    "Errors": callBackSuccessDataWithoutError.Errors
+};
+var httpSearchDataResultX2 = {
+    "Contacts": contactListX2,
+    "Errors": callBackSuccessDataWithoutError.Errors
+};
 var httpDataResultErrorX1 = {
     "Contact": {
         "Id": null

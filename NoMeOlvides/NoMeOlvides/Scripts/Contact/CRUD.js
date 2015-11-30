@@ -52,8 +52,11 @@ app.controller('SearchAction', ['$scope', '$http', function ($scope, $http) {
         $scope.transactionSuccessMessage = 'emptyText';
 
         if (data.Errors.HasError) {
+            $scope.Contacts = [];
             return;
         }
+
+        $scope.Contacts = data.Contacts;
     };
 
     $scope.retrySearchCallback = function (exception, method) {
@@ -67,14 +70,14 @@ app.controller('SearchAction', ['$scope', '$http', function ($scope, $http) {
 app.controller('CreateAction', ['$scope', '$location', '$http', function ($scope, $location, $http) {//, $filter) {
     $scope.http = $http;
     $scope.isForm = true;
-    $scope.Contact = { };
+    $scope.Contact = {};
     $scope.formFields = formFields;
 
     $scope.translateProvider = myTranslations.translateProvider;
     // TODO:  TDD!!!!!!!!!!!!!!!!!!!!!
     //$scope.VoiceManager = new VoiceManager($scope.translateProvider, true, formFields);
     //$scope.VoiceManager.start();
-    
+
     $scope.Create = function () {
         //throw new Error("What error!!!");
         $scope.http.post(applicationNamePath + 'WebApi/ContactApi', $scope.Contact)

@@ -1,3 +1,5 @@
++ Terminar Search del lado del Server !!! ver mensajeria de errores (Package Result con Errores - definir un protocolo)
+
 + VoiceManager no puede heredar de webkitSpeechRecognition, tiene que agregarlo (FACADE)!!!!!
 
 + integrar WebcamManager para la foto del contacto con la webcam o subida de archivo a la UI de alta y modificación de contacto

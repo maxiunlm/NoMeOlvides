@@ -134,6 +134,7 @@ describe('ContactController - SearchAction - ', function () {
             expect($scope.transactionSuccessMessage).toEqual(emptyTextString);
             expect($scope.Errors.Messages.length).toEqual(oneItemCount);
             expect($scope.Errors.Messages[firstItemIndex]).toEqual(errorMessage1)
+            expect($scope.Contacts.length).toEqual(emptyItemsCount);
         });
 
         it('With data result of a search contact with TWO Error Messages', function () {
@@ -145,18 +146,41 @@ describe('ContactController - SearchAction - ', function () {
             expect($scope.Errors.Messages.length).toEqual(twoItemsCount);
             expect($scope.Errors.Messages[firstItemIndex]).toEqual(errorMessage1);
             expect($scope.Errors.Messages[secondItemIndex]).toEqual(errorMessage2);
+            expect($scope.Contacts.length).toEqual(emptyItemsCount);
         });
 
         it('With data result of a search contact OK', function () {
 
-            $scope.onDeleteSuccess(contactListX1);
+            $scope.onSearchSuccess(httpSearchDataResultX1);
 
             expect($scope.Errors.HasError).toEqual(false);
             expect($scope.Errors.Messages.length).toEqual(emptyItemsCount);
-            expect($scope.Contacts.length).toEqual(oneItemCount);
-            expect(_.findIndex($scope.Contacts, { "Id": $scope.Contact.Id })).toEqual(firstItemIndex);
+            expect($scope.Contacts).toBeDefined();
         });
+        
+        it('With zero data result of a search contact', function () {
 
+            $scope.onSearchSuccess(httpSearchDataResultX0);
+
+            expect($scope.Contacts.length).toEqual(emptyItemsCount);
+        });
+        
+        it('With one data result of a search contact', function () {
+
+            $scope.onSearchSuccess(httpSearchDataResultX1);
+
+            expect($scope.Contacts.length).toEqual(oneItemCount);
+            expect(_.findIndex($scope.Contacts, { "Id": httpSearchDataResultX1.Contacts[firstItemIndex].Id })).toEqual(firstItemIndex);
+        });
+        
+        it('With two data results of a search contact', function () {
+
+            $scope.onSearchSuccess(httpSearchDataResultX2);
+
+            expect($scope.Contacts.length).toEqual(twoItemsCount);
+            expect(_.findIndex($scope.Contacts, { "Id": httpSearchDataResultX2.Contacts[firstItemIndex].Id })).toEqual(firstItemIndex);
+            expect(_.findIndex($scope.Contacts, { "Id": httpSearchDataResultX2.Contacts[secondItemIndex].Id })).toEqual(secondItemIndex);
+        });
     });
 
     describe('$scope.retrySearchCallback - ', function () {
