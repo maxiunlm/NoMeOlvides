@@ -176,6 +176,7 @@
     <Compile Include="Controllers\ContactControllerTests.cs" />
     <Compile Include="DataModel\ContactDataModelTests.cs" />
     <Compile Include="Data\ContactDataTests.cs" />
+    <Compile Include="Helper\ErrorsPackageContentTests.cs" />
     <Compile Include="Helper\MongoDbHelperTests.cs" />
     <Compile Include="Helper\MongoDbQueryTests.cs" />
     <Compile Include="Helper\ServerFileSystemHelperTests.cs" />
