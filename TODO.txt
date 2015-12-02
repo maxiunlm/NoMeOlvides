@@ -1,4 +1,5 @@
-+ Terminar Search del lado del Server !!! ver mensajeria de errores (Package Result con Errores - definir un protocolo)
++ Terminar Search del lado del Server !!! 
+ + ver mensajeria de errores (Hacer que los ViewModels hereden de ResultPackageBase) !!!!!!!!!!!!!!!!!!!
 
 + VoiceManager no puede heredar de webkitSpeechRecognition, tiene que agregarlo (FACADE)!!!!!
 

@@ -8,10 +8,16 @@ namespace Domain.Hepler
 {
     public class ErrorsPackageContent
     {
-        public bool HasError { get; set; }
+        public bool HasError
+        {
+            get
+            {
+                return Messages.Count > 0;
+            }
+        }
 
-        private IList<string> messages;
-        public IList<string> Messages
+        private List<string> messages;
+        public List<string> Messages
         {
             get
             {

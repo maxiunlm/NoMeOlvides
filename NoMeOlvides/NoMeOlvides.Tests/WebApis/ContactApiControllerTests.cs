@@ -85,8 +85,8 @@ namespace NoMeOlvides.Tests.WebApis
             ErrorResponseViewModel result = Json.Decode<ErrorResponseViewModel>(resultJsonString);
 
             Assert.That(exception, Is.InstanceOf<HttpResponseException>());
-            Assert.AreEqual(hasError, result.HasError);
-            Assert.AreEqual(Locale.generalErrorMessage, result.Messages[0]);
+            Assert.AreEqual(hasError, result.Errors.HasError);
+            Assert.AreEqual(Locale.generalErrorMessage, result.Errors.Messages[0]);
         }
 
         #endregion

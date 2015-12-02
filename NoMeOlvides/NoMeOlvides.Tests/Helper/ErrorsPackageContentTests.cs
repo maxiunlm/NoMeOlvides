@@ -16,9 +16,9 @@ namespace NoMeOlvides.Tests.Helper
         private const int emptyElementsCount = 0;
         private const string message1 = "message1";
         private const string message2 = "message2";
-        private readonly IList<string> emptyList = new List<string>();
-        private readonly IList<string> listX1 = new List<string> { message1 };
-        private readonly IList<string> listX2 = new List<string> { message1, message2 };
+        private readonly List<string> emptyList = new List<string>();
+        private readonly List<string> listX1 = new List<string> { message1 };
+        private readonly List<string> listX2 = new List<string> { message1, message2 };
 
         [SetUp]
         public void SetUp()
@@ -38,28 +38,6 @@ namespace NoMeOlvides.Tests.Helper
 
         #endregion
 
-        #region HasError [SET]
-
-        [Test]
-        public void HasError_SET__WithFalseValue_ReturnsFalse()
-        {
-
-            sut.HasError = false;
-
-            Assert.IsFalse(sut.HasError);
-        }
-
-        [Test]
-        public void HasError_SET__WithTrueValue_ReturnsTrue()
-        {
-
-            sut.HasError = true;
-
-            Assert.IsTrue(sut.HasError);
-        }
-
-        #endregion
-
         #region Messages [GET]
 
         [Test]
@@ -69,6 +47,7 @@ namespace NoMeOlvides.Tests.Helper
 
             Assert.IsNotNull(sut.Messages);
             Assert.AreEqual(emptyElementsCount, sut.Messages.Count);
+            Assert.IsFalse(sut.HasError);
         }
 
         #endregion
@@ -83,6 +62,7 @@ namespace NoMeOlvides.Tests.Helper
 
             Assert.IsNotNull(sut.Messages);
             Assert.AreEqual(emptyElementsCount, sut.Messages.Count);
+            Assert.IsFalse(sut.HasError);
         }
 
         [Test]
@@ -92,6 +72,7 @@ namespace NoMeOlvides.Tests.Helper
             sut.Messages = emptyList;
 
             Assert.AreSame(emptyList, sut.Messages);
+            Assert.IsFalse(sut.HasError);
         }
 
         [Test]
@@ -101,6 +82,7 @@ namespace NoMeOlvides.Tests.Helper
             sut.Messages = listX1;
             
             Assert.AreSame(listX1, sut.Messages);
+            Assert.IsTrue(sut.HasError);
         }
 
         [Test]
@@ -110,6 +92,7 @@ namespace NoMeOlvides.Tests.Helper
             sut.Messages = listX2;
 
             Assert.AreSame(listX2, sut.Messages);
+            Assert.IsTrue(sut.HasError);
         }
 
         #endregion

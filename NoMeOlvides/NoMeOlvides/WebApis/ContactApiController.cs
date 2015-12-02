@@ -53,9 +53,8 @@ namespace NoMeOlvides.WebApis
             {
                 HttpResponseMessage respose = new HttpResponseMessage(HttpStatusCode.NotFound);
                 ErrorResponseViewModel error = new ErrorResponseViewModel();
-                error.HasError = true;
                 //error.Messages.Add(ex.Message);
-                error.Messages.Add(Locale.generalErrorMessage);
+                error.Errors.Messages.Add(Locale.generalErrorMessage);
                 respose.Content = new StringContent(System.Web.Helpers.Json.Encode(error));
 
                 throw new HttpResponseException(respose);

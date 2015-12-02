@@ -8,5 +8,20 @@ namespace Domain.Hepler
 {
     public abstract class ResultPackageBase
     {
+        private ErrorsPackageContent errors;
+        public ErrorsPackageContent Errors { get
+            {
+                if(errors == null)
+                {
+                    errors = new ErrorsPackageContent();
+                }
+
+                return errors;
+            }
+            set
+            {
+                errors = value;
+            }
+        }
     }
 }
