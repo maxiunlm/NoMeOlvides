@@ -24,11 +24,11 @@ namespace NoMeOlvides.WebApis
             Service = new ContactService();
         }
 
-        //// GET api/<controller>
-        //public IEnumerable<ContactViewModel> Get()
-        //{
-        //    return new ContactViewModel[] { new ContactViewModel { Id = "1", Email = "a@a.com"} };
-        //}
+        // GET api/<controller>
+        public IEnumerable<ContactViewModel> Get(ContactViewModel search)
+        {
+            return Service.Search(search);
+        }
 
         // GET api/<controller>/5
         public ContactViewModel Get(string id)

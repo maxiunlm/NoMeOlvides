@@ -35,6 +35,16 @@ namespace NoMeOlvides.Tests.Business
             new ContactDataModel { Id = contactObjectId },
             new ContactDataModel { Id = ObjectId.GenerateNewId() }
         };
+        private readonly ContactDataModel fullFiltersContactDataModel = new ContactDataModel
+        {
+            Address = "Address",
+            Cellphone = "1234",
+            Alias = "Alias",
+            Email = "Email",
+            Name = "Name",
+            Phone = "Phone",
+            Surname = "Surname"
+        };
 
         #endregion
 
@@ -199,7 +209,7 @@ namespace NoMeOlvides.Tests.Business
         {
             mocker.Setup(o => o.ListContacts(contactObjectId)).Returns(contactsX0);
 
-            List<ContactDataModel> result = sut.ListContacts(contactObjectId);
+            IList<ContactDataModel> result = sut.ListContacts(contactObjectId);
 
             Assert.IsEmpty(result);
         }
@@ -209,7 +219,7 @@ namespace NoMeOlvides.Tests.Business
         {
             mocker.Setup(o => o.ListContacts(contactObjectId)).Returns(contactsX1);
 
-            List<ContactDataModel> result = sut.ListContacts(contactObjectId);
+            IList<ContactDataModel> result = sut.ListContacts(contactObjectId);
 
             Assert.AreEqual(result.Count, contactsX1.Count);
             Assert.AreEqual(result[0].Id, contactsX1[0].Id);
@@ -220,11 +230,95 @@ namespace NoMeOlvides.Tests.Business
         {
             mocker.Setup(o => o.ListContacts(contactObjectId)).Returns(contactsX2);
 
-            List<ContactDataModel> result = sut.ListContacts(contactObjectId);
+            IList<ContactDataModel> result = sut.ListContacts(contactObjectId);
 
             Assert.AreEqual(result.Count, contactsX2.Count);
             Assert.AreEqual(result[0].Id, contactsX2[0].Id);
             Assert.AreEqual(result[1].Id, contactsX2[1].Id);
+        }
+
+        #endregion
+
+        #region Search
+
+        [Test]
+        public void Search_WithoutFilters_InvokeMethodFromTheNextLayerWichReturnsTheListOfContacts()
+        {
+            mocker.Setup(o => o.Search(contactEmptyDataModel)).Returns(contactsX1);
+
+            sut.Search(contactEmptyDataModel);
+
+            mocker.Verify(o => o.Search(contactEmptyDataModel));
+        }
+
+        [Test]
+        public void Search_WithoutFilters_InvokeMethodFromTheNextLayerWichReturnsEmptyListOfContacts()
+        {
+            mocker.Setup(o => o.Search(contactEmptyDataModel)).Returns(contactsX0);
+
+            IList<ContactDataModel> result = sut.Search(contactEmptyDataModel);
+
+            Assert.AreSame(contactsX0, result);
+        }
+
+        [Test]
+        public void Search_WithoutFilters_InvokeMethodFromTheNextLayerWichReturnsEmptyListOfContactsWithTwoResults()
+        {
+            mocker.Setup(o => o.Search(contactEmptyDataModel)).Returns(contactsX2);
+
+            IList<ContactDataModel> result = sut.Search(contactEmptyDataModel);
+
+            Assert.AreSame(contactsX2, result);
+        }
+
+        [Test]
+        public void Search_WithoutFilters_InvokeMethodFromTheNextLayerWichReturnsListOfContactsWithOneResult()
+        {
+            mocker.Setup(o => o.Search(contactEmptyDataModel)).Returns(contactsX1);
+
+            IList<ContactDataModel> result = sut.Search(contactEmptyDataModel);
+
+            Assert.AreSame(contactsX1, result);
+        }
+
+        [Test]
+        public void Search_WithAllTheFilters_InvokeMethodFromTheNextLayerWichReturnsTheListOfContacts()
+        {
+            mocker.Setup(o => o.Search(fullFiltersContactDataModel)).Returns(contactsX1);
+
+            sut.Search(fullFiltersContactDataModel);
+
+            mocker.Verify(o => o.Search(fullFiltersContactDataModel));
+        }
+
+        [Test]
+        public void Search_WithAllTheFilters_InvokeMethodFromTheNextLayerWichReturnsEmptyListOfContacts()
+        {
+            mocker.Setup(o => o.Search(fullFiltersContactDataModel)).Returns(contactsX0);
+
+            IList<ContactDataModel> result = sut.Search(fullFiltersContactDataModel);
+
+            Assert.AreSame(contactsX0, result);
+        }
+
+        [Test]
+        public void Search_WithAllTheFilters_InvokeMethodFromTheNextLayerWichReturnsEmptyListOfContactsWithTwoResults()
+        {
+            mocker.Setup(o => o.Search(fullFiltersContactDataModel)).Returns(contactsX2);
+
+            IList<ContactDataModel> result = sut.Search(fullFiltersContactDataModel);
+
+            Assert.AreSame(contactsX2, result);
+        }
+
+        [Test]
+        public void Search_WithAllTheFilters_InvokeMethodFromTheNextLayerWichReturnsListOfContactsWithOneResult()
+        {
+            mocker.Setup(o => o.Search(fullFiltersContactDataModel)).Returns(contactsX1);
+
+            IList<ContactDataModel> result = sut.Search(fullFiltersContactDataModel);
+
+            Assert.AreSame(contactsX1, result);
         }
 
         #endregion

@@ -29,7 +29,7 @@ namespace NoMeOlvides.Controllers
             contactId = contact.Id;
             #endregion
 
-            List<ContactViewModel> contacts = ContactService.ListContacts(contactId);
+            IList<ContactViewModel> contacts = ContactService.ListContacts(contactId);
 
             return View(contacts);
             //return View(new ContactViewModel());

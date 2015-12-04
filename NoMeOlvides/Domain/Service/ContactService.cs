@@ -45,9 +45,18 @@ namespace Domain.Service
             Business.Delete(new ObjectId(id));
         }
 
-        public virtual List<ContactViewModel> ListContacts(string id)
+        public virtual IList<ContactViewModel> ListContacts(string id)
         {
             return Business.ListContacts(new ObjectId(id)).Select(o => new ContactViewModel(o)).ToList();
+        }
+
+        public virtual IList<ContactViewModel> Search(ContactViewModel contactViewModel)
+        {
+            ContactDataModel contactDataModel = new ContactDataModel(contactViewModel);
+
+            IList<ContactDataModel> result = Business.Search(contactDataModel);
+
+            return result.Select(o => new ContactViewModel(o)).ToList();
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.ViewModel;
 
 namespace Domain.Business
 {
@@ -39,9 +40,14 @@ namespace Domain.Business
             Data.Delete(id);
         }
 
-        public virtual List<ContactDataModel> ListContacts(ObjectId id)
+        public virtual IList<ContactDataModel> ListContacts(ObjectId id)
         {
             return Data.ListContacts(id);
+        }
+
+        public virtual IList<ContactDataModel> Search(ContactDataModel contactEmptyViewModel)
+        {
+            return Data.Search(contactEmptyViewModel);
         }
     }
 }

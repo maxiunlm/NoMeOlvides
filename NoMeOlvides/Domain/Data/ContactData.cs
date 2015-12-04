@@ -124,5 +124,10 @@ namespace Domain.Data
 
             return contacts;
         }
+
+        public virtual List<ContactDataModel> Search(ContactDataModel contactEmptyDataModel)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

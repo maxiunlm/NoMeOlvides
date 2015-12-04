@@ -12,6 +12,7 @@ using System.Text;
 using System.Net.Http;
 using System.Web.Helpers;
 using Domain.Resources;
+using System.Collections.Generic;
 
 namespace NoMeOlvides.Tests.WebApis
 {
@@ -34,9 +35,26 @@ namespace NoMeOlvides.Tests.WebApis
         private const string nullEmail = null;
         private const bool hasError = true;
         private readonly ContactViewModel contactEmptyViewModel = new ContactViewModel();
-        private readonly ContactViewModel contactViewModel = new ContactViewModel { Email = "a@a.com", Password = "123456" };
+        private readonly ContactViewModel fullFiltersContactViewModel = new ContactViewModel
+        {
+            Address = "Address",
+            Cellphone = "1234",
+            Alias = "Alias",
+            Email = "Email",
+            Name = "Name",
+            Phone = "Phone",
+            Surname = "Surname"
+        };
+        private static readonly ContactViewModel contactViewModel = new ContactViewModel { Email = "a@a.com", Password = "123456" };
         private static readonly ContactViewModel contactExistentViewModel = new ContactViewModel { Id = ObjectId.GenerateNewId().ToString(), Email = "a@a.com", Password = "123456" };
+        private static readonly ContactViewModel secondContactExistentViewModel = new ContactViewModel { Id = ObjectId.GenerateNewId().ToString(), Email = "b@b.com", Password = "7890" };
         private readonly Exception generalException = new Exception("TERMINAR!!!");
+        private readonly IList<ContactViewModel> contactsX0 = new List<ContactViewModel>();
+        private readonly IList<ContactViewModel> contactsX1 = new List<ContactViewModel> { contactExistentViewModel };
+        private readonly IList<ContactViewModel> contactsX2 = new List<ContactViewModel> {
+            contactExistentViewModel,
+            secondContactExistentViewModel
+        };
 
         #endregion
 
@@ -105,6 +123,90 @@ namespace NoMeOlvides.Tests.WebApis
 
         #endregion
 
+        #region Get [Search]
+
+        [Test]
+        public void Get_WithoutFilters_InvokeMethodFromTheNextLayerWichReturnsTheListOfContacts()
+        {
+            mocker.Setup(o => o.Search(contactEmptyViewModel)).Returns(contactsX1);
+
+            sut.Get(contactEmptyViewModel);
+
+            mocker.Verify(o => o.Search(contactEmptyViewModel));
+        }
+
+        [Test]
+        public void Get_WithoutFilters_InvokeMethodFromTheNextLayerWichReturnsEmptyListOfContacts()
+        {
+            mocker.Setup(o => o.Search(contactEmptyViewModel)).Returns(contactsX0);
+
+            IList<ContactViewModel> result = (IList<ContactViewModel>)sut.Get(contactEmptyViewModel);
+
+            Assert.AreSame(contactsX0, result);
+        }
+
+        [Test]
+        public void Get_WithoutFilters_InvokeMethodFromTheNextLayerWichReturnsEmptyListOfContactsWithTwoResults()
+        {
+            mocker.Setup(o => o.Search(contactEmptyViewModel)).Returns(contactsX2);
+
+            IList<ContactViewModel> result = (IList<ContactViewModel>)sut.Get(contactEmptyViewModel);
+
+            Assert.AreSame(contactsX2, result);
+        }
+
+        [Test]
+        public void Get_WithoutFilters_InvokeMethodFromTheNextLayerWichReturnsListOfContactsWithOneResult()
+        {
+            mocker.Setup(o => o.Search(contactEmptyViewModel)).Returns(contactsX1);
+
+            IList<ContactViewModel> result = (IList<ContactViewModel>)sut.Get(contactEmptyViewModel);
+
+            Assert.AreSame(contactsX1, result);
+        }
+
+        [Test]
+        public void Get_WithAllTheFilters_InvokeMethodFromTheNextLayerWichReturnsTheListOfContacts()
+        {
+            mocker.Setup(o => o.Search(fullFiltersContactViewModel)).Returns(contactsX1);
+
+            sut.Get(fullFiltersContactViewModel);
+
+            mocker.Verify(o => o.Search(fullFiltersContactViewModel));
+        }
+
+        [Test]
+        public void Get_WithAllTheFilters_InvokeMethodFromTheNextLayerWichReturnsEmptyListOfContacts()
+        {
+            mocker.Setup(o => o.Search(fullFiltersContactViewModel)).Returns(contactsX0);
+
+            IList<ContactViewModel> result = (IList<ContactViewModel>)sut.Get(fullFiltersContactViewModel);
+
+            Assert.AreSame(contactsX0, result);
+        }
+
+        [Test]
+        public void Get_WithAllTheFilters_InvokeMethodFromTheNextLayerWichReturnsEmptyListOfContactsWithTwoResults()
+        {
+            mocker.Setup(o => o.Search(fullFiltersContactViewModel)).Returns(contactsX2);
+
+            IList<ContactViewModel> result = (IList<ContactViewModel>)sut.Get(fullFiltersContactViewModel);
+
+            Assert.AreSame(contactsX2, result);
+        }
+
+        [Test]
+        public void Get_WithAllTheFilters_InvokeMethodFromTheNextLayerWichReturnsListOfContactsWithOneResult()
+        {
+            mocker.Setup(o => o.Search(fullFiltersContactViewModel)).Returns(contactsX1);
+
+            IList<ContactViewModel> result = (IList<ContactViewModel>)sut.Get(fullFiltersContactViewModel);
+
+            Assert.AreSame(contactsX1, result);
+        }
+
+        #endregion
+
         #region GetByEmail
 
         [Test]
@@ -159,7 +261,7 @@ namespace NoMeOlvides.Tests.WebApis
 
         #endregion
 
-        #region Get
+        #region Get [By Id]
 
         [Test]
         public void Get_ConIdValido_InvocaMetodoDeLaCapaInferiorQueRetornaElContacto()
