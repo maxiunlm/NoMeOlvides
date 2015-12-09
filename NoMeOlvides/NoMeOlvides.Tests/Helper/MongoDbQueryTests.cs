@@ -47,10 +47,10 @@ namespace NoMeOlvides.Tests.Helper
         private readonly IQueryable<ContactDataModel> emptyQueryable = new List<ContactDataModel>().AsQueryable();
         private readonly DevelopedControlledException developedControlledException = new DevelopedControlledException(Locale.duplicatedEmailsBetweenContacts);
         private readonly List<ContactDataModel> contactsX0 = new List<ContactDataModel>();
-        private readonly List<ContactDataModel> contactsX1 = new List<ContactDataModel> { 
+        private readonly List<ContactDataModel> contactsX1 = new List<ContactDataModel> {
             new ContactDataModel { Id = objectId, Contacts = new List<ObjectId> { contactObjectId } }
         };
-        private readonly List<ContactDataModel> contactsX2 = new List<ContactDataModel> { 
+        private readonly List<ContactDataModel> contactsX2 = new List<ContactDataModel> {
             new ContactDataModel { Id = objectId, Contacts = new List<ObjectId> { contactObjectId } },
             new ContactDataModel { Id = objectId2, Contacts = new List<ObjectId> { contactObjectId } }
         };
@@ -211,6 +211,10 @@ namespace NoMeOlvides.Tests.Helper
             Assert.AreEqual(result[0].Id, contactsX2[0].Id);
             Assert.AreEqual(result[1].Id, contactsX2[1].Id);
         }
+
+        #endregion
+
+        #region Search
 
         #endregion
     }

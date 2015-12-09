@@ -127,7 +127,11 @@ namespace Domain.Data
 
         public virtual List<ContactDataModel> Search(ContactDataModel contactEmptyDataModel)
         {
-            throw new NotImplementedException();
+            MongoCollection<ContactDataModel> contactDataModelCollection = GetContactCollection();
+            IQueryable<ContactDataModel> contactQueyrableCollection = MongoDbHelper.GetIQueryableFromMongoCollection<ContactDataModel>(contactDataModelCollection);
+            List<ContactDataModel> contacts = MongoDbQuery.Search(contactEmptyDataModel, contactQueyrableCollection);
+
+            return contacts;
         }
     }
 }

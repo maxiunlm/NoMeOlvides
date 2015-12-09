@@ -49,5 +49,10 @@ namespace Domain.Hepler
 
             return contacts;
         }
+
+        public virtual List<ContactDataModel> Search(ContactDataModel contactEmptyDataModel, IQueryable<ContactDataModel> queryable)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

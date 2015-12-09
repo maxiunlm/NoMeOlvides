@@ -262,7 +262,7 @@ namespace NoMeOlvides.Tests.Business
         }
 
         [Test]
-        public void Search_WithoutFilters_InvokeMethodFromTheNextLayerWichReturnsEmptyListOfContactsWithTwoResults()
+        public void Search_WithoutFilters_InvokeMethodFromTheNextLayerWichReturnsListOfContactsWithTwoResults()
         {
             mocker.Setup(o => o.Search(contactEmptyDataModel)).Returns(contactsX2);
 
@@ -302,7 +302,7 @@ namespace NoMeOlvides.Tests.Business
         }
 
         [Test]
-        public void Search_WithAllTheFilters_InvokeMethodFromTheNextLayerWichReturnsEmptyListOfContactsWithTwoResults()
+        public void Search_WithAllTheFilters_InvokeMethodFromTheNextLayerWichReturnsListOfContactsWithTwoResults()
         {
             mocker.Setup(o => o.Search(fullFiltersContactDataModel)).Returns(contactsX2);
 

@@ -40,6 +40,16 @@ namespace NoMeOlvides.Tests.Data
         private const string emptyEmail = "";
         private const string nullEmail = null;
         private readonly ContactDataModel contactEmptyDataModel = new ContactDataModel();
+        private readonly ContactDataModel fullFiltersContactDataModel = new ContactDataModel
+        {
+            Address = "Address",
+            Cellphone = "1234",
+            Alias = "Alias",
+            Email = "Email",
+            Name = "Name",
+            Phone = "Phone",
+            Surname = "Surname"
+        };
         private readonly DevelopedControlledException developedControlledException = new DevelopedControlledException(Locale.preExistentContact);
         private static readonly ObjectId objectId = ObjectId.GenerateNewId();
         private static readonly ObjectId objectId2 = ObjectId.GenerateNewId();
@@ -621,83 +631,108 @@ namespace NoMeOlvides.Tests.Data
         #region Search
 
         [Test]
-        public void Search_WithoutFilters_InvokeMethodFromTheNextLayerWichReturnsTheListOfContacts()
+        public void Search_WithoutFilters_InvokesMethodFromMongoDbWichReturnsTheCollectionFromTheDataBase()
         {
-            mocker.Setup(o => o.Search(contactEmptyDataModel)).Returns(contactsX1);
+            mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
 
             sut.Search(contactEmptyDataModel);
 
-            mocker.Verify(o => o.Search(contactEmptyDataModel));
+            mongoDatabaseMocker.Verify(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>()));//, It.IsAny<MongoCollectionSettings>()
         }
 
         [Test]
-        public void Search_WithoutFilters_InvokeMethodFromTheNextLayerWichReturnsEmptyListOfContacts()
+        public void Search_WithoutFilters_InvokesMethodFromMongoDbHelperWichConvertsTheCollectionIntoAnIQuerable()
         {
-            mocker.Setup(o => o.Search(contactEmptyDataModel)).Returns(contactsX0);
+            mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
+            mongoDbHelperMocker.Setup(o => o.GetIQueryableFromMongoCollection<ContactDataModel>(It.IsAny<MongoCollection<ContactDataModel>>())).Returns(contactsDataModelX1.AsQueryable());
 
-            IList<ContactDataModel> result = sut.Search(contactEmptyDataModel);
+            sut.Search(contactEmptyDataModel);
+
+            mongoDbHelperMocker.Verify(o => o.GetIQueryableFromMongoCollection<ContactDataModel>(It.IsAny<MongoCollection<ContactDataModel>>()));
+        }
+
+        [Test]
+        public void Search_WithoutFilters_InvokesMethodFromMongoDbQueryWichReturnsTheListOfContactsFromTheDataBase()
+        {
+            mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
+            mongoDbHelperMocker.Setup(o => o.GetIQueryableFromMongoCollection<ContactDataModel>(It.IsAny<MongoCollection<ContactDataModel>>())).Returns(contactsDataModelX1.AsQueryable());
+            mongoDbQueryMocker.Setup(o => o.Search(contactEmptyDataModel, It.IsAny<IQueryable<ContactDataModel>>())).Returns(contactsX1);
+
+            sut.Search(contactEmptyDataModel);
+
+            mongoDbQueryMocker.Verify(o => o.Search(contactEmptyDataModel, It.IsAny<IQueryable<ContactDataModel>>()));
+        }
+
+        [Test]
+        public void Search_WithoutFilters_InvokesMethodFromMongoDbQueryWichReturnsEmptyListOfContacts()
+        {
+            mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
+            mongoDbHelperMocker.Setup(o => o.GetIQueryableFromMongoCollection<ContactDataModel>(It.IsAny<MongoCollection<ContactDataModel>>())).Returns(contactsDataModelX0.AsQueryable());
+            mongoDbQueryMocker.Setup(o => o.Search(contactEmptyDataModel, It.IsAny<IQueryable<ContactDataModel>>())).Returns(contactsX0);
+
+            List<ContactDataModel> result = sut.Search(contactEmptyDataModel);
 
             Assert.AreSame(contactsX0, result);
         }
 
         [Test]
-        public void Search_WithoutFilters_InvokeMethodFromTheNextLayerWichReturnsEmptyListOfContactsWithTwoResults()
+        public void Search_WithoutFilters_InvokesMethodFromMongoDbQueryWichReturnsListOfContactsWithOneResult()
         {
-            mocker.Setup(o => o.Search(contactEmptyDataModel)).Returns(contactsX2);
+            mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
+            mongoDbHelperMocker.Setup(o => o.GetIQueryableFromMongoCollection<ContactDataModel>(It.IsAny<MongoCollection<ContactDataModel>>())).Returns(contactsDataModelX1.AsQueryable());
+            mongoDbQueryMocker.Setup(o => o.Search(contactEmptyDataModel, It.IsAny<IQueryable<ContactDataModel>>())).Returns(contactsX1);
 
-            IList<ContactDataModel> result = sut.Search(contactEmptyDataModel);
-
-            Assert.AreSame(contactsX2, result);
-        }
-
-        [Test]
-        public void Search_WithoutFilters_InvokeMethodFromTheNextLayerWichReturnsListOfContactsWithOneResult()
-        {
-            mocker.Setup(o => o.Search(contactEmptyDataModel)).Returns(contactsX1);
-
-            IList<ContactDataModel> result = sut.Search(contactEmptyDataModel);
+            List<ContactDataModel> result = sut.Search(contactEmptyDataModel);
 
             Assert.AreSame(contactsX1, result);
         }
 
         [Test]
-        public void Search_WithAllTheFilters_InvokeMethodFromTheNextLayerWichReturnsTheListOfContacts()
+        public void Search_WithoutFilters_InvokesMethodFromMongoDbQueryWichReturnsListOfContactsWithTwoResults()
         {
-            mocker.Setup(o => o.Search(fullFiltersContactDataModel)).Returns(contactsX1);
+            mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
+            mongoDbHelperMocker.Setup(o => o.GetIQueryableFromMongoCollection<ContactDataModel>(It.IsAny<MongoCollection<ContactDataModel>>())).Returns(contactsDataModelX2.AsQueryable());
+            mongoDbQueryMocker.Setup(o => o.Search(contactEmptyDataModel, It.IsAny<IQueryable<ContactDataModel>>())).Returns(contactsX2);
 
-            sut.Search(fullFiltersContactDataModel);
+            List<ContactDataModel> result = sut.Search(contactEmptyDataModel);
 
-            mocker.Verify(o => o.Search(fullFiltersContactDataModel));
+            Assert.AreSame(contactsX2, result);
         }
 
         [Test]
-        public void Search_WithAllTheFilters_InvokeMethodFromTheNextLayerWichReturnsEmptyListOfContacts()
+        public void Search_WithAllTheFilters_InvokesMethodFromMongoDbQueryWichReturnsEmptyListOfContacts()
         {
-            mocker.Setup(o => o.Search(fullFiltersContactDataModel)).Returns(contactsX0);
+            mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
+            mongoDbHelperMocker.Setup(o => o.GetIQueryableFromMongoCollection<ContactDataModel>(It.IsAny<MongoCollection<ContactDataModel>>())).Returns(contactsDataModelX0.AsQueryable());
+            mongoDbQueryMocker.Setup(o => o.Search(fullFiltersContactDataModel, It.IsAny<IQueryable<ContactDataModel>>())).Returns(contactsX0);
 
-            IList<ContactDataModel> result = sut.Search(fullFiltersContactDataModel);
+            List<ContactDataModel> result = sut.Search(fullFiltersContactDataModel);
 
             Assert.AreSame(contactsX0, result);
         }
 
         [Test]
-        public void Search_WithAllTheFilters_InvokeMethodFromTheNextLayerWichReturnsEmptyListOfContactsWithTwoResults()
+        public void Search_WithAllTheFilters_InvokesMethodFromMongoDbQueryWichReturnsListOfContactsWithOneResult()
         {
-            mocker.Setup(o => o.Search(fullFiltersContactDataModel)).Returns(contactsX2);
+            mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
+            mongoDbHelperMocker.Setup(o => o.GetIQueryableFromMongoCollection<ContactDataModel>(It.IsAny<MongoCollection<ContactDataModel>>())).Returns(contactsDataModelX1.AsQueryable());
+            mongoDbQueryMocker.Setup(o => o.Search(fullFiltersContactDataModel, It.IsAny<IQueryable<ContactDataModel>>())).Returns(contactsX1);
 
-            IList<ContactDataModel> result = sut.Search(fullFiltersContactDataModel);
+            List<ContactDataModel> result = sut.Search(fullFiltersContactDataModel);
 
-            Assert.AreSame(contactsX2, result);
+            Assert.AreSame(contactsX1, result);
         }
 
         [Test]
-        public void Search_WithAllTheFilters_InvokeMethodFromTheNextLayerWichReturnsListOfContactsWithOneResult()
+        public void Search_WithAllTheFilters_InvokesMethodFromMongoDbQueryWichReturnsListOfContactsWithTwoResults()
         {
-            mocker.Setup(o => o.Search(fullFiltersContactDataModel)).Returns(contactsX1);
+            mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
+            mongoDbHelperMocker.Setup(o => o.GetIQueryableFromMongoCollection<ContactDataModel>(It.IsAny<MongoCollection<ContactDataModel>>())).Returns(contactsDataModelX2.AsQueryable());
+            mongoDbQueryMocker.Setup(o => o.Search(fullFiltersContactDataModel, It.IsAny<IQueryable<ContactDataModel>>())).Returns(contactsX2);
 
-            IList<ContactDataModel> result = sut.Search(fullFiltersContactDataModel);
+            List<ContactDataModel> result = sut.Search(fullFiltersContactDataModel);
 
-            Assert.AreSame(contactsX1, result);
+            Assert.AreSame(contactsX2, result);
         }
 
         #endregion
