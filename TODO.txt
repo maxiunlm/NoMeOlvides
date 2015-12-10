@@ -1,5 +1,8 @@
-+ Terminar Search del lado del Server !!! 
- + ver mensajeria de errores (Hacer que los ViewModels hereden de ResultPackageBase) !!!!!!!!!!!!!!!!!!!
++ Terminar Search del lado del Server EL BDD !!
+
++ Hacer que las Properties del ContactDataModel NO PUEDAN CONTENER NULOS !!!!
+
++ ver mensajeria de errores (Hacer que los ViewModels hereden de ResultPackageBase) !!!!!!!!!!!!!!!!!!!
 
 + VoiceManager no puede heredar de webkitSpeechRecognition, tiene que agregarlo (FACADE)!!!!!
 

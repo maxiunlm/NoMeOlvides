@@ -50,9 +50,58 @@ namespace Domain.Hepler
             return contacts;
         }
 
-        public virtual List<ContactDataModel> Search(ContactDataModel contactEmptyDataModel, IQueryable<ContactDataModel> queryable)
+        public virtual List<ContactDataModel> Search(ContactDataModel contactFilter, IQueryable<ContactDataModel> contactDataModelCollection)
         {
-            throw new NotImplementedException();
+            List<ContactDataModel> contacts = contactDataModelCollection
+                .Where(o => AccomplishAnyFilter(contactFilter, o)).ToList();
+
+            return contacts;
+        }
+
+        private static bool AccomplishAnyFilter(ContactDataModel contactFilter, ContactDataModel contact)
+        {
+            return AccomplishAdressFilter(contactFilter, contact)
+                || AccomplishAliasFilter(contactFilter, contact)
+                || AccomplishCellphoneFilter(contactFilter, contact)
+                || AccomplishEmailFilter(contactFilter, contact)
+                || AccomplishNameFilter(contactFilter, contact)
+                || AccomplishPhoneFilter(contactFilter, contact)
+                || AccomplishSurnameFilter(contactFilter, contact);
+        }
+
+        private static bool AccomplishSurnameFilter(ContactDataModel contactFilter, ContactDataModel contact)
+        {
+            return (string.IsNullOrWhiteSpace(contactFilter.Surname) || contact.Surname.Contains(contactFilter.Surname));
+        }
+
+        private static bool AccomplishPhoneFilter(ContactDataModel contactFilter, ContactDataModel contact)
+        {
+            return (string.IsNullOrWhiteSpace(contactFilter.Phone) || contact.Phone.Contains(contactFilter.Phone));
+        }
+
+        private static bool AccomplishNameFilter(ContactDataModel contactFilter, ContactDataModel contact)
+        {
+            return (string.IsNullOrWhiteSpace(contactFilter.Name) || contact.Name.Contains(contactFilter.Name));
+        }
+
+        private static bool AccomplishEmailFilter(ContactDataModel contactFilter, ContactDataModel contact)
+        {
+            return (string.IsNullOrWhiteSpace(contactFilter.Email) || contact.Email.Contains(contactFilter.Email));
+        }
+
+        private static bool AccomplishCellphoneFilter(ContactDataModel contactFilter, ContactDataModel contact)
+        {
+            return (string.IsNullOrWhiteSpace(contactFilter.Cellphone) || contact.Cellphone.Contains(contactFilter.Cellphone));
+        }
+
+        private static bool AccomplishAliasFilter(ContactDataModel contactFilter, ContactDataModel contact)
+        {
+            return (string.IsNullOrWhiteSpace(contactFilter.Alias) || contact.Alias.Contains(contactFilter.Alias));
+        }
+
+        private static bool AccomplishAdressFilter(ContactDataModel contactFilter, ContactDataModel contact)
+        {
+            return (string.IsNullOrWhiteSpace(contactFilter.Address) || contact.Address.Contains(contactFilter.Address));
         }
     }
 }
