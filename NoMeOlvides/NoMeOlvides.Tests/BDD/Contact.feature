@@ -65,3 +65,27 @@ Scenario: Eliminar un Contacto
 	Given Id de contacto
 	When el usuario presiona el boton Aceptar de la Baja
 	Then el sistema elimina al contacto
+
+@ListContacts
+Scenario: Listar los Contactos de un Contacto determinado
+	Given Id de contacto
+	When el usuario carga la pantalla de su contacto
+	Then lista todos sus contactos
+
+@SearchContacts
+Scenario: Buscar los Contactos de un Contacto determinado sin Filtros de busqueda
+	Given Id de contacto
+	When el usuario presiona el boton de Busqueda
+	Then lista todos sus contactos
+
+@SearchContacts
+Scenario: Buscar los Contactos de un Contacto determinado con todos los Filtros de busqueda
+	Given Id de contacto
+	Given email 'a@a.com'
+	Given alias 'Pepe'
+	Given name 'Jose'
+	Given surname 'Perez'
+	Given phone '1234'
+	Given cellphone '12345'
+	When el usuario presiona el boton de Busqueda
+	Then lista de sus contactos los contactos que corresponden a la busqueda
