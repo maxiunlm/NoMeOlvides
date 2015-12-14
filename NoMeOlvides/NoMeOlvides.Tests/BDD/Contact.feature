@@ -20,11 +20,12 @@ Scenario: Alta de contaco pre existente
 	Then el sistema arroja exepcion controlada de usuario pre existente
 
 
-
-@ObtenerContacto
+@ListContacts
 Scenario: Obtener la lista de contactos
+	Given Id de contacto
 	When el Usuario ingresa a la pantalla de contactos
 	Then el Sistema carga la lista completa de contactos
+
 
 @ObtenerContacto
 Scenario: Obtener un Contacto por e-mail para consultas internas del sistema
@@ -66,17 +67,11 @@ Scenario: Eliminar un Contacto
 	When el usuario presiona el boton Aceptar de la Baja
 	Then el sistema elimina al contacto
 
-@ListContacts
-Scenario: Listar los Contactos de un Contacto determinado
-	Given Id de contacto
-	When el usuario carga la pantalla de su contacto
-	Then lista todos sus contactos
-
 @SearchContacts
 Scenario: Buscar los Contactos de un Contacto determinado sin Filtros de busqueda
 	Given Id de contacto
 	When el usuario presiona el boton de Busqueda
-	Then lista todos sus contactos
+	Then el Sistema carga la lista completa de contactos
 
 @SearchContacts
 Scenario: Buscar los Contactos de un Contacto determinado con todos los Filtros de busqueda
@@ -87,5 +82,5 @@ Scenario: Buscar los Contactos de un Contacto determinado con todos los Filtros 
 	Given surname 'Perez'
 	Given phone '1234'
 	Given cellphone '12345'
-	When el usuario presiona el boton de Busqueda
+	When el usuario presiona el boton de Busqueda con filtros
 	Then lista de sus contactos los contactos que corresponden a la busqueda

@@ -109,13 +109,15 @@ this.ScenarioSetup(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Obtener la lista de contactos")]
-        [NUnit.Framework.CategoryAttribute("ObtenerContacto")]
+        [NUnit.Framework.CategoryAttribute("ListContacts")]
         public virtual void ObtenerLaListaDeContactos()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Obtener la lista de contactos", new string[] {
-                        "ObtenerContacto"});
-#line 25
+                        "ListContacts"});
+#line 24
 this.ScenarioSetup(scenarioInfo);
+#line 25
+ testRunner.Given("Id de contacto", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 26
  testRunner.When("el Usuario ingresa a la pantalla de contactos", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 27
@@ -131,13 +133,13 @@ this.ScenarioSetup(scenarioInfo);
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Obtener un Contacto por e-mail para consultas internas del sistema", new string[] {
                         "ObtenerContacto"});
-#line 30
-this.ScenarioSetup(scenarioInfo);
 #line 31
- testRunner.Given("email \'maxiunlm@gmail.com\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 32
- testRunner.When("el sistema necesita un contacto por su e-mail", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Given("email \'maxiunlm@gmail.com\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 33
+ testRunner.When("el sistema necesita un contacto por su e-mail", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 34
  testRunner.Then("el sistema obetiene el contacto", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -150,15 +152,15 @@ this.ScenarioSetup(scenarioInfo);
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Obtener un Contacto por Id", new string[] {
                         "ObtenerContacto"});
-#line 36
-this.ScenarioSetup(scenarioInfo);
 #line 37
- testRunner.Given("email \'maxiunlm@gmail.com\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 38
- testRunner.And("Id de contacto", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("email \'maxiunlm@gmail.com\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 39
- testRunner.When("el sistema necesita un contacto por su Id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("Id de contacto", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 40
+ testRunner.When("el sistema necesita un contacto por su Id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 41
  testRunner.Then("el sistema obetiene el contacto", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -171,17 +173,17 @@ this.ScenarioSetup(scenarioInfo);
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Modifica los datos de un Contacto", new string[] {
                         "ModificarContacto"});
-#line 45
-this.ScenarioSetup(scenarioInfo);
 #line 46
- testRunner.Given("email \'a@a.com\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 47
- testRunner.And("Id de contacto", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("email \'a@a.com\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 48
- testRunner.And("el nuevo email \'b@b.com\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Id de contacto", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 49
- testRunner.When("el usuario presiona el boton Aceptar de la Modificaicon", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("el nuevo email \'b@b.com\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 50
+ testRunner.When("el usuario presiona el boton Aceptar de la Modificaicon", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 51
  testRunner.Then("el sistema guarda los cambios sel contacto", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -194,20 +196,20 @@ this.ScenarioSetup(scenarioInfo);
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Modifica los datos de un Contacto con un email en uso", new string[] {
                         "ModificarContacto"});
-#line 53
-this.ScenarioSetup(scenarioInfo);
 #line 54
- testRunner.Given("email de usuario pre existente\'a@a.com\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 55
- testRunner.And("email de usuario pre existente\'b@b.com\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("email de usuario pre existente\'a@a.com\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 56
- testRunner.And("Id de contacto habiendo un usuario pre existente para el nuevo email", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("email de usuario pre existente\'b@b.com\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 57
- testRunner.And("el nuevo email \'a@a.com\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Id de contacto habiendo un usuario pre existente para el nuevo email", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 58
+ testRunner.And("el nuevo email \'a@a.com\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 59
  testRunner.When("el usuario presiona el boton Aceptar de la Modificaicon habiendo un usuario pre e" +
                     "xistente", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 59
+#line 60
  testRunner.Then("el sistema arroja exepcion controlada de usuario pre existente", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -220,14 +222,66 @@ this.ScenarioSetup(scenarioInfo);
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Eliminar un Contacto", new string[] {
                         "EliminarContacto"});
-#line 64
-this.ScenarioSetup(scenarioInfo);
 #line 65
- testRunner.Given("Id de contacto", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 66
- testRunner.When("el usuario presiona el boton Aceptar de la Baja", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Given("Id de contacto", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 67
+ testRunner.When("el usuario presiona el boton Aceptar de la Baja", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 68
  testRunner.Then("el sistema elimina al contacto", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Buscar los Contactos de un Contacto determinado sin Filtros de busqueda")]
+        [NUnit.Framework.CategoryAttribute("SearchContacts")]
+        public virtual void BuscarLosContactosDeUnContactoDeterminadoSinFiltrosDeBusqueda()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Buscar los Contactos de un Contacto determinado sin Filtros de busqueda", new string[] {
+                        "SearchContacts"});
+#line 71
+this.ScenarioSetup(scenarioInfo);
+#line 72
+ testRunner.Given("Id de contacto", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 73
+ testRunner.When("el usuario presiona el boton de Busqueda", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 74
+ testRunner.Then("el Sistema carga la lista completa de contactos", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Buscar los Contactos de un Contacto determinado con todos los Filtros de busqueda" +
+            "")]
+        [NUnit.Framework.CategoryAttribute("SearchContacts")]
+        public virtual void BuscarLosContactosDeUnContactoDeterminadoConTodosLosFiltrosDeBusqueda()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Buscar los Contactos de un Contacto determinado con todos los Filtros de busqueda" +
+                    "", new string[] {
+                        "SearchContacts"});
+#line 77
+this.ScenarioSetup(scenarioInfo);
+#line 78
+ testRunner.Given("Id de contacto", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 79
+ testRunner.Given("email \'a@a.com\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 80
+ testRunner.Given("alias \'Pepe\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 81
+ testRunner.Given("name \'Jose\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 82
+ testRunner.Given("surname \'Perez\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 83
+ testRunner.Given("phone \'1234\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 84
+ testRunner.Given("cellphone \'12345\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 85
+ testRunner.When("el usuario presiona el boton de Busqueda con filtros", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 86
+ testRunner.Then("lista de sus contactos los contactos que corresponden a la busqueda", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

@@ -1,5 +1,3 @@
-+ Terminar Search del lado del Server EL BDD !!
-
 + Hacer que las Properties del ContactDataModel NO PUEDAN CONTENER NULOS !!!!
 
 + ver mensajeria de errores (Hacer que los ViewModels hereden de ResultPackageBase) !!!!!!!!!!!!!!!!!!!
@@ -27,7 +25,7 @@ http://techbrij.com/angularjs-antiforgerytoken-asp-net-mvc
 ----> http://angular-translate.github.io/docs/#/guide/19_security
 
 + Revisar BDD con Jasmine, no funciona bien por el asincronismo
-+ Corregir el BDD de Specflow para las nuevas necesidades NO ESTA FUNCIONANDO EL SPECFLOW
++ Corregir el BDD de Specflow para las nuevas necesidades NO ESTA FUNCIONANDO BIEN EL SPECFLOW NI LOS TESTS!!!
 
 + Validaciones del lado del cliente
 
