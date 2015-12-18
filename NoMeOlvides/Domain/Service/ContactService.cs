@@ -20,10 +20,12 @@ namespace Domain.Service
             Business = new ContactBusiness();
         }
 
-        public virtual void SaveContact(ContactViewModel contactViewModel)
+        public virtual string SaveContact(ContactViewModel contactViewModel)
         {
             ContactDataModel contactDataModel = new ContactDataModel(contactViewModel);
             Business.SaveContact(contactDataModel);
+
+            throw new NotImplementedException("Retornar ID"); // 
         }
 
         public virtual ContactViewModel GetContactByEmail(string email)

@@ -25,7 +25,8 @@ namespace NoMeOlvides.Tests.WebApis
 
         #region Fixture
 
-        private readonly string validId = ObjectId.GenerateNewId().ToString();
+        private static readonly ObjectId objectId = ObjectId.GenerateNewId();
+        private readonly string validId = objectId.ToString();
         private const string invalidId = "1";
         private const string emptyId = "";
         private const string nullId = null;
@@ -34,6 +35,7 @@ namespace NoMeOlvides.Tests.WebApis
         private const string emptyEmail = "";
         private const string nullEmail = null;
         private const bool hasError = true;
+        private const bool nonError = false;
         private readonly ContactViewModel contactEmptyViewModel = new ContactViewModel();
         private readonly ContactViewModel fullFiltersContactViewModel = new ContactViewModel
         {
@@ -90,6 +92,30 @@ namespace NoMeOlvides.Tests.WebApis
             sut.Post(contactViewModel);
 
             mocker.Verify(o => o.SaveContact(contactViewModel));
+        }
+
+        [Test]
+        public void Post_WithContactData_InvokeMethodFromTheNextLayerWichReturnsContactId()
+        {
+            mocker.Setup(o => o.SaveContact(contactViewModel)).Returns(validId);
+
+            HttpResponseMessage httpResult = sut.Post(contactViewModel);
+            string jsonResult = httpResult.Content.ToJson();
+            ContactViewModel result = Json.Decode<ContactViewModel>(jsonResult);
+
+            Assert.AreEqual(validId, result.Id);
+        }
+
+        [Test]
+        public void Post_WithContactData_InvokeMethodFromTheNextLayerWichReturnsNonErrorData()
+        {
+            mocker.Setup(o => o.SaveContact(contactViewModel)).Returns(validId);
+
+            HttpResponseMessage httpResult = sut.Post(contactViewModel);
+            string jsonResult = httpResult.Content.ToJson();
+            ContactViewModel result = Json.Decode<ContactViewModel>(jsonResult);
+
+            Assert.AreEqual(nonError, result.Errors.HasError);
         }
 
         [Test]

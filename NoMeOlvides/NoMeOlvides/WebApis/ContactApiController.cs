@@ -43,11 +43,17 @@ namespace NoMeOlvides.WebApis
         }
 
         // POST api/<controller>
-        public void Post(ContactViewModel contact)
+        public HttpResponseMessage Post(ContactViewModel contact)
         {
             try
-            {                
-                Service.SaveContact(contact);
+            {
+                ContactViewModel result = new ContactViewModel();
+                result.Id = Service.SaveContact(contact);
+
+                // TODO: TDD !!!
+                HttpResponseMessage respose = new HttpResponseMessage(HttpStatusCode.OK);
+                respose.Content = new StringContent(System.Web.Helpers.Json.Encode(result));
+                return respose;
             }
             catch (Exception)
             {

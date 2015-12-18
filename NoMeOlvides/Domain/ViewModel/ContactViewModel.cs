@@ -1,4 +1,5 @@
 ﻿using Domain.DataModel;
+using Domain.Hepler;
 using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace Domain.ViewModel
 {
-    public class ContactViewModel
+    public class ContactViewModel : ResultPackageBase // TODO : TDD !!!
     {
         private string id;
         public string Id

@@ -1,4 +1,5 @@
 + ver mensajeria de errores (Hacer que los ViewModels hereden de ResultPackageBase) !!!!!!!!!!!!!!!!!!!
+---> Haciendo el CREATE, y resolviendo su integracion Client-Server !!!!!!!!!!!!!!!!!!!
 
 + VoiceManager no puede heredar de webkitSpeechRecognition, tiene que agregarlo (FACADE)!!!!!
 
@@ -28,7 +29,6 @@ http://techbrij.com/angularjs-antiforgerytoken-asp-net-mvc
 + Validaciones del lado del cliente
 
 + Integrar la herramienta de reconocimiento de voz
-
 + En VoiceManager revisar:
 1) function upgrade() {
     start_button.style.visibility = 'hidden';
