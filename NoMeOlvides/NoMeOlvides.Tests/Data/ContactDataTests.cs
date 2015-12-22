@@ -224,7 +224,7 @@ namespace NoMeOlvides.Tests.Data
         }
 
         [Test]
-        public void SaveContact_ConDatosDeContactoExistente_InvocaMetodoDeMongoDbQueGuardaModificacionElContacto()
+        public void SaveContact_ConDatosDeContactoExistente_InvocaMetodoDeMongoDbQueGuardaModificacionDelContacto()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
             mongoDbHelperMocker.Setup(o => o.GenerateNewId()).Returns(objectId);
@@ -291,6 +291,20 @@ namespace NoMeOlvides.Tests.Data
 
             Assert.That(result, Is.InstanceOf<DevelopedControlledException>());
             Assert.AreEqual(developedControlledException.Message, result.Message);
+        }
+
+        [Test]
+        public void SaveContact_WithContactData_InvokesMethodFromNextLayerWhichReturnsTheContactId()
+        {
+            mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
+            mongoDbHelperMocker.Setup(o => o.GenerateNewId()).Returns(objectId);
+            mongoDbHelperMocker.Setup(o => o.GetIQueryableFromMongoCollection<ContactDataModel>(It.IsAny<MongoCollection<ContactDataModel>>())).Returns(contactsDataModelX1.AsQueryable());
+            contactsDataModelX1Mocker.Setup(o => o.Save(newContactDataModel));
+            mongoDbQueryMocker.Setup(o => o.GetContactByEmail(It.IsAny<string>(), It.IsAny<IQueryable<ContactDataModel>>())).Returns(contactEmptyDataModel);
+
+            ObjectId result = sut.SaveContact(newContactDataModel);
+
+            Assert.AreSame(contactObjectId, result);
         }
 
         #endregion

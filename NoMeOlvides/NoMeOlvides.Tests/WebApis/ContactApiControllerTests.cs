@@ -107,6 +107,16 @@ namespace NoMeOlvides.Tests.WebApis
         }
 
         [Test]
+        public void Post_WithContactData_InvokeMethodFromTheNextLayerWichReturnsStatusCodeOK()
+        {
+            mocker.Setup(o => o.SaveContact(contactViewModel)).Returns(validId);
+
+            HttpResponseMessage httpResult = sut.Post(contactViewModel);
+
+            Assert.AreEqual(HttpStatusCode.OK, httpResult.StatusCode);
+        }
+
+        [Test]
         public void Post_WithContactData_InvokeMethodFromTheNextLayerWichReturnsNonErrorData()
         {
             mocker.Setup(o => o.SaveContact(contactViewModel)).Returns(validId);

@@ -50,7 +50,6 @@ namespace NoMeOlvides.WebApis
                 ContactViewModel result = new ContactViewModel();
                 result.Id = Service.SaveContact(contact);
 
-                // TODO: TDD !!!
                 HttpResponseMessage respose = new HttpResponseMessage(HttpStatusCode.OK);
                 respose.Content = new StringContent(System.Web.Helpers.Json.Encode(result));
                 return respose;

@@ -23,9 +23,9 @@ namespace Domain.Service
         public virtual string SaveContact(ContactViewModel contactViewModel)
         {
             ContactDataModel contactDataModel = new ContactDataModel(contactViewModel);
-            Business.SaveContact(contactDataModel);
+            ObjectId contactId = Business.SaveContact(contactDataModel);
 
-            throw new NotImplementedException("Retornar ID"); // 
+            return contactId.ToString();
         }
 
         public virtual ContactViewModel GetContactByEmail(string email)

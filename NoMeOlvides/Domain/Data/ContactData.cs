@@ -38,7 +38,7 @@ namespace Domain.Data
             MongoDatabase = (MongoDatabase)MongoServer.GetDatabase(ConfigurationManager.ConnectionStrings["NoMeOlvides"].Name);
         }
 
-        public virtual void SaveContact(ContactDataModel contactDataModel)
+        public virtual ObjectId SaveContact(ContactDataModel contactDataModel)
         {
             MongoCollection<ContactDataModel> contactDataModelCollection = GetContactCollection();
             VerifyNonPreExistentContact(contactDataModel, contactDataModelCollection);
@@ -49,6 +49,8 @@ namespace Domain.Data
             }
 
             contactDataModelCollection.Save(contactDataModel);
+
+            return contactDataModel.Id;
         }
 
         private MongoCollection<ContactDataModel> GetContactCollection()

@@ -20,9 +20,11 @@ namespace Domain.Business
             Data = new ContactData();
         }
 
-        public virtual void SaveContact(ContactDataModel contactDataModel)
+        public virtual ObjectId SaveContact(ContactDataModel contactDataModel)
         {
-            Data.SaveContact(contactDataModel);
+            ObjectId contactId = Data.SaveContact(contactDataModel);
+
+            return contactId;
         }
 
         public virtual ContactDataModel GetContactByEmail(string email)

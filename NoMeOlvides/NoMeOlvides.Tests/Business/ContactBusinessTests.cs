@@ -82,6 +82,16 @@ namespace NoMeOlvides.Tests.Business
             mocker.Verify(o => o.SaveContact(contactDataModel));
         }
 
+        [Test]
+        public void SaveContact_WithContactData_InvokesMethodFromNextLayerWhichReturnsTheContactId()
+        {
+            mocker.Setup(o => o.SaveContact(It.IsAny<ContactDataModel>())).Returns(contactObjectId);
+
+            ObjectId result = sut.SaveContact(contactDataModel);
+
+            Assert.AreSame(contactObjectId, result);
+        }
+
         #endregion
 
         #region GetContactByEmail

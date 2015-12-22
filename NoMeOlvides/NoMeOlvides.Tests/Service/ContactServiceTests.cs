@@ -22,7 +22,8 @@ namespace NoMeOlvides.Tests.Service
 
         #region Fixture
 
-        private static readonly string validContactId = ObjectId.GenerateNewId().ToString();
+        private static readonly ObjectId objectContactId = ObjectId.GenerateNewId();
+        private static readonly string validContactId = objectContactId.ToString();
         private readonly string emptyId = ObjectId.Empty.ToString();
         private readonly ObjectId emptyObjectId = ObjectId.Empty;
         private static readonly ObjectId contactObjectId = ObjectId.GenerateNewId();
@@ -86,6 +87,16 @@ namespace NoMeOlvides.Tests.Service
             sut.SaveContact(contactViewModel);
 
             mocker.Verify(o => o.SaveContact(It.IsAny<ContactDataModel>()));
+        }
+
+        [Test]
+        public void SaveContact_WithContactData_InvokesMethodFromNextLayerWhichReturnsTheContactId()
+        {
+            mocker.Setup(o => o.SaveContact(It.IsAny<ContactDataModel>())).Returns(objectContactId);
+
+            string result = sut.SaveContact(contactViewModel);
+
+            Assert.AreEqual(objectContactId.ToString(), result);
         }
 
         #endregion
