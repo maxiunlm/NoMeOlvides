@@ -44,9 +44,7 @@ var contactListX0 = [];
 var contactListX1 = [firstContact];
 var contactListX2 = [firstContact, secondContact];
 var httpDataResultOk = {
-    "Contact": {
-        "Id": contactId
-    },
+    "Id": contactId,
     "Errors": callBackSuccessDataWithoutError.Errors
 };
 var httpSearchDataResultX0 = {

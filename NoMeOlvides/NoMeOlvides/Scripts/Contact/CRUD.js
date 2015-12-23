@@ -40,9 +40,8 @@ app.controller('ContactController', ['$scope', function ($scope, $http) {
 app.controller('SearchAction', ['$scope', '$http', function ($scope, $http) {
     $scope.http = $http;
 
-    // TODO: TERMINAR CON TDD !!!!!!!!!!!!!!!!!!!!!!!
     $scope.Search = function () {
-        $scope.http.get(applicationNamePath + 'WebApi/ContactApi', $scope.Contact)
+        $scope.http.get(applicationNamePath + 'WebApi/ContactApi', $scope.Contact) // TODO: FALLA EN LA LLAMADA (Llega NULL al Server) + escape(JSON.stringify($scope.Contact))
             .success($scope.onSearchSuccess)
             .error(ErrorManager.getInstance().onGenealErrorEvent);
     };
@@ -94,7 +93,7 @@ app.controller('CreateAction', ['$scope', '$location', '$http', function ($scope
             return;
         }
 
-        $scope.Contact.Id = data.Contact.Id;
+        $scope.Contact.Id = data.Id;
         $scope.Contacts.push($scope.Contact);
         $scope.transactionSuccessMessage = 'transactionSuccessMessage';//$filter('translate')('transactionSuccessMessage');
 

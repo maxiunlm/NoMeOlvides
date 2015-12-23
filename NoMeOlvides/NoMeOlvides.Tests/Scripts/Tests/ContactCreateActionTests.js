@@ -40,7 +40,7 @@ describe('ContactController - CreateAction - ', function () {
         spyOn(console, 'log').and.callFake(function () { });
     }));
 
-    describe('Load Creadte Form - ', function () {
+    describe('Load Created Form - ', function () {
         var $scope;
         var $controller;
 

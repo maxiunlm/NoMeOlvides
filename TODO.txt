@@ -1,5 +1,5 @@
 + ver mensajeria de errores (Hacer que los ViewModels hereden de ResultPackageBase) !!!!!!!!!!!!!!!!!!!
----> Haciendo el CREATE, y resolviendo su integracion Client-Server !!!!!!!!!!!!!!!!!!!
+---> Haciendo el SEARCH, y resolviendo su integracion Client-Server !!!!!!!!!!!!!!!!!!!
 
 + VoiceManager no puede heredar de webkitSpeechRecognition, tiene que agregarlo (FACADE)!!!!!
 
