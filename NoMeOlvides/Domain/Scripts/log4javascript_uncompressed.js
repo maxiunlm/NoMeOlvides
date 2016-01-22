@@ -1,5 +1,5 @@
 /**
- * Copyright 2015 Tim Down.
+ * Copyright 2014 Tim Down.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +24,9 @@
  * stored in the same directory as the main log4javascript.js file.
  *
  * Author: Tim Down <tim@log4javascript.org>
- * Version: 1.4.13
+ * Version: 1.4.10
  * Edition: log4javascript
- * Build date: 23 May 2015
+ * Build date: 28 September 2014
  * Website: http://log4javascript.org
  */
 
@@ -158,7 +158,7 @@
 	Log4JavaScript.prototype = new EventSupport();
 
 	var log4javascript = new Log4JavaScript();
-	log4javascript.version = "1.4.13";
+	log4javascript.version = "1.4.10";
 	log4javascript.edition = "log4javascript";
 
 	/* -------------------------------------------------------------------------- */
@@ -227,7 +227,7 @@
 	var urlEncode = (typeof window.encodeURIComponent != "undefined") ?
 		function(str) {
 			return encodeURIComponent(str);
-		}:
+		}: 
 		function(str) {
 			return escape(str).replace(/\+/g, "%2B").replace(/"/g, "%22").replace(/'/g, "%27").replace(/\//g, "%2F").replace(/=/g, "%3D");
 		};
@@ -404,6 +404,7 @@
 	log4javascript.isTimeStampsInMilliseconds = function() {
 		return useTimeStampsInMilliseconds;
 	};
+	
 
 	// This evaluates the given expression in the current scope, thus allowing
 	// scripts to access private variables. Particularly useful for testing
@@ -481,7 +482,7 @@
 
 		var appenderCache = null;
 		var appenderCacheInvalidated = false;
-
+		
 		this.addChild = function(childLogger) {
 			this.children.push(childLogger);
 			childLogger.parent = this;
@@ -547,7 +548,7 @@
 			}
 			return appenderCache;
 		};
-
+		
 		this.invalidateAppenderCache = function() {
 			appenderCacheInvalidated = true;
 			for (var i = 0, len = this.children.length; i < len; i++) {
@@ -1038,7 +1039,7 @@
 	log4javascript.Appender = Appender;
 
 	/* ---------------------------------------------------------------------- */
-	// SimpleLayout
+	// SimpleLayout 
 
 	function SimpleLayout() {
 		this.customFields = [];
@@ -1051,16 +1052,16 @@
 	};
 
 	SimpleLayout.prototype.ignoresThrowable = function() {
-		return true;
+	    return true;
 	};
 
 	SimpleLayout.prototype.toString = function() {
-		return "SimpleLayout";
+	    return "SimpleLayout";
 	};
 
 	log4javascript.SimpleLayout = SimpleLayout;
 	/* ----------------------------------------------------------------------- */
-	// NullLayout
+	// NullLayout 
 
 	function NullLayout() {
 		this.customFields = [];
@@ -1073,7 +1074,7 @@
 	};
 
 	NullLayout.prototype.ignoresThrowable = function() {
-		return true;
+	    return true;
 	};
 
 	NullLayout.prototype.formatWithException = function(loggingEvent) {
@@ -1082,7 +1083,7 @@
 	};
 
 	NullLayout.prototype.toString = function() {
-		return "NullLayout";
+	    return "NullLayout";
 	};
 
 	log4javascript.NullLayout = NullLayout;
@@ -1150,11 +1151,11 @@
 	};
 
 	XmlLayout.prototype.ignoresThrowable = function() {
-		return false;
+	    return false;
 	};
 
 	XmlLayout.prototype.toString = function() {
-		return "XmlLayout";
+	    return "XmlLayout";
 	};
 
 	log4javascript.XmlLayout = XmlLayout;
@@ -1191,56 +1192,56 @@
 		return this.combineMessages;
 	};
 
-	JsonLayout.prototype.format = function(loggingEvent) {
-		var layout = this;
-		var dataValues = this.getDataValues(loggingEvent, this.combineMessages);
-		var str = "{" + this.lineBreak;
-		var i, len;
+    JsonLayout.prototype.format = function(loggingEvent) {
+        var layout = this;
+        var dataValues = this.getDataValues(loggingEvent, this.combineMessages);
+        var str = "{" + this.lineBreak;
+        var i, len;
 
-		function formatValue(val, prefix, expand) {
-			// Check the type of the data value to decide whether quotation marks
-			// or expansion are required
-			var formattedValue;
-			var valType = typeof val;
-			if (val instanceof Date) {
-				formattedValue = String(val.getTime());
-			} else if (expand && (val instanceof Array)) {
-				formattedValue = "[" + layout.lineBreak;
-				for (var i = 0, len = val.length; i < len; i++) {
-					var childPrefix = prefix + layout.tab;
-					formattedValue += childPrefix + formatValue(val[i], childPrefix, false);
-					if (i < val.length - 1) {
-						formattedValue += ",";
-					}
-					formattedValue += layout.lineBreak;
-				}
-				formattedValue += prefix + "]";
-			} else if (valType !== "number" && valType !== "boolean") {
-				formattedValue = "\"" + escapeNewLines(toStr(val).replace(/\"/g, "\\\"")) + "\"";
-			} else {
-				formattedValue = val;
-			}
-			return formattedValue;
-		}
+        function formatValue(val, prefix, expand) {
+            // Check the type of the data value to decide whether quotation marks
+            // or expansion are required
+            var formattedValue;
+            var valType = typeof val;
+            if (val instanceof Date) {
+                formattedValue = String(val.getTime());
+            } else if (expand && (val instanceof Array)) {
+                formattedValue = "[" + layout.lineBreak;
+                for (var i = 0, len = val.length; i < len; i++) {
+                    var childPrefix = prefix + layout.tab;
+                    formattedValue += childPrefix + formatValue(val[i], childPrefix, false);
+                    if (i < val.length - 1) {
+                        formattedValue += ",";
+                    }
+                    formattedValue += layout.lineBreak;
+                }
+                formattedValue += prefix + "]";
+            } else if (valType !== "number" && valType !== "boolean") {
+                formattedValue = "\"" + escapeNewLines(toStr(val).replace(/\"/g, "\\\"")) + "\"";
+            } else {
+                formattedValue = val;
+            }
+            return formattedValue;
+        }
 
-		for (i = 0, len = dataValues.length - 1; i <= len; i++) {
-			str += this.tab + "\"" + dataValues[i][0] + "\"" + this.colon + formatValue(dataValues[i][1], this.tab, true);
-			if (i < len) {
-				str += ",";
-			}
-			str += this.lineBreak;
-		}
+        for (i = 0, len = dataValues.length - 1; i <= len; i++) {
+            str += this.tab + "\"" + dataValues[i][0] + "\"" + this.colon + formatValue(dataValues[i][1], this.tab, true);
+            if (i < len) {
+                str += ",";
+            }
+            str += this.lineBreak;
+        }
 
-		str += "}" + this.lineBreak;
-		return str;
-	};
+        str += "}" + this.lineBreak;
+        return str;
+    };
 
 	JsonLayout.prototype.ignoresThrowable = function() {
-		return false;
+	    return false;
 	};
 
 	JsonLayout.prototype.toString = function() {
-		return "JsonLayout";
+	    return "JsonLayout";
 	};
 
 	JsonLayout.prototype.getContentType = function() {
@@ -1276,11 +1277,11 @@
 	};
 
 	HttpPostDataLayout.prototype.ignoresThrowable = function(loggingEvent) {
-		return false;
+	    return false;
 	};
 
 	HttpPostDataLayout.prototype.toString = function() {
-		return "HttpPostDataLayout";
+	    return "HttpPostDataLayout";
 	};
 
 	log4javascript.HttpPostDataLayout = HttpPostDataLayout;
@@ -1336,8 +1337,8 @@
 				}
 				expansion += childLines.join("," + newLine) + newLine + indentation + "]";
 				return expansion;
-			} else if (Object.prototype.toString.call(obj) == "[object Date]") {
-				return obj.toString();
+            } else if (Object.prototype.toString.call(obj) == "[object Date]") {
+                return obj.toString();
 			} else if (typeof obj == "object" && depth > 0) {
 				objectsExpanded.push(obj);
 				expansion = "{" + newLine;
@@ -1752,11 +1753,11 @@
 									fieldIndex = fieldIndex - 1;
 								}
 							}
-							var val = this.customFields[fieldIndex].value;
-							if (typeof val == "function") {
-								val = val(this, loggingEvent);
-							}
-							replacement = val;
+                            var val = this.customFields[fieldIndex].value;
+                            if (typeof val == "function") {
+                                val = val(this, loggingEvent);
+                            }
+                            replacement = val;
 						}
 						break;
 					case "n": // New line
@@ -1811,11 +1812,11 @@
 	};
 
 	PatternLayout.prototype.ignoresThrowable = function() {
-		return true;
+	    return true;
 	};
 
 	PatternLayout.prototype.toString = function() {
-		return "PatternLayout";
+	    return "PatternLayout";
 	};
 
 	log4javascript.PatternLayout = PatternLayout;
@@ -1850,18 +1851,18 @@
 	BrowserConsoleAppender.prototype.append = function(loggingEvent) {
 		var appender = this;
 
-		var getFormattedMessage = function(concatenate) {
+		var getFormattedMessage = function() {
 			var formattedMessage = appender.getLayout().formatWithException(loggingEvent);
-			return (typeof formattedMessage == "string") ?
-				(concatenate ? formattedMessage : [formattedMessage]) :
-				(concatenate ? formattedMessage.join(" ") : formattedMessage);
+			return (typeof formattedMessage == "string") ? [formattedMessage] : formattedMessage;
 		};
 
-		var console = window.console;
+		var console;
 
-		if (console && console.log) {
+		if ( (console = window.console) && console.log) { // Safari and Firebug
+			var formattedMessage = getFormattedMessage();
+
 			// Log to Firebug or the browser console using specific logging
-			// methods or revert to console.log otherwise
+			// methods or revert to console.log otherwise 
 			var consoleMethodName;
 
 			if (console.debug && Level.DEBUG.isGreaterOrEqual(loggingEvent.level)) {
@@ -1876,13 +1877,13 @@
 				consoleMethodName = "log";
 			}
 
-			if (typeof console[consoleMethodName].apply == "function") {
-				console[consoleMethodName].apply(console, getFormattedMessage(false));
+			if (console[consoleMethodName].apply) {
+				console[consoleMethodName].apply(console, formattedMessage);
 			} else {
-				console[consoleMethodName]( getFormattedMessage(true) );
+				console[consoleMethodName](formattedMessage);
 			}
 		} else if ((typeof opera != "undefined") && opera.postError) { // Opera
-			opera.postError( getFormattedMessage(true) );
+			opera.postError(getFormattedMessage());
 		}
 	};
 
@@ -2166,6 +2167,10 @@
 			try {
 				var xmlHttp = getXmlHttp(xmlHttpErrorHandler);
 				if (isSupported) {
+					// Add withCredentials to facilitate CORS requests with cookies
+					if (withCredentials && withCredentialsSupported) {
+						xmlHttp.withCredentials = true;
+					}
 					xmlHttp.onreadystatechange = function() {
 						if (xmlHttp.readyState == 4) {
 							if (isHttpRequestSuccessful(xmlHttp)) {
@@ -2188,10 +2193,6 @@
 						}
 					};
 					xmlHttp.open("POST", url, true);
-					// Add withCredentials to facilitate CORS requests with cookies
-					if (withCredentials && withCredentialsSupported) {
-						xmlHttp.withCredentials = true;
-					}
 					try {
 						for (var i = 0, header; header = headers[i++]; ) {
 							xmlHttp.setRequestHeader(header.name, header.value);
@@ -2254,7 +2255,9 @@
 					if (oldBeforeUnload) {
 						oldBeforeUnload();
 					}
-					sendAllRemaining();
+					if (sendAllRemaining()) {
+						return "Sending log messages";
+					}
 				};
 			}
 			// Start timer
@@ -2510,7 +2513,7 @@
 '					}',
 '				} else {',
 '					var groupElementContainer = this;',
-'',
+'					',
 '					this.mainDiv = document.createElement("div");',
 '					this.mainDiv.className = "group";',
 '',
@@ -2522,7 +2525,7 @@
 '					this.expander.unselectable = true;',
 '					var expanderText = this.group.expanded ? "-" : "+";',
 '					this.expanderTextNode = this.expander.appendChild(document.createTextNode(expanderText));',
-'',
+'					',
 '					this.headingDiv.appendChild(document.createTextNode(" " + this.group.name));',
 '',
 '					this.contentDiv = this.mainDiv.appendChild(document.createElement("div"));',
@@ -2980,7 +2983,7 @@
 '				rootGroup = new Group("root", true);',
 '				rootGroup.render();',
 '				currentGroup = rootGroup;',
-'',
+'				',
 '				setCommandInputWidth();',
 '				setLogContainerHeight();',
 '				toggleLoggingEnabled();',
@@ -3105,9 +3108,9 @@
 '',
 '			function LogItemContentReverser() {',
 '			}',
-'',
+'			',
 '			LogItemContentReverser.prototype = new LogItemVisitor();',
-'',
+'			',
 '			LogItemContentReverser.prototype.visitGroup = function(group) {',
 '				group.reverseChildren();',
 '				this.visitChildren(group);',
@@ -4127,10 +4130,10 @@
 '',
 '			if (!Array.prototype.push) {',
 '				Array.prototype.push = function() {',
-'					for (var i = 0, len = arguments.length; i < len; i++){',
-'						this[this.length] = arguments[i];',
-'					}',
-'					return this.length;',
+'			        for (var i = 0, len = arguments.length; i < len; i++){',
+'			            this[this.length] = arguments[i];',
+'			        }',
+'			        return this.length;',
 '				};',
 '			}',
 '',
@@ -4478,7 +4481,7 @@
 '			span.pre {',
 '				white-space: pre;',
 '			}',
-'',
+'			',
 '			pre.unwrapped {',
 '				display: inline !important;',
 '			}',
@@ -5593,7 +5596,7 @@
 						return RegExp.$1.toLowerCase();
 					}
 				}
-				return "";
+                return "";
 			}
 
 			var lt = "<";

@@ -1,18 +1,16 @@
 ﻿using System;
 using NUnit.Framework;
-using NoMeOlvides.WebApis;
 using Moq;
 using Domain.Service;
 using Domain.ViewModel;
-using Domain.DataModel;
 using MongoDB.Bson;
 using System.Web.Http;
 using System.Net;
-using System.Text;
 using System.Net.Http;
 using System.Web.Helpers;
 using Domain.Resources;
 using System.Collections.Generic;
+using NoMeOlvides.WebApis;
 
 namespace NoMeOlvides.Tests.WebApis
 {
