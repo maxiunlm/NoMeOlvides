@@ -1,17 +1,17 @@
 ﻿using Domain.DataModel;
 using Domain.ViewModel;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Bson;
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NoMeOlvides.Tests.ViewModel
+namespace NoMeOlvides.TestMethods.ViewModel
 {
-    [TestFixture]
-    public class ContactViewModelTests
+    [TestClass]
+    public class ContactViewModelTestMethods
     {
         private ContactViewModel sut;
 
@@ -28,6 +28,7 @@ namespace NoMeOlvides.Tests.ViewModel
         private const string password = "password";
         private const int oneItemCount = 1;
         private const int twoItemsCount = 2;
+        private const int emptyItemsCount = 0;
         private const int firstItemIndex = 0;
         private const int secondItemIndex = 1;
         private const string contact1 = "contact 1";
@@ -40,7 +41,7 @@ namespace NoMeOlvides.Tests.ViewModel
 
         #endregion
 
-        [SetUp]
+        [TestInitialize]
         public void SetUp()
         {
             sut = new ContactViewModel();
@@ -48,7 +49,7 @@ namespace NoMeOlvides.Tests.ViewModel
 
         #region CONSTRUCTOR
 
-        [Test]
+        [TestMethod]
         public void ContactDataModel_ConUnViewModel_CopiaLosAtributos()
         {
 
@@ -70,39 +71,39 @@ namespace NoMeOlvides.Tests.ViewModel
 
         #region Contacts GET
 
-        [Test]
+        [TestMethod]
         public void Contacts_GET__SinInicializar_RetornaListaVacia()
         {
 
             List<string> result = sut.Contacts;
 
-            Assert.IsEmpty(result);
+            Assert.AreEqual(emptyItemsCount, result.Count);
         }
 
         #endregion
         #region Contacts SET
 
-        [Test]
+        [TestMethod]
         public void Contacts_SET__ConListaVacia_RetornaListaVacia()
         {
             sut.Contacts = contactsX0;
 
             List<string> result = sut.Contacts;
 
-            Assert.IsEmpty(result);
+            Assert.AreEqual(emptyItemsCount, result.Count);
         }
 
-        [Test]
+        [TestMethod]
         public void Contacts_SET__ConNulo_RetornaRetornaListaVacia()
         {
             sut.Contacts = contactsNulled;
 
             List<string> result = sut.Contacts;
 
-            Assert.IsEmpty(result);
+            Assert.AreEqual(emptyItemsCount, result.Count);
         }
 
-        [Test]
+        [TestMethod]
         public void Contacts_SET__ConUnItem_RetornaListaConUnItem()
         {
             sut.Contacts = contactsX1;
@@ -113,7 +114,7 @@ namespace NoMeOlvides.Tests.ViewModel
             Assert.AreEqual(contact1, result[firstItemIndex]);
         }
 
-        [Test]
+        [TestMethod]
         public void Contacts_SET__ConDosItems_RetornaListaConDosItems()
         {
             sut.Contacts = contactsX2;
@@ -129,7 +130,7 @@ namespace NoMeOlvides.Tests.ViewModel
 
         #region Id [GET]
 
-        [Test]
+        [TestMethod]
         public void Id_GET__WithoutInitialize_ReturnsAnEmptyString()
         {
 
@@ -140,7 +141,7 @@ namespace NoMeOlvides.Tests.ViewModel
         #endregion
         #region Id [SET]
 
-        [Test]
+        [TestMethod]
         public void Id_SET__InitializedWithNull_ReturnsAnEmptyString()
         {
 
@@ -149,7 +150,7 @@ namespace NoMeOlvides.Tests.ViewModel
             Assert.AreEqual(string.Empty, sut.Id);
         }
 
-        [Test]
+        [TestMethod]
         public void Id_SET__InitializedWithAnEmptyString_ReturnsAnEmptyString()
         {
 
@@ -158,7 +159,7 @@ namespace NoMeOlvides.Tests.ViewModel
             Assert.AreEqual(string.Empty, sut.Id);
         }
 
-        [Test]
+        [TestMethod]
         public void Id_SET__InitializedWithAValidId_ReturnsTheSameId()
         {
 
@@ -171,7 +172,7 @@ namespace NoMeOlvides.Tests.ViewModel
 
         #region Alias [GET]
 
-        [Test]
+        [TestMethod]
         public void Alias_GET__WithoutInitialize_ReturnsAnEmptyString()
         {
 
@@ -182,7 +183,7 @@ namespace NoMeOlvides.Tests.ViewModel
         #endregion
         #region Alias [SET]
 
-        [Test]
+        [TestMethod]
         public void Alias_SET__InitializedWithNull_ReturnsAnEmptyString()
         {
 
@@ -191,7 +192,7 @@ namespace NoMeOlvides.Tests.ViewModel
             Assert.AreEqual(string.Empty, sut.Alias);
         }
 
-        [Test]
+        [TestMethod]
         public void Alias_SET__InitializedWithAnEmptyString_ReturnsAnEmptyString()
         {
 
@@ -200,7 +201,7 @@ namespace NoMeOlvides.Tests.ViewModel
             Assert.AreEqual(string.Empty, sut.Alias);
         }
 
-        [Test]
+        [TestMethod]
         public void Alias_SET__InitializedWithAValidAlias_ReturnsTheSameAlias()
         {
 
@@ -213,7 +214,7 @@ namespace NoMeOlvides.Tests.ViewModel
 
         #region Name [GET]
 
-        [Test]
+        [TestMethod]
         public void Name_GET__WithoutInitialize_ReturnsAnEmptyString()
         {
 
@@ -224,7 +225,7 @@ namespace NoMeOlvides.Tests.ViewModel
         #endregion
         #region Name [SET]
 
-        [Test]
+        [TestMethod]
         public void Name_SET__InitializedWithNull_ReturnsAnEmptyString()
         {
 
@@ -233,7 +234,7 @@ namespace NoMeOlvides.Tests.ViewModel
             Assert.AreEqual(string.Empty, sut.Name);
         }
 
-        [Test]
+        [TestMethod]
         public void Name_SET__InitializedWithAnEmptyString_ReturnsAnEmptyString()
         {
 
@@ -242,7 +243,7 @@ namespace NoMeOlvides.Tests.ViewModel
             Assert.AreEqual(string.Empty, sut.Name);
         }
 
-        [Test]
+        [TestMethod]
         public void Name_SET__InitializedWithAValidName_ReturnsTheSameName()
         {
 
@@ -255,7 +256,7 @@ namespace NoMeOlvides.Tests.ViewModel
 
         #region Surname [GET]
 
-        [Test]
+        [TestMethod]
         public void Surname_GET__WithoutInitialize_ReturnsAnEmptyString()
         {
 
@@ -266,7 +267,7 @@ namespace NoMeOlvides.Tests.ViewModel
         #endregion
         #region Surname [SET]
 
-        [Test]
+        [TestMethod]
         public void Surname_SET__InitializedWithNull_ReturnsAnEmptyString()
         {
 
@@ -275,7 +276,7 @@ namespace NoMeOlvides.Tests.ViewModel
             Assert.AreEqual(string.Empty, sut.Surname);
         }
 
-        [Test]
+        [TestMethod]
         public void Surname_SET__InitializedWithAnEmptyString_ReturnsAnEmptyString()
         {
 
@@ -284,7 +285,7 @@ namespace NoMeOlvides.Tests.ViewModel
             Assert.AreEqual(string.Empty, sut.Surname);
         }
 
-        [Test]
+        [TestMethod]
         public void Surname_SET__InitializedWithAValidSurname_ReturnsTheSameSurname()
         {
 
@@ -297,7 +298,7 @@ namespace NoMeOlvides.Tests.ViewModel
 
         #region Email [GET]
 
-        [Test]
+        [TestMethod]
         public void Email_GET__WithoutInitialize_ReturnsAnEmptyString()
         {
 
@@ -308,7 +309,7 @@ namespace NoMeOlvides.Tests.ViewModel
         #endregion
         #region Email [SET]
 
-        [Test]
+        [TestMethod]
         public void Email_SET__InitializedWithNull_ReturnsAnEmptyString()
         {
 
@@ -317,7 +318,7 @@ namespace NoMeOlvides.Tests.ViewModel
             Assert.AreEqual(string.Empty, sut.Email);
         }
 
-        [Test]
+        [TestMethod]
         public void Email_SET__InitializedWithAnEmptyString_ReturnsAnEmptyString()
         {
 
@@ -326,7 +327,7 @@ namespace NoMeOlvides.Tests.ViewModel
             Assert.AreEqual(string.Empty, sut.Email);
         }
 
-        [Test]
+        [TestMethod]
         public void Email_SET__InitializedWithAValidEmail_ReturnsTheSameEmail()
         {
 
@@ -339,7 +340,7 @@ namespace NoMeOlvides.Tests.ViewModel
 
         #region Phone [GET]
 
-        [Test]
+        [TestMethod]
         public void Phone_GET__WithoutInitialize_ReturnsAnEmptyString()
         {
 
@@ -350,7 +351,7 @@ namespace NoMeOlvides.Tests.ViewModel
         #endregion
         #region Phone [SET]
 
-        [Test]
+        [TestMethod]
         public void Phone_SET__InitializedWithNull_ReturnsAnEmptyString()
         {
 
@@ -359,7 +360,7 @@ namespace NoMeOlvides.Tests.ViewModel
             Assert.AreEqual(string.Empty, sut.Phone);
         }
 
-        [Test]
+        [TestMethod]
         public void Phone_SET__InitializedWithAnEmptyString_ReturnsAnEmptyString()
         {
 
@@ -368,7 +369,7 @@ namespace NoMeOlvides.Tests.ViewModel
             Assert.AreEqual(string.Empty, sut.Phone);
         }
 
-        [Test]
+        [TestMethod]
         public void Phone_SET__InitializedWithAValidPhone_ReturnsTheSamePhone()
         {
 
@@ -381,7 +382,7 @@ namespace NoMeOlvides.Tests.ViewModel
 
         #region Cellphone [GET]
 
-        [Test]
+        [TestMethod]
         public void Cellphone_GET__WithoutInitialize_ReturnsAnEmptyString()
         {
 
@@ -392,7 +393,7 @@ namespace NoMeOlvides.Tests.ViewModel
         #endregion
         #region Cellphone [SET]
 
-        [Test]
+        [TestMethod]
         public void Cellphone_SET__InitializedWithNull_ReturnsAnEmptyString()
         {
 
@@ -401,7 +402,7 @@ namespace NoMeOlvides.Tests.ViewModel
             Assert.AreEqual(string.Empty, sut.Cellphone);
         }
 
-        [Test]
+        [TestMethod]
         public void Cellphone_SET__InitializedWithAnEmptyString_ReturnsAnEmptyString()
         {
 
@@ -410,7 +411,7 @@ namespace NoMeOlvides.Tests.ViewModel
             Assert.AreEqual(string.Empty, sut.Cellphone);
         }
 
-        [Test]
+        [TestMethod]
         public void Cellphone_SET__InitializedWithAValidCellphone_ReturnsTheSameCellphone()
         {
 
@@ -423,7 +424,7 @@ namespace NoMeOlvides.Tests.ViewModel
 
         #region Address [GET]
 
-        [Test]
+        [TestMethod]
         public void Address_GET__WithoutInitialize_ReturnsAnEmptyString()
         {
 
@@ -434,7 +435,7 @@ namespace NoMeOlvides.Tests.ViewModel
         #endregion
         #region Address [SET]
 
-        [Test]
+        [TestMethod]
         public void Address_SET__InitializedWithNull_ReturnsAnEmptyString()
         {
 
@@ -443,7 +444,7 @@ namespace NoMeOlvides.Tests.ViewModel
             Assert.AreEqual(string.Empty, sut.Address);
         }
 
-        [Test]
+        [TestMethod]
         public void Address_SET__InitializedWithAnEmptyString_ReturnsAnEmptyString()
         {
 
@@ -452,7 +453,7 @@ namespace NoMeOlvides.Tests.ViewModel
             Assert.AreEqual(string.Empty, sut.Address);
         }
 
-        [Test]
+        [TestMethod]
         public void Address_SET__InitializedWithAValidAddress_ReturnsTheSameAddress()
         {
 
@@ -465,7 +466,7 @@ namespace NoMeOlvides.Tests.ViewModel
 
         #region Password [GET]
 
-        [Test]
+        [TestMethod]
         public void Password_GET__WithoutInitialize_ReturnsAnEmptyString()
         {
 
@@ -476,7 +477,7 @@ namespace NoMeOlvides.Tests.ViewModel
         #endregion
         #region Password [SET]
 
-        [Test]
+        [TestMethod]
         public void Password_SET__InitializedWithNull_ReturnsAnEmptyString()
         {
 
@@ -485,7 +486,7 @@ namespace NoMeOlvides.Tests.ViewModel
             Assert.AreEqual(string.Empty, sut.Password);
         }
 
-        [Test]
+        [TestMethod]
         public void Password_SET__InitializedWithAnEmptyString_ReturnsAnEmptyString()
         {
 
@@ -494,7 +495,7 @@ namespace NoMeOlvides.Tests.ViewModel
             Assert.AreEqual(string.Empty, sut.Password);
         }
 
-        [Test]
+        [TestMethod]
         public void Password_SET__InitializedWithAValidPassword_ReturnsTheSamePassword()
         {
 
