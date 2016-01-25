@@ -2,7 +2,7 @@
 using Domain.DataModel;
 using Domain.Hepler;
 using MongoDB.Bson;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -13,7 +13,7 @@ using Domain.Resources;
 
 namespace NoMeOlvides.Tests.Helper
 {
-    [TestFixture]
+    [TestClass]
     public class MongoDbQueryTests
     {
         private MongoDbQuery sut;
@@ -115,7 +115,7 @@ namespace NoMeOlvides.Tests.Helper
 
         #endregion
 
-        [SetUp]
+        [TestInitialize]
         public void SetUp()
         {
             sut = new MongoDbQuery();
@@ -123,7 +123,7 @@ namespace NoMeOlvides.Tests.Helper
 
         #region GetContactByEmail
 
-        [Test]
+        [TestMethod]
         public void GetContactByEmail_ConEmailValidoEIqueyrableConUnElemento_RetornaElContactoDelEmail()
         {
 
@@ -132,7 +132,7 @@ namespace NoMeOlvides.Tests.Helper
             Assert.AreSame(contactsDataModelX1[0], result);
         }
 
-        [Test]
+        [TestMethod]
         public void GetContactByEmail_ConEmailValidoEIqueyrableSinElementos_RetornaContactoVacio()
         {
 
@@ -141,7 +141,7 @@ namespace NoMeOlvides.Tests.Helper
             Assert.AreEqual(ObjectId.Empty, result.Id);
         }
 
-        [Test]
+        [TestMethod]
         public void GetContactByEmail_ConEmailValidoEIqueyrableConDosElementos_RetornaElContactoDelEmail()
         {
 
@@ -150,7 +150,7 @@ namespace NoMeOlvides.Tests.Helper
             Assert.AreSame(contactsDataModelX2[0], result);
         }
 
-        [Test]
+        [TestMethod]
         public void GetContactByEmail_ConEmailInvalidoEIqueyrableConUnElemento_RetornaContactoVacio()
         {
 
@@ -159,7 +159,7 @@ namespace NoMeOlvides.Tests.Helper
             Assert.AreEqual(ObjectId.Empty, result.Id);
         }
 
-        [Test]
+        [TestMethod]
         public void GetContactByEmail_ConEmailVacioEIqueyrableConUnElemento_RetornaContactoVacio()
         {
 
@@ -168,7 +168,7 @@ namespace NoMeOlvides.Tests.Helper
             Assert.AreEqual(ObjectId.Empty, result.Id);
         }
 
-        [Test]
+        [TestMethod]
         public void GetContactByEmail_ConEmailNuloEIqueyrableConUnElemento_RetornaContactoVacio()
         {
 
@@ -177,21 +177,30 @@ namespace NoMeOlvides.Tests.Helper
             Assert.AreEqual(ObjectId.Empty, result.Id);
         }
 
-        [Test]
+        [TestMethod]
         public void GetContactByEmail_ConEmailDeContactosExistentesConDistintoID_ArrojaExcepcionControlada()
         {
 
-            Exception result = Assert.Catch(() => sut.GetContactByEmail(email, contactsDataModelX2EmailDuplicated.AsQueryable()));
-
-            Assert.That(result, Is.InstanceOf<DevelopedControlledException>());
-            Assert.AreEqual(developedControlledException.Message, result.Message);
+            //////Exception result = Assert.Catch(() => sut.GetContactByEmail(email, contactsDataModelX2EmailDuplicated.AsQueryable()));
+            // N U N I T
+            //////Assert.That(result, Is.InstanceOf<DevelopedControlledException>());
+            //////Assert.AreEqual(developedControlledException.Message, result.Message);
+            try
+            {
+                sut.GetContactByEmail(email, contactsDataModelX2EmailDuplicated.AsQueryable());
+            }
+            catch (Exception result)
+            {
+                Assert.IsInstanceOfType(result, typeof(DevelopedControlledException));
+                Assert.AreEqual(developedControlledException.Message, result.Message);
+            }
         }
 
         #endregion
 
         #region GetContactById
 
-        [Test]
+        [TestMethod]
         public void GetContactById_ConIdValidoEIqueyrableConUnElemento_RetornaElContactoDelId()
         {
 
@@ -200,7 +209,7 @@ namespace NoMeOlvides.Tests.Helper
             Assert.AreSame(contactsDataModelX1[0], result);
         }
 
-        [Test]
+        [TestMethod]
         public void GetContactById_ConIdValidoEIqueyrableSinElementos_RetornaContactoVacio()
         {
 
@@ -209,7 +218,7 @@ namespace NoMeOlvides.Tests.Helper
             Assert.AreEqual(ObjectId.Empty, result.Id);
         }
 
-        [Test]
+        [TestMethod]
         public void GetContactById_ConIdValidoEIqueyrableConDosElementos_RetornaElContactoDelId()
         {
 
@@ -218,7 +227,7 @@ namespace NoMeOlvides.Tests.Helper
             Assert.AreSame(contactsDataModelX2[0], result);
         }
 
-        [Test]
+        [TestMethod]
         public void GetContactById_ConIdVacioEIqueyrableConUnElemento_RetornaContactoVacio()
         {
 
@@ -231,7 +240,7 @@ namespace NoMeOlvides.Tests.Helper
 
         #region ListContacts
 
-        [Test]
+        [TestMethod]
         public void ListContacts_ConContactIdVacio_RetornaListaVacia()
         {
 
@@ -240,7 +249,7 @@ namespace NoMeOlvides.Tests.Helper
             Assert.AreEqual(contactsX0.Count, result.Count);
         }
 
-        [Test]
+        [TestMethod]
         public void ListContacts_ConContactIdValido_RetornaLaListaDeLosContactosDelUsuarioVacia()
         {
 
@@ -249,7 +258,7 @@ namespace NoMeOlvides.Tests.Helper
             Assert.AreEqual(contactsX0.Count, result.Count);
         }
 
-        [Test]
+        [TestMethod]
         public void ListContacts_ConContactIdValido_RetornaLaListaDeLosContactosDelUsuarioConUnContacto()
         {
 
@@ -259,7 +268,7 @@ namespace NoMeOlvides.Tests.Helper
             Assert.AreEqual(contactsX1[0].Id, result[0].Id);
         }
 
-        [Test]
+        [TestMethod]
         public void ListContacts_ConContactIdValido_RetornaLaListaDeLosContactosDelUsuarioConDosContactos()
         {
 
@@ -274,7 +283,7 @@ namespace NoMeOlvides.Tests.Helper
 
         #region Search
 
-        [Test]
+        [TestMethod]
         public void Search_WithoutAnyFilter_ReturnsFullListOfContacts()
         {
 
@@ -285,7 +294,7 @@ namespace NoMeOlvides.Tests.Helper
             Assert.AreEqual(contactsX2[1].Id, result[1].Id);
         }
 
-        [Test]
+        [TestMethod]
         public void Search_WithAllTheFilter_ReturnsAnEmptyListOfContacts()
         {
 
@@ -294,7 +303,7 @@ namespace NoMeOlvides.Tests.Helper
             Assert.AreEqual(result.Count, contactsX0.Count);
         }
 
-        [Test]
+        [TestMethod]
         public void Search_WithAllTheFilter_ReturnsListOfContactsWithOneResult()
         {
 
@@ -304,7 +313,7 @@ namespace NoMeOlvides.Tests.Helper
             Assert.AreEqual(contactsX2[0].Id, result[0].Id);
         }
 
-        [Test]
+        [TestMethod]
         public void Search_WithAllTheFilter_ReturnsListOfContactsWithTwoResults()
         {
 

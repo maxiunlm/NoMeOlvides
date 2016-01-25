@@ -1,5 +1,5 @@
 ﻿using Domain.Hepler;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NoMeOlvides.Tests.Helper
 {
-    [TestFixture]
+    [TestClass]
     public class ErrorsPackageContentTests
     {
         private ErrorsPackageContent sut;
@@ -20,7 +20,7 @@ namespace NoMeOlvides.Tests.Helper
         private readonly List<string> listX1 = new List<string> { message1 };
         private readonly List<string> listX2 = new List<string> { message1, message2 };
 
-        [SetUp]
+        [TestInitialize]
         public void SetUp()
         {
             sut = new ErrorsPackageContent();
@@ -28,7 +28,7 @@ namespace NoMeOlvides.Tests.Helper
 
         #region HasError [GET]
 
-        [Test]
+        [TestMethod]
         public void HasError_GET__WithoutPreviousAssignament_ReturnsFalse()
         {
 
@@ -40,7 +40,7 @@ namespace NoMeOlvides.Tests.Helper
 
         #region Messages [GET]
 
-        [Test]
+        [TestMethod]
         public void Messages_GET__WithoutAssignament_ReturnsEmptyErrorList()
         {
 
@@ -54,7 +54,7 @@ namespace NoMeOlvides.Tests.Helper
 
         #region Messages [SET]
 
-        [Test]
+        [TestMethod]
         public void Messages_SET__WithNull_ReturnsEmptyErrorList()
         {
 
@@ -65,7 +65,7 @@ namespace NoMeOlvides.Tests.Helper
             Assert.IsFalse(sut.HasError);
         }
 
-        [Test]
+        [TestMethod]
         public void Messages_SET__WithAnEmptyList_ReturnsTheSameList()
         {
 
@@ -75,7 +75,7 @@ namespace NoMeOlvides.Tests.Helper
             Assert.IsFalse(sut.HasError);
         }
 
-        [Test]
+        [TestMethod]
         public void Messages_SET__WithOneElementList_ReturnsTheSameList()
         {
 
@@ -85,7 +85,7 @@ namespace NoMeOlvides.Tests.Helper
             Assert.IsTrue(sut.HasError);
         }
 
-        [Test]
+        [TestMethod]
         public void Messages_SET__WithTwoElementsList_ReturnsTheSameList()
         {
 

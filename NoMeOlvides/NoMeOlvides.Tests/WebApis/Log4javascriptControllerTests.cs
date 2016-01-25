@@ -10,11 +10,11 @@ using Log4Javascript.Web.Models;
 using log4net;
 using Moq;
 using NoMeOlvides.WebApis;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace NoMeOlvides.Tests.WebApis
 {
-    [TestFixture]
+    [TestClass]
     public class Log4javascriptControllerTests
     {
         private Log4javascriptController sut;
@@ -50,7 +50,7 @@ namespace NoMeOlvides.Tests.WebApis
 
         #endregion
 
-        [SetUp]
+        [TestInitialize]
         public void SetUp()
         {
             sut = new Log4javascriptController();
@@ -66,95 +66,111 @@ namespace NoMeOlvides.Tests.WebApis
 
         #region CONSTRUCTOR
 
-        [Test]
+        [TestMethod]
         public void Constructor_WithoutParameters_HasAnInstanceOfLoggerForErrors()
         {
 
 
-            Assert.IsInstanceOf<ILog>(sut.ErrorLogger);
+            // N U N I T
+            //////Assert.IsInstanceOf<ILog>(sut.ErrorLogger);
+            Assert.IsInstanceOfType(sut.ErrorLogger, typeof(ILog));
         }
 
-        [Test]
+        [TestMethod]
         public void Constructor_WithoutParameters_HasAnInstanceOfLoggerForAuditory()
         {
 
 
-            Assert.IsInstanceOf<ILog>(sut.AuditoryLogger);
+            // N U N I T
+            //////Assert.IsInstanceOf<ILog>(sut.AuditoryLogger);
+            Assert.IsInstanceOfType(sut.AuditoryLogger, typeof(ILog));
         }
 
         #endregion
 
         #region ErrorLogger [GET]
 
-        [Test]
+        [TestMethod]
         public void ErrorLogger_GET__WithoutPreviousAssignament_ReturnsAnInstanceLogger()
         {
 
 
-            Assert.IsInstanceOf<ILog>(sut.ErrorLogger);
+            // N U N I T
+            //////Assert.IsInstanceOf<ILog>(sut.ErrorLogger);
+            Assert.IsInstanceOfType(sut.ErrorLogger, typeof(ILog));
         }
 
         #endregion
 
         #region ErrorLogger [SET]
 
-        [Test]
+        [TestMethod]
         public void ErrorLogger_GET__WithoutANullAssignament_ReturnsAnInstanceLogger()
         {
+
             sut.ErrorLogger = null;
 
-
-            Assert.IsInstanceOf<ILog>(sut.ErrorLogger);
+            // N U N I T
+            //////Assert.IsInstanceOf<ILog>(sut.ErrorLogger);
+            Assert.IsInstanceOfType(sut.ErrorLogger, typeof(ILog));
         }
 
-        [Test]
+        [TestMethod]
         public void ErrorLogger_GET__WithoutACorrectAssignament_ReturnsAnInstanceLogger()
         {
+
             sut.ErrorLogger = LogManager.GetLogger("log4javascript");
 
-
-            Assert.IsInstanceOf<ILog>(sut.ErrorLogger);
+            // N U N I T
+            //////Assert.IsInstanceOf<ILog>(sut.ErrorLogger);
+            Assert.IsInstanceOfType(sut.ErrorLogger, typeof(ILog));
         }
 
         #endregion
 
         #region AuditoryLogger [GET]
 
-        [Test]
+        [TestMethod]
         public void AuditoryLogger_GET__WithoutPreviousAssignament_ReturnsAnInstanceLogger()
         {
 
 
-            Assert.IsInstanceOf<ILog>(sut.AuditoryLogger);
+            // N U N I T
+            //////Assert.IsInstanceOf<ILog>(sut.AuditoryLogger);
+            Assert.IsInstanceOfType(sut.AuditoryLogger, typeof(ILog));
         }
 
         #endregion
 
         #region AuditoryLogger [SET]
 
-        [Test]
+        [TestMethod]
         public void AuditoryLogger_GET__WithANullAssignament_ReturnsAnInstanceLogger()
         {
+
             sut.AuditoryLogger = null;
 
-
-            Assert.IsInstanceOf<ILog>(sut.AuditoryLogger);
+            // N U N I T
+            //////Assert.IsInstanceOf<ILog>(sut.AuditoryLogger);
+            Assert.IsInstanceOfType(sut.AuditoryLogger, typeof(ILog));
         }
 
-        [Test]
+        [TestMethod]
         public void AuditoryLogger_GET__WithACorrectAssignament_ReturnsAnInstanceLogger()
         {
+
             sut.AuditoryLogger = LogManager.GetLogger("log4javascript");
 
-
-            Assert.IsInstanceOf<ILog>(sut.AuditoryLogger);
+            // N U N I T
+            //////Assert.IsInstanceOf<ILog>(sut.AuditoryLogger);
+            Assert.IsInstanceOfType(sut.AuditoryLogger, typeof(ILog));
         }
 
         #endregion
 
         #region Write
 
-        [Test]
+        [TestMethod]
         public void Write_WithAnAllLevelLogMessage_InvokesAnInfoMethodOfLogger()
         {
             AuditoryLoggerMock.Setup(o => o.Info(dataAllLevel));
@@ -164,7 +180,7 @@ namespace NoMeOlvides.Tests.WebApis
             AuditoryLoggerMock.Verify(o => o.Info(dataAllLevel));
         }
         
-        [Test]
+        [TestMethod]
         public void Write_WithAnAllLevelLogMessage_InvokesAnErrorMethodOfLogger()
         {
             ErrorLoggerMock.Setup(o => o.Error(dataAllLevel));
@@ -174,7 +190,7 @@ namespace NoMeOlvides.Tests.WebApis
             ErrorLoggerMock.Setup(o => o.Error(dataAllLevel));
         }
 
-        [Test]
+        [TestMethod]
         public void Write_WithATraceLevelLogMessage_InvokesWarmMethodOfLogger()
         {
             AuditoryLoggerMock.Setup(o => o.Debug(dataTraceLevel));
@@ -184,7 +200,7 @@ namespace NoMeOlvides.Tests.WebApis
             AuditoryLoggerMock.Verify(o => o.Debug(dataTraceLevel));
         }
 
-        [Test]
+        [TestMethod]
         public void Write_WithADebugLevelLogMessage_InvokesWarmMethodOfLogger()
         {
             AuditoryLoggerMock.Setup(o => o.Debug(dataDebugLevel));
@@ -194,7 +210,7 @@ namespace NoMeOlvides.Tests.WebApis
             AuditoryLoggerMock.Verify(o => o.Debug(dataDebugLevel));
         }
 
-        [Test]
+        [TestMethod]
         public void Write_WithAnInfoLevelLogMessage_InvokesInfoMethodOfLogger()
         {
             AuditoryLoggerMock.Setup(o => o.Info(dataInfoLevel));
@@ -204,7 +220,7 @@ namespace NoMeOlvides.Tests.WebApis
             AuditoryLoggerMock.Verify(o => o.Info(dataInfoLevel));
         }
 
-        [Test]
+        [TestMethod]
         public void Write_WithAWarmLevelLogMessage_InvokesWarmMethodOfLogger()
         {
             ErrorLoggerMock.Setup(o => o.Warn(dataWarmLevel));
@@ -214,7 +230,7 @@ namespace NoMeOlvides.Tests.WebApis
             ErrorLoggerMock.Verify(o => o.Warn(dataWarmLevel));
         }
 
-        [Test]
+        [TestMethod]
         public void Write_WithAnErrorLevelLogMessage_InvokesErrorMethodOfLogger()
         {
             ErrorLoggerMock.Setup(o => o.Error(dataErrorLevel));
@@ -224,7 +240,7 @@ namespace NoMeOlvides.Tests.WebApis
             ErrorLoggerMock.Verify(o => o.Error(dataErrorLevel));
         }
 
-        [Test]
+        [TestMethod]
         public void Write_WithAFatalLevelLogMessage_InvokesFatalMethodOfLogger()
         {
             ErrorLoggerMock.Setup(o => o.Fatal(dataFatalLevel));
@@ -234,7 +250,7 @@ namespace NoMeOlvides.Tests.WebApis
             ErrorLoggerMock.Verify(o => o.Fatal(dataFatalLevel));
         }
 
-        [Test]
+        [TestMethod]
         public void Write_WithANoneLevelLogMessage_InvokesErrorMethodOfLogger()
         {
             ErrorLoggerMock.Setup(o => o.Error(dataNoneLevel));
@@ -244,7 +260,7 @@ namespace NoMeOlvides.Tests.WebApis
             ErrorLoggerMock.Verify(o => o.Error(dataNoneLevel));
         }
 
-        [Test]
+        [TestMethod]
         public void Write_WithANulledMessage_InvokesErrorMethodOfLogger()
         {
             ErrorLoggerMock.Setup(o => o.Error(Locale.log4JavascriptNullMessage));
@@ -254,7 +270,7 @@ namespace NoMeOlvides.Tests.WebApis
             ErrorLoggerMock.Verify(o => o.Error(Locale.log4JavascriptNullMessage));
         }
 
-        [Test]
+        [TestMethod]
         public void Write_WithOneMessage_SetMessageLogTypeToClientSideValue()
         {
             AuditoryLoggerMock.Setup(o => o.Info(dataMessagesX1));
@@ -264,7 +280,7 @@ namespace NoMeOlvides.Tests.WebApis
             Assert.AreEqual(MessageLogType.ClientSide, dataMessagesX1[firstIndex].MessageLogType);
         }
 
-        [Test]
+        [TestMethod]
         public void Write_WithTwoMessages_SetAllMessageLogTypesToClientSideValue()
         {
             AuditoryLoggerMock.Setup(o => o.Info(dataMessagesX2));

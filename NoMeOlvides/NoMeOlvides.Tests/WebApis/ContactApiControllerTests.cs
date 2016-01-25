@@ -1,5 +1,5 @@
 ﻿using System;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Domain.Service;
 using Domain.ViewModel;
@@ -14,7 +14,7 @@ using NoMeOlvides.WebApis;
 
 namespace NoMeOlvides.Tests.WebApis
 {
-    [TestFixture]
+    [TestClass]
     public class ContactApiControllerTests
     {
         private ContactApiController sut;
@@ -58,7 +58,7 @@ namespace NoMeOlvides.Tests.WebApis
 
         #endregion
 
-        [SetUp]
+        [TestInitialize]
         public void SetUp()
         {
             mocker = new Mock<ContactService>();
@@ -70,7 +70,7 @@ namespace NoMeOlvides.Tests.WebApis
 
         #region CONSTRUCTOR
 
-        [Test]
+        [TestMethod]
         public void ContactApiController_SinParametros_CreaInstanciaDelObjetoDeLaCapaService()
         {
             sut = new ContactApiController();
@@ -82,7 +82,7 @@ namespace NoMeOlvides.Tests.WebApis
 
         #region Post
 
-        [Test]
+        [TestMethod]
         public void Post_ConDatosDeContacto_InvocaMetodoDeCapaInferiorQueGuardaAlContacto()
         {
             mocker.Setup(o => o.SaveContact(contactViewModel));
@@ -92,7 +92,7 @@ namespace NoMeOlvides.Tests.WebApis
             mocker.Verify(o => o.SaveContact(contactViewModel));
         }
 
-        [Test]
+        [TestMethod]
         public void Post_WithContactData_InvokeMethodFromTheNextLayerWichReturnsContactId()
         {
             mocker.Setup(o => o.SaveContact(contactViewModel)).Returns(validId);
@@ -104,7 +104,7 @@ namespace NoMeOlvides.Tests.WebApis
             Assert.AreEqual(validId, result.Id);
         }
 
-        [Test]
+        [TestMethod]
         public void Post_WithContactData_InvokeMethodFromTheNextLayerWichReturnsStatusCodeOK()
         {
             mocker.Setup(o => o.SaveContact(contactViewModel)).Returns(validId);
@@ -114,7 +114,7 @@ namespace NoMeOlvides.Tests.WebApis
             Assert.AreEqual(HttpStatusCode.OK, httpResult.StatusCode);
         }
 
-        [Test]
+        [TestMethod]
         public void Post_WithContactData_InvokeMethodFromTheNextLayerWichReturnsNonErrorData()
         {
             mocker.Setup(o => o.SaveContact(contactViewModel)).Returns(validId);
@@ -126,26 +126,40 @@ namespace NoMeOlvides.Tests.WebApis
             Assert.AreEqual(nonError, result.Errors.HasError);
         }
 
-        [Test]
+        [TestMethod]
         public void Post_ConDatosDeContacto_InvocaMetodoDeCapaInferiorQueGuardaAlContactoQueArrojanException()
         {
             mocker.Setup(o => o.SaveContact(contactViewModel)).Throws(generalException);
 
-            Exception exception = Assert.Catch(() => sut.Post(contactViewModel));
-            var resultTask = ((((HttpResponseException)exception)).Response.Content).ReadAsStringAsync();
-            string resultJsonString = resultTask.Result;
-            ErrorResponseViewModel result = Json.Decode<ErrorResponseViewModel>(resultJsonString);
+            //////Exception exception = Assert.Catch(() => sut.Post(contactViewModel));
+            //////var resultTask = ((((HttpResponseException)exception)).Response.Content).ReadAsStringAsync();
+            //////string resultJsonString = resultTask.Result;
+            //////ErrorResponseViewModel result = Json.Decode<ErrorResponseViewModel>(resultJsonString);
+            // N U N I T
+            //////Assert.That(exception, Is.InstanceOf<HttpResponseException>());
+            //////Assert.AreEqual(hasError, result.Errors.HasError);
+            //////Assert.AreEqual(Locale.generalErrorMessage, result.Errors.Messages[0]);
+            try
+            {
+                sut.Post(contactViewModel);
+            }
+            catch (Exception exception)
+            {
+                var resultTask = ((((HttpResponseException)exception)).Response.Content).ReadAsStringAsync();
+                string resultJsonString = resultTask.Result;
+                ErrorResponseViewModel result = Json.Decode<ErrorResponseViewModel>(resultJsonString);
 
-            Assert.That(exception, Is.InstanceOf<HttpResponseException>());
-            Assert.AreEqual(hasError, result.Errors.HasError);
-            Assert.AreEqual(Locale.generalErrorMessage, result.Errors.Messages[0]);
+                Assert.IsInstanceOfType(result, typeof(HttpResponseException));
+                Assert.AreEqual(hasError, result.Errors.HasError);
+                Assert.AreEqual(Locale.generalErrorMessage, result.Errors.Messages[0]);
+            }
         }
 
         #endregion
 
         #region Put
 
-        [Test]
+        [TestMethod]
         public void Put_ConDatosDeContacto_InvocaMetodoDeCapaInferiorQueGuardaAlContacto()
         {
             mocker.Setup(o => o.SaveContact(contactExistentViewModel));
@@ -159,7 +173,7 @@ namespace NoMeOlvides.Tests.WebApis
 
         #region Get [Search]
 
-        [Test]
+        [TestMethod]
         public void Get_WithoutFilters_InvokeMethodFromTheNextLayerWichReturnsTheListOfContacts()
         {
             mocker.Setup(o => o.Search(contactEmptyViewModel)).Returns(contactsX1);
@@ -169,7 +183,7 @@ namespace NoMeOlvides.Tests.WebApis
             mocker.Verify(o => o.Search(contactEmptyViewModel));
         }
 
-        [Test]
+        [TestMethod]
         public void Get_WithoutFilters_InvokeMethodFromTheNextLayerWichReturnsEmptyListOfContacts()
         {
             mocker.Setup(o => o.Search(contactEmptyViewModel)).Returns(contactsX0);
@@ -179,7 +193,7 @@ namespace NoMeOlvides.Tests.WebApis
             Assert.AreSame(contactsX0, result);
         }
 
-        [Test]
+        [TestMethod]
         public void Get_WithoutFilters_InvokeMethodFromTheNextLayerWichReturnsEmptyListOfContactsWithTwoResults()
         {
             mocker.Setup(o => o.Search(contactEmptyViewModel)).Returns(contactsX2);
@@ -189,7 +203,7 @@ namespace NoMeOlvides.Tests.WebApis
             Assert.AreSame(contactsX2, result);
         }
 
-        [Test]
+        [TestMethod]
         public void Get_WithoutFilters_InvokeMethodFromTheNextLayerWichReturnsListOfContactsWithOneResult()
         {
             mocker.Setup(o => o.Search(contactEmptyViewModel)).Returns(contactsX1);
@@ -199,7 +213,7 @@ namespace NoMeOlvides.Tests.WebApis
             Assert.AreSame(contactsX1, result);
         }
 
-        [Test]
+        [TestMethod]
         public void Get_WithAllTheFilters_InvokeMethodFromTheNextLayerWichReturnsTheListOfContacts()
         {
             mocker.Setup(o => o.Search(fullFiltersContactViewModel)).Returns(contactsX1);
@@ -209,7 +223,7 @@ namespace NoMeOlvides.Tests.WebApis
             mocker.Verify(o => o.Search(fullFiltersContactViewModel));
         }
 
-        [Test]
+        [TestMethod]
         public void Get_WithAllTheFilters_InvokeMethodFromTheNextLayerWichReturnsEmptyListOfContacts()
         {
             mocker.Setup(o => o.Search(fullFiltersContactViewModel)).Returns(contactsX0);
@@ -219,7 +233,7 @@ namespace NoMeOlvides.Tests.WebApis
             Assert.AreSame(contactsX0, result);
         }
 
-        [Test]
+        [TestMethod]
         public void Get_WithAllTheFilters_InvokeMethodFromTheNextLayerWichReturnsEmptyListOfContactsWithTwoResults()
         {
             mocker.Setup(o => o.Search(fullFiltersContactViewModel)).Returns(contactsX2);
@@ -229,7 +243,7 @@ namespace NoMeOlvides.Tests.WebApis
             Assert.AreSame(contactsX2, result);
         }
 
-        [Test]
+        [TestMethod]
         public void Get_WithAllTheFilters_InvokeMethodFromTheNextLayerWichReturnsListOfContactsWithOneResult()
         {
             mocker.Setup(o => o.Search(fullFiltersContactViewModel)).Returns(contactsX1);
@@ -243,7 +257,7 @@ namespace NoMeOlvides.Tests.WebApis
 
         #region GetByEmail
 
-        [Test]
+        [TestMethod]
         public void GetByEmail_ConEmailValido_InvocaMetodoDeLaCapaInferiorQueRetornaElContacto()
         {
             mocker.Setup(o => o.GetContactByEmail(validEmail));
@@ -253,7 +267,7 @@ namespace NoMeOlvides.Tests.WebApis
             mocker.Verify(o => o.GetContactByEmail(validEmail));
         }
 
-        [Test]
+        [TestMethod]
         public void GetByEmail_ConEmailValido_RetornaContacto()
         {
             mocker.Setup(o => o.GetContactByEmail(validEmail)).Returns(contactViewModel);
@@ -263,7 +277,7 @@ namespace NoMeOlvides.Tests.WebApis
             Assert.AreSame(result, contactViewModel);
         }
 
-        [Test]
+        [TestMethod]
         public void GetByEmail_ConEmailInvalido_RetornaContactoVacio()
         {
             mocker.Setup(o => o.GetContactByEmail(invalidEmail)).Returns(contactEmptyViewModel);
@@ -273,7 +287,7 @@ namespace NoMeOlvides.Tests.WebApis
             Assert.AreSame(result, contactEmptyViewModel);
         }
 
-        [Test]
+        [TestMethod]
         public void GetByEmail_ConEmailNulo_RetornaContactoVacio()
         {
             mocker.Setup(o => o.GetContactByEmail(nullEmail)).Returns(contactEmptyViewModel);
@@ -283,7 +297,7 @@ namespace NoMeOlvides.Tests.WebApis
             Assert.AreSame(result, contactEmptyViewModel);
         }
 
-        [Test]
+        [TestMethod]
         public void GetByEmail_ConEmailVacio_RetornaContactoVacio()
         {
             mocker.Setup(o => o.GetContactByEmail(emptyEmail)).Returns(contactEmptyViewModel);
@@ -297,7 +311,7 @@ namespace NoMeOlvides.Tests.WebApis
 
         #region Get [By Id]
 
-        [Test]
+        [TestMethod]
         public void Get_ConIdValido_InvocaMetodoDeLaCapaInferiorQueRetornaElContacto()
         {
             mocker.Setup(o => o.GetContactById(validId));
@@ -307,7 +321,7 @@ namespace NoMeOlvides.Tests.WebApis
             mocker.Verify(o => o.GetContactById(validId));
         }
 
-        [Test]
+        [TestMethod]
         public void Get_ConIdValido_RetornaContacto()
         {
             mocker.Setup(o => o.GetContactById(validId)).Returns(contactViewModel);
@@ -317,7 +331,7 @@ namespace NoMeOlvides.Tests.WebApis
             Assert.AreSame(result, contactViewModel);
         }
 
-        [Test]
+        [TestMethod]
         public void Get_ConIdInvalido_RetornaContactoVacio()
         {
             mocker.Setup(o => o.GetContactById(invalidId)).Returns(contactEmptyViewModel);
@@ -327,7 +341,7 @@ namespace NoMeOlvides.Tests.WebApis
             Assert.AreSame(result, contactEmptyViewModel);
         }
 
-        [Test]
+        [TestMethod]
         public void Get_ConIdNulo_RetornaContactoVacio()
         {
             mocker.Setup(o => o.GetContactById(nullId)).Returns(contactEmptyViewModel);
@@ -337,7 +351,7 @@ namespace NoMeOlvides.Tests.WebApis
             Assert.AreSame(result, contactEmptyViewModel);
         }
 
-        [Test]
+        [TestMethod]
         public void Get_ConIdVacio_RetornaContactoVacio()
         {
             mocker.Setup(o => o.GetContactById(emptyId)).Returns(contactEmptyViewModel);
@@ -351,7 +365,7 @@ namespace NoMeOlvides.Tests.WebApis
 
         #region Delete
 
-        [Test]
+        [TestMethod]
         public void Delete_ConIdValido_InvocaMetodoDeLaCapaInferiorQueRetornaElContacto()
         {
             mocker.Setup(o => o.Delete(validId));

@@ -5,16 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.ViewModel;
 using Log4Javascript.Web.Models;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace NoMeOlvides.Tests.ViewModel
 {
-    [TestFixture]
+    [TestClass]
     public class LogEntryViewModelTests
     {
         private LogEntryViewModel sut;
 
-        [SetUp]
+        [TestInitialize]
         public void SetUp()
         {
             sut = new LogEntryViewModel();
@@ -22,19 +22,21 @@ namespace NoMeOlvides.Tests.ViewModel
 
         #region CONSTRUCTOR
 
-        [Test]
+        [TestMethod]
         public void LogEntryViewModel_WithoutParameters_InheritFromLogEntryClass()
         {
 
 
-            Assert.IsInstanceOf<LogEntry>(sut);
+            // N U N I T
+            //////Assert.IsInstanceOf<LogEntry>(sut);
+            Assert.IsInstanceOfType(sut, typeof(LogEntry));
         }
 
         #endregion
 
         #region MessageLogType GET
 
-        [Test]
+        [TestMethod]
         public void MessageLogType_GET__Uninitialized_ReturnsServerSideValue()
         {
 
@@ -47,7 +49,7 @@ namespace NoMeOlvides.Tests.ViewModel
 
         #region MessageLogType SET
 
-        [Test]
+        [TestMethod]
         public void MessageLogType_SET__WithServerSide_ReturnsServerSideValue()
         {
             sut.MessageLogType = MessageLogType.ServerSide;
@@ -57,7 +59,7 @@ namespace NoMeOlvides.Tests.ViewModel
             Assert.AreEqual(MessageLogType.ServerSide, result);
         }
 
-        [Test]
+        [TestMethod]
         public void MessageLogType_SET__WithClientSide_ReturnsClientSideValue()
         {
             sut.MessageLogType = MessageLogType.ClientSide;

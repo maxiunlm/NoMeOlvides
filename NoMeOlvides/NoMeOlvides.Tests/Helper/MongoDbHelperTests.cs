@@ -2,7 +2,7 @@
 using Domain.Hepler;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NoMeOlvides.Tests.Helper
 {
-    [TestFixture]
+    [TestClass]
     public class MongoDbHelperTests
     {
         private MongoDbHelper sut;
@@ -19,7 +19,7 @@ namespace NoMeOlvides.Tests.Helper
         private static readonly ContactData contactData = new ContactData();
         private readonly MongoCollection collection = contactData.MongoDatabase.GetCollection("system.indexes");
 
-        [SetUp]
+        [TestInitialize]
         public void SetUp()
         {
             sut = new MongoDbHelper();
@@ -27,7 +27,7 @@ namespace NoMeOlvides.Tests.Helper
 
         #region GenerateNewId
 
-        [Test]
+        [TestMethod]
         public void GenerateNewId_SinParametros_RetornaUnNuevoObjectId()
         {
             
@@ -40,7 +40,7 @@ namespace NoMeOlvides.Tests.Helper
 
         #region GetIQueryableFromMongoCollection
 
-        [Test]
+        [TestMethod]
         public void GetIQueryableFromMongoCollection_ConUnaMongoCollection_RetornaUnIQueryable()
         {
 

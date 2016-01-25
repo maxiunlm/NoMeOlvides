@@ -4,7 +4,7 @@ using Domain.Service;
 using Domain.ViewModel;
 using MongoDB.Bson;
 using Moq;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace NoMeOlvides.Tests.Service
 {
-    [TestFixture]
+    [TestClass]
     public class ContactServiceTests
     {
         private ContactService sut;
@@ -31,6 +31,7 @@ namespace NoMeOlvides.Tests.Service
         private const string invalidEmail = "aacom";
         private const string emptyEmail = "";
         private const string nullEmail = null;
+        private const int emptyItemsCount = 0;
         private readonly ContactDataModel contactEmptyDataModel = new ContactDataModel();
         private readonly ContactViewModel contactEmptyViewModel = new ContactViewModel();
         private readonly ContactViewModel contactViewModel = new ContactViewModel { Id = validContactId, Email = "a@a.com", Password = "123456" };
@@ -54,7 +55,7 @@ namespace NoMeOlvides.Tests.Service
 
         #endregion
 
-        [SetUp]
+        [TestInitialize]
         public void SetUp()
         {
             mocker = new Mock<ContactBusiness>();
@@ -66,7 +67,7 @@ namespace NoMeOlvides.Tests.Service
 
         #region CONSTRUCTOR
 
-        [Test]
+        [TestMethod]
         public void ContactService_SinParametros_CreaInstanciaDelObjetoDeLaCapaInferior()
         {
 
@@ -79,7 +80,7 @@ namespace NoMeOlvides.Tests.Service
 
         #region SaveContact
 
-        [Test]
+        [TestMethod]
         public void SaveContact_ConDatosDeContacto_InvocaMetodoDeCapaInferiorQueGuardaAlContacto()
         {
             mocker.Setup(o => o.SaveContact(It.IsAny<ContactDataModel>()));
@@ -89,7 +90,7 @@ namespace NoMeOlvides.Tests.Service
             mocker.Verify(o => o.SaveContact(It.IsAny<ContactDataModel>()));
         }
 
-        [Test]
+        [TestMethod]
         public void SaveContact_WithContactData_InvokesMethodFromNextLayerWhichReturnsTheContactId()
         {
             mocker.Setup(o => o.SaveContact(It.IsAny<ContactDataModel>())).Returns(objectContactId);
@@ -103,7 +104,7 @@ namespace NoMeOlvides.Tests.Service
 
         #region GetContactByEmail
 
-        [Test]
+        [TestMethod]
         public void GetContactByEmail_ConEmailValido_InvocaMetodoDeLaCapaInferiorQueRetornaElContacto()
         {
             mocker.Setup(o => o.GetContactByEmail(validEmail)).Returns(contactDataModel);
@@ -113,7 +114,7 @@ namespace NoMeOlvides.Tests.Service
             mocker.Verify(o => o.GetContactByEmail(validEmail));
         }
 
-        [Test]
+        [TestMethod]
         public void GetContactByEmail_ConEmailValido_RetornaContacto()
         {
             mocker.Setup(o => o.GetContactByEmail(validEmail)).Returns(contactDataModel);
@@ -124,7 +125,7 @@ namespace NoMeOlvides.Tests.Service
             Assert.AreEqual(result.Email, contactDataModel.Email);
         }
 
-        [Test]
+        [TestMethod]
         public void GetContactByEmail_ConEmailInvalido_RetornaContactoVacio()
         {
             mocker.Setup(o => o.GetContactByEmail(invalidEmail)).Returns(contactEmptyDataModel);
@@ -135,7 +136,7 @@ namespace NoMeOlvides.Tests.Service
             Assert.AreEqual(contactEmptyDataModel.Email, result.Email);
         }
 
-        [Test]
+        [TestMethod]
         public void GetContactByEmail_ConEmailNulo_RetornaContactoVacio()
         {
             mocker.Setup(o => o.GetContactByEmail(nullEmail)).Returns(contactEmptyDataModel);
@@ -146,7 +147,7 @@ namespace NoMeOlvides.Tests.Service
             Assert.AreEqual(contactEmptyDataModel.Email, result.Email);
         }
 
-        [Test]
+        [TestMethod]
         public void GetContactByEmail_ConEmailVacio_RetornaContactoVacio()
         {
             mocker.Setup(o => o.GetContactByEmail(emptyEmail)).Returns(contactEmptyDataModel);
@@ -161,7 +162,7 @@ namespace NoMeOlvides.Tests.Service
 
         #region GetContactById
 
-        [Test]
+        [TestMethod]
         public void GetContactById_ConIdValido_InvocaMetodoDeLaCapaInferiorQueRetornaElContacto()
         {
             mocker.Setup(o => o.GetContactById(It.IsAny<ObjectId>())).Returns(contactDataModel);
@@ -171,7 +172,7 @@ namespace NoMeOlvides.Tests.Service
             mocker.Verify(o => o.GetContactById(It.IsAny<ObjectId>()));
         }
 
-        [Test]
+        [TestMethod]
         public void GetContactById_ConIdValido_RetornaContacto()
         {
             mocker.Setup(o => o.GetContactById(It.IsAny<ObjectId>())).Returns(contactDataModel);
@@ -182,7 +183,7 @@ namespace NoMeOlvides.Tests.Service
             Assert.AreEqual(result.Email, contactDataModel.Email);
         }
 
-        [Test]
+        [TestMethod]
         public void GetContactById_ConIdVacio_RetornaContactoVacio()
         {
             mocker.Setup(o => o.GetContactById(emptyObjectId)).Returns(contactEmptyDataModel);
@@ -197,7 +198,7 @@ namespace NoMeOlvides.Tests.Service
 
         #region Delete
 
-        [Test]
+        [TestMethod]
         public void Delete_ConIdValido_InvocaMetodoDeLaCapaInferiorQueRetornaElContacto()
         {
             mocker.Setup(o => o.Delete(It.IsAny<ObjectId>()));
@@ -211,7 +212,7 @@ namespace NoMeOlvides.Tests.Service
 
         #region ListContacts
 
-        [Test]
+        [TestMethod]
         public void ListContacts_ConContactId_InvocaMetodoDeLaCapaInferiorQueRetornaLaListaDeLosContactosDelUsuario()
         {
             mocker.Setup(o => o.ListContacts(It.IsAny<ObjectId>())).Returns(contactsX1);
@@ -221,17 +222,17 @@ namespace NoMeOlvides.Tests.Service
             mocker.Verify(o => o.ListContacts(It.IsAny<ObjectId>()));
         }
 
-        [Test]
+        [TestMethod]
         public void ListContacts_ConContactId_RetornaLaListaDeLosContactosDelUsuarioVacia()
         {
             mocker.Setup(o => o.ListContacts(It.IsAny<ObjectId>())).Returns(contactsX0);
 
             IList<ContactViewModel> result = sut.ListContacts(validContactId);
 
-            Assert.IsEmpty(result);
+            Assert.AreEqual(emptyItemsCount, result.Count);
         }
 
-        [Test]
+        [TestMethod]
         public void ListContacts_ConContactId_RetornaLaListaDeLosContactosDelUsuarioConUnContacto()
         {
             mocker.Setup(o => o.ListContacts(It.IsAny<ObjectId>())).Returns(contactsX1);
@@ -242,7 +243,7 @@ namespace NoMeOlvides.Tests.Service
             Assert.AreEqual(result[0].Id, contactsX1[0].Id.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void ListContacts_ConContactId_RetornaLaListaDeLosContactosDelUsuarioConDosContactos()
         {
             mocker.Setup(o => o.ListContacts(It.IsAny<ObjectId>())).Returns(contactsX2);
@@ -258,7 +259,7 @@ namespace NoMeOlvides.Tests.Service
 
         #region Search
 
-        [Test]
+        [TestMethod]
         public void Search_WithoutFilters_InvokeMethodFromTheNextLayerWichReturnsTheListOfContacts()
         {
             mocker.Setup(o => o.Search(It.IsAny<ContactDataModel>())).Returns(contactsX1);
@@ -268,7 +269,7 @@ namespace NoMeOlvides.Tests.Service
             mocker.Verify(o => o.Search(It.IsAny<ContactDataModel>()));
         }
 
-        [Test]
+        [TestMethod]
         public void Search_WithoutFilters_InvokeMethodFromTheNextLayerWichReturnsEmptyListOfContacts()
         {
             mocker.Setup(o => o.Search(It.IsAny<ContactDataModel>())).Returns(contactsX0);
@@ -278,7 +279,7 @@ namespace NoMeOlvides.Tests.Service
             Assert.AreEqual(contactsX0.Count, result.Count);
         }
 
-        [Test]
+        [TestMethod]
         public void Search_WithoutFilters_InvokeMethodFromTheNextLayerWichReturnsEmptyListOfContactsWithTwoResults()
         {
             mocker.Setup(o => o.Search(It.IsAny<ContactDataModel>())).Returns(contactsX2);
@@ -290,7 +291,7 @@ namespace NoMeOlvides.Tests.Service
             Assert.AreEqual(contactsX2[1].Id.ToString(), result[1].Id);
         }
 
-        [Test]
+        [TestMethod]
         public void Search_WithoutFilters_InvokeMethodFromTheNextLayerWichReturnsListOfContactsWithOneResult()
         {
             mocker.Setup(o => o.Search(It.IsAny<ContactDataModel>())).Returns(contactsX1);
@@ -301,7 +302,7 @@ namespace NoMeOlvides.Tests.Service
             Assert.AreEqual(contactsX1[0].Id.ToString(), result[0].Id);
         }
 
-        [Test]
+        [TestMethod]
         public void Search_WithAllTheFilters_InvokeMethodFromTheNextLayerWichReturnsTheListOfContacts()
         {
             mocker.Setup(o => o.Search(It.IsAny<ContactDataModel>())).Returns(contactsX1);
@@ -311,7 +312,7 @@ namespace NoMeOlvides.Tests.Service
             mocker.Verify(o => o.Search(It.IsAny<ContactDataModel>()));
         }
 
-        [Test]
+        [TestMethod]
         public void Search_WithAllTheFilters_InvokeMethodFromTheNextLayerWichReturnsEmptyListOfContacts()
         {
             mocker.Setup(o => o.Search(It.IsAny<ContactDataModel>())).Returns(contactsX0);
@@ -321,7 +322,7 @@ namespace NoMeOlvides.Tests.Service
             Assert.AreEqual(contactsX0.Count, result.Count);
         }
 
-        [Test]
+        [TestMethod]
         public void Search_WithAllTheFilters_InvokeMethodFromTheNextLayerWichReturnsEmptyListOfContactsWithTwoResults()
         {
             mocker.Setup(o => o.Search(It.IsAny<ContactDataModel>())).Returns(contactsX2);
@@ -333,7 +334,7 @@ namespace NoMeOlvides.Tests.Service
             Assert.AreEqual(contactsX2[1].Id.ToString(), result[1].Id);
         }
 
-        [Test]
+        [TestMethod]
         public void Search_WithAllTheFilters_InvokeMethodFromTheNextLayerWichReturnsListOfContactsWithOneResult()
         {
             mocker.Setup(o => o.Search(It.IsAny<ContactDataModel>())).Returns(contactsX1);

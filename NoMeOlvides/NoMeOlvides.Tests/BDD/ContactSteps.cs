@@ -4,7 +4,7 @@ using Domain.ViewModel;
 using MongoDB.Bson;
 using NoMeOlvides.Controllers;
 using NoMeOlvides.WebApis;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -286,7 +286,9 @@ namespace NoMeOlvides.Tests.BDD
         [Then(@"el sistema arroja exepcion controlada de usuario pre existente")]
         public void ThenElSistemaArrojaExepcionControladaDeUsuarioPreExistente()
         {
-            Assert.IsInstanceOf<DevelopedControlledException>(exceptionResult);
+            // N U N I T
+            //////Assert.IsInstanceOf<DevelopedControlledException>(exceptionResult);
+            Assert.IsInstanceOfType(exceptionResult, typeof(DevelopedControlledException));
             Assert.AreEqual(Locale.preExistentContact, exceptionResult.Message);
         }
 

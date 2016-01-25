@@ -2,7 +2,7 @@
 using Domain.ViewModel;
 using Moq;
 using NoMeOlvides.Controllers;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace NoMeOlvides.Tests.Controllers
 {
-    [TestFixture]
+    [TestClass]
     public class ContactControllerTests
     {
         private ContactController sut;
@@ -21,6 +21,7 @@ namespace NoMeOlvides.Tests.Controllers
         #region Fixture
 
         private const string contactId = "1";
+        private const int emptyItemsCount = 0;
 
         private readonly List<ContactViewModel> contactsX0 = new List<ContactViewModel> ();
         private readonly List<ContactViewModel> contactsX1 = new List<ContactViewModel> { new ContactViewModel { Id = contactId } };
@@ -31,7 +32,7 @@ namespace NoMeOlvides.Tests.Controllers
 
         #endregion
 
-        [SetUp]
+        [TestInitialize]
         public void SetUp()
         {
             mocker = new Mock<ContactService>();
@@ -42,7 +43,7 @@ namespace NoMeOlvides.Tests.Controllers
 
         #region CONSTRUCTOR
 
-        [Test]
+        [TestMethod]
         public void ContactController_SinParametros_CreaInstanciaDelObjetoDeLaCapaService()
         {
             sut = new ContactController();
@@ -54,7 +55,7 @@ namespace NoMeOlvides.Tests.Controllers
 
         #region Index
 
-        [Test]
+        [TestMethod]
         public void Index_ConContactId_InvocaMetodoDeLaCapaInferiorQueRetornaLaListaDeLosContactosDelUsuario()
         {
             mocker.Setup(o => o.ListContacts(It.IsAny<string>())).Returns(contactsX1);
@@ -64,7 +65,7 @@ namespace NoMeOlvides.Tests.Controllers
             mocker.Verify(o => o.ListContacts(It.IsAny<string>()));
         }
 
-        [Test]
+        [TestMethod]
         public void Index_ConContactId_RetornaLaListaDeLosContactosDelUsuarioVacia()
         {
             mocker.Setup(o => o.ListContacts(It.IsAny<string>())).Returns(contactsX0);
@@ -72,10 +73,10 @@ namespace NoMeOlvides.Tests.Controllers
             ViewResult resultView = (ViewResult)sut.Index();
             List<ContactViewModel> result = (List<ContactViewModel>)resultView.Model;
 
-            Assert.IsEmpty(result);
+            Assert.AreEqual(emptyItemsCount, result.Count);
         }
 
-        [Test]
+        [TestMethod]
         public void Index_ConContactId_RetornaLaListaDeLosContactosDelUsuarioConUnContacto()
         {
             mocker.Setup(o => o.ListContacts(It.IsAny<string>())).Returns(contactsX1);
@@ -87,7 +88,7 @@ namespace NoMeOlvides.Tests.Controllers
             Assert.AreEqual(result[0].Id, contactsX1[0].Id);
         }
 
-        [Test]
+        [TestMethod]
         public void Index_ConContactId_RetornaLaListaDeLosContactosDelUsuarioConDosContactos()
         {
             mocker.Setup(o => o.ListContacts(It.IsAny<string>())).Returns(contactsX2);

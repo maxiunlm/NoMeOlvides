@@ -5,7 +5,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using Moq;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -16,7 +16,7 @@ using Domain.Resources;
 
 namespace NoMeOlvides.Tests.Data
 {
-    [TestFixture]
+    [TestClass]
     public class ContactDataTests
     {
         private ContactData sut;
@@ -33,6 +33,7 @@ namespace NoMeOlvides.Tests.Data
         private static readonly ObjectId contactObjectId = ObjectId.GenerateNewId();
         private readonly ObjectId validId = ObjectId.GenerateNewId();
         private readonly ObjectId emptyId = ObjectId.Empty;
+        private const int emptyItemsCount = 0;
         private const string contactTabelName = "contact";
         private readonly string dataBaseName = ConfigurationManager.ConnectionStrings["NoMeOlvides"].Name;
         private const string validEmail = "a@a.com";
@@ -83,7 +84,7 @@ namespace NoMeOlvides.Tests.Data
 
         #region SetUp
 
-        [SetUp]
+        [TestInitialize]
         public void SetUp()
         {
             mocker = new Mock<MongoClient>();
@@ -155,7 +156,7 @@ namespace NoMeOlvides.Tests.Data
 
         #region CONSTRUCTOR
 
-        [Test]
+        [TestMethod]
         public void ContactData_SinParametros_CreaInstanciaLosObjetoNesesariosParaTrabajar()
         {
             sut = new ContactData();
@@ -167,7 +168,7 @@ namespace NoMeOlvides.Tests.Data
             Assert.IsNotNull(sut.MongoDbQuery);
         }
 
-        //[Test]
+        //[TestMethod]
         //public void ContactData_SinParametros_InvocaMetodoDeMongoDbQueObtieneElServerDeLaBd()
         //{
         //    mocker.Setup(o => o.GetDatabase(It.IsAny<string>(), It.IsAny<MongoDatabaseSettings>()));
@@ -181,7 +182,7 @@ namespace NoMeOlvides.Tests.Data
 
         #region SaveContact
 
-        [Test]
+        [TestMethod]
         public void SaveContact_ConDatosDeContacto_InvocaMetodoDeMongoDbQueObtieneLaCollectionDeLaBd()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -195,7 +196,7 @@ namespace NoMeOlvides.Tests.Data
             mongoDatabaseMocker.Verify(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>()));//, It.IsAny<MongoCollectionSettings>()
         }
 
-        [Test]
+        [TestMethod]
         public void SaveContact_ConDatosDeContacto_InvocaMetodoDeMongoDbHelperQueGeneraElObjectId()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -209,7 +210,7 @@ namespace NoMeOlvides.Tests.Data
             mongoDbHelperMocker.Verify(o => o.GenerateNewId());
         }
 
-        [Test]
+        [TestMethod]
         public void SaveContact_ConDatosDeContacto_InvocaMetodoDeMongoDbQueGeneraCreaElContacto()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -223,7 +224,7 @@ namespace NoMeOlvides.Tests.Data
             contactsDataModelX1Mocker.Verify(o => o.Save(newContactDataModel));
         }
 
-        [Test]
+        [TestMethod]
         public void SaveContact_ConDatosDeContactoExistente_InvocaMetodoDeMongoDbQueGuardaModificacionDelContacto()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -237,7 +238,7 @@ namespace NoMeOlvides.Tests.Data
             contactsDataModelX1Mocker.Verify(o => o.Save(contactDataModel));
         }
 
-        [Test]
+        [TestMethod]
         public void SaveContact_ConDatosDeContactoNuevoYConEmailValido_InvocaMetodoDeMongoDbQueObtieneAlContacto()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -251,7 +252,7 @@ namespace NoMeOlvides.Tests.Data
             mongoDbQueryMocker.Verify(o => o.GetContactByEmail(It.IsAny<string>(), It.IsAny<IQueryable<ContactDataModel>>()));
         }
 
-        [Test]
+        [TestMethod]
         public void SaveContact_ConDatosDeContacto_NoInvocaMetodoDeMongoDbHelperQueCreaElIQueyrable()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -265,7 +266,7 @@ namespace NoMeOlvides.Tests.Data
             mongoDbHelperMocker.Verify(o => o.GetIQueryableFromMongoCollection<ContactDataModel>(It.IsAny<MongoCollection<ContactDataModel>>()));
         }
 
-        [Test]
+        [TestMethod]
         public void SaveContact_ConDatosDeContactoExistente_NoInvocaMetodoDeMongoDbHelperQueCreaElIdDelObjeto()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -278,7 +279,7 @@ namespace NoMeOlvides.Tests.Data
             mongoDbHelperMocker.Verify(o => o.GenerateNewId(), Times.Never);
         }
 
-        [Test]
+        [TestMethod]
         public void SaveContact_ConDatosDeContactoExistenteConDistintoID_ArrojaExcepcionControlada()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -287,13 +288,22 @@ namespace NoMeOlvides.Tests.Data
             contactsDataModelX1Mocker.Setup(o => o.Save(preExistentContactDataModel));
             mongoDbQueryMocker.Setup(o => o.GetContactByEmail(It.IsAny<string>(), It.IsAny<IQueryable<ContactDataModel>>())).Returns(existentContactDataModel);
 
-            Exception result = Assert.Catch(() => sut.SaveContact(preExistentContactDataModel));
-
-            Assert.That(result, Is.InstanceOf<DevelopedControlledException>());
-            Assert.AreEqual(developedControlledException.Message, result.Message);
+            ////Exception result = Assert.Catch(() => sut.SaveContact(preExistentContactDataModel));
+            // N U N I T
+            ////Assert.That(result, Is.InstanceOf<DevelopedControlledException>());
+            ////Assert.AreEqual(developedControlledException.Message, result.Message);
+            try
+            {
+                sut.SaveContact(preExistentContactDataModel);
+            }
+            catch (Exception result)
+            {
+                Assert.IsInstanceOfType(result, typeof(DevelopedControlledException));
+                Assert.AreEqual(developedControlledException.Message, result.Message);
+            }
         }
 
-        [Test]
+        [TestMethod]
         public void SaveContact_WithContactData_InvokesMethodFromNextLayerWhichReturnsTheContactId()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -311,7 +321,7 @@ namespace NoMeOlvides.Tests.Data
 
         #region GetContactByEmail
 
-        [Test]
+        [TestMethod]
         public void GetContactByEmail_ConEmailValido_InvocaMetodoDeMongoDbQueObtieneLaCollectionDeLaBd()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -323,7 +333,7 @@ namespace NoMeOlvides.Tests.Data
             mongoDatabaseMocker.Verify(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>()));//, It.IsAny<MongoCollectionSettings>()
         }
 
-        [Test]
+        [TestMethod]
         public void GetContactByEmail_ConEmailValido_InvocaMetodoDeMongoDbHelperQueCreaElIQueyrable()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -335,7 +345,7 @@ namespace NoMeOlvides.Tests.Data
             mongoDbHelperMocker.Verify(o => o.GetIQueryableFromMongoCollection<ContactDataModel>(It.IsAny<MongoCollection<ContactDataModel>>()));
         }
 
-        [Test]
+        [TestMethod]
         public void GetContactByEmail_ConEmailValido_InvocaMetodoDeMongoDbQueObtieneAlContacto()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -347,7 +357,7 @@ namespace NoMeOlvides.Tests.Data
             mongoDbQueryMocker.Verify(o => o.GetContactByEmail(validEmail, It.IsAny<IQueryable<ContactDataModel>>()));
         }
 
-        [Test]
+        [TestMethod]
         public void GetContactByEmail_ConEmailValido_RetornaContacto()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -361,7 +371,7 @@ namespace NoMeOlvides.Tests.Data
         }
 
         // DUPLICADO: GetContactByEmail_ConEmailValido_InvocaMetodoDeMongoDbQueObtieneAlContacto
-        //[Test]
+        //[TestMethod]
         //public void GetContactByEmail_ConEmailValido_InvocaMetodoDeMongoDbQueryQueRetornaElContacto()
         //{
         //    mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -374,7 +384,7 @@ namespace NoMeOlvides.Tests.Data
         //}
 
         // Trasladados al helper de querys !!!!!!!!!!!!!!!
-        //[Test]
+        //[TestMethod]
         //public void GetContactByEmail_ConEmailInvalido_RetornaContactoVacio()
         //{
         //    mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -387,7 +397,7 @@ namespace NoMeOlvides.Tests.Data
         //    Assert.AreEqual(result.Email, contactEmptyDataModel.Email);
         //}
 
-        //[Test]
+        //[TestMethod]
         //public void GetContactByEmail_ConEmailInexistente_RetornaContactoVacio()
         //{
         //    mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -400,7 +410,7 @@ namespace NoMeOlvides.Tests.Data
         //    Assert.AreEqual(result.Email, contactEmptyDataModel.Email);
         //}
 
-        //[Test]
+        //[TestMethod]
         //public void GetContactByEmail_ConEmailNulo_RetornaContactoVacio()
         //{
         //    mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -413,7 +423,7 @@ namespace NoMeOlvides.Tests.Data
         //    Assert.AreEqual(result.Email, contactEmptyDataModel.Email);
         //}
 
-        //[Test]
+        //[TestMethod]
         //public void GetContactByEmail_ConEmailVacio_RetornaContactoVacio()
         //{
         //    mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -430,7 +440,7 @@ namespace NoMeOlvides.Tests.Data
 
         #region GetContactById
 
-        [Test]
+        [TestMethod]
         public void GetContactById_ConIdValido_InvocaMetodoDeMongoDbQueObtieneLaCollectionDeLaBd()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -442,7 +452,7 @@ namespace NoMeOlvides.Tests.Data
             mongoDatabaseMocker.Verify(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>()));//, It.IsAny<MongoCollectionSettings>()
         }
 
-        [Test]
+        [TestMethod]
         public void GetContactById_ConIdValido_InvocaMetodoDeMongoDbQueObtieneAlContacto()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -454,7 +464,7 @@ namespace NoMeOlvides.Tests.Data
             mongoDbQueryMocker.Verify(o => o.GetContactById(validId, It.IsAny<IQueryable<ContactDataModel>>()));
         }
 
-        [Test]
+        [TestMethod]
         public void GetContactById_ConIdValido_InvocaMetodoDeMongoDbHelperQueCreaElIQueyrable()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -466,7 +476,7 @@ namespace NoMeOlvides.Tests.Data
             mongoDbHelperMocker.Verify(o => o.GetIQueryableFromMongoCollection<ContactDataModel>(It.IsAny<MongoCollection<ContactDataModel>>()));
         }
 
-        [Test]
+        [TestMethod]
         public void GetContactById_ConIdValido_RetornaContacto()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -483,7 +493,7 @@ namespace NoMeOlvides.Tests.Data
 
         #region Delete
 
-        [Test]
+        [TestMethod]
         public void Delete_ConIdValido_InvocaMetodoDeMongoDbQueObtieneLaCollectionDeLaBd()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -494,7 +504,7 @@ namespace NoMeOlvides.Tests.Data
             mongoDatabaseMocker.Verify(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>()));//, It.IsAny<MongoCollectionSettings>()
         }
 
-        [Test]
+        [TestMethod]
         public void Delete_ConIdValido_InvocaMetodoDeMongoDbQueEliminaAlContacto()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -509,7 +519,7 @@ namespace NoMeOlvides.Tests.Data
 
         #region DeleteByEmail
 
-        [Test]
+        [TestMethod]
         public void DeleteByEmail_ConEmailValido_InvocaMetodoDeMongoDbQueObtieneLaCollectionDeLaBd()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -522,7 +532,7 @@ namespace NoMeOlvides.Tests.Data
             mongoDatabaseMocker.Verify(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>()));//, It.IsAny<MongoCollectionSettings>()
         }
 
-        [Test]
+        [TestMethod]
         public void DeleteByEmail_ConEmailValido_InvocaMetodoDeMongoDbHelperQueCreaElIQueyrable()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -535,7 +545,7 @@ namespace NoMeOlvides.Tests.Data
             mongoDbHelperMocker.Verify(o => o.GetIQueryableFromMongoCollection<ContactDataModel>(It.IsAny<MongoCollection<ContactDataModel>>()));
         }
 
-        [Test]
+        [TestMethod]
         public void DeleteByEmail_ConEmailValido_InvocaMetodoDeMongoDbQueObtieneAlContacto()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -548,7 +558,7 @@ namespace NoMeOlvides.Tests.Data
             mongoDbQueryMocker.Verify(o => o.GetContactByEmail(validEmail, It.IsAny<IQueryable<ContactDataModel>>()));
         }
 
-        [Test]
+        [TestMethod]
         public void DeleteByEmail_ConEmailValido_InvocaMetodoDeMongoDbQueEliminaAlContacto()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -565,7 +575,7 @@ namespace NoMeOlvides.Tests.Data
 
         #region ListContacts
 
-        [Test]
+        [TestMethod]
         public void ListContacts_ConContactId_InvocaMetodoDeMongoDbQueObtieneLaCollectionDeLaBd()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -577,7 +587,7 @@ namespace NoMeOlvides.Tests.Data
             mongoDatabaseMocker.Verify(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>()));//, It.IsAny<MongoCollectionSettings>()
         }
 
-        [Test]
+        [TestMethod]
         public void ListContacts_ConContactId_InvocaMetodoDeMongoDbHelperQueCreaElIQueyrable()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -589,7 +599,7 @@ namespace NoMeOlvides.Tests.Data
             mongoDbHelperMocker.Verify(o => o.GetIQueryableFromMongoCollection<ContactDataModel>(It.IsAny<MongoCollection<ContactDataModel>>()));
         }
 
-        [Test]
+        [TestMethod]
         public void ListContacts_ConContactId_InvocaMetodoDeMongoDbQueObtieneLosContactos()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -601,7 +611,7 @@ namespace NoMeOlvides.Tests.Data
             mongoDbQueryMocker.Verify(o => o.ListContacts(contactObjectId, It.IsAny<IQueryable<ContactDataModel>>()));
         }
 
-        [Test]
+        [TestMethod]
         public void ListContacts_ConContactId_RetornaLaListaDeLosContactosDelUsuarioVacia()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -610,10 +620,10 @@ namespace NoMeOlvides.Tests.Data
 
             List<ContactDataModel> result = sut.ListContacts(contactObjectId);
 
-            Assert.IsEmpty(result);
+            Assert.AreEqual(emptyItemsCount, result.Count);
         }
 
-        [Test]
+        [TestMethod]
         public void ListContacts_ConContactId_RetornaLaListaDeLosContactosDelUsuarioConUnContacto()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -626,7 +636,7 @@ namespace NoMeOlvides.Tests.Data
             Assert.AreEqual(result[0].Id, contactsX1[0].Id);
         }
 
-        [Test]
+        [TestMethod]
         public void ListContacts_ConContactId_RetornaLaListaDeLosContactosDelUsuarioConDosContactos()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -644,7 +654,7 @@ namespace NoMeOlvides.Tests.Data
 
         #region Search
 
-        [Test]
+        [TestMethod]
         public void Search_WithoutFilters_InvokesMethodFromMongoDbWichReturnsTheCollectionFromTheDataBase()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -654,7 +664,7 @@ namespace NoMeOlvides.Tests.Data
             mongoDatabaseMocker.Verify(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>()));//, It.IsAny<MongoCollectionSettings>()
         }
 
-        [Test]
+        [TestMethod]
         public void Search_WithoutFilters_InvokesMethodFromMongoDbHelperWichConvertsTheCollectionIntoAnIQuerable()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -665,7 +675,7 @@ namespace NoMeOlvides.Tests.Data
             mongoDbHelperMocker.Verify(o => o.GetIQueryableFromMongoCollection<ContactDataModel>(It.IsAny<MongoCollection<ContactDataModel>>()));
         }
 
-        [Test]
+        [TestMethod]
         public void Search_WithoutFilters_InvokesMethodFromMongoDbQueryWichReturnsTheListOfContactsFromTheDataBase()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -677,7 +687,7 @@ namespace NoMeOlvides.Tests.Data
             mongoDbQueryMocker.Verify(o => o.Search(contactEmptyDataModel, It.IsAny<IQueryable<ContactDataModel>>()));
         }
 
-        [Test]
+        [TestMethod]
         public void Search_WithoutFilters_InvokesMethodFromMongoDbQueryWichReturnsEmptyListOfContacts()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -689,7 +699,7 @@ namespace NoMeOlvides.Tests.Data
             Assert.AreSame(contactsX0, result);
         }
 
-        [Test]
+        [TestMethod]
         public void Search_WithoutFilters_InvokesMethodFromMongoDbQueryWichReturnsListOfContactsWithOneResult()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -701,7 +711,7 @@ namespace NoMeOlvides.Tests.Data
             Assert.AreSame(contactsX1, result);
         }
 
-        [Test]
+        [TestMethod]
         public void Search_WithoutFilters_InvokesMethodFromMongoDbQueryWichReturnsListOfContactsWithTwoResults()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -713,7 +723,7 @@ namespace NoMeOlvides.Tests.Data
             Assert.AreSame(contactsX2, result);
         }
 
-        [Test]
+        [TestMethod]
         public void Search_WithAllTheFilters_InvokesMethodFromMongoDbQueryWichReturnsEmptyListOfContacts()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -725,7 +735,7 @@ namespace NoMeOlvides.Tests.Data
             Assert.AreSame(contactsX0, result);
         }
 
-        [Test]
+        [TestMethod]
         public void Search_WithAllTheFilters_InvokesMethodFromMongoDbQueryWichReturnsListOfContactsWithOneResult()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
@@ -737,7 +747,7 @@ namespace NoMeOlvides.Tests.Data
             Assert.AreSame(contactsX1, result);
         }
 
-        [Test]
+        [TestMethod]
         public void Search_WithAllTheFilters_InvokesMethodFromMongoDbQueryWichReturnsListOfContactsWithTwoResults()
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((MongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
