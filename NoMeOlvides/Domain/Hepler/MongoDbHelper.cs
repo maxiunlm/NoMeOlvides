@@ -1,6 +1,8 @@
-﻿using MongoDB.Bson;
+﻿//using MongoDB.Bson;
+//using MongoDB.Driver;
+//using MongoDB.Driver.Linq;
+using MongoDB.Bson;
 using MongoDB.Driver;
-using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +18,7 @@ namespace Domain.Hepler
             return ObjectId.GenerateNewId();
         }
 
-        public virtual IQueryable<T> GetIQueryableFromMongoCollection<T>(MongoCollection collection)
+        public virtual IQueryable<T> GetIQueryableFromMongoCollection<T>(IMongoCollection<T> collection)
         {
             return collection.AsQueryable<T>();
         }

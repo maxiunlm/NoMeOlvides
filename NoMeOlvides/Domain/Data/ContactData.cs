@@ -16,31 +16,32 @@ namespace Domain.Data
     public class ContactData
     {
         public MongoClient MongoClient { get; set; }
-        public MongoServer MongoServer { get; set; }
-        public MongoDatabase MongoDatabase { get; set; }
+        //public MongoServer MongoServer { get; set; }
+        public IMongoDatabase MongoDatabase { get; set; }
         public MongoDbHelper MongoDbHelper { get; set; }
         public MongoDbQuery MongoDbQuery { get; set; }
 
-        private MongoCollection<ContactDataModel> contactDataModelCollection;
+        private IMongoCollection<ContactDataModel> contactDataModelCollection;
 
 
-        public ContactData ()
+        public ContactData()
         {
             CreateConnectionToDataBase();
             MongoDbHelper = new MongoDbHelper();
             MongoDbQuery = new MongoDbQuery();
         }
 
+        // TODO: TDD ???!!!!
         public void CreateConnectionToDataBase()
         {
             MongoClient = new MongoClient(ConfigurationManager.ConnectionStrings["NoMeOlvides"].ConnectionString);
-            MongoServer = MongoClient.GetServer();
-            MongoDatabase = (MongoDatabase)MongoServer.GetDatabase(ConfigurationManager.ConnectionStrings["NoMeOlvides"].Name);
+            //MongoServer = MongoClient.GetServer();
+            MongoDatabase = MongoClient.GetDatabase(ConfigurationManager.ConnectionStrings["NoMeOlvides"].Name);
         }
 
         public virtual ObjectId SaveContact(ContactDataModel contactDataModel)
         {
-            MongoCollection<ContactDataModel> contactDataModelCollection = GetContactCollection();
+            IMongoCollection<ContactDataModel> contactDataModelCollection = GetContactCollection();
             VerifyNonPreExistentContact(contactDataModel, contactDataModelCollection);
 
             if (IsNewContact(contactDataModel))
@@ -48,19 +49,21 @@ namespace Domain.Data
                 GenerateObjectId(contactDataModel);
             }
 
-            contactDataModelCollection.Save(contactDataModel);
+            // TDD ??? !!! 
+            UpdateOptions options = new UpdateOptions { IsUpsert = true };
+            contactDataModelCollection.ReplaceOne(o => o.Id == contactDataModel.Id, contactDataModel, options);// TDD !!! 
 
             return contactDataModel.Id;
         }
 
-        private MongoCollection<ContactDataModel> GetContactCollection()
+        private IMongoCollection<ContactDataModel> GetContactCollection()
         {
-            MongoCollection<ContactDataModel> ContactDataModelCollection = MongoDatabase.GetCollection<ContactDataModel>("contact", new MongoCollectionSettings());
+            IMongoCollection<ContactDataModel> ContactDataModelCollection = MongoDatabase.GetCollection<ContactDataModel>("contact", new MongoCollectionSettings());
 
             return ContactDataModelCollection;
         }
 
-        private void VerifyNonPreExistentContact(ContactDataModel contactDataModel, MongoCollection<ContactDataModel> contactDataModelCollection)
+        private void VerifyNonPreExistentContact(ContactDataModel contactDataModel, IMongoCollection<ContactDataModel> contactDataModelCollection)
         {
             IQueryable<ContactDataModel> contactQueyrableCollection = MongoDbHelper.GetIQueryableFromMongoCollection<ContactDataModel>(contactDataModelCollection);
             ContactDataModel preExistentContact = MongoDbQuery.GetContactByEmail(contactDataModel.Email, contactQueyrableCollection);
@@ -97,7 +100,7 @@ namespace Domain.Data
 
         public virtual ContactDataModel GetContactById(ObjectId id)
         {
-            MongoCollection<ContactDataModel> contactDataModelCollection = GetContactCollection();
+            IMongoCollection<ContactDataModel> contactDataModelCollection = GetContactCollection();
             IQueryable<ContactDataModel> contactQueyrableCollection = MongoDbHelper.GetIQueryableFromMongoCollection<ContactDataModel>(contactDataModelCollection);
             ContactDataModel contact = MongoDbQuery.GetContactById(id, contactQueyrableCollection);
 
@@ -106,21 +109,21 @@ namespace Domain.Data
 
         public virtual void Delete(ObjectId id)
         {
-            MongoCollection<ContactDataModel> contactDataModelCollection = GetContactCollection();
+            IMongoCollection<ContactDataModel> contactDataModelCollection = GetContactCollection();
 
-            contactDataModelCollection.Remove(new QueryDocument("_id", id));
+            contactDataModelCollection.DeleteOne(new QueryDocument("_id", id));
         }
 
         public void DeleteByEmail(string email)
         {
             ContactDataModel contact = GetContactByEmail(email);
 
-            contactDataModelCollection.Remove(new QueryDocument("_id", contact.Id));
+            contactDataModelCollection.DeleteOne(new QueryDocument("_id", contact.Id));
         }
 
         public virtual List<ContactDataModel> ListContacts(ObjectId id)
         {
-            MongoCollection<ContactDataModel> contactDataModelCollection = GetContactCollection();
+            IMongoCollection<ContactDataModel> contactDataModelCollection = GetContactCollection();
             IQueryable<ContactDataModel> contactQueyrableCollection = MongoDbHelper.GetIQueryableFromMongoCollection<ContactDataModel>(contactDataModelCollection);
             List<ContactDataModel> contacts = MongoDbQuery.ListContacts(id, contactQueyrableCollection);
 
@@ -129,7 +132,7 @@ namespace Domain.Data
 
         public virtual List<ContactDataModel> Search(ContactDataModel contactEmptyDataModel)
         {
-            MongoCollection<ContactDataModel> contactDataModelCollection = GetContactCollection();
+            IMongoCollection<ContactDataModel> contactDataModelCollection = GetContactCollection();
             IQueryable<ContactDataModel> contactQueyrableCollection = MongoDbHelper.GetIQueryableFromMongoCollection<ContactDataModel>(contactDataModelCollection);
             List<ContactDataModel> contacts = MongoDbQuery.Search(contactEmptyDataModel, contactQueyrableCollection);
 
