@@ -8,8 +8,8 @@
                     onGenealErrorEvent: function (data) {
                         var message = data;
 
-                        if (data.HasError) {
-                            message = data.Messages.join('\n\t* ');
+                        if (data.Errors != undefined && data.Errors.HasError) {
+                            message = data.Errors.Messages.join('\n\t* ');
                         }
 
                         alert('ERROR: ' + message);

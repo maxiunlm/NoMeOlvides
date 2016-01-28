@@ -14,7 +14,7 @@ describe('ErrorManagerSingleton', function () {
     it('onGenealErrorEvent - with a controled error by developer with one message - Invokes the alert method of window object showing it with "ERROR: " before the message', function () {
         spyOn(window, 'alert');
 
-        ErrorManager.getInstance().onGenealErrorEvent(callBackSuccessDataWithError.Errors);
+        ErrorManager.getInstance().onGenealErrorEvent(callBackSuccessDataWithError);
 
         expect(window.alert).toHaveBeenCalledWith('ERROR: ' + callBackSuccessDataWithError.Errors.Messages[firstItemIndex]);
     });
@@ -22,7 +22,7 @@ describe('ErrorManagerSingleton', function () {
     it('onGenealErrorEvent - with a controled error by developer with two messages - Invokes the alert method of window object showing it with "ERROR: " before the message', function () {
         spyOn(window, 'alert');
 
-        ErrorManager.getInstance().onGenealErrorEvent(callBackSuccessDataWithTwoErrors.Errors);
+        ErrorManager.getInstance().onGenealErrorEvent(callBackSuccessDataWithTwoErrors);
 
         expect(window.alert).toHaveBeenCalledWith('ERROR: ' + callBackSuccessDataWithTwoErrors.Errors.Messages.join('\n\t* '));
     });
