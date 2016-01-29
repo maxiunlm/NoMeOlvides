@@ -6,7 +6,10 @@ var myCameraTagsId = {
     resultTagId: 'myResultTagId',
     photoBooth: 'myphotoBoothId',
     preTakeButtonsId: preTakeButtonsId,
-    postTakeButtonsId: postTakeButtonsId
+    postTakeButtonsId: postTakeButtonsId,
+    previewSnapshot: 'previewSnapshot',
+    cancelPreview: 'cancelPreview',
+    savePhoto: 'savePhoto'
 };
 var camerTagIdPrefix = '#';
 var defaultShutterSoundFilePath = 'Scripts/webcamjs-master/shutter/';
