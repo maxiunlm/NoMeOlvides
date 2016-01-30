@@ -1,32 +1,37 @@
-+ ver mensajeria de errores (Hacer que los ViewModels hereden de ResultPackageBase) !!!!!!!!!!!!!!!!!!!
+﻿+ ver mensajeria de errores (Hacer que los ViewModels hereden de ResultPackageBase) !!!!!!!!!!!!!!!!!!!
 ---> Haciendo el SEARCH, y resolviendo su integracion Client-Server !!!!!!!!!!!!!!!!!!!
+
++ Arregle que en el CREATE llegen los datos del Formulario a $scope.Contact
+
++ Revisar por que los nombre de los Archivos e LOG arrancan con (null): (null)ErrorsLog.txt y (null)AuditoryLog.txt 
 
 + VoiceManager no puede heredar de webkitSpeechRecognition, tiene que agregarlo (FACADE)!!!!!
 
 + integrar WebcamManager para la foto del contacto con la webcam o subida de archivo a la UI de alta y modificación de contacto
 
-+ Arregle que en el CREATE llegen los datos del Formulario a $scope.Contact
-
 + Revisar TODOs y todo el TDD faltante
-+ Estudiar como prevenir Man-in-the-middle (AntiForgeryToken) con MVC y AngularJS:
-
-http://stackoverflow.com/questions/14473597/include-antiforgerytoken-in-ajax-post-asp-net-mvc
-http://techbrij.com/angularjs-antiforgerytoken-asp-net-mvc
-<form action="/NoMeOlvides/Contact" id="__AjaxAntiForgeryForm" method="post"><input name="__RequestVerificationToken" type="hidden" value="C-3Qd3RbVGVjxdSnhLhFB_PY9niI2ixAoI2EUjkozrjJoSHC8l78JHfbUXTuBrwzs9Anzh2S6TyJTU0DZYCbGKGeSpmBwLcLqnG6iyiBmp01" /></form>        
++ Arreglar TDD del MongoDB, problemas con el nuevo Driver
++ Hacer Funcionar Specflow con MSTest
++ Revisar BDD con Jasmine, no funciona bien por el asincronismo
++ Corregir el BDD de Specflow para las nuevas necesidades NO ESTA FUNCIONANDO BIEN EL SPECFLOW NI LOS TESTS!!!
 
 + Revisar la auditoria Javascript AOP
 ----> En el log de INFO:
 ----------> Pierde los PARAMETROS del lado del cliente
 ----------> Estudiar como hacer que llegue el StackTrace del Cliente al Server
 
-+ Revisar translates manuales del lado del cliente
-+ Revisar seguridad en el Translate:
-----> http://angular-translate.github.io/docs/#/guide/19_security
-
-+ Revisar BDD con Jasmine, no funciona bien por el asincronismo
-+ Corregir el BDD de Specflow para las nuevas necesidades NO ESTA FUNCIONANDO BIEN EL SPECFLOW NI LOS TESTS!!!
 
 + Validaciones del lado del cliente
+
++ Estudiar como prevenir Man-in-the-middle (AntiForgeryToken) con MVC y AngularJS:
+
+http://stackoverflow.com/questions/14473597/include-antiforgerytoken-in-ajax-post-asp-net-mvc
+http://techbrij.com/angularjs-antiforgerytoken-asp-net-mvc
+<form action="/NoMeOlvides/Contact" id="__AjaxAntiForgeryForm" method="post"><input name="__RequestVerificationToken" type="hidden" value="C-3Qd3RbVGVjxdSnhLhFB_PY9niI2ixAoI2EUjkozrjJoSHC8l78JHfbUXTuBrwzs9Anzh2S6TyJTU0DZYCbGKGeSpmBwLcLqnG6iyiBmp01" /></form>        
+
++ Revisar seguridad en el Translate:
+----> http://angular-translate.github.io/docs/#/guide/19_security
++ Revisar translates manuales del lado del cliente
 
 + Integrar la herramienta de reconocimiento de voz
 + En VoiceManager revisar:

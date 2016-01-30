@@ -35,8 +35,6 @@
     if (this.cameraTagsId && this.cameraTagsId.cameraTagId) {
         Webcam.attach('#' + this.cameraTagsId.cameraTagId);
     }
-
-    // TODO: hacer BIND de los botones sin perder el Contexto del THIS, ver Function.apply
 };
 
 WebcamManager.prototype.configureSettings = function (webcamSet) {
@@ -51,6 +49,19 @@ WebcamManager.prototype.attachCamera = function (cameraTagId) {
 
     if (tagId) {
         Webcam.attach('#' + tagId);
+    }
+
+    // TODO: TDD !!!
+    if (this.cameraTagsId && this.cameraTagsId.previewSnapshot) {
+        $('#' + this.cameraTagsId.previewSnapshot).on("click", $.proxy(this, "previewSnapshot"));
+    }
+
+    if (this.cameraTagsId && this.cameraTagsId.cancelPreview) {
+        $('#' + this.cameraTagsId.cancelPreview).on("click", $.proxy(this, "cancelPreview"));
+    }
+
+    if (this.cameraTagsId && this.cameraTagsId.savePhoto) {
+        $('#' + this.cameraTagsId.savePhoto).on("click", $.proxy(this, "savePhoto"));
     }
 }
 

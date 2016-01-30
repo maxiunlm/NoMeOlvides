@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Business Card</h2>
+<div>
+    <div id="myphotoBooth">
+        <div id="myCamera" class="camera_frame"></div>
+        <div id="preTakeButtons">
+            <input id="previewSnapshot" type=button value="Take Snapshot">
+        </div>
+        <div id="postTakeButtons" style="display:none">
+            <input id="cancelPreview" type=button value="&lt; Take Another">
+            <input id="savePhoto" type=button value="Save Photo &gt;" style="font-weight:bold;">
+        </div>
+    </div>
+    <div id="myResult" class="camera_frame" style="display:none">
+    </div>
+</div>
+@section Scripts {
+    <script type="text/javascript" src="~/Scripts/underscore.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/log4javascript.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="~/Scripts/aop.js"></script>
+    <link href="~/Content/Webcam.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/Scripts/webcamjs-master/webcam.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/Common/WebcamManager.js"></script>
+    <script src="~/Scripts/BusinessCard/App.js"></script>
+}
