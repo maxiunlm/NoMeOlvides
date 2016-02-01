@@ -17,7 +17,8 @@ namespace NoMeOlvides.Tests.Helper
         private MongoDbHelper sut;
 
         private static readonly ContactData contactData = new ContactData();
-        private readonly MongoCollection collection = contactData.MongoDatabase.GetCollection("system.indexes");
+        // TODO: Antes no era IMongoCollection<object>... era MongoCollection !!!!!!!!!!!!!!!!!!!!??????????????????
+        private readonly IMongoCollection<object> collection = contactData.MongoDatabase.GetCollection<object>("system.indexes");
 
         [TestInitialize]
         public void SetUp()

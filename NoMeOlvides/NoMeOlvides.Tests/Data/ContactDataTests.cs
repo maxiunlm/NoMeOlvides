@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Resources;
 using System.Threading;
+using System.Linq.Expressions;
 
 namespace NoMeOlvides.Tests.Data
 {
@@ -92,9 +93,9 @@ namespace NoMeOlvides.Tests.Data
             mongoDatabaseMocker = GetMockedMongoDb();
             mongoDbHelperMocker = new Mock<MongoDbHelper>();
             mongoDbQueryMocker = new Mock<MongoDbQuery>();
-            contactsDataModelX0Mocker = CreateMockCollection<ContactDataModel>((MongoDatabase)mongoDatabaseMocker.Object, "contact");
-            contactsDataModelX2Mocker = CreateMockCollection<ContactDataModel>((MongoDatabase)mongoDatabaseMocker.Object, "contact");
-            contactsDataModelX1Mocker = CreateMockCollection<ContactDataModel>((MongoDatabase)mongoDatabaseMocker.Object, "contact");
+            contactsDataModelX0Mocker = CreateMockCollection<ContactDataModel>((IMongoDatabase)mongoDatabaseMocker.Object, "contact");
+            contactsDataModelX2Mocker = CreateMockCollection<ContactDataModel>((IMongoDatabase)mongoDatabaseMocker.Object, "contact");
+            contactsDataModelX1Mocker = CreateMockCollection<ContactDataModel>((IMongoDatabase)mongoDatabaseMocker.Object, "contact");
             sut = new ContactData();
 
             sut.MongoClient = mocker.Object;
@@ -136,17 +137,17 @@ namespace NoMeOlvides.Tests.Data
             var message = String.Empty;
 
             //need to mock the following stuff
-            database.Setup(x => x.Name).Returns(dataBaseName);
+            //database.Setup(x => x.Name).Returns(dataBaseName);
             database.Setup(db => db.Settings).Returns(databaseSettings);
-            database.Setup(db => db.IsCollectionNameValid(It.IsAny<string>(), out message)).Returns(true);
+            //database.Setup(db => db.IsCollectionNameValid(It.IsAny<string>(), out message)).Returns(true);
 
             return database;
         }
 
-        private Mock<MongoCollection<T>> CreateMockCollection<T>(MongoDatabase database, string name)
+        private Mock<IMongoCollection<T>> CreateMockCollection<T>(IMongoDatabase database, string name)
         {
             var collectionSetting = new MongoCollectionSettings();
-            var m = new Mock<MongoCollection<T>>(database, name, collectionSetting);
+            var m = new Mock<IMongoCollection<T>>(database, name, collectionSetting);
             m.Setup(x => x.Database).Returns(database);
             m.Setup(x => x.Settings).Returns(collectionSetting);
 
@@ -189,7 +190,7 @@ namespace NoMeOlvides.Tests.Data
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((IMongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
             mongoDbHelperMocker.Setup(o => o.GenerateNewId()).Returns(objectId);
             mongoDbHelperMocker.Setup(o => o.GetIQueryableFromMongoCollection<ContactDataModel>(It.IsAny<IMongoCollection<ContactDataModel>>())).Returns(contactsDataModelX1.AsQueryable());
-            contactsDataModelX1Mocker.Setup(o => o.Save(newContactDataModel));
+            contactsDataModelX1Mocker.Setup(o => o.ReplaceOne(It.IsAny<Expression<Func<ContactDataModel, bool>>>(), newContactDataModel, It.IsAny<UpdateOptions>(), default(CancellationToken)));
             mongoDbQueryMocker.Setup(o => o.GetContactByEmail(It.IsAny<string>(), It.IsAny<IQueryable<ContactDataModel>>())).Returns(contactEmptyDataModel);
 
             sut.SaveContact(newContactDataModel);
@@ -203,7 +204,8 @@ namespace NoMeOlvides.Tests.Data
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((IMongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
             mongoDbHelperMocker.Setup(o => o.GenerateNewId()).Returns(objectId);
             mongoDbHelperMocker.Setup(o => o.GetIQueryableFromMongoCollection<ContactDataModel>(It.IsAny<IMongoCollection<ContactDataModel>>())).Returns(contactsDataModelX1.AsQueryable());
-            contactsDataModelX1Mocker.Setup(o => o.Save(newContactDataModel));
+            ////contactsDataModelX1Mocker.Setup(o => o.Save(newContactDataModel));
+            contactsDataModelX1Mocker.Setup(o => o.ReplaceOne(It.IsAny<Expression<Func<ContactDataModel, bool>>>(), newContactDataModel, It.IsAny<UpdateOptions>(), default(CancellationToken)));
             mongoDbQueryMocker.Setup(o => o.GetContactByEmail(It.IsAny<string>(), It.IsAny<IQueryable<ContactDataModel>>())).Returns(contactEmptyDataModel);
 
             sut.SaveContact(newContactDataModel);
@@ -217,12 +219,12 @@ namespace NoMeOlvides.Tests.Data
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((IMongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
             mongoDbHelperMocker.Setup(o => o.GenerateNewId()).Returns(objectId);
             mongoDbHelperMocker.Setup(o => o.GetIQueryableFromMongoCollection<ContactDataModel>(It.IsAny<IMongoCollection<ContactDataModel>>())).Returns(contactsDataModelX1.AsQueryable());
-            contactsDataModelX1Mocker.Setup(o => o.Save(newContactDataModel));
+            contactsDataModelX1Mocker.Setup(o => o.ReplaceOne(It.IsAny<Expression<Func<ContactDataModel, bool>>>(), newContactDataModel, It.IsAny<UpdateOptions>(), default(CancellationToken)));
             mongoDbQueryMocker.Setup(o => o.GetContactByEmail(It.IsAny<string>(), It.IsAny<IQueryable<ContactDataModel>>())).Returns(contactEmptyDataModel);
 
             sut.SaveContact(newContactDataModel);
 
-            contactsDataModelX1Mocker.Verify(o => o.Save(newContactDataModel));
+            contactsDataModelX1Mocker.Verify(o => o.ReplaceOne(It.IsAny<Expression<Func<ContactDataModel, bool>>>(), newContactDataModel, It.IsAny<UpdateOptions>(), default(CancellationToken)));
         }
 
         [TestMethod]
@@ -231,12 +233,12 @@ namespace NoMeOlvides.Tests.Data
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((IMongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
             mongoDbHelperMocker.Setup(o => o.GenerateNewId()).Returns(objectId);
             mongoDbHelperMocker.Setup(o => o.GetIQueryableFromMongoCollection<ContactDataModel>(It.IsAny<IMongoCollection<ContactDataModel>>())).Returns(contactsDataModelX1.AsQueryable());
-            contactsDataModelX1Mocker.Setup(o => o.Save(contactDataModel));
+            contactsDataModelX1Mocker.Setup(o => o.ReplaceOne(It.IsAny<Expression<Func<ContactDataModel, bool>>>(), contactDataModel, It.IsAny<UpdateOptions>(), default(CancellationToken)));
             mongoDbQueryMocker.Setup(o => o.GetContactByEmail(It.IsAny<string>(), It.IsAny<IQueryable<ContactDataModel>>())).Returns(contactEmptyDataModel);
 
             sut.SaveContact(contactDataModel);
 
-            contactsDataModelX1Mocker.Verify(o => o.Save(contactDataModel));
+            contactsDataModelX1Mocker.Verify(o => o.ReplaceOne(It.IsAny<Expression<Func<ContactDataModel, bool>>>(), contactDataModel, It.IsAny<UpdateOptions>(), default(CancellationToken)));
         }
 
         [TestMethod]
@@ -245,7 +247,7 @@ namespace NoMeOlvides.Tests.Data
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((IMongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
             mongoDbHelperMocker.Setup(o => o.GenerateNewId()).Returns(objectId);
             mongoDbHelperMocker.Setup(o => o.GetIQueryableFromMongoCollection<ContactDataModel>(It.IsAny<IMongoCollection<ContactDataModel>>())).Returns(contactsDataModelX1.AsQueryable());
-            contactsDataModelX1Mocker.Setup(o => o.Save(newContactDataModel3));
+            contactsDataModelX1Mocker.Setup(o => o.ReplaceOne(It.IsAny<Expression<Func<ContactDataModel, bool>>>(), newContactDataModel, It.IsAny<UpdateOptions>(), default(CancellationToken)));
             mongoDbQueryMocker.Setup(o => o.GetContactByEmail(It.IsAny<string>(), It.IsAny<IQueryable<ContactDataModel>>())).Returns(contactEmptyDataModel);
 
             sut.SaveContact(newContactDataModel3);
@@ -259,7 +261,7 @@ namespace NoMeOlvides.Tests.Data
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((IMongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
             mongoDbHelperMocker.Setup(o => o.GenerateNewId()).Returns(objectId);
             mongoDbHelperMocker.Setup(o => o.GetIQueryableFromMongoCollection<ContactDataModel>(It.IsAny<IMongoCollection<ContactDataModel>>())).Returns(contactsDataModelX1.AsQueryable());
-            contactsDataModelX1Mocker.Setup(o => o.Save(newContactDataModel2));
+            contactsDataModelX1Mocker.Setup(o => o.ReplaceOne(It.IsAny<Expression<Func<ContactDataModel, bool>>>(), newContactDataModel, It.IsAny<UpdateOptions>(), default(CancellationToken)));
             mongoDbQueryMocker.Setup(o => o.GetContactByEmail(It.IsAny<string>(), It.IsAny<IQueryable<ContactDataModel>>())).Returns(contactEmptyDataModel);
 
             sut.SaveContact(newContactDataModel2);
@@ -272,7 +274,7 @@ namespace NoMeOlvides.Tests.Data
         {
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((IMongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
             mongoDbHelperMocker.Setup(o => o.GenerateNewId()).Returns(objectId);
-            contactsDataModelX1Mocker.Setup(o => o.Save(contactDataModel));
+            contactsDataModelX1Mocker.Setup(o => o.ReplaceOne(It.IsAny<Expression<Func<ContactDataModel, bool>>>(), newContactDataModel, It.IsAny<UpdateOptions>(), default(CancellationToken)));
             mongoDbQueryMocker.Setup(o => o.GetContactByEmail(It.IsAny<string>(), It.IsAny<IQueryable<ContactDataModel>>())).Returns(contactEmptyDataModel);
 
             sut.SaveContact(contactDataModel);
@@ -286,7 +288,7 @@ namespace NoMeOlvides.Tests.Data
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((IMongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
             mongoDbHelperMocker.Setup(o => o.GenerateNewId()).Returns(objectId);
             mongoDbHelperMocker.Setup(o => o.GetIQueryableFromMongoCollection<ContactDataModel>(It.IsAny<IMongoCollection<ContactDataModel>>())).Returns(contactsDataModelX1.AsQueryable());
-            contactsDataModelX1Mocker.Setup(o => o.Save(preExistentContactDataModel));
+            contactsDataModelX1Mocker.Setup(o => o.ReplaceOne(It.IsAny<Expression<Func<ContactDataModel, bool>>>(), newContactDataModel, It.IsAny<UpdateOptions>(), default(CancellationToken)));
             mongoDbQueryMocker.Setup(o => o.GetContactByEmail(It.IsAny<string>(), It.IsAny<IQueryable<ContactDataModel>>())).Returns(existentContactDataModel);
 
             ////Exception result = Assert.Catch(() => sut.SaveContact(preExistentContactDataModel));
@@ -310,7 +312,7 @@ namespace NoMeOlvides.Tests.Data
             mongoDatabaseMocker.Setup(o => o.GetCollection<ContactDataModel>(contactTabelName, It.IsAny<MongoCollectionSettings>())).Returns((IMongoCollection<ContactDataModel>)contactsDataModelX1Mocker.Object);
             mongoDbHelperMocker.Setup(o => o.GenerateNewId()).Returns(objectId);
             mongoDbHelperMocker.Setup(o => o.GetIQueryableFromMongoCollection<ContactDataModel>(It.IsAny<IMongoCollection<ContactDataModel>>())).Returns(contactsDataModelX1.AsQueryable());
-            contactsDataModelX1Mocker.Setup(o => o.Save(newContactDataModel));
+            contactsDataModelX1Mocker.Setup(o => o.ReplaceOne(It.IsAny<Expression<Func<ContactDataModel, bool>>>(), newContactDataModel, It.IsAny<UpdateOptions>(), default(CancellationToken)));
             mongoDbQueryMocker.Setup(o => o.GetContactByEmail(It.IsAny<string>(), It.IsAny<IQueryable<ContactDataModel>>())).Returns(contactEmptyDataModel);
 
             ObjectId result = sut.SaveContact(newContactDataModel);
