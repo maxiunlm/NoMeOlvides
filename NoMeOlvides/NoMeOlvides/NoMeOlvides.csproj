@@ -173,10 +173,6 @@
       <HintPath>..\packages\React.Core.2.2.0\lib\net40\React.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="React.MSBuild, Version=2.2.0.0, Culture=neutral, PublicKeyToken=9aed67b161f7db78, processorArchitecture=MSIL">
-      <HintPath>..\packages\React.MSBuild.2.2.0\lib\net40\React.MSBuild.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="React.Web, Version=2.2.0.0, Culture=neutral, PublicKeyToken=9aed67b161f7db78, processorArchitecture=MSIL">
       <HintPath>..\packages\React.Web.2.2.0\lib\net40\React.Web.dll</HintPath>
       <Private>True</Private>
@@ -397,7 +393,18 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\aop-compat.1.0.js" />
     <Content Include="Scripts\aop.js" />
-    <Content Include="Scripts\BusinessCard\App.js" />
+    <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Scripts\angular-touch.min.js.map" />
+    <Content Include="Scripts\angular-sanitize.min.js.map" />
+    <Content Include="Scripts\angular-route.min.js.map" />
+    <Content Include="Scripts\angular-resource.min.js.map" />
+    <Content Include="Scripts\angular-messages.min.js.map" />
+    <Content Include="Scripts\angular-message-format.min.js.map" />
+    <Content Include="Scripts\angular-loader.min.js.map" />
+    <Content Include="Scripts\angular-cookies.min.js.map" />
+    <Content Include="Scripts\angular-aria.min.js.map" />
+    <Content Include="Scripts\angular-animate.min.js.map" />
+    <None Include="Scripts\BusinessCard\App.jsx" />
     <Content Include="Scripts\Common\AuditManager.js" />
     <Content Include="Scripts\Common\ErrorManager.js" />
     <Content Include="Scripts\Common\Globals.js" />
@@ -414,20 +421,9 @@
     <Content Include="Scripts\Contact\Templates\Form.html" />
     <Content Include="Scripts\Contact\Templates\List.html" />
     <Content Include="Scripts\Contact\Templates\Search.html" />
-    <Content Include="Scripts\errors.json" />
-    <Content Include="Scripts\angular.min.js.map" />
-    <Content Include="Scripts\angular-touch.min.js.map" />
-    <Content Include="Scripts\angular-sanitize.min.js.map" />
-    <Content Include="Scripts\angular-route.min.js.map" />
-    <Content Include="Scripts\angular-resource.min.js.map" />
-    <Content Include="Scripts\angular-messages.min.js.map" />
-    <Content Include="Scripts\angular-message-format.min.js.map" />
-    <Content Include="Scripts\angular-loader.min.js.map" />
-    <Content Include="Scripts\angular-cookies.min.js.map" />
-    <Content Include="Scripts\angular-aria.min.js.map" />
-    <Content Include="Scripts\angular-animate.min.js.map" />
     <Content Include="Scripts\Common\locale-en.json" />
     <Content Include="Scripts\Common\locale-es_AR.json" />
+    <Content Include="Scripts\errors.json" />
     <None Include="Scripts\jquery-2.2.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -1188,6 +1184,11 @@
     <Content Include="Scripts\log4javascript_production_uncompressed.js" />
     <Content Include="Scripts\log4javascript_uncompressed.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\react\JSXTransformer-0.13.1.js" />
+    <Content Include="Scripts\react\react-0.13.1.js" />
+    <Content Include="Scripts\react\react-0.13.1.min.js" />
+    <Content Include="Scripts\react\react-with-addons-0.13.1.js" />
+    <Content Include="Scripts\react\react-with-addons-0.13.1.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
@@ -1219,10 +1220,9 @@
     </Content>
     <Content Include="Scripts\knockout.validation.min.js.map" />
     <Content Include="Scripts\underscore.min.map" />
-    <Content Include="Scripts\version.json" />
     <Content Include="Views\Contact\Index.cshtml" />
     <Content Include="Views\BusinessCard\Index.cshtml" />
-    <Content Include="TransformBabel.proj" />
+    <Content Include="Scripts\version.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1276,9 +1276,6 @@
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('..\packages\JavaScriptEngineSwitcher.V8.1.4.1\build\JavaScriptEngineSwitcher.V8.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\JavaScriptEngineSwitcher.V8.1.4.1\build\JavaScriptEngineSwitcher.V8.props'))" />
-  </Target>
-  <Target Name="TransformBabel" AfterTargets="Build">
-    <Exec Command="&quot;$(msbuildtoolspath)\msbuild.exe&quot; $(ProjectDirectory)TransformBabel.proj /p:OutputPath=$(OutputPath) /nr:false" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
