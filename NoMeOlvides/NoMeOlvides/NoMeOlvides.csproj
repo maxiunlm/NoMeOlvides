@@ -173,6 +173,10 @@
       <HintPath>..\packages\React.Core.2.2.0\lib\net40\React.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="React.MSBuild, Version=2.2.0.0, Culture=neutral, PublicKeyToken=9aed67b161f7db78, processorArchitecture=MSIL">
+      <HintPath>..\packages\React.MSBuild.2.2.0\lib\net40\React.MSBuild.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="React.Web, Version=2.2.0.0, Culture=neutral, PublicKeyToken=9aed67b161f7db78, processorArchitecture=MSIL">
       <HintPath>..\packages\React.Web.2.2.0\lib\net40\React.Web.dll</HintPath>
       <Private>True</Private>
@@ -404,7 +408,18 @@
     <Content Include="Scripts\angular-cookies.min.js.map" />
     <Content Include="Scripts\angular-aria.min.js.map" />
     <Content Include="Scripts\angular-animate.min.js.map" />
-    <None Include="Scripts\BusinessCard\App.jsx" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
+    <None Include="Scripts\BusinessCard\Index.jsx" />
+    <Content Include="Scripts\BusinessCard\App.js" />
+    <Content Include="Scripts\BusinessCard\Index.js">
+      <DependentUpon>Index.jsx</DependentUpon>
+    </Content>
+    <Content Include="Scripts\BusinessCard\Index.min.js">
+      <DependentUpon>Index.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\Common\AuditManager.js" />
     <Content Include="Scripts\Common\ErrorManager.js" />
     <Content Include="Scripts\Common\Globals.js" />
@@ -1223,6 +1238,7 @@
     <Content Include="Views\Contact\Index.cshtml" />
     <Content Include="Views\BusinessCard\Index.cshtml" />
     <Content Include="Scripts\version.json" />
+    <Content Include="TransformBabel.proj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1276,7 +1292,12 @@
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('..\packages\JavaScriptEngineSwitcher.V8.1.4.1\build\JavaScriptEngineSwitcher.V8.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\JavaScriptEngineSwitcher.V8.1.4.1\build\JavaScriptEngineSwitcher.V8.props'))" />
+    <Error Condition="!Exists('..\packages\BuildWebCompiler.1.10.301\build\BuildWebCompiler.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\BuildWebCompiler.1.10.301\build\BuildWebCompiler.targets'))" />
   </Target>
+  <Target Name="TransformBabel" AfterTargets="Build">
+    <Exec Command="&quot;$(msbuildtoolspath)\msbuild.exe&quot; $(ProjectDirectory)TransformBabel.proj /p:OutputPath=$(OutputPath) /nr:false" />
+  </Target>
+  <Import Project="..\packages\BuildWebCompiler.1.10.301\build\BuildWebCompiler.targets" Condition="Exists('..\packages\BuildWebCompiler.1.10.301\build\BuildWebCompiler.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
