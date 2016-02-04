@@ -1238,7 +1238,9 @@
     <Content Include="Views\Contact\Index.cshtml" />
     <Content Include="Views\BusinessCard\Index.cshtml" />
     <Content Include="Scripts\version.json" />
-    <Content Include="TransformBabel.proj" />
+    <Content Include="TransformBabel.proj">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

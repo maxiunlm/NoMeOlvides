@@ -26,16 +26,53 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var CommentBox = (function (_React$Component) {
-    _inherits(CommentBox, _React$Component);
+var CommentList = (function (_React$Component) {
+    _inherits(CommentList, _React$Component);
+
+    function CommentList() {
+        _classCallCheck(this, CommentList);
+
+        _get(Object.getPrototypeOf(CommentList.prototype), "constructor", this).apply(this, arguments);
+    }
+
+    _createClass(CommentList, [{
+        key: "render",
+        value: function render() {
+            var commentNodes = this.props.data.map(function (comment) {
+                return React.createElement(
+                    "li",
+                    null,
+                    comment.Text
+                );
+            });
+
+            return React.createElement(
+                "ol",
+                { className: "commentList" },
+                commentNodes
+            );
+        }
+    }]);
+
+    return CommentList;
+})(React.Component);
+
+var CommentBox = (function (_React$Component2) {
+    _inherits(CommentBox, _React$Component2);
 
     function CommentBox() {
         _classCallCheck(this, CommentBox);
 
-        _get(Object.getPrototypeOf(CommentBox.prototype), "constructor", this).apply(this, arguments);
+        _get(Object.getPrototypeOf(CommentBox.prototype), "constructor", this).call(this);
+        this.state = { data: [{ Text: 'hola' }] };
+        //this.setState(this.getInitialState());
     }
 
     //export default CommentBox;
+
+    //getInitialState() {
+    //    return { data: [{Text: 'hola' }] };
+    //}
 
     _createClass(CommentBox, [{
         key: "render",
@@ -43,7 +80,7 @@ var CommentBox = (function (_React$Component) {
             return React.createElement(
                 "div",
                 { className: "commentBox" },
-                "Hello, world! I am a CommentBox."
+                React.createElement(CommentList, { data: this.state.data })
             );
         }
     }]);
@@ -51,5 +88,9 @@ var CommentBox = (function (_React$Component) {
     return CommentBox;
 })(React.Component);
 
-React.render(React.createElement(CommentBox, null), document.getElementById('content'));
+(function () {
+    'use strict';
+
+    React.render(React.createElement(CommentBox, null), document.getElementById('content'));
+})();
 
