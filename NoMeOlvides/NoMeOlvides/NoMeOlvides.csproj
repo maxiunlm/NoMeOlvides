@@ -397,6 +397,10 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\aop-compat.1.0.js" />
     <Content Include="Scripts\aop.js" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\angular-touch.min.js.map" />
     <Content Include="Scripts\angular-sanitize.min.js.map" />
@@ -408,10 +412,6 @@
     <Content Include="Scripts\angular-cookies.min.js.map" />
     <Content Include="Scripts\angular-aria.min.js.map" />
     <Content Include="Scripts\angular-animate.min.js.map" />
-    <None Include="compilerconfig.json" />
-    <None Include="compilerconfig.json.defaults">
-      <DependentUpon>compilerconfig.json</DependentUpon>
-    </None>
     <None Include="Scripts\BusinessCard\Index.jsx" />
     <Content Include="Scripts\BusinessCard\App.js" />
     <Content Include="Scripts\BusinessCard\Index.js">
@@ -1199,11 +1199,14 @@
     <Content Include="Scripts\log4javascript_production_uncompressed.js" />
     <Content Include="Scripts\log4javascript_uncompressed.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\react\JSXTransformer-0.13.1.js" />
-    <Content Include="Scripts\react\react-0.13.1.js" />
-    <Content Include="Scripts\react\react-0.13.1.min.js" />
-    <Content Include="Scripts\react\react-with-addons-0.13.1.js" />
-    <Content Include="Scripts\react\react-with-addons-0.13.1.min.js" />
+    <Content Include="Scripts\react\react-dom-server.js" />
+    <Content Include="Scripts\react\react-dom-server.min.js" />
+    <Content Include="Scripts\react\react-dom.js" />
+    <Content Include="Scripts\react\react-dom.min.js" />
+    <Content Include="Scripts\react\react-with-addons.js" />
+    <Content Include="Scripts\react\react-with-addons.min.js" />
+    <Content Include="Scripts\react\react.js" />
+    <Content Include="Scripts\react\react.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
@@ -1237,10 +1240,10 @@
     <Content Include="Scripts\underscore.min.map" />
     <Content Include="Views\Contact\Index.cshtml" />
     <Content Include="Views\BusinessCard\Index.cshtml" />
-    <Content Include="Scripts\version.json" />
     <Content Include="TransformBabel.proj">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Scripts\version.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1294,12 +1297,12 @@
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('..\packages\JavaScriptEngineSwitcher.V8.1.4.1\build\JavaScriptEngineSwitcher.V8.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\JavaScriptEngineSwitcher.V8.1.4.1\build\JavaScriptEngineSwitcher.V8.props'))" />
-    <Error Condition="!Exists('..\packages\BuildWebCompiler.1.10.301\build\BuildWebCompiler.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\BuildWebCompiler.1.10.301\build\BuildWebCompiler.targets'))" />
+    <Error Condition="!Exists('..\packages\BuildWebCompiler.1.10.305\build\BuildWebCompiler.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\BuildWebCompiler.1.10.305\build\BuildWebCompiler.targets'))" />
   </Target>
   <Target Name="TransformBabel" AfterTargets="Build">
     <Exec Command="&quot;$(msbuildtoolspath)\msbuild.exe&quot; $(ProjectDirectory)TransformBabel.proj /p:OutputPath=$(OutputPath) /nr:false" />
   </Target>
-  <Import Project="..\packages\BuildWebCompiler.1.10.301\build\BuildWebCompiler.targets" Condition="Exists('..\packages\BuildWebCompiler.1.10.301\build\BuildWebCompiler.targets')" />
+  <Import Project="..\packages\BuildWebCompiler.1.10.305\build\BuildWebCompiler.targets" Condition="Exists('..\packages\BuildWebCompiler.1.10.305\build\BuildWebCompiler.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
